@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#354b43"><meta name="description" content="A cold, war-torn isometric battlefield. Build your legion and survive three assaults."><title>Under the Eagle · Cold Iron v0.10</title><style>@charset "UTF-8";
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#354b43"><meta name="description" content="A cold, war-torn isometric battlefield. Build your legion and survive year after year."><title>Under the Eagle · Endless Years v0.11</title><style>@charset "UTF-8";
 :root{--ink:#483b2b;--cream:#f2dfb2;--red:#8e4031;--paper:none;--wood:none;--gold:none;font-family:"Songti SC",Georgia,serif;color-scheme:dark}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:#354b43;color:var(--cream);font-size:12px}button{font:inherit;color:inherit;cursor:pointer;border-radius:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:disabled{cursor:default;opacity:.45}button:focus-visible{outline:3px solid #fff1bb;outline-offset:6px}button:active:not(:disabled){translate:0 3px}[hidden]{display:none!important}h1,h2,h3,p{margin:0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}canvas{image-rendering:pixelated}.px{font-family:Georgia,serif;font-weight:400}.px>canvas{display:inline-block;height:1.3333em;width:auto;vertical-align:middle;max-width:100%;object-fit:contain;image-rendering:pixelated}
 .world{position:fixed;inset:0}#battlefield{width:100%;height:100%;display:block}.world-vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 4px #2a392c66}
@@ -41,9 +41,14 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
 
 /* Cold woodland campaign: deep greens and steel, not a black exposure filter. */
 :root{--ink:#283e37;--cream:#d0d9c6;--red:#793f3a}.brand h1{color:#d1ddcd;filter:drop-shadow(2px 2px #203a35)}.campaign-hud{border-color:#718a77;box-shadow:inset 2px 2px #546e5d,inset -2px -2px #233c36,3px 4px #203831}.card{color:#283e37;border-color:#425e50;outline-color:#9aac91;box-shadow:inset 3px 3px #d6deca,inset -3px -3px #8d9f88,0 4px #71876c,0 7px #354b3e,4px 10px #142a2866}.card:before{border-color:#81967e;box-shadow:inset 2px 2px #c5d0b8,1px 1px #cdd8c3}.primary-button{color:#e2ead6;border-color:#8fa487}.inspector{color:#283e37;background-color:#b7c4ae}.unit-role{color:#4e6b5b}.round-counter span{color:#a7bba9}.pip{background:#9fb399;box-shadow:inset 2px 2px #ced9bb,inset -2px -2px #6e886d}
+
+/* Endless years: one quiet centered label; lives are isometric world objects. */
+.year-hud{position:fixed;top:26px;left:50%;transform:translateX(-50%);z-index:5;pointer-events:none;color:#d8e2cf;text-shadow:2px 3px #1c342e;letter-spacing:3px;font-size:25px;white-space:nowrap}.year-hud strong{font-weight:400}
+@media(max-width:760px){.year-hud{top:22px;font-size:19px;letter-spacing:2px}}
 </style></head>
 <body><main class="world" aria-label="Camp and battlefield"><canvas id="battlefield" width="1920" height="1080" aria-label="Shared battlefield"></canvas><div class="world-vignette" aria-hidden="true"></div><div id="camp-grid" class="camp-grid" aria-label="Camp: four columns, three rows"></div><div id="paused-banner" hidden>Ⅱ</div></main>
-<header class="hud-top"><div class="brand"><div class="eagle-mark" aria-hidden="true">♜</div><h1 class="px">UNDER THE EAGLE</h1></div><section class="campaign-hud" aria-label="Campaign"><div class="round-counter" aria-label="Round"><strong id="round">01</strong><span>/ III</span></div><div class="defense-block" title="Defense"><strong id="defense-label" class="sr-only">5 / 5</strong><div id="defense-pips"></div></div></section></header>
+<header class="year-hud"><strong id="year" class="px" aria-live="polite">YEAR 1</strong></header>
+<div id="life-status" class="sr-only" role="status" aria-live="polite">Camp lives: 3 / 3</div>
 <section id="inspector" class="inspector" aria-label="Building details" hidden></section>
 <section class="supply-panel" aria-label="Supply"><div id="cards" class="cards"></div><div id="ready-panel" hidden><div id="ready-icon"></div><span id="ready-title" class="px"></span></div><button id="skip" class="discard-button" aria-label="Skip supply" title="Skip supply">×</button></section>
 <footer class="hud-bottom"><div class="battle-tools"><span id="timer"></span><button id="pause" class="mini-button" aria-label="Pause battle" title="Pause / Space">Ⅱ</button><button id="speed" class="mini-button" aria-label="Change battle speed">1×</button><button id="start-battle" class="primary-button" aria-label="MARCH"><span class="px">MARCH</span><b>⚔</b></button></div></footer>
@@ -67,22 +72,24 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
   archerTrain:{name:'Archer Drill',kind:'Campaign upgrade',text:'All archers gain 25% attack.',detail:'Lasts for this campaign. Stacks twice.'},
   shield:{name:'Hold Fast',kind:'Battle order',text:'Every allied squad gains 40 shield.',detail:'Applies immediately. Shields absorb damage during the next battle.'}
  };
- const WAVES=[3,5,7],OFFERS=[['legion','archer','training'],['siege','legionTrain','shield'],['legion','archer','siege']];
- function createGame(){return{round:1,defense:5,phase:'reward',buildings:[{id:1,type:'legion',cell:0,level:1},{id:2,type:'archer',cell:2,level:1},{id:3,type:'siege',cell:8,level:1}],nextId:4,boosts:{legion:0,archer:0,siege:0},armyShield:false,pending:null,chosen:null,history:[],battle:null};}
+ const ENEMY_COUNT=3,MAX_LIVES=3,OFFERS=[['legion','archer','training'],['siege','legionTrain','shield'],['legion','archer','siege']];
+ function createGame(){return{round:1,defense:MAX_LIVES,phase:'reward',buildings:[{id:1,type:'legion',cell:0,level:1},{id:2,type:'archer',cell:2,level:1},{id:3,type:'siege',cell:8,level:1}],nextId:4,boosts:{legion:0,archer:0,siege:0},armyShield:false,pending:null,chosen:null,history:[],battle:null};}
  const adjacent=(a,b)=>Math.abs(a%4-b%4)+Math.abs(Math.floor(a/4)-Math.floor(b/4))===1;
  function bonus(g,b){return Math.max(0,...g.buildings.filter(t=>t.type==='training'&&adjacent(t.cell,b.cell)).map(t=>t.level*.25));}
  function stats(g,b){if(b.type==='training')return{bonus:b.level*.25};const t=TYPES[b.type],m=1+(b.level-1)*.5;return{hp:t.hp*m,attack:t.attack*m*(1+(g.boosts[b.type]||0)*.25+bonus(g,b)),range:t.range,speed:t.speed,interval:t.interval};}
- function canChoose(g,id){if(g.phase!=='reward'||!OFFERS[g.round-1]?.includes(id))return false;if(TYPES[id])return g.buildings.length<12||g.buildings.some(b=>b.type===id&&b.level<3);if(id.endsWith('Train'))return g.boosts[id==='legionTrain'?'legion':'archer']<2;return id==='shield';}
+ function available(g,id){if(TYPES[id])return g.buildings.length<12||g.buildings.some(b=>b.type===id&&b.level<3);if(id.endsWith('Train'))return g.boosts[id==='legionTrain'?'legion':'archer']<2;return id==='shield';}
+ function offers(g){const cards=[...OFFERS[(g.round-1)%OFFERS.length]];if(!cards.some(id=>available(g,id)))cards[2]='shield';return cards;}
+ function canChoose(g,id){return g.phase==='reward'&&offers(g).includes(id)&&available(g,id);}
  function choose(g,id){if(!canChoose(g,id))return false;g.chosen=id;if(TYPES[id]){g.pending=id;g.phase='place';}else{if(id==='shield')g.armyShield=true;else g.boosts[id==='legionTrain'?'legion':'archer']++;g.phase='prepare';}return true;}
  function skip(g){if(!['reward','place'].includes(g.phase))return false;g.pending=null;g.chosen=null;g.phase='prepare';return true;}
  function place(g,cell){if(g.phase!=='place'||!Number.isInteger(cell)||cell<0||cell>=12)return false;const b=g.buildings.find(b=>b.cell===cell);if(b){if(b.type!==g.pending||b.level>=3)return false;b.level++;}else g.buildings.push({id:g.nextId++,type:g.pending,cell,level:1});g.pending=null;g.phase='prepare';return true;}
  // Camp cells determine construction bonuses only. Combat formation depends exclusively on unit role.
  function muster(g){let id=0;const units=[],columns=type=>Math.max(1,Math.ceil(g.buildings.filter(b=>b.type===type).length/4)),base={siege:40};base.archer=base.siege+columns('siege')*75+75;base.legion=base.archer+columns('archer')*75+75;for(const type of ['legion','archer','siege']){const group=g.buildings.filter(b=>b.type===type).sort((a,b)=>a.id-b.id);group.forEach((b,i)=>{const s=stats(g,b),row=i%4,col=Math.floor(i/4),count=Math.min(4,group.length-col*4);units.push({id:id++,buildingId:b.id,side:'ally',type,x:base[type]+col*75,y:(row-(count-1)/2)*120,hp:s.hp,maxHp:s.hp,attack:s.attack,range:s.range,speed:s.speed,interval:s.interval,shield:g.armyShield?40:0,cooldown:.3+col*.1,moving:false,flash:0});});}
-  for(let i=0;i<WAVES[g.round-1];i++){const col=Math.floor(i/4),count=Math.min(4,WAVES[g.round-1]-col*4);units.push({id:id++,side:'enemy',type:'enemy',x:820+col*92,y:(i%4-(count-1)/2)*120,hp:105,maxHp:105,attack:11,range:72,speed:57,interval:1.1,shield:0,cooldown:.4,moving:false,flash:0});}return units;
+  for(let i=0;i<ENEMY_COUNT;i++){const col=Math.floor(i/4),count=Math.min(4,ENEMY_COUNT-col*4);units.push({id:id++,side:'enemy',type:'enemy',x:820+col*92,y:(i%4-(count-1)/2)*120,hp:105,maxHp:105,attack:11,range:72,speed:57,interval:1.1,shield:0,cooldown:.4,moving:false,flash:0});}return units;
  }
  function start(g){if(g.phase!=='prepare')return false;const units=muster(g);g.battle={time:0,units,projectiles:[],effects:[],events:[],serial:0,report:null,initialAllies:units.filter(u=>u.side==='ally').length,initialEnemies:units.filter(u=>u.side==='enemy').length};g.phase='battle';return true;}
  const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
- function finish(g,won){const b=g.battle;if(b.report)return;const surviving=b.units.filter(u=>u.hp>0&&u.side==='ally').length,enemies=b.units.filter(u=>u.hp>0&&u.side==='enemy').length,loss=won?0:Math.max(1,Math.min(3,Math.ceil(enemies/3)));g.defense=Math.max(0,g.defense-loss);b.report={won,surviving,deployed:b.initialAllies,enemyLosses:b.initialEnemies-enemies,enemyCount:b.initialEnemies,defenseLost:loss};g.history.push({round:g.round,defense:g.defense,report:{...b.report},card:g.chosen,duration:b.time});g.phase=g.defense<=0?'defeat':g.round===3?'victory':'result';if(loss)b.events.push({kind:'breach',x:60,y:0,damage:loss});}
+ function finish(g,won){const b=g.battle;if(b.report)return;const surviving=b.units.filter(u=>u.hp>0&&u.side==='ally').length,enemies=b.units.filter(u=>u.hp>0&&u.side==='enemy').length,loss=won?0:1;g.defense=Math.max(0,g.defense-loss);b.report={won,surviving,deployed:b.initialAllies,enemyLosses:b.initialEnemies-enemies,enemyCount:b.initialEnemies,defenseLost:loss};g.history.push({round:g.round,defense:g.defense,report:{...b.report},card:g.chosen,duration:b.time});if(g.history.length>100)g.history.shift();g.phase=g.defense<=0?'defeat':'result';if(loss)b.events.push({kind:'breach',x:60,y:0,damage:loss});}
  function step(g,dt){if(g.phase!=='battle'||!(dt>0))return;dt=Math.min(dt,.1);const b=g.battle;b.time+=dt;b.events=[];b.effects=b.effects.filter(e=>(e.life-=dt)>0);const alive=b.units.filter(u=>u.hp>0),damage=new Map();const hurt=(id,n)=>damage.set(id,(damage.get(id)||0)+n);
   for(const p of b.projectiles){p.life-=dt;if(p.life>0)continue;if(p.siege){for(const v of alive.filter(v=>v.side!==p.side)){const d=distance(v,{x:p.to,y:p.toY});if(d<125)hurt(v.id,p.damage*(1-.5*d/125));}b.events.push({kind:'blast',x:p.to,y:p.toY,side:p.side});}else{const t=alive.find(v=>v.id===p.target);if(t)hurt(t.id,p.damage);}}
   b.projectiles=b.projectiles.filter(p=>p.life>0);
@@ -100,7 +107,7 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
   if(!enemies&&!b.projectiles.some(p=>p.side==='enemy'))finish(g,true);else if((!allies&&!b.projectiles.some(p=>p.side==='ally'))||b.time>=75)finish(g,false);
  }
  function next(g){if(g.phase!=='result')return false;g.round++;g.phase='reward';g.pending=null;g.chosen=null;g.armyShield=false;g.battle=null;return true;}
- const api={TYPES,CARDS,WAVES,OFFERS,createGame,adjacent,bonus,stats,canChoose,choose,skip,place,muster,start,step,next};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.Eagle=api;
+ const api={TYPES,CARDS,ENEMY_COUNT,MAX_LIVES,OFFERS,offers,createGame,adjacent,bonus,stats,canChoose,choose,skip,place,muster,start,step,next};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.Eagle=api;
 })(typeof window!=='undefined'?window:globalThis);
 
 </script><script>
@@ -243,7 +250,18 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
   for(let i=0;i<11;i++){const x=((i*213+t*4)%2200)-120,y=75+i*91;c.fillStyle=i%2?'#b2c9c114':'#193e4510';c.fillRect(x,y,90+(i%4)*38,8);c.fillRect(x+31,y+8,130,5);}
   c.restore();
  }
- const api={project,unproject,cellCenter,cellPolygon,poly,ground,box,shadow,building,catapult,tree,terrain,atmosphere};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.EagleIso=api;
+ function lifeShield(c,x,y,alive){
+  box(c,x-10,y-24,24,48,5,'#6d8375','#405b4f','#2a443c');
+  const shape=[[-19,52],[19,52],[19,25],[12,13],[0,5],[-12,13],[-19,25]];
+  const face=shape.map(([dy,z])=>project(x,y+dy,z)),rear=shape.map(([dy,z])=>project(x-8,y+dy,z));
+  poly(c,rear,alive?'#788e78':'#364e45');
+  for(let i=0;i<shape.length;i++){const n=(i+1)%shape.length;poly(c,[rear[i],rear[n],face[n],face[i]],alive?(i<2?'#aebc9d':'#526d59'):'#293e37');}
+  poly(c,face,alive?'#b6c9a7':'#3e574a',alive?'#d6e3bf':'#66806b');
+  const inset=shape.map(([dy,z])=>project(x+1,y+dy*.68,29+(z-29)*.72));poly(c,inset,alive?'#789c83':'#30483e');
+  if(alive){poly(c,[project(x+2,y-3,44),project(x+2,y+3,44),project(x+2,y+3,18),project(x+2,y-3,18)],'#d4dfb7');poly(c,[project(x+2,y-11,36),project(x+2,y+11,36),project(x+2,y+11,31),project(x+2,y-11,31)],'#d4dfb7');}
+  else{poly(c,[project(x+2,y-7,49),project(x+2,y+3,34),project(x+2,y-3,26),project(x+2,y+7,10),project(x+2,y+1,27),project(x+2,y+8,35)],'#172e29');}
+ }
+ const api={project,unproject,cellCenter,cellPolygon,poly,ground,box,shadow,building,catapult,tree,terrain,atmosphere,lifeShield};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.EagleIso=api;
 })(typeof window!=='undefined'?window:globalThis);
 
 </script><script>
@@ -291,7 +309,7 @@ window.EagleFeedback=function(audio){
         if(enemy){chain=clock-lastKill<1.2?chain+1:1;lastKill=clock;label(x,y-80,chain>1?'KILL STREAK ×'+chain:'ROUTED','#fff0c7',true,e.lane);shake=5;freeze=.06;slow=.24;audio.play('kill',pan);}
         else{label(x,y-78,'SQUAD LOST','#cfbfb0',false,e.lane);shake=Math.max(shake,2);audio.play('impact',pan,.8);}
       }else if(e.kind==='blast'){burst(x,y-6,'#d7c497',16,160);ring(x,y,'#ecd7a0',true);shake=Math.max(shake,2);audio.play('impact',pan);}
-      else if(e.kind==='breach'){shake=4;label(x,y-40,'Defense −'+e.damage,'#ffc19e',true);audio.play('bad',-.5);}
+      else if(e.kind==='breach'){shake=4;label(x,y-40,'LIFE LOST −'+e.damage,'#ffc19e',true);audio.play('bad',-.5);}
     }
   }
   function tick(dt,paused){
@@ -348,7 +366,7 @@ window.EagleFeedback=function(audio){
 (() => {
   'use strict';
   const E = window.Eagle, BV = window.EagleBattleView, I = window.EagleIso, $ = id => document.getElementById(id);
-  let game = E.createGame(), selected = null, paused = false, speed = 1, begun = true, sound = true, toastTimer, lastTime = 0, accumulator = 0, lastUiSecond = -1, lastDefense = 5;
+  let game = E.createGame(), selected = null, paused = false, speed = 1, begun = true, sound = true, toastTimer, lastTime = 0, accumulator = 0, lastUiSecond = -1, lastDefense = 3;
   const audio = window.EagleAudio.create(), fx = window.EagleFeedback(audio);
   let hoverCell=null;
   const MODEL_SCALE=.7;
@@ -440,7 +458,7 @@ window.EagleFeedback=function(audio){
   function pixelize(root=document){root.querySelectorAll('.px').forEach(el=>{if(el.firstElementChild?.tagName==='CANVAS')return;const text=el.textContent;if(!text)return;const c=document.createElement('canvas'),g=c.getContext('2d');g.font='bold 12px Georgia,serif';c.width=Math.ceil(g.measureText(text).width)+2;c.height=16;g.font='bold 12px Georgia,serif';g.fillStyle=getComputedStyle(el).color;g.textBaseline='top';g.fillText(text,1,1);const im=g.getImageData(0,0,c.width,16);for(let i=3;i<im.data.length;i+=4)im.data[i]=im.data[i]>96?255:0;g.putImageData(im,0,0);c.textContent=text;c.setAttribute('aria-label',text);el.replaceChildren(c);});}
   function materials(){let seed=73;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};for(const [name,base,colors]of [['grass','#354b43',['#3d554a','#30453f','#475b50','#385046']],['paper','#bac1ad',['#a4b09e','#cbd2bd','#b0bcaa']],['wood','#30443d',['#3b5148','#273d38','#4a6052']],['gold','#647d6e',['#768d7c','#8b9e86','#526c60']]]){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.fillStyle=base;g.fillRect(0,0,64,64);for(let i=0;i<400;i++){g.fillStyle=colors[i%3];g.fillRect(Math.floor(rand()*64),Math.floor(rand()*64),name==='wood'?2+Math.floor(rand()*11):1+Math.floor(rand()*2),1);}document.documentElement.style.setProperty('--'+name,`url("${c.toDataURL()}")`);}}
   function cardArt(type){const c=document.createElement('canvas');c.width=96;c.height=88;const g=c.getContext('2d');g.imageSmoothingEnabled=false;const r=(x,y,w,h,color)=>pixels(g,x,y,w,h,color);for(let row=0;row<8;row++){const w=70-Math.abs(row-3)*6;r(48-w/2,63+row*2,w,2,row<4?'#b1aa79':'#796647');}for(let row=0;row<7;row++){const w=70-Math.abs(row-3)*6;r(48-w/2,57+row*2,w,2,row%2?'#89905a':'#929963');}for(let i=0;i<17;i++)r(20+(i*13%53),59+(i*7%8),2,2,'#b7b77a');g.drawImage(makeIcon(type),16,8,64,64);for(const [x,y]of [[12,24],[79,40],[21,46]]){r(x,y,1,5,'#b29663');r(x-2,y+2,5,1,'#b29663');}return c;}
-  materials();document.querySelector('.eagle-mark').replaceChildren(makeIcon('eagle'));
+  materials();
   function renderCamp() {
     $('camp-grid').replaceChildren();
     const focus = game.buildings.find(b => b.id === selected);
@@ -482,7 +500,7 @@ window.EagleFeedback=function(audio){
     $('cards').hidden = !reward; $('ready-panel').hidden = reward; $('skip').hidden = !['reward', 'place'].includes(game.phase);
     if (reward) {
       $('cards').replaceChildren();
-      E.OFFERS[game.round - 1].forEach((id, i) => {
+      E.offers(game).forEach((id, i) => {
         const data = E.CARDS[id], button = document.createElement('button'); button.className = 'card'; button.disabled = !E.canChoose(game, id); button.dataset.card = id; button.title = data.detail;
         button.style.setProperty('--card-index',i);
         button.dataset.tone = id==='shield'?'jade':id.includes('archer')?'olive':id==='training'?'gold':'red';
@@ -510,9 +528,10 @@ window.EagleFeedback=function(audio){
     }
   }
   function renderStatus(){
-    const phase=game.phase,battle=phase==='battle',post=['result','victory','defeat'].includes(phase);document.body.dataset.phase=phase;
-    $('round').textContent=['Ⅰ','Ⅱ','Ⅲ'][game.round-1];$('defense-label').textContent=`Defense ${game.defense} / 5`;
-    $('defense-pips').innerHTML=Array.from({length:5},(_,i)=>`<span class="pip${i>=game.defense?' lost':''}"></span>`).join('');
+    const phase=game.phase,battle=phase==='battle',post=['result','defeat'].includes(phase);document.body.dataset.phase=phase;
+    $('year').textContent='YEAR '+game.round;
+    $('life-status').textContent=`Camp lives: ${game.defense} / ${E.MAX_LIVES}`;
+    $('battlefield').setAttribute('aria-label',`Shared battlefield. Camp lives: ${game.defense} of ${E.MAX_LIVES}.`);
     $('pause').hidden=!battle;$('pause').textContent=paused?'▶':'Ⅱ';$('pause').setAttribute('aria-label',paused?'Resume battle':'Pause battle');$('paused-banner').hidden=!(battle&&paused);
     $('speed').hidden=!battle;$('speed').textContent=speed+'×';$('timer').hidden=!battle;$('timer').textContent='00:'+Math.floor(game.battle?.time||0).toString().padStart(2,'0');
     $('start-battle').hidden=phase!=='prepare'&&!post;$('start-battle').setAttribute('aria-label',post?'View report':'MARCH');$('start-battle').innerHTML=`<span class="px">${post?'Report':'MARCH'}</span><b>${post?'◆':'⚔'}</b>`;pixelize();
@@ -526,6 +545,8 @@ window.EagleFeedback=function(audio){
     for(let n=0;n<29;n++){if(n%9===4||n%9===5)continue;const x=-650+n*110,y=-550+Math.sin(n*2.3)*65;put(x,y,()=>I.tree(c,x,y,.95+(n%5)*.10));}
     for(let n=0;n<27;n++){if(n%8===2||n%8===3)continue;const x=-650+n*118,y=1580+Math.sin(n*1.7)*75;put(x,y,()=>I.tree(c,x,y,1.0+(n%4)*.12));}
     for(let n=0;n<15;n++){if(n%6===2||n%6===3)continue;const y=-400+n*145,left=-650+Math.sin(n)*30,right=2380+Math.cos(n*1.8)*55;put(left,y,()=>I.tree(c,left,y,1.25));put(right,y,()=>I.tree(c,right,y,1.2));}
+    // Three shields belong to the world, behind the center of the rear palisade.
+    for(let i=0;i<E.MAX_LIVES;i++){const x=-25,y=380+i*66;put(x,y,()=>I.lifeShield(c,x,y,i<game.defense));}
     const post=(x,y)=>put(x,y,()=>{I.box(c,x,y,8,8,32,'#a7b9a2','#708875','#405b4e');});
     for(let x=65;x<560;x+=25){post(x,244);if(x<175||x>420)post(x,645);}
     for(let y=270;y<640;y+=27)post(62,y);
@@ -565,22 +586,22 @@ window.EagleFeedback=function(audio){
     queue.sort((a,b)=>a.depth-b.depth).forEach(item=>item.draw());I.atmosphere(c,fx.time,reducedMotion.matches);overlay.forEach(draw=>draw());fx.draw(c);
   }
   function showResult(){
-    const victory=game.phase==='victory',defeat=game.phase==='defeat';
-    $('result-emblem').replaceChildren(makeIcon(victory?'eagle':defeat?'shield':'legion'));
-    $('result-title').textContent=victory?'VICTORY':defeat?'DEFEAT':'BATTLE OVER';
-    $('result-description').textContent=`ROUND ${game.round} · DEFENSE ${game.defense}/5`;
+    const defeat=game.phase==='defeat';
+    $('result-emblem').replaceChildren(makeIcon(defeat?'shield':'legion'));
+    $('result-title').textContent=defeat?'CAMPAIGN ENDED':game.battle?.report.won?'YEAR HELD':'LINE BREACHED';
+    $('result-description').textContent=`YEAR ${game.round} · LIVES ${game.defense}/${E.MAX_LIVES}`;
     const report=game.battle?.report;
-    $('report-rows').innerHTML=report?`<div class="report-row"><span class="px">ENEMY LOSSES</span><strong>${report.enemyLosses} / ${report.enemyCount}</strong></div><div class="report-row"><span class="px">SURVIVORS</span><strong>${report.surviving} / ${report.deployed}</strong></div><div class="report-row"><span class="px">CAMP DEFENSE</span><strong class="px ${report.defenseLost?'bad':'held'}">${report.defenseLost?'−'+report.defenseLost:'HELD'}</strong></div>`:'';
-    $('continue').innerHTML=`<span class="px">${victory||defeat?'New campaign':'Next round'}</span><b>→</b>`;
+    $('report-rows').innerHTML=report?`<div class="report-row"><span class="px">ENEMY LOSSES</span><strong>${report.enemyLosses} / ${report.enemyCount}</strong></div><div class="report-row"><span class="px">SURVIVORS</span><strong>${report.surviving} / ${report.deployed}</strong></div><div class="report-row"><span class="px">CAMP LIVES</span><strong class="px ${report.defenseLost?'bad':'held'}">${report.defenseLost?'−'+report.defenseLost:'HELD'}</strong></div>`:'';
+    $('continue').innerHTML=`<span class="px">${defeat?'New campaign':'Next year'}</span><b>→</b>`;
     if(!$('result-dialog').open)$('result-dialog').showModal();pixelize();
   }
-  function reset(){cancelTransitions();$('skip').disabled=false;if($('result-dialog').open)$('result-dialog').close();game=E.createGame();selected=null;paused=false;accumulator=0;lastUiSecond=-1;lastDefense=5;render();beep();}
+  function reset(){cancelTransitions();$('skip').disabled=false;if($('result-dialog').open)$('result-dialog').close();game=E.createGame();selected=null;paused=false;accumulator=0;lastUiSecond=-1;lastDefense=3;render();beep();}
   $('skip').addEventListener('click',()=>{if(E.skip(game)){beep('click');render();}});
   reducedMotion.addEventListener('change',applyPrefs);
   $('pause').addEventListener('click', () => { if (game.phase === 'battle') { paused = !paused; accumulator = 0;if(paused)audio.stop();beep(); renderStatus(); } });
   $('speed').addEventListener('click', () => { speed = speed === 1 ? 2 : speed === 2 ? 4 : 1;beep(); renderStatus(); });
   $('start-battle').addEventListener('click', () => {
-    if (['result', 'victory', 'defeat'].includes(game.phase)) { showResult(); return; }
+    if (['result', 'defeat'].includes(game.phase)) { showResult(); return; }
     if (E.start(game)) {  paused = false; accumulator = 0; lastUiSecond = -1;fx.clear();render();beep('horn');beep('cry');callout('LEGION, ADVANCE!'); }
   });
   $('inspect-result').addEventListener('click', () => {beep();$('result-dialog').close();});

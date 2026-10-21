@@ -1,4 +1,4 @@
-# Under the Eagle · Cold Iron v0.10
+# Under the Eagle · Endless Years v0.11
 
 [Play online](https://ipoklay.github.io/eagle-standard-demo/)
 
@@ -12,7 +12,9 @@ Download index.html to play offline. Audio credits are included in the source ar
 
 ## Source and design documents
 
-- [Source archive](eagle-standard-demo-source.zip) — HTML, CSS, JavaScript, audio, 26 tests and packaging scripts.
+- [Source archive](eagle-standard-demo-source.zip) — HTML, CSS, JavaScript, audio, 30 tests and packaging scripts.
 - [Initial design](123.pdf)
 - [Image prompt handbook](鹰旗之下-完整图像Prompt手册.pdf)
 - Original roguelike.docx preserved.
+
+Endless years: the year is centered at the top, and three isometric shields behind the rear wall show camp lives. Each year has the same three enemy squads and stats. A failed year costs one life; three failures end the campaign. Supplies repeat, with a usable shield order when other cards are exhausted.
