@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#354b43"><meta name="description" content="A cold, war-torn isometric battlefield. Build your legion and survive year after year."><title>Under the Eagle · Endless Years v0.11</title><style>@charset "UTF-8";
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#354b43"><meta name="description" content="A cold, war-torn isometric battlefield. Build your legion and survive year after year."><title>Under the Eagle · Legion Doctrines v0.13</title><style>@charset "UTF-8";
 :root{--ink:#483b2b;--cream:#f2dfb2;--red:#8e4031;--paper:none;--wood:none;--gold:none;font-family:"Songti SC",Georgia,serif;color-scheme:dark}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:#354b43;color:var(--cream);font-size:12px}button{font:inherit;color:inherit;cursor:pointer;border-radius:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:disabled{cursor:default;opacity:.45}button:focus-visible{outline:3px solid #fff1bb;outline-offset:6px}button:active:not(:disabled){translate:0 3px}[hidden]{display:none!important}h1,h2,h3,p{margin:0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}canvas{image-rendering:pixelated}.px{font-family:Georgia,serif;font-weight:400}.px>canvas{display:inline-block;height:1.3333em;width:auto;vertical-align:middle;max-width:100%;object-fit:contain;image-rendering:pixelated}
 .world{position:fixed;inset:0}#battlefield{width:100%;height:100%;display:block}.world-vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 4px #2a392c66}
@@ -45,12 +45,22 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
 /* Endless years: one quiet centered label; lives are isometric world objects. */
 .year-hud{position:fixed;top:26px;left:50%;transform:translateX(-50%);z-index:5;pointer-events:none;color:#d8e2cf;text-shadow:2px 3px #1c342e;letter-spacing:3px;font-size:25px;white-space:nowrap}.year-hud strong{font-weight:400}
 @media(max-width:760px){.year-hud{top:22px;font-size:19px;letter-spacing:2px}}
+
+.formation-note{display:block;font:9px Georgia,serif;letter-spacing:.03em;margin-top:5px;color:#344b41}
+
+/* Legion doctrines: brief, visible effects on compact playing cards. */
+.card{width:190px;height:266px;padding:18px 14px 20px}.card h3{font-size:18px}.card-art{min-height:42px}.card-kind{font:8px Georgia,serif;letter-spacing:1px;color:#456052;margin:3px 0 5px}.card-effect{font:12px/1.25 Georgia,serif;text-align:center;min-height:45px;margin-top:7px;color:#2e4439}.card-impact b{font-size:22px}.card-rule{margin:5px 0}.card-corner.reverse{bottom:7px;right:10px}.build-button{position:fixed;top:24px;left:28px;z-index:7;min-height:32px;padding:6px 10px;font-size:11px;gap:8px;border-color:#78917b}.build-button:hover{filter:brightness(1.2)}#build-dialog{width:min(470px,calc(100vw - 32px));max-height:80vh}#build-dialog .modal-inner{text-align:left}#build-dialog h2{font-size:19px;margin-bottom:18px}#build-content{display:grid;gap:12px}.build-entry{border-bottom:1px solid #7c907b;padding-bottom:10px}.build-entry strong{font-size:13px;color:#2e483a}.build-entry p{margin-top:4px;font:12px/1.45 Georgia,serif;color:#43584b}#close-build{margin:18px 0 0 auto}
+@media(max-width:760px){.cards{gap:10px}.card{width:29vw;height:232px;padding:18px 9px 17px}.card h3{font-size:13px}.card-effect{font-size:10px;min-height:62px}.card-kind{font-size:7px;letter-spacing:0}.card-impact b{font-size:19px}.card-art{min-height:32px}.card-rule{margin:4px 0}.build-button{top:19px;left:12px;font-size:9px;min-height:28px}.supply-panel{max-width:94vw}}
+@media(max-height:550px) and (min-width:761px){.card{width:165px;height:220px}.card h3{font-size:15px}.card-effect{font-size:10px;min-height:40px}.card-art{min-height:24px}.card-kind{font-size:7px}.card-impact b{font-size:18px}}
+.card-art{position:relative;overflow:hidden}.card .card-art canvas{position:absolute;inset:0;margin:auto;width:auto;height:100%;max-width:100%;max-height:100%;object-fit:contain}
 </style></head>
 <body><main class="world" aria-label="Camp and battlefield"><canvas id="battlefield" width="1920" height="1080" aria-label="Shared battlefield"></canvas><div class="world-vignette" aria-hidden="true"></div><div id="camp-grid" class="camp-grid" aria-label="Camp: four columns, three rows"></div><div id="paused-banner" hidden>Ⅱ</div></main>
 <header class="year-hud"><strong id="year" class="px" aria-live="polite">YEAR 1</strong></header>
 <div id="life-status" class="sr-only" role="status" aria-live="polite">Camp lives: 3 / 3</div>
 <section id="inspector" class="inspector" aria-label="Building details" hidden></section>
 <section class="supply-panel" aria-label="Supply"><div id="cards" class="cards"></div><div id="ready-panel" hidden><div id="ready-icon"></div><span id="ready-title" class="px"></span></div><button id="skip" class="discard-button" aria-label="Skip supply" title="Skip supply">×</button></section>
+<button id="show-build" class="build-button secondary-button" aria-label="View army and doctrines"><span class="px">BUILD</span> ♦</button>
+<dialog id="build-dialog"><div class="modal-inner"><h2 class="px">LEGION DOCTRINES</h2><div id="build-content"></div><button id="close-build" class="secondary-button">Close</button></div></dialog>
 <footer class="hud-bottom"><div class="battle-tools"><span id="timer"></span><button id="pause" class="mini-button" aria-label="Pause battle" title="Pause / Space">Ⅱ</button><button id="speed" class="mini-button" aria-label="Change battle speed">1×</button><button id="start-battle" class="primary-button" aria-label="MARCH"><span class="px">MARCH</span><b>⚔</b></button></div></footer>
 <dialog id="result-dialog"><div class="modal-inner"><div id="result-emblem" aria-hidden="true"></div><h2 id="result-title" class="px"></h2><p id="result-description" class="px"></p><div id="report-rows"></div><div class="result-actions"><button id="inspect-result" class="secondary-button"><span class="px">Battlefield</span></button><button id="continue" class="primary-button"></button></div></div></dialog>
 <div id="battle-call" aria-live="polite" hidden><small></small><strong></strong></div><div id="toast" role="status" aria-live="polite"></div>
@@ -58,56 +68,74 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
 (function(root){
  'use strict';
  const TYPES={
-  legion:{name:'Legion Camp',unit:'Legionary',hp:150,attack:14,range:72,speed:65,interval:1},
-  archer:{name:'Archer Camp',unit:'Auxiliary Archer',hp:65,attack:10,range:320,speed:52,interval:1.2},
-  siege:{name:'Siege Camp',unit:'Catapult',hp:100,attack:30,range:510,speed:30,interval:3.2},
+  legion:{name:'Legion Camp',unit:'Legionary',role:'front',hp:150,attack:14,range:72,speed:65,interval:1},
+  spear:{name:'Spear Camp',unit:'Spearman',role:'front',hp:125,attack:12,range:110,speed:60,interval:1.1},
+  guard:{name:'Guard Camp',unit:'Shield Guard',role:'front',hp:230,attack:8,range:72,speed:45,interval:1.3},
+  cavalry:{name:'Stables',unit:'Cavalry',role:'front',hp:120,attack:18,range:80,speed:100,interval:1.4},
+  archer:{name:'Archer Camp',unit:'Auxiliary Archer',role:'middle',hp:65,attack:10,range:320,speed:52,interval:1.2},
+  medic:{name:'Field Hospital',unit:'Field Medic',role:'middle',hp:80,attack:0,heal:12,range:280,speed:60,interval:1.5},
+  siege:{name:'Siege Camp',unit:'Catapult',role:'rear',hp:100,attack:30,range:510,speed:30,interval:3.2},
   training:{name:'Drill Yard'}
  };
- const CARDS={
-  legion:{name:'Legion Camp',kind:'Building',text:'Raise an infantry squad or upgrade a Legion Camp.',detail:'Infantry forms the front line and shields the rear. Buildings stay in place.'},
-  archer:{name:'Archer Camp',kind:'Building',text:'Raise an archer squad or upgrade an Archer Camp.',detail:'Archers form behind the infantry and support the shared battlefield.'},
-  siege:{name:'Siege Camp',kind:'Building',text:'Build a catapult or upgrade a Siege Camp.',detail:'Catapults form at the rear and bombard an area.'},
-  training:{name:'Drill Yard',kind:'Building',text:'Adjacent camps gain 25% attack.',detail:'Each level adds 25%. Only the strongest adjacent bonus applies. Buildings stay in place.'},
-  legionTrain:{name:'Infantry Drill',kind:'Campaign upgrade',text:'All infantry gain 25% attack.',detail:'Lasts for this campaign, including new infantry. Stacks twice.'},
-  archerTrain:{name:'Archer Drill',kind:'Campaign upgrade',text:'All archers gain 25% attack.',detail:'Lasts for this campaign. Stacks twice.'},
-  shield:{name:'Hold Fast',kind:'Battle order',text:'Every allied squad gains 40 shield.',detail:'Applies immediately. Shields absorb damage during the next battle.'}
- };
- const ENEMY_COUNT=3,MAX_LIVES=3,OFFERS=[['legion','archer','training'],['siege','legionTrain','shield'],['legion','archer','siege']];
- function createGame(){return{round:1,defense:MAX_LIVES,phase:'reward',buildings:[{id:1,type:'legion',cell:0,level:1},{id:2,type:'archer',cell:2,level:1},{id:3,type:'siege',cell:8,level:1}],nextId:4,boosts:{legion:0,archer:0,siege:0},armyShield:false,pending:null,chosen:null,history:[],battle:null};}
+ const CARDS={};
+ function card(id,name,kind,text,impact,tag,extra={}){CARDS[id]={name,kind,text,detail:text,impact,tag,...extra};}
+ const buildingText={legion:'Durable sword infantry. Holds the front line.',spear:'Long reach. Hits slow enemies 25% for 2s.',guard:'Heavy infantry. Starts each battle with 30 shield.',cavalry:'Fast cavalry. First strike deals 60% extra damage.',archer:'Ranged support behind the front line.',medic:'Heals a wounded squad for 12 HP every 1.5s.',siege:'Rear artillery. Stones deal area damage.',training:'Adjacent camps gain 25% attack per yard level.'};
+ for(const [id,t]of Object.entries(TYPES))card(id,t.name,'Building',buildingText[id],id==='training'?'+25%':'+1',id==='training'?'ADJACENT ATTACK':t.unit.toUpperCase(),{detail:buildingText[id]+' Build on an empty tile, or upgrade the same camp (max level III).'});
+ card('legionTrain','Sword Drill','Permanent','Legionaries gain 25% attack per rank.','+25%','LEGION ATTACK',{max:2,requires:['legion']});
+ card('archerTrain','Bow Drill','Permanent','Archers gain 25% attack per rank.','+25%','ARCHER ATTACK',{max:2,requires:['archer']});
+ card('siegeTrain','Siege Drill','Permanent','Catapults gain 25% attack per rank.','+25%','SIEGE ATTACK',{max:2,requires:['siege']});
+ card('shieldDrill','Iron Wall','Permanent','All melee squads start with +20 shield per rank.','+20','FRONTLINE SHIELD',{max:2});
+ card('crossfire','Crossfire','Permanent','Archers deal +25% damage to foes engaged by your melee.','+25%','ENGAGED TARGETS',{max:2,requires:['archer']});
+ card('fireArrows','Fire Arrows','Permanent','Arrows burn targets for 3 damage/sec for 3s. Refreshes on hit.','3 / SEC','BURNING ARROWS',{max:1,requires:['archer']});
+ card('oilShots','Pitch Stones','Permanent','Catapults deal +50% damage to burning enemies.','+50%','BURNING TARGETS',{max:1,requires:['siege','archer'],needs:'fireArrows'});
+ card('charge','Shock Charge','Permanent','Cavalry first-strike bonus rises from +60% to +120%.','+120%','FIRST STRIKE',{max:1,requires:['cavalry']});
+ card('fieldMedicine','Field Medicine','Permanent','Medics heal 50% more per rank.','+50%','HEALING',{max:2,requires:['medic']});
+ card('warhorn','Blood & Glory','Permanent','Enemy defeats give nearby allies 30% faster attacks for 3s.','+30%','KILL HASTE',{max:1});
+ card('combinedArms','United Legion','Permanent','All squads gain +5% attack per different troop type (max 35%).','+5% / TYPE','ARMY ATTACK',{max:1});
+ card('pinning','Pin & Pierce','Permanent','Archers and catapults deal +30% damage to slowed enemies.','+30%','SLOWED TARGETS',{max:1,requires:['spear']});
+ card('shield','Hold Fast','Battle order','Every allied squad gains 40 shield for the next battle.','+40','ARMY SHIELD');
+ card('testudo','Testudo','Battle order','Legionaries take 40% less damage, but move 25% slower.','−40%','DAMAGE TAKEN');
+ card('rally','War Standard','Battle order','All squads gain 25% attack for the next battle.','+25%','ARMY ATTACK');
+ card('volley','Rapid Volley','Battle order','Archers and catapults attack 40% faster next battle.','+40%','RANGED ATTACK RATE');
+ const ENEMY_COUNT=3,MAX_LIVES=3;
+ function createGame(seed){return{round:1,defense:MAX_LIVES,phase:'reward',buildings:[{id:1,type:'legion',cell:0,level:1},{id:2,type:'archer',cell:2,level:1},{id:3,type:'siege',cell:8,level:1}],nextId:4,boosts:{legion:0,archer:0,siege:0},upgrades:{},orders:{},rng:(seed===undefined?Math.floor(Math.random()*4294967296):seed)>>>0,offered:[],offerYear:0,armyShield:false,armyTestudo:false,pending:null,chosen:null,history:[],battle:null};}
  const adjacent=(a,b)=>Math.abs(a%4-b%4)+Math.abs(Math.floor(a/4)-Math.floor(b/4))===1;
+ const rank=(g,id)=>g.upgrades[id]||0;
  function bonus(g,b){return Math.max(0,...g.buildings.filter(t=>t.type==='training'&&adjacent(t.cell,b.cell)).map(t=>t.level*.25));}
- function stats(g,b){if(b.type==='training')return{bonus:b.level*.25};const t=TYPES[b.type],m=1+(b.level-1)*.5;return{hp:t.hp*m,attack:t.attack*m*(1+(g.boosts[b.type]||0)*.25+bonus(g,b)),range:t.range,speed:t.speed,interval:t.interval};}
- function available(g,id){if(TYPES[id])return g.buildings.length<12||g.buildings.some(b=>b.type===id&&b.level<3);if(id.endsWith('Train'))return g.boosts[id==='legionTrain'?'legion':'archer']<2;return id==='shield';}
- function offers(g){const cards=[...OFFERS[(g.round-1)%OFFERS.length]];if(!cards.some(id=>available(g,id)))cards[2]='shield';return cards;}
+ function stats(g,b){if(b.type==='training')return{bonus:b.level*.25};const t=TYPES[b.type],m=1+(b.level-1)*.5,diversity=new Set(g.buildings.filter(b=>b.type!=='training').map(b=>b.type)).size;return{hp:t.hp*m,attack:t.attack*m*(1+(g.boosts[b.type]||0)*.25+bonus(g,b)+rank(g,'combinedArms')*Math.min(7,diversity)*.05+(g.orders.rally?.25:0)),heal:(t.heal||0)*m*(1+rank(g,'fieldMedicine')*.5),range:t.range,speed:t.speed,interval:t.interval/(g.orders.volley&&['archer','siege'].includes(b.type)?1.4:1)};}
+ function available(g,id){const c=CARDS[id];if(!c)return false;if(TYPES[id])return g.buildings.length<12||g.buildings.some(b=>b.type===id&&b.level<3);if(c.max&&rank(g,id)>=c.max)return false;if(c.requires&&!c.requires.every(t=>g.buildings.some(b=>b.type===t)))return false;if(c.needs&&!rank(g,c.needs))return false;return true;}
+ function random(g){g.rng=(Math.imul(g.rng,1664525)+1013904223)>>>0;return g.rng/4294967296;}
+ function offers(g){if(g.offerYear===g.round)return [...g.offered];const previous=new Set(g.offered),pool=Object.keys(CARDS).filter(id=>available(g,id)),fresh=pool.filter(id=>!previous.has(id)),repeat=pool.filter(id=>previous.has(id)),out=[];while(out.length<3){const bag=fresh.length?fresh:repeat;out.push(bag.splice(Math.floor(random(g)*bag.length),1)[0]);}g.offered=out;g.offerYear=g.round;return [...out];}
  function canChoose(g,id){return g.phase==='reward'&&offers(g).includes(id)&&available(g,id);}
- function choose(g,id){if(!canChoose(g,id))return false;g.chosen=id;if(TYPES[id]){g.pending=id;g.phase='place';}else{if(id==='shield')g.armyShield=true;else g.boosts[id==='legionTrain'?'legion':'archer']++;g.phase='prepare';}return true;}
+ function choose(g,id){if(!canChoose(g,id))return false;g.chosen=id;if(TYPES[id]){g.pending=id;g.phase='place';}else{if(CARDS[id].kind==='Battle order'){g.orders[id]=true;if(id==='shield')g.armyShield=true;if(id==='testudo')g.armyTestudo=true;}else{g.upgrades[id]=rank(g,id)+1;if(id.endsWith('Train'))g.boosts[id.slice(0,-5)]=rank(g,id);}g.phase='prepare';}return true;}
  function skip(g){if(!['reward','place'].includes(g.phase))return false;g.pending=null;g.chosen=null;g.phase='prepare';return true;}
  function place(g,cell){if(g.phase!=='place'||!Number.isInteger(cell)||cell<0||cell>=12)return false;const b=g.buildings.find(b=>b.cell===cell);if(b){if(b.type!==g.pending||b.level>=3)return false;b.level++;}else g.buildings.push({id:g.nextId++,type:g.pending,cell,level:1});g.pending=null;g.phase='prepare';return true;}
- // Camp cells determine construction bonuses only. Combat formation depends exclusively on unit role.
- function muster(g){let id=0;const units=[],columns=type=>Math.max(1,Math.ceil(g.buildings.filter(b=>b.type===type).length/4)),base={siege:40};base.archer=base.siege+columns('siege')*75+75;base.legion=base.archer+columns('archer')*75+75;for(const type of ['legion','archer','siege']){const group=g.buildings.filter(b=>b.type===type).sort((a,b)=>a.id-b.id);group.forEach((b,i)=>{const s=stats(g,b),row=i%4,col=Math.floor(i/4),count=Math.min(4,group.length-col*4);units.push({id:id++,buildingId:b.id,side:'ally',type,x:base[type]+col*75,y:(row-(count-1)/2)*120,hp:s.hp,maxHp:s.hp,attack:s.attack,range:s.range,speed:s.speed,interval:s.interval,shield:g.armyShield?40:0,cooldown:.3+col*.1,moving:false,flash:0});});}
+ // Camp positions affect adjacency only. All troops join the same battlefield in role ranks.
+ function muster(g){let id=0,base=40;const units=[];for(const role of ['rear','middle','front']){const group=g.buildings.filter(b=>TYPES[b.type].role===role).sort((a,b)=>a.id-b.id);group.forEach((b,i)=>{const s=stats(g,b),type=b.type,row=i%4,col=Math.floor(i/4),count=Math.min(4,group.length-col*4),shield=(g.armyShield?40:0)+(role==='front'?rank(g,'shieldDrill')*20:0)+(type==='guard'?30:0);units.push({id:id++,buildingId:b.id,side:'ally',type,x:base+col*75,y:(row-(count-1)/2)*120,hp:s.hp,maxHp:s.hp,attack:s.attack,heal:s.heal,range:s.range,speed:s.speed*(g.armyTestudo&&type==='legion'?.75:1),testudo:!!g.armyTestudo&&type==='legion',interval:s.interval,shield,maxShield:shield,cooldown:.3+col*.1,moving:false,flash:0,charged:false});});base+=Math.max(1,Math.ceil(group.length/4))*75+75;}
+  // No year scaling: the original three enemies retain exactly the same stats.
   for(let i=0;i<ENEMY_COUNT;i++){const col=Math.floor(i/4),count=Math.min(4,ENEMY_COUNT-col*4);units.push({id:id++,side:'enemy',type:'enemy',x:820+col*92,y:(i%4-(count-1)/2)*120,hp:105,maxHp:105,attack:11,range:72,speed:57,interval:1.1,shield:0,cooldown:.4,moving:false,flash:0});}return units;
  }
  function start(g){if(g.phase!=='prepare')return false;const units=muster(g);g.battle={time:0,units,projectiles:[],effects:[],events:[],serial:0,report:null,initialAllies:units.filter(u=>u.side==='ally').length,initialEnemies:units.filter(u=>u.side==='enemy').length};g.phase='battle';return true;}
  const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
  function finish(g,won){const b=g.battle;if(b.report)return;const surviving=b.units.filter(u=>u.hp>0&&u.side==='ally').length,enemies=b.units.filter(u=>u.hp>0&&u.side==='enemy').length,loss=won?0:1;g.defense=Math.max(0,g.defense-loss);b.report={won,surviving,deployed:b.initialAllies,enemyLosses:b.initialEnemies-enemies,enemyCount:b.initialEnemies,defenseLost:loss};g.history.push({round:g.round,defense:g.defense,report:{...b.report},card:g.chosen,duration:b.time});if(g.history.length>100)g.history.shift();g.phase=g.defense<=0?'defeat':'result';if(loss)b.events.push({kind:'breach',x:60,y:0,damage:loss});}
- function step(g,dt){if(g.phase!=='battle'||!(dt>0))return;dt=Math.min(dt,.1);const b=g.battle;b.time+=dt;b.events=[];b.effects=b.effects.filter(e=>(e.life-=dt)>0);const alive=b.units.filter(u=>u.hp>0),damage=new Map();const hurt=(id,n)=>damage.set(id,(damage.get(id)||0)+n);
-  for(const p of b.projectiles){p.life-=dt;if(p.life>0)continue;if(p.siege){for(const v of alive.filter(v=>v.side!==p.side)){const d=distance(v,{x:p.to,y:p.toY});if(d<125)hurt(v.id,p.damage*(1-.5*d/125));}b.events.push({kind:'blast',x:p.to,y:p.toY,side:p.side});}else{const t=alive.find(v=>v.id===p.target);if(t)hurt(t.id,p.damage);}}
-  b.projectiles=b.projectiles.filter(p=>p.life>0);
-  const moves=[];
-  for(const u of alive){u.moving=false;u.flash=Math.max(0,u.flash-dt);u.cooldown-=dt;const foes=alive.filter(v=>v.side!==u.side);const target=foes.sort((a,v)=>distance(a,u)-distance(v,u)||a.id-v.id)[0];if(!target)continue;u.targetId=target.id;const d=distance(u,target),ranged=u.type==='archer'||u.type==='siege';
-   if(d>u.range){const step=Math.min((u.speed??60)*dt,d-u.range),dx=(target.x-u.x)/d,dy=(target.y-u.y)/d;moves.push({u,x:u.x+dx*step,y:u.y+dy*step});u.moving=true;}
-   else if(u.cooldown<=0){u.cooldown=u.interval||1;b.events.push({kind:'attack',id:u.id,target:target.id,x:u.x,y:u.y,ranged,siege:u.type==='siege',side:u.side});if(ranged){b.projectiles.push({id:++b.serial,attacker:u.id,target:target.id,from:u.x,fromY:u.y,to:target.x,toY:target.y,life:u.type==='siege'?.7:.24,duration:u.type==='siege'?.7:.24,siege:u.type==='siege',side:u.side,damage:u.attack});}else hurt(target.id,u.attack);}
+ function step(g,dt){if(g.phase!=='battle'||!(dt>0))return;dt=Math.min(dt,.1);const b=g.battle;b.time+=dt;b.events=[];b.effects=b.effects.filter(e=>(e.life-=dt)>0);const alive=b.units.filter(u=>u.hp>0),damage=new Map(),hurt=(id,n)=>damage.set(id,(damage.get(id)||0)+n);
+  const rangedBonus=(target,siege)=>1+(target.slowUntil>b.time?rank(g,'pinning')*.3:0)+(siege&&target.burnUntil>b.time?rank(g,'oilShots')*.5:0)+(!siege&&alive.some(v=>v.side==='ally'&&TYPES[v.type]?.role==='front'&&distance(v,target)<=v.range+10)?rank(g,'crossfire')*.25:0);
+  for(const u of alive)if(u.burnUntil>b.time)hurt(u.id,3*dt);
+  for(const p of b.projectiles){p.life-=dt;if(p.life>0)continue;if(p.siege){for(const v of alive.filter(v=>v.side!==p.side)){const d=distance(v,{x:p.to,y:p.toY});if(d<125)hurt(v.id,p.damage*(1-.5*d/125)*(p.side==='ally'?rangedBonus(v,true):1));}b.events.push({kind:'blast',x:p.to,y:p.toY,side:p.side});}else{const t=alive.find(v=>v.id===p.target);if(t){hurt(t.id,p.damage*(p.side==='ally'?rangedBonus(t,false):1));if(p.fire)t.burnUntil=b.time+3;}}}
+  b.projectiles=b.projectiles.filter(p=>p.life>0);const moves=[];
+  for(const u of alive){u.moving=false;u.flash=Math.max(0,u.flash-dt);u.cooldown-=dt;const healer=u.type==='medic',targets=healer?alive.filter(v=>v.side===u.side&&v.hp<v.maxHp):alive.filter(v=>v.side!==u.side);const target=targets.sort((a,v)=>healer?(a.hp/a.maxHp-v.hp/v.maxHp||distance(a,u)-distance(v,u)):(distance(a,u)-distance(v,u)||a.id-v.id))[0];if(!target)continue;u.targetId=target.id;const d=distance(u,target),ranged=u.type==='archer'||u.type==='siege';
+   if(d>u.range){const step=Math.min((u.speed??60)*(u.slowUntil>b.time?.75:1)*dt,d-u.range),dx=(target.x-u.x)/d,dy=(target.y-u.y)/d;moves.push({u,x:u.x+dx*step,y:u.y+dy*step});u.moving=true;}
+   else if(u.cooldown<=0){u.cooldown=(u.interval||1)/(u.hasteUntil>b.time?1.3:1);if(healer){const healed=Math.min(u.heal||12,target.maxHp-target.hp);target.hp+=healed;target.healUntil=b.time+.45;b.events.push({kind:'heal',id:target.id,x:target.x,y:target.y,amount:healed,side:u.side});continue;}b.events.push({kind:'attack',id:u.id,target:target.id,x:u.x,y:u.y,ranged,siege:u.type==='siege',side:u.side});if(ranged){b.projectiles.push({id:++b.serial,attacker:u.id,target:target.id,from:u.x,fromY:u.y,to:target.x,toY:target.y,life:u.type==='siege'?.7:.24,duration:u.type==='siege'?.7:.24,siege:u.type==='siege',side:u.side,damage:u.attack,fire:u.side==='ally'&&u.type==='archer'&&!!rank(g,'fireArrows')});}else{const charge=u.type==='cavalry'&&!u.charged?1.6+rank(g,'charge')*.6:1;hurt(target.id,u.attack*charge);if(u.type==='cavalry')u.charged=true;if(u.type==='spear')target.slowUntil=b.time+2;}}
   }
   for(const m of moves){m.u.x=m.x;m.u.y=m.y;}
-  // Gentle same-army separation allows flanking without screen-space teleportation.
   for(let i=0;i<alive.length;i++)for(let j=i+1;j<alive.length;j++){const a=alive[i],v=alive[j];if(a.side!==v.side)continue;let dx=a.x-v.x,dy=a.y-v.y,d=Math.hypot(dx,dy);if(d>=75)continue;if(d<.01){dy=a.id<v.id?-1:1;dx=0;d=1;}const push=Math.min((75-d)*.5,24*dt);a.x+=dx/d*push;a.y+=dy/d*push;v.x-=dx/d*push;v.y-=dy/d*push;}
   for(const u of alive){u.x=Math.max(0,Math.min(1050,u.x));u.y=Math.max(-290,Math.min(290,u.y));}
-  for(const [id,amount]of damage){const u=b.units.find(u=>u.id===id),absorbed=Math.min(u.shield,amount),before=u.hp;u.shield-=absorbed;u.hp=Math.max(0,u.hp-amount+absorbed);u.flash=.13;b.events.push({kind:'hit',id,x:u.x,y:u.y,side:u.side,damage:before-u.hp,absorbed,broken:absorbed>0&&u.shield===0});if(u.hp===0)b.events.push({kind:'death',id,x:u.x,y:u.y,side:u.side});}
-  const enemies=b.units.some(u=>u.side==='enemy'&&u.hp>0),allies=b.units.some(u=>u.side==='ally'&&u.hp>0);
-  if(!enemies&&!b.projectiles.some(p=>p.side==='enemy'))finish(g,true);else if((!allies&&!b.projectiles.some(p=>p.side==='ally'))||b.time>=75)finish(g,false);
+  for(const [id,rawAmount]of damage){const u=b.units.find(u=>u.id===id),amount=rawAmount*(u.testudo?.6:1),absorbed=Math.min(u.shield,amount),before=u.hp;u.shield-=absorbed;u.hp=Math.max(0,u.hp-amount+absorbed);u.flash=.13;if(amount>.5)b.events.push({kind:'hit',id,x:u.x,y:u.y,side:u.side,damage:before-u.hp,absorbed,broken:absorbed>0&&u.shield===0});if(u.hp===0){b.events.push({kind:'death',id,x:u.x,y:u.y,side:u.side});if(u.side==='enemy'&&rank(g,'warhorn'))for(const ally of alive.filter(v=>v.side==='ally'&&distance(v,u)<=240))ally.hasteUntil=b.time+3;}}
+  const enemies=b.units.some(u=>u.side==='enemy'&&u.hp>0),allies=b.units.some(u=>u.side==='ally'&&u.hp>0);if(!enemies&&!b.projectiles.some(p=>p.side==='enemy'))finish(g,true);else if((!allies&&!b.projectiles.some(p=>p.side==='ally'))||b.time>=75)finish(g,false);
  }
- function next(g){if(g.phase!=='result')return false;g.round++;g.phase='reward';g.pending=null;g.chosen=null;g.armyShield=false;g.battle=null;return true;}
- const api={TYPES,CARDS,ENEMY_COUNT,MAX_LIVES,OFFERS,offers,createGame,adjacent,bonus,stats,canChoose,choose,skip,place,muster,start,step,next};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.Eagle=api;
+ function next(g){if(g.phase!=='result')return false;g.round++;g.phase='reward';g.pending=null;g.chosen=null;g.armyShield=false;g.armyTestudo=false;g.orders={};g.battle=null;return true;}
+ function synergies(g){const has=t=>g.buildings.some(b=>b.type===t);return[{name:'Burn & Bombard',active:!!rank(g,'fireArrows')&&!!rank(g,'oilShots')&&has('archer')&&has('siege'),text:'Fire Arrows → Pitch Stones: +50% siege damage.'},{name:'Pin & Pierce',active:has('spear')&&!!rank(g,'pinning')&&(has('archer')||has('siege')),text:'Spears slow → ranged attacks deal +30% damage.'},{name:'Shield & Mend',active:has('medic')&&(has('guard')||!!rank(g,'shieldDrill')),text:'Frontline shields absorb hits while medics restore health.'},{name:'Charge & Glory',active:has('cavalry')&&!!rank(g,'warhorn'),text:'Cavalry strikes → enemy defeats grant nearby attack haste.'},{name:'Hold & Crossfire',active:!!rank(g,'crossfire')&&has('archer')&&g.buildings.some(b=>TYPES[b.type].role==='front'),text:'Melee engagement → archers deal +25% damage per rank.'}];}
+ const api={TYPES,CARDS,ENEMY_COUNT,MAX_LIVES,offers,available,createGame,adjacent,bonus,stats,canChoose,choose,skip,place,muster,start,step,next,synergies};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.Eagle=api;
 })(typeof window!=='undefined'?window:globalThis);
 
 </script><script>
@@ -345,7 +373,7 @@ window.EagleFeedback=function(audio){
 /* Pure presentation helpers. A rule-level squad is represented by nine soldiers. */
 (function(root){
   'use strict';
-  const formation=Array.from({length:9},(_,i)=>({row:Math.floor(i/3),column:i%3,dx:16-(i%3)*29,dy:-38+Math.floor(i/3)*36}));
+  const formation=Array.from({length:9},(_,i)=>({row:Math.floor(i/3),column:i%3,dx:20-(i%3)*22,dy:-25+Math.floor(i/3)*25}));
   function layout(units){return new Map(units.filter(u=>u.hp>0).map(u=>[u.id,595+u.x*.91]));}
   function pose(time,index,moving,attackAge,reduced=false){
     if(reduced)return{stride:0,bob:0,lean:0,sword:0,slash:0,thrust:0};
@@ -362,7 +390,63 @@ window.EagleFeedback=function(audio){
 })(typeof window!=='undefined'?window:globalThis);
 
 </script><script>
-/* All artwork is drawn locally. No external images, fonts or network calls. */
+/* Approved Aseprite v4 layers, unscaled. */
+window.EagleUnitData={"palette":{"O":"#2B2523","r":"#9B3438","L":"#B85E3C","R":"#652C35","w":"#70523D","W":"#A47C50","G":"#C59A49","g":"#896832","m":"#7E8A8B","M":"#505D61","H":"#C8CEC2","K":"#DBAD7B","S":"#A97456","E":"#2B2523","k":"#DBAD7B","o":"#2B2523","s":"#505D61","c":"#E5D7B7","C":"#B5A383","d":"#84745C","v":"#6E7952","V":"#535F45","a":"#969C70","b":"#637B89","B":"#405662","h":"#A0B0AF","f":"#929374","t":"#A8A081","n":"#7F8765","j":"#BBB08B","q":"#7C7D61","z":"#D3C29A","X":"#681923","Y":"#9C302B","Z":"#492A2B"},"parts":[{"name":"Legs","op":{"kind":"grid","x":11,"y":20,"rows":["OKSO..OKSO.","OKSO..OKSO.","OKSO..OKSO.","OwSO..OKSO.","OKSO..OwSO.","OwSO..OKSO.","OwKOO.OKSO.","OOOO..OwKOO","......OOOOO"],"legend":{"O":"#2B2523","r":"#9B3438","L":"#B85E3C","R":"#652C35","w":"#70523D","W":"#A47C50","G":"#C59A49","g":"#896832","m":"#7E8A8B","M":"#505D61","H":"#C8CEC2","K":"#DBAD7B","S":"#A97456","E":"#2B2523","k":"#DBAD7B","o":"#2B2523","s":"#505D61","c":"#E5D7B7","C":"#B5A383","d":"#84745C","v":"#6E7952","V":"#535F45","a":"#969C70","b":"#637B89","B":"#405662","h":"#A0B0AF","f":"#929374","t":"#A8A081","n":"#7F8765","j":"#BBB08B","q":"#7C7D61","z":"#D3C29A","X":"#681923","Y":"#9C302B","Z":"#492A2B"},"transparent":"skip"}},{"name":"Body","op":{"kind":"grid","x":9,"y":9,"rows":["...OOOOO...","..OHmmMMO..",".OHmmMMMO..","OHmmmMMMRO.","OMHmmMMRKO.","OMmmmMMKSO.",".OHmmMMKSO.",".OMmmMMOO..",".OwwgwwO...","..OrrRRO...","..OrrRRO...","..OwwwwO..."],"legend":{"O":"#2B2523","r":"#9B3438","L":"#B85E3C","R":"#652C35","w":"#70523D","W":"#A47C50","G":"#C59A49","g":"#896832","m":"#7E8A8B","M":"#505D61","H":"#C8CEC2","K":"#DBAD7B","S":"#A97456","E":"#2B2523","k":"#DBAD7B","o":"#2B2523","s":"#505D61","c":"#E5D7B7","C":"#B5A383","d":"#84745C","v":"#6E7952","V":"#535F45","a":"#969C70","b":"#637B89","B":"#405662","h":"#A0B0AF","f":"#929374","t":"#A8A081","n":"#7F8765","j":"#BBB08B","q":"#7C7D61","z":"#D3C29A","X":"#681923","Y":"#9C302B","Z":"#492A2B"},"transparent":"skip"}},{"name":"Helmet","op":{"kind":"grid","x":11,"y":3,"rows":["..OOOO..",".OHHmmO.","OHmmmMMO","OmmmMMMO",".OMMMMO.",".OMKSSO.","..OKSO.."],"legend":{"O":"#2B2523","r":"#9B3438","L":"#B85E3C","R":"#652C35","w":"#70523D","W":"#A47C50","G":"#C59A49","g":"#896832","m":"#7E8A8B","M":"#505D61","H":"#C8CEC2","K":"#DBAD7B","S":"#A97456","E":"#2B2523","k":"#DBAD7B","o":"#2B2523","s":"#505D61","c":"#E5D7B7","C":"#B5A383","d":"#84745C","v":"#6E7952","V":"#535F45","a":"#969C70","b":"#637B89","B":"#405662","h":"#A0B0AF","f":"#929374","t":"#A8A081","n":"#7F8765","j":"#BBB08B","q":"#7C7D61","z":"#D3C29A","X":"#681923","Y":"#9C302B","Z":"#492A2B"},"transparent":"skip"}},{"name":"Sword","op":{"kind":"grid","x":20,"y":14,"rows":[".O........","OGOO......","OSKGO.....",".OGHHOO...","..OOMHHOO.","....OOMHHO","......OOO."],"legend":{"O":"#2B2523","r":"#9B3438","L":"#B85E3C","R":"#652C35","w":"#70523D","W":"#A47C50","G":"#C59A49","g":"#896832","m":"#7E8A8B","M":"#505D61","H":"#C8CEC2","K":"#DBAD7B","S":"#A97456","E":"#2B2523","k":"#DBAD7B","o":"#2B2523","s":"#505D61","c":"#E5D7B7","C":"#B5A383","d":"#84745C","v":"#6E7952","V":"#535F45","a":"#969C70","b":"#637B89","B":"#405662","h":"#A0B0AF","f":"#929374","t":"#A8A081","n":"#7F8765","j":"#BBB08B","q":"#7C7D61","z":"#D3C29A","X":"#681923","Y":"#9C302B","Z":"#492A2B"},"transparent":"skip"}},{"name":"Shield","op":{"kind":"grid","x":15,"y":12,"rows":[".......OOO.",".....OOmRRO","...OOrrrRRO",".OOrrrRRRRO","OmrrGrrRRRO","OLrrGrrRRRO","OLrrrrrRRRO","OLrrmrrRRRO","OLrrrrrRRRO","OLrrGrrRRRO","OLrrGrrRRRO","OLrrrrRRRO.","OLrwrRROO..","OwRROOO....",".OOO......."],"legend":{"O":"#2B2523","r":"#9B3438","L":"#B85E3C","R":"#652C35","w":"#70523D","W":"#A47C50","G":"#C59A49","g":"#896832","m":"#7E8A8B","M":"#505D61","H":"#C8CEC2","K":"#DBAD7B","S":"#A97456","E":"#2B2523","k":"#DBAD7B","o":"#2B2523","s":"#505D61","c":"#E5D7B7","C":"#B5A383","d":"#84745C","v":"#6E7952","V":"#535F45","a":"#969C70","b":"#637B89","B":"#405662","h":"#A0B0AF","f":"#929374","t":"#A8A081","n":"#7F8765","j":"#BBB08B","q":"#7C7D61","z":"#D3C29A","X":"#681923","Y":"#9C302B","Z":"#492A2B"},"transparent":"skip"}}],"scale":0.7,"pivot":[16,28],"source":"Aseprite AI Artist / battle-v4","card":"data:image/png;base64,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"};
+
+</script><script>
+/* Animated, separate soldiers using the approved Aseprite v4 pixel layers. */
+(() => {
+  'use strict';
+  const D=window.EagleUnitData,P=D.palette,cache=new Map();
+  function layer(name,kind=false){
+    const key=name+kind;if(cache.has(key))return cache.get(key);
+    const op=D.parts.find(p=>p.name===name).op,c=document.createElement('canvas');c.width=c.height=32;
+    const g=c.getContext('2d'),palette=kind==='enemy'?{...P,r:P.b,R:P.B,L:P.h}:kind==='archer'?{...P,r:'#8f7852',R:'#66533e',L:'#ac9566'}:kind==='medic'?{...P,r:'#c0cbb7',R:'#718875',L:'#e1e2cb'}:kind==='guard'?{...P,r:'#607e71',R:'#3f554e',L:'#b4c4b4'}:kind==='spear'?{...P,r:'#85714e',R:'#584b36',L:'#c4b383'}:P;
+    op.rows.forEach((row,y)=>[...row].forEach((v,x)=>{if(v!=='.'){g.fillStyle=palette[v];g.fillRect(x+op.x,y+op.y,1,1);}}));cache.set(key,c);return c;
+  }
+  function poly(c,points,color){c.fillStyle=color;c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();c.fill();}
+  function roof(c,edge){
+    poly(c,[[-14,-19],[-2,-26],[13,-21],[1,-13]],P.O);
+    poly(c,[[-12,-19],[-2,-24],[10,-21],[0,-15]],P.L);
+    poly(c,[[0,-15],[10,-21],[12,-20],[1,-13]],P.R);
+    c.fillStyle=P.G;c.fillRect(-2,-22,3,2);c.fillRect(-4,-18,3,2);
+    c.fillStyle=P.m;c.fillRect(-10,-20,4,1);c.fillStyle=P.R;c.fillRect(5,-20,3,1);
+    if(edge){poly(c,[[-14,-19],[1,-13],[1,0],[-12,-5]],P.O);poly(c,[[-12,-17],[-1,-12],[-1,-2],[-10,-6]],P.r);c.fillStyle=P.G;c.fillRect(-8,-12,3,2);c.fillRect(-8,-7,3,2);}
+  }
+  function draw(c,x,y,type,facing,pose={},flash=false,state={}){
+    c.save();c.translate(Math.round(x),Math.round(y));c.scale(facing*D.scale,D.scale);c.imageSmoothingEnabled=false;
+    c.translate((pose.thrust||0)*.35,(pose.bob||0)*.3);c.rotate((pose.lean||0)*.4);
+    if(type==='cavalry'){
+      poly(c,[[-15,-12],[7,-12],[12,-22],[18,-24],[23,-18],[17,-14],[13,-4],[-12,-4]],'#343a32');
+      poly(c,[[-13,-11],[7,-11],[12,-20],[17,-22],[20,-18],[14,-14],[10,-6],[-11,-6]],'#756c54');
+      c.fillStyle='#a09470';c.fillRect(-11,-11,15,3);c.fillStyle='#303830';for(const x of [-11,-5,7,11])c.fillRect(x,-5,2,7+(Math.round(pose.stride||0)%2));c.fillRect(-18,-12,4,9);c.fillStyle='#ddd3a7';c.fillRect(17,-20,2,1);c.translate(0,-10);
+    }
+    const archer=type==='archer',stride=(pose.stride||0)*.1;
+    c.save();c.translate(0,-7);c.rotate(stride);c.drawImage(layer('Legs',type),-16,-21);c.restore();
+    c.drawImage(layer('Body',type),-16,-28);c.drawImage(layer('Helmet',type),-16,-28);
+    if(type==='medic'){
+      poly(c,[[-7,-13],[4,-13],[7,-2],[-8,-2]],'#a4b59f');c.fillStyle='#6b3432';c.fillRect(-2,-12,3,8);c.fillRect(-5,-9,9,3);c.fillStyle=P.W;c.fillRect(9,-21,2,23);c.fillStyle='#b7ccac';c.fillRect(7,-22,6,4);
+    }else if(type==='spear'){
+      c.save();c.translate(5,-12);c.rotate((pose.sword||0)*.28);c.fillStyle=P.W;c.fillRect(0,-23,2,38);poly(c,[[-2,-23],[1,-31],[4,-23]],P.H);c.restore();c.drawImage(layer('Shield',type),-20,-28);
+    }else if(archer){
+      c.strokeStyle=P.W;c.lineWidth=2;c.beginPath();c.moveTo(8,-20);c.lineTo(12,-15);c.lineTo(12,-7);c.lineTo(8,-3);c.stroke();
+      c.strokeStyle=P.H;c.lineWidth=1;c.beginPath();c.moveTo(8,-20);c.lineTo(7-Math.abs(pose.sword||0)*2,-12);c.lineTo(8,-3);c.stroke();
+      c.fillStyle=P.H;c.fillRect(5,-12,12,1);
+    }else{
+      if(!state.raised){c.save();c.translate(6,-12);c.rotate((pose.sword||0)*.65);c.drawImage(layer('Sword'),-22,-16);c.restore();if(type==='enemy'){poly(c,[[1,-17],[5,-19],[11,-17],[13,-13],[11,-8],[5,-6],[1,-8],[-1,-13]],P.O);poly(c,[[2,-16],[5,-18],[10,-16],[12,-13],[10,-9],[5,-7],[2,-9],[0,-13]],P.b);c.fillStyle=P.h;c.fillRect(5,-14,3,3);}else if(type==='guard'){poly(c,[[-3,-20],[10,-20],[12,-3],[4,1],[-5,-4]],P.O);poly(c,[[-2,-18],[8,-18],[10,-4],[4,-1],[-3,-5]],'#6b8b7a');c.fillStyle=P.H;c.fillRect(2,-17,2,14);c.fillRect(-2,-12,11,2);}else c.drawImage(layer('Shield'),-16,-28);}
+      else roof(c,state.edge);
+    }
+    if(state.wounded){c.fillStyle=P.X;c.fillRect(0,-11,2,3);c.fillRect(-4,-3,1,2);c.fillStyle=P.Y;c.fillRect(1,-10,1,1);}
+    if(flash){c.globalAlpha=.5;c.fillStyle=P.H;c.fillRect(-3,-21,4,2);c.fillRect(1,-13,4,2);}
+    if(pose.slash>.2&&!archer&&type!=='medic'&&!state.raised){c.globalAlpha=pose.slash*.55;c.strokeStyle=P.H;c.lineWidth=1;c.beginPath();c.arc(6,-12,12,-1,.7);c.stroke();}
+    c.restore();
+  }
+  const card=new Image();card.src=D.card;
+  window.EagleUnitArt={draw,card,scale:D.scale};
+})();
+
+</script><script>
+/* Local Aseprite troop layers and existing procedural scenery. Fully offline. */
 (() => {
   'use strict';
   const E = window.Eagle, BV = window.EagleBattleView, I = window.EagleIso, $ = id => document.getElementById(id);
@@ -385,7 +469,11 @@ window.EagleFeedback=function(audio){
   const pixels = (c, x, y, w, h, color) => { c.fillStyle = color; c.fillRect(Math.round(x), Math.round(y), w, h); };
   function icon(c, type, level = 1) {
     c.clearRect(0, 0, 64, 64); c.imageSmoothingEnabled = false;
-    if(['legion','archer','siege','training'].includes(type)){I.building(c,type,level);return;}
+    if(type==='testudo'){const art=window.EagleUnitArt.card;if(art.complete&&art.naturalWidth)c.drawImage(art,0,10,64,43);return;}
+    if(E.TYPES[type]){I.building(c,type,level);if(['spear','guard','cavalry','medic'].includes(type)){c.fillStyle='#293e36';c.fillRect(24,28,17,18);c.fillStyle=type==='medic'?'#c9d4bb':'#c7b580';if(type==='medic'){c.fillRect(31,30,3,13);c.fillRect(26,35,13,3);}else if(type==='spear'){c.fillRect(31,22,2,23);c.fillRect(29,23,6,5);}else if(type==='guard'){c.fillRect(27,31,11,10);c.fillRect(30,41,5,3);}else{c.fillRect(27,34,11,6);c.fillRect(35,29,5,10);c.fillRect(27,40,2,5);c.fillRect(35,40,2,5);}}return;}
+    const emblems={shieldDrill:'shield',crossfire:'archerTrain',pinning:'archerTrain',charge:'legionTrain',rally:'legionTrain',volley:'archerTrain',siegeTrain:'siege',fieldMedicine:'medic',combinedArms:'legion',warhorn:'eagle'};
+    if(emblems[type]){icon(c,emblems[type]);return;}
+    if(['fireArrows','oilShots'].includes(type)){pixels(c,20,46,27,5,'#263a31');pixels(c,23,29,20,17,'#8e3b2c');pixels(c,28,19,12,22,'#bc6238');pixels(c,34,13,5,16,'#d69a50');pixels(c,29,34,7,12,'#e7bd6b');if(type==='oilShots'){pixels(c,13,40,17,12,'#69786e');pixels(c,15,38,12,4,'#aab4a0');}return;}
     const r = (x, y, w, h, color) => pixels(c, x, y, w, h, color);
     r(7, 52, 50, 5, '#18201980');
     if (type === 'legion' || type === 'archer') {
@@ -415,29 +503,9 @@ window.EagleFeedback=function(audio){
     } else { r(28, 9, 7, 47, '#d8bb70'); r(12, 14, 40, 5, '#d8bb70'); r(17, 19, 30, 5, '#b99650'); r(23, 24, 18, 6, '#d8bb70'); r(20, 52, 24, 5, '#a18a4c'); }
   }
   function makeIcon(type, level = 1) { const c = document.createElement('canvas'); c.width = c.height = 64; c.setAttribute('aria-hidden', 'true'); icon(c.getContext('2d'), type, level); return c; }
-  function soldier(c, x, y, type, facing, march = 0, flash = false, scale = 1, pose = {}) {
-    c.save(); c.translate(Math.round(x), Math.round(y)); c.scale(facing * scale, scale);c.translate(pose.thrust||0,pose.bob||0);c.rotate(pose.lean||0);
-    const r = (x, y, w, h, color) => pixels(c, x, y, w, h, flash ? '#fff3c7' : color), enemy = type === 'enemy';
-    const tunic = enemy ? '#596b73' : type === 'archer' ? '#a5794f' : '#8f302b';
-    
-    const stride=pose.stride??march;
-    for(const [lx,angle]of [[-4,stride*.055],[5,-stride*.055]]){c.save();c.translate(lx,-12);c.rotate(angle);r(-2,0,5,14,'#b69e74');r(-3,12,9,4,'#3d3528');c.restore();}
-    r(-9,-28,21,19,tunic);r(-9,-28,5,19,enemy?'#425b64':'#77372d');r(-3,-29,13,3,enemy?'#91a7a4':'#c57d56'); r(-6, -29, 14, 11, enemy ? '#495e63' : '#8c998b'); r(-4, -40, 13, 12, '#ceb18a');
-    r(-7, -44, 18, 7, enemy ? '#81959a' : '#a9b5aa'); r(-9, -39, 21, 3, '#4e5b52'); r(-6, -36, 4, 8, '#8b9b91'); r(6, -35, 3, 2, '#302b24');
-    I.poly(c,[{x:-7,y:-44},{x:-2,y:-49},{x:15,y:-45},{x:11,y:-38}],flash?'#fff3c7':enemy?'#a2b4b2':'#d0d3b8');r(10,-39,5,9,enemy?'#506b76':'#748678');
-    if(type==='archer'){
-      const pull=pose.sword?Math.sin(Math.abs(pose.sword))*7:0;
-      r(12,-32,3,29,'#cfac6b');r(8,-35,5,4,'#cfac6b');r(8,-5,5,4,'#cfac6b');
-      c.strokeStyle='#e9d9aa';c.lineWidth=1.5;c.beginPath();c.moveTo(10,-31);c.lineTo(7-pull,-19);c.lineTo(10,-5);c.stroke();r(5-pull,-20,21,2,'#dddcc2');r(-11,-27,3,19,'#6b4f34');
-    }else{
-      // Sword is a separate shoulder joint: high wind-up, fast cut, visible recovery.
-      c.save();c.translate(9,-26);c.rotate(pose.sword||-.15);
-      r(-1,-2,12,5,'#c3a278');r(9,-5,3,12,'#cfac61');r(12,-2,31,4,'#d8ded1');r(15,-2,27,1,'#fff8d4');r(42,-1,4,2,'#e6e6cb');c.restore();
-      if(pose.slash>.15){c.save();c.globalAlpha=pose.slash*.7;c.strokeStyle=enemy?'#d9e8df':'#fff0bd';c.lineWidth=3;c.beginPath();c.arc(9,-26,42,-1.3,.65);c.stroke();c.restore();}
-      if(enemy){r(2,-26,17,24,'#344d5a');r(4,-25,14,22,'#77929b');r(8,-19,6,8,'#bbc7bc');}
-      else{r(0,-28,18,27,'#5c332b');r(2,-27,14,25,'#a33b31');I.poly(c,[{x:16,y:-27},{x:21,y:-30},{x:21,y:-7},{x:16,y:-2}],'#76392f');r(3,-27,12,2,'#e29966');r(8,-25,3,21,'#dcba6b');r(4,-16,11,3,'#dcba6b');}
-    }
-    c.restore();
+  function soldier(c,x,y,type,facing,march=0,flash=false,scale=1,pose={},state={}) {
+    // The master layers are unscaled; UnitArt applies exactly 0.7 once.
+    window.EagleUnitArt.draw(c,x,y,type,facing,pose,flash,state);
   }
   function flag(c, x, y, color = '#963d33', scale = 1) {
     c.save(); c.translate(x, y); c.scale(scale, scale);
@@ -492,7 +560,7 @@ window.EagleFeedback=function(audio){
     const b=game.buildings.find(b=>b.id===selected),el=$('inspector');el.hidden=!b||game.phase!=='prepare';if(el.hidden)return;
     const stats=E.stats(game,b);el.innerHTML=`<div class="inspector-art"></div><div class="inspector-info"><h3 class="px">${E.TYPES[b.type].name} ${['','Ⅰ','Ⅱ','Ⅲ'][b.level]}</h3><div class="stats">${b.type==='training'?`⚔ +${stats.bonus*100}%`:`<span title="Health">♥ ${stats.hp}</span><span title="Attack">⚔ ${Number(stats.attack.toFixed(1))}</span>`}</div></div><button class="inspector-close" aria-label="Close building details">×</button>`;
     el.querySelector('.inspector-art').append(makeIcon(b.type,b.level));
-    if(b.type!=='training'){const role=document.createElement('span');role.className='unit-role px';role.textContent={legion:'FRONT · MELEE',archer:'MIDDLE · RANGED',siege:'REAR · SIEGE'}[b.type];el.append(role);}
+    if(b.type!=='training'){const role=document.createElement('span');role.className='unit-role px';role.textContent={legion:'FRONT · MELEE',spear:'FRONT · PINNING',guard:'FRONT · SHIELD',cavalry:'FRONT · CHARGE',medic:'MIDDLE · HEALING',archer:'MIDDLE · RANGED',siege:'REAR · SIEGE'}[b.type];el.append(role);}
     el.querySelector('.inspector-close').onclick=()=>{selected=null;beep();render();};
   }
   function renderSupply() {
@@ -503,11 +571,10 @@ window.EagleFeedback=function(audio){
       E.offers(game).forEach((id, i) => {
         const data = E.CARDS[id], button = document.createElement('button'); button.className = 'card'; button.disabled = !E.canChoose(game, id); button.dataset.card = id; button.title = data.detail;
         button.style.setProperty('--card-index',i);
-        button.dataset.tone = id==='shield'?'jade':id.includes('archer')?'olive':id==='training'?'gold':'red';
-        const impact={siege:['＋1','REAR SIEGE'],legion:['＋1','INFANTRY'],archer:['＋1','ARCHERS'],training:['＋25%','ADJACENT ATTACK'],legionTrain:['＋25%','INFANTRY ATTACK'],archerTrain:['＋25%','ARCHER ATTACK'],shield:['＋40','ARMY SHIELD']}[id];
+        button.dataset.tone = ['shield','testudo'].includes(id)?'jade':id.includes('archer')?'olive':id==='training'?'gold':'red';
         button.setAttribute('aria-label', `Choose ${data.name}: ${data.text}`);
-        const suits={siege:'♦',legion:'♠',archer:'♣',training:'♦',legionTrain:'♠',archerTrain:'♣',shield:'♥'},ranks=['A','II','III'];
-        button.innerHTML=`<span class="card-corner"><b>${ranks[i]}</b><em>${suits[id]}</em></span><span class="card-corner reverse" aria-hidden="true"><b>${ranks[i]}</b><em>${suits[id]}</em></span><span class="card-art" aria-hidden="true"></span><span class="card-copy"><h3 class="px">${data.name}</h3><span class="card-rule" aria-hidden="true">◆</span><span class="card-impact"><b>${impact[0]}</b><span class="px">${impact[1]}</span></span></span>`;
+        const suit=data.kind==='Building'?'♠':data.kind==='Permanent'?'♦':'♥',ranks=['I','II','III'];
+        button.innerHTML=`<span class="card-corner"><b>${ranks[i]}</b><em>${suit}</em></span><span class="card-corner reverse" aria-hidden="true"><em>${suit}</em></span><span class="card-art" aria-hidden="true"></span><span class="card-copy"><span class="card-kind">${data.kind==='Battle order'?'NEXT BATTLE':data.kind==='Permanent'?'PERMANENT'+(data.max>1?' · '+((game.upgrades[id]||0)+1)+'/'+data.max:''):'BUILD / UPGRADE'}</span><h3 class="px">${data.name}</h3><span class="card-rule" aria-hidden="true">◆</span><span class="card-impact"><b>${data.impact}</b></span><span class="card-effect">${data.text}</span></span>`;
         button.querySelector('.card-art').appendChild(cardArt(id));
         button.addEventListener('pointerenter',()=>{if(!selecting&&!button.disabled)beep('hover');});
         button.addEventListener('focus',()=>{if(!selecting&&!button.disabled)beep('hover');});
@@ -518,7 +585,7 @@ window.EagleFeedback=function(audio){
           $('skip').disabled=true;const epoch=generation;
           selectionTimer=setTimeout(()=>{
             if(epoch!==generation)return;selecting=false;$('skip').disabled=false;
-            if(E.choose(game,id)){render();if(game.phase==='prepare'){beep('upgrade');callout(id==='shield'?'ARMY SHIELD ＋40':'Attack ＋25%','');}}
+            if(E.choose(game,id)){render();if(game.phase==='prepare'){beep('upgrade');callout(E.CARDS[id].name.toUpperCase(),'');}}
           },reducedMotion.matches?0:260);
         }); $('cards').appendChild(button);
       });
@@ -561,11 +628,12 @@ window.EagleFeedback=function(audio){
       }
       if(b)put(pos.x,pos.y,()=>{const lift=b.id===selected&&!battle?4:0;c.drawImage(buildingSprite(b.type,b.level),p.x-53*MODEL_SCALE,p.y-91*MODEL_SCALE-lift,106*MODEL_SCALE,106*MODEL_SCALE);if(!battle){c.font='12px Georgia';c.textAlign='center';c.fillStyle='#443d2c';c.fillText(['','Ⅰ','Ⅱ','Ⅲ'][b.level],p.x-22,p.y+13);}});
     }
-    function enqueueSquad(x,y,type,dir,id=-1,moving=false,flash=false,attackAge=10,route=null){
+    function enqueueSquad(x,y,type,dir,id=-1,moving=false,flash=false,attackAge=10,route=null,unit=null){
       if(type==='siege'){const p=I.project(x,y);put(x,y,()=>{c.save();if(route)c.globalAlpha=Math.max(0,1-route.age/1.1);c.translate(p.x-42*MODEL_SCALE,p.y-69*MODEL_SCALE);c.scale(1.3*MODEL_SCALE,1.3*MODEL_SCALE);I.catapult(c,attackAge);c.restore();});return;}
-      BV.formation.forEach((slot,i)=>{const age=route?.age||0,scatter=route?-dir*Math.min(1,age/.65)*(18+slot.column*14):0,wx=x+slot.dx*dir*MODEL_SCALE+scatter,wy=y+slot.dy*MODEL_SCALE+(route?(i%3-1)*age*25:0),p=I.project(wx,wy);
+      const testudo=!!unit?.testudo;
+      BV.formation.filter((_,i)=>type==='medic'?i%3===0:type==='cavalry'?i%2===0:true).forEach((slot,i)=>{const age=route?.age||0,scatter=route?-dir*Math.min(1,age/.65)*(18+slot.column*14):0,wx=x+slot.dx*dir*MODEL_SCALE*(testudo?.72:1)+scatter,wy=y+slot.dy*MODEL_SCALE*(testudo?.72:1)+(route?(i%3-1)*age*25:0),p=I.project(wx,wy);
         const pose=BV.pose(fx.time+Math.max(id,0)*.04,i,moving,attackAge,reducedMotion.matches);if(slot.column>0)pose.slash=0;
-        put(wx,wy,()=>{c.save();if(route)c.globalAlpha=Math.max(0,1-age/1.1);I.shadow(c,p.x,p.y,8,3);if(route&&i%3!==0){c.translate(p.x,p.y);c.rotate(-dir*Math.min(1,age/.35)*1.3);soldier(c,0,0,type,dir,0,false,.72*MODEL_SCALE,pose);}else soldier(c,p.x,p.y,type,route?-dir:dir,0,flash&&slot.column===0,.72*MODEL_SCALE,pose);c.restore();});
+        put(wx,wy,()=>{c.save();if(route)c.globalAlpha=Math.max(0,1-age/1.1);I.shadow(c,p.x,p.y,5,2);if(route&&i%3!==0){c.translate(p.x,p.y);c.rotate(-dir*Math.min(1,age/.35)*1.3);soldier(c,0,0,type,dir,0,false,MODEL_SCALE,pose,{raised:testudo&&slot.column>0,edge:slot.row===2,wounded:!!unit&&unit.hp<unit.maxHp*.65});}else soldier(c,p.x,p.y,type,route?-dir:dir,0,flash&&slot.column===0,MODEL_SCALE,pose,{raised:testudo&&slot.column>0,edge:slot.row===2,wounded:!!unit&&unit.hp<unit.maxHp*.65});c.restore();});
       });
       if(moving&&!reducedMotion.matches){const p=I.project(x-dir*50,y);put(x-dir*50,y,()=>{c.fillStyle='#d2bd8b50';for(let j=0;j<3;j++){const age=(fx.time*2+j*.3)%1;c.fillRect(p.x-dir*age*22,p.y+age*7+j*4,5,3);}});}
     }
@@ -574,14 +642,14 @@ window.EagleFeedback=function(audio){
         const y=475+u.y*.9;
         if(u.hp<=0){const r=fx.routed(u.id);if(r&&r.age<1.1)enqueueSquad(r.worldX??595+u.x*.91,r.worldY??y,u.type,u.side==='ally'?1:-1,u.id,true,false,10,r);continue;}
         const x=positions.get(u.id)+fx.offset(u.id),dir=u.side==='ally'?1:-1,p=I.project(x,y);
-        enqueueSquad(x,y,u.type,dir,u.id,u.moving&&game.phase==='battle',u.flash>0,fx.attackAge(u.id));
-        overlay.push(()=>{pixels(c,p.x-22,p.y-49,44,5,'#253e32');pixels(c,p.x-21,p.y-48,42*u.hp/u.maxHp,3,u.side==='ally'?'#e6c980':'#acc5c9');if(u.shield>0)pixels(c,p.x-21,p.y-53,42*u.shield/40,2,'#c9eddb');});
+        enqueueSquad(x,y,u.type,dir,u.id,u.moving&&game.phase==='battle',u.flash>0,fx.attackAge(u.id),null,u);
+        overlay.push(()=>{if(u.healUntil>battle.time){pixels(c,p.x-2,p.y-50,4,12,'#a2ddba');pixels(c,p.x-6,p.y-46,12,4,'#a2ddba');}if(u.burnUntil>battle.time){pixels(c,p.x+23,p.y-18,3,8,'#c76336');pixels(c,p.x+25,p.y-23,3,9,'#e3b16a');}if(u.hasteUntil>battle.time){pixels(c,p.x-25,p.y-42,3,5,'#e3b16a');}pixels(c,p.x-22,p.y-34,44,5,'#253e32');pixels(c,p.x-21,p.y-33,42*u.hp/u.maxHp,3,u.side==='ally'?'#e6c980':'#acc5c9');if(u.shield>0)pixels(c,p.x-21,p.y-38,42*u.shield/(u.maxShield||40),2,'#c9eddb');});
       }
       for(const shot of battle.projectiles){const t=1-shot.life/shot.duration,groundX=595+(shot.from+(shot.to-shot.from)*t)*.91,groundY=475+(shot.fromY+(shot.toY-shot.fromY)*t)*.9,p=I.project(groundX,groundY,24+Math.sin(t*Math.PI)*(shot.siege?110:28));
-        overlay.push(()=>{if(shot.siege){const g=I.project(groundX,groundY);c.fillStyle='#29372530';c.beginPath();c.ellipse(g.x,g.y,7,3,0,0,Math.PI*2);c.fill();pixels(c,p.x-5,p.y-4,10,8,'#51594f');pixels(c,p.x-4,p.y-5,7,4,'#c4c4aa');pixels(c,p.x+3,p.y,4,5,'#737d67');}else{const dir=shot.side==='ally'?1:-1;c.strokeStyle='#f6e7b8';c.lineWidth=2;c.beginPath();c.moveTo(p.x,p.y);c.lineTo(p.x+dir*15,p.y+dir*5);c.stroke();}});
+        overlay.push(()=>{if(shot.siege){const g=I.project(groundX,groundY);c.fillStyle='#29372530';c.beginPath();c.ellipse(g.x,g.y,7,3,0,0,Math.PI*2);c.fill();pixels(c,p.x-5,p.y-4,10,8,'#51594f');pixels(c,p.x-4,p.y-5,7,4,'#c4c4aa');pixels(c,p.x+3,p.y,4,5,'#737d67');}else{const dir=shot.side==='ally'?1:-1;c.strokeStyle=shot.fire?'#e28d4f':'#f6e7b8';c.lineWidth=2;c.beginPath();c.moveTo(p.x,p.y);c.lineTo(p.x+dir*15,p.y+dir*5);c.stroke();}});
       }
     }else{
-      for(const u of E.muster(game)){const x=595+u.x*.91,y=475+u.y*.9;enqueueSquad(x,y,u.type,u.side==='ally'?1:-1);if(u.shield){const p=I.project(x,y);overlay.push(()=>{c.strokeStyle='#c5ead6';c.lineWidth=2;c.beginPath();c.ellipse(p.x,p.y,44,17,.3,0,Math.PI*2);c.stroke();});}}
+      for(const u of E.muster(game)){const x=595+u.x*.91,y=475+u.y*.9;enqueueSquad(x,y,u.type,u.side==='ally'?1:-1,u.id,false,false,10,null,u);if(u.shield){const p=I.project(x,y);overlay.push(()=>{c.strokeStyle='#c5ead6';c.lineWidth=2;c.beginPath();c.ellipse(p.x,p.y,44,17,.3,0,Math.PI*2);c.stroke();});}}
     }
     queue.sort((a,b)=>a.depth-b.depth).forEach(item=>item.draw());I.atmosphere(c,fx.time,reducedMotion.matches);overlay.forEach(draw=>draw());fx.draw(c);
   }
@@ -595,6 +663,19 @@ window.EagleFeedback=function(audio){
     $('continue').innerHTML=`<span class="px">${defeat?'New campaign':'Next year'}</span><b>→</b>`;
     if(!$('result-dialog').open)$('result-dialog').showModal();pixelize();
   }
+  function showBuild(){
+    const rows=$('build-content');rows.replaceChildren();
+    const add=(title,text)=>{const item=document.createElement('div');item.className='build-entry';const h=document.createElement('strong'),p=document.createElement('p');h.textContent=title;p.textContent=text;item.append(h,p);rows.append(item);};
+    const counts={};game.buildings.filter(b=>b.type!=='training').forEach(b=>counts[b.type]=(counts[b.type]||0)+1);
+    add('ARMY',Object.entries(counts).map(([id,n])=>E.TYPES[id].unit+' ×'+n).join(' · '));
+    for(const [id,n]of Object.entries(game.upgrades))add(E.CARDS[id].name+(E.CARDS[id].max>1?' · '+n+'/'+E.CARDS[id].max:''),E.CARDS[id].text);
+    for(const id of Object.keys(game.orders))add(E.CARDS[id].name+' · NEXT BATTLE',E.CARDS[id].text);
+    if(!Object.keys(game.upgrades).length)add('PERMANENT UPGRADES','No doctrines yet. Your choices last for this campaign.');
+    for(const combo of E.synergies(game))add((combo.active?'◆ ACTIVE · ':'◇ ')+combo.name,combo.text);
+    $('build-dialog').showModal();beep();
+  }
+  $('show-build').addEventListener('click',showBuild);
+  $('close-build').addEventListener('click',()=>{$('build-dialog').close();beep();});
   function reset(){cancelTransitions();$('skip').disabled=false;if($('result-dialog').open)$('result-dialog').close();game=E.createGame();selected=null;paused=false;accumulator=0;lastUiSecond=-1;lastDefense=3;render();beep();}
   $('skip').addEventListener('click',()=>{if(E.skip(game)){beep('click');render();}});
   reducedMotion.addEventListener('change',applyPrefs);
@@ -627,7 +708,7 @@ window.EagleFeedback=function(audio){
     }
     drawBattle(); requestAnimationFrame(frame);
   }
-  applyPrefs();render();requestAnimationFrame(frame);
+  window.EagleUnitArt.card.addEventListener('load',()=>{if(game.phase==='reward'&&!selecting){renderSupply();pixelize();}});applyPrefs();render();requestAnimationFrame(frame);
 })();
 
 </script></body></html>
