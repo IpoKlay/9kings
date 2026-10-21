@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#393b2c"><meta name="description" content="鹰旗之下：等距像素军团、立体营地与三张命运之牌。"><title>鹰旗之下 · 开阔战场 v0.8</title><style>@charset "UTF-8";
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#393b2c"><meta name="description" content="鹰旗之下：等距像素军团、立体营地与三张命运之牌。"><title>鹰旗之下 · 远景战场 v0.9</title><style>@charset "UTF-8";
 :root{--ink:#483b2b;--cream:#f2dfb2;--red:#8e4031;--paper:none;--wood:none;--gold:none;font-family:"Songti SC",Georgia,serif;color-scheme:dark}
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:#566842;color:var(--cream);font-size:12px}button{font:inherit;color:inherit;cursor:pointer;border-radius:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}button:disabled{cursor:default;opacity:.45}button:focus-visible{outline:3px solid #fff1bb;outline-offset:6px}button:active:not(:disabled){translate:0 3px}[hidden]{display:none!important}h1,h2,h3,p{margin:0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}canvas{image-rendering:pixelated}.px{font-family:"PingFang SC",sans-serif;font-weight:400}.px>canvas{display:inline-block;height:1.3333em;width:auto;vertical-align:middle;max-width:100%;object-fit:contain;image-rendering:pixelated}
 .world{position:fixed;inset:0}#battlefield{width:100%;height:100%;display:block}.world-vignette{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 4px #2a392c66}
@@ -31,11 +31,11 @@ dialog{padding:0;width:min(360px,calc(100vw - 32px));color:var(--ink);border:3px
 .cell{position:absolute;margin:0!important;padding:0;border:0;background:transparent;pointer-events:auto;display:block;opacity:1!important;box-shadow:none!important}
 .cell:before,.cell:after{display:none!important}.cell:hover,.cell.selected{background:#ffecac12}.cell:focus-visible{background:#fff1b844;outline:none}
 body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:inset 0 0 100px 25px #253c2328}
-@media(max-aspect-ratio:1/1){.world{top:18%;bottom:auto;height:56.25vw}.world-vignette{box-shadow:none}body{background-color:#728360;background-image:var(--wood);background-blend-mode:soft-light;background-size:128px}.supply-panel{bottom:9%}.inspector{bottom:8%}.hud-bottom{bottom:3%}}
+@media(max-aspect-ratio:1/1){.world{top:18%;bottom:auto;height:56.25vw}.world-vignette{box-shadow:none}body{background-color:#788563;background-image:var(--grass);background-size:128px}.supply-panel{bottom:9%}.inspector{bottom:8%}.hud-bottom{bottom:3%}}
 
 .unit-role{grid-column:2;font-size:12px;color:#856d48;padding-top:3px}.inspector{padding-bottom:14px}
 </style></head>
-<body><main class="world" aria-label="全屏营地与战场"><canvas id="battlefield" width="1600" height="900" aria-label="营地与共同战场"></canvas><div class="world-vignette" aria-hidden="true"></div><div id="camp-grid" class="camp-grid" aria-label="四列三行营地"></div><div id="paused-banner" hidden>Ⅱ</div></main>
+<body><main class="world" aria-label="全屏营地与战场"><canvas id="battlefield" width="1920" height="1080" aria-label="营地与共同战场"></canvas><div class="world-vignette" aria-hidden="true"></div><div id="camp-grid" class="camp-grid" aria-label="四列三行营地"></div><div id="paused-banner" hidden>Ⅱ</div></main>
 <header class="hud-top"><div class="brand"><div class="eagle-mark" aria-hidden="true">♜</div><h1 class="px">鹰旗之下</h1></div><section class="campaign-hud" aria-label="战况"><div class="round-counter" aria-label="轮次"><strong id="round">01</strong><span>/ III</span></div><div class="defense-block" title="防线"><strong id="defense-label" class="sr-only">5 / 5</strong><div id="defense-pips"></div></div></section></header>
 <section id="inspector" class="inspector" aria-label="建筑详情" hidden></section>
 <section class="supply-panel" aria-label="本轮补给"><div id="cards" class="cards"></div><div id="ready-panel" hidden><div id="ready-icon"></div><span id="ready-title" class="px"></span></div><button id="skip" class="discard-button" aria-label="放弃本轮补给" title="放弃本轮补给">×</button></section>
@@ -161,7 +161,7 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
 /* Shared orthographic camera: ground, hit regions and effects use one projection. */
 (function(root){
  'use strict';
- const camera={x:780,y:420,a:.76,b:.27,c:-.68,d:.40};
+ const camera={x:940,y:510,a:.76,b:.27,c:-.68,d:.40};
  function project(x,y,z=0){return{x:camera.x+camera.a*(x-800)+camera.c*(y-450),y:camera.y+camera.b*(x-800)+camera.d*(y-450)-z};}
  function unproject(x,y){const dx=x-camera.x,dy=y-camera.y,det=camera.a*camera.d-camera.b*camera.c;return{x:800+(camera.d*dx-camera.c*dy)/det,y:450+(-camera.b*dx+camera.a*dy)/det};}
  const cellCenter=i=>({x:132+i%4*120,y:321+Math.floor(i/4)*126});
@@ -201,13 +201,13 @@ body[data-phase=battle] .cell{pointer-events:none}.world-vignette{box-shadow:ins
  }
  function tree(c,x,y,size=1){const p=project(x,y);c.save();c.translate(p.x,p.y);c.scale(size,size);shadow(c,0,2,27,10);c.fillStyle='#695237';c.fillRect(-4,-27,8,30);c.fillStyle='#a28851';c.fillRect(-4,-26,3,27);for(const [yy,w]of [[-22,31],[-39,25],[-55,17]]){poly(c,[{x:0,y:yy-28},{x:-w,y:yy+3},{x:0,y:yy+13}], '#69815a');poly(c,[{x:0,y:yy-28},{x:0,y:yy+13},{x:w,y:yy+1}], '#354f3c');poly(c,[{x:0,y:yy-23},{x:-w+6,y:yy},{x:-4,y:yy+4}],'#82905d');}c.restore();}
  function terrain(c){
-  c.fillStyle='#788563';c.fillRect(0,0,1600,900);let seed=418;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
-  for(let i=0;i<11500;i++){const x=rand()*1600,y=rand()*900;c.fillStyle=['#82906b','#6e805d','#8d966f','#73855f'][i%4];c.fillRect(x,y,2+rand()*7,2);}
+  c.fillStyle='#788563';c.fillRect(0,0,1920,1080);let seed=418;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
+  for(let i=0;i<16560;i++){const x=rand()*1920,y=rand()*1080;c.fillStyle=['#82906b','#6e805d','#8d966f','#73855f'][i%4];c.fillRect(x,y,2+rand()*7,2);}
   ground(c,565,-80,1420,1190,'#b5a27610');for(let i=0;i<3200;i++){const p=project(570+rand()*1410,-75+rand()*1180);c.fillStyle='#c4b48130';c.fillRect(p.x,p.y,3+rand()*4,2);}
   box(c,64,250,496,390,14,'#b49d70','#7c6748','#655a40');
   for(let i=0;i<39;i++){ground(c,67,253+i*10,490,8,i%3===0?'#c5ad7c':i%3===1?'#b59d70':'#bfa676','#9b835c');for(let j=0;j<8;j++)ground(c,75+j*61+(i%2)*16,255+i*10,30+rand()*22,1,'#dcc38e60');}
   for(let i=0;i<12;i++)poly(c,cellPolygon(i,0),null,'#ead7a080');
-  for(let i=0;i<85;i++){const x=rand()*1800-100,y=rand()*1300-150;if(x>40&&x<1990&&y>-80&&y<1110)continue;const p=project(x,y);if(p.x<20||p.x>1580||p.y<90||p.y>850)continue;box(c,x,y,10+rand()*16,12,8+rand()*8,'#a4aa8a','#737e66','#596e5c');}
+  for(let i=0;i<85;i++){const x=rand()*3000-650,y=rand()*2200-550;if(x>40&&x<1990&&y>-80&&y<1110)continue;const p=project(x,y);if(p.x<20||p.x>1900||p.y<90||p.y>1030)continue;box(c,x,y,10+rand()*16,12,8+rand()*8,'#a4aa8a','#737e66','#596e5c');}
  }
  const api={project,unproject,cellCenter,cellPolygon,poly,ground,box,shadow,building,catapult,tree,terrain};if(typeof module!=='undefined'&&module.exports)module.exports=api;root.EagleIso=api;
 })(typeof window!=='undefined'?window:globalThis);
@@ -232,7 +232,7 @@ window.EagleFeedback=function(audio){
   function consume(events,positions=new Map()){
     const melee=new Set(events.filter(e=>e.kind==='attack'&&!e.ranged).map(e=>e.target));
     for(const e of events){
-      const worldX=positions.get(e.id)??tx(e.x),worldY=475+(e.y||0)*.9,point=window.EagleIso?window.EagleIso.project(worldX,worldY):{x:worldX,y:worldY},x=point.x,y=point.y,pan=(x/1600-.5)*1.2;
+      const worldX=positions.get(e.id)??tx(e.x),worldY=475+(e.y||0)*.9,point=window.EagleIso?window.EagleIso.project(worldX,worldY):{x:worldX,y:worldY},x=point.x,y=point.y,pan=(x/1920-.5)*1.2;
       if(e.kind==='attack'){attacks.set(e.id,clock);audio.play(e.siege?'build':e.ranged?'arrow':'swing',pan);}
       else if(e.kind==='hit'){
         const front=x+(e.side==='ally'?23:-23),color=e.absorbed?'#bdece0':e.side==='enemy'?'#ffe3a3':'#e9b59b';
@@ -381,7 +381,7 @@ window.EagleFeedback=function(audio){
     pixels(c, 0, -77, 4, 89, '#7c653e'); pixels(c, -6, -83, 16, 6, '#c1a15a'); pixels(c, -12, -91, 28, 6, '#c1a15a'); pixels(c, -5, -87, 15, 6, '#e0be6b');
     pixels(c, 4, -74, 31, 44, '#482e25'); pixels(c, 5, -74, 27, 39, color); pixels(c, 14, -65, 9, 20, '#d6ad5e'); pixels(c, 9, -61, 19, 5, '#d6ad5e'); c.restore();
   }
-  const terrain = document.createElement('canvas'); terrain.width=1600;terrain.height=900;
+  const terrain = document.createElement('canvas'); terrain.width=1920;terrain.height=1080;
   I.terrain(terrain.getContext('2d'));
   const buildingSprites=new Map();
   function buildingSprite(type,level){const key=type+level;if(!buildingSprites.has(key))buildingSprites.set(key,makeIcon(type,level));return buildingSprites.get(key);}
@@ -393,7 +393,7 @@ window.EagleFeedback=function(audio){
   document.addEventListener('keydown',()=>{if(sound)unlockAudio();},{capture:true});
   // Rasterize UI lettering on a 12-pixel grid; all assets remain offline.
   function pixelize(root=document){root.querySelectorAll('.px').forEach(el=>{if(el.firstElementChild?.tagName==='CANVAS')return;const text=el.textContent;if(!text)return;const c=document.createElement('canvas'),g=c.getContext('2d');g.font='12px "PingFang SC",sans-serif';c.width=Math.ceil(g.measureText(text).width)+2;c.height=16;g.font='12px "PingFang SC",sans-serif';g.fillStyle=getComputedStyle(el).color;g.textBaseline='top';g.fillText(text,1,1);const im=g.getImageData(0,0,c.width,16);for(let i=3;i<im.data.length;i+=4)im.data[i]=im.data[i]>96?255:0;g.putImageData(im,0,0);c.textContent=text;c.setAttribute('aria-label',text);el.replaceChildren(c);});}
-  function materials(){let seed=73;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};for(const [name,base,colors]of [['paper','#dbc99b',['#cdb988','#e5d5ae','#d2be91']],['wood','#564530',['#5e4c36','#493c2d','#6b553a']],['gold','#ad8049',['#bc9257','#c79c60','#99713e']]]){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.fillStyle=base;g.fillRect(0,0,64,64);for(let i=0;i<400;i++){g.fillStyle=colors[i%3];g.fillRect(Math.floor(rand()*64),Math.floor(rand()*64),name==='wood'?2+Math.floor(rand()*11):1+Math.floor(rand()*2),1);}document.documentElement.style.setProperty('--'+name,`url("${c.toDataURL()}")`);}}
+  function materials(){let seed=73;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};for(const [name,base,colors]of [['grass','#788563',['#82906b','#6e805d','#8d966f','#73855f']],['paper','#dbc99b',['#cdb988','#e5d5ae','#d2be91']],['wood','#564530',['#5e4c36','#493c2d','#6b553a']],['gold','#ad8049',['#bc9257','#c79c60','#99713e']]]){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.fillStyle=base;g.fillRect(0,0,64,64);for(let i=0;i<400;i++){g.fillStyle=colors[i%3];g.fillRect(Math.floor(rand()*64),Math.floor(rand()*64),name==='wood'?2+Math.floor(rand()*11):1+Math.floor(rand()*2),1);}document.documentElement.style.setProperty('--'+name,`url("${c.toDataURL()}")`);}}
   function cardArt(type){const c=document.createElement('canvas');c.width=96;c.height=88;const g=c.getContext('2d');g.imageSmoothingEnabled=false;const r=(x,y,w,h,color)=>pixels(g,x,y,w,h,color);for(let row=0;row<8;row++){const w=70-Math.abs(row-3)*6;r(48-w/2,63+row*2,w,2,row<4?'#b1aa79':'#796647');}for(let row=0;row<7;row++){const w=70-Math.abs(row-3)*6;r(48-w/2,57+row*2,w,2,row%2?'#89905a':'#929963');}for(let i=0;i<17;i++)r(20+(i*13%53),59+(i*7%8),2,2,'#b7b77a');g.drawImage(makeIcon(type),16,8,64,64);for(const [x,y]of [[12,24],[79,40],[21,46]]){r(x,y,1,5,'#b29663');r(x-2,y+2,5,1,'#b29663');}return c;}
   materials();document.querySelector('.eagle-mark').replaceChildren(makeIcon('eagle'));
   function renderCamp() {
@@ -409,7 +409,7 @@ window.EagleFeedback=function(audio){
       let pts=I.cellPolygon(i,1);if(b&&game.phase==='prepare'){const cp=I.cellCenter(i),q=I.project(cp.x,cp.y);pts=[{x:q.x-43,y:q.y-88},{x:q.x+43,y:q.y-88},pts[1],pts[2],pts[3]];}
       button.style.zIndex=String(Math.round(I.project(I.cellCenter(i).x,I.cellCenter(i).y).y));
       const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y),left=Math.min(...xs),top=Math.min(...ys),w=Math.max(...xs)-left,h=Math.max(...ys)-top;
-      Object.assign(button.style,{left:left/16+'%',top:top/9+'%',width:w/16+'%',height:h/9+'%',clipPath:'polygon('+pts.map(p=>((p.x-left)/w*100)+'% '+((p.y-top)/h*100)+'%').join(',')+')'});
+      Object.assign(button.style,{left:left/19.2+'%',top:top/10.8+'%',width:w/19.2+'%',height:h/10.8+'%',clipPath:'polygon('+pts.map(p=>((p.x-left)/w*100)+'% '+((p.y-top)/h*100)+'%').join(',')+')'});
       button.addEventListener('pointerenter',()=>hoverCell=i);button.addEventListener('pointerleave',()=>hoverCell=null);
       button.addEventListener('focus',()=>hoverCell=i);button.addEventListener('blur',()=>hoverCell=null);
       button.setAttribute('aria-label', `第${Math.floor(i / 4) + 1}行第${i % 4 + 1}列，${b ? E.TYPES[b.type].name + '，' + b.level + '级' : '空格'}`);
@@ -478,9 +478,9 @@ window.EagleFeedback=function(audio){
     const battle=game.battle,positions=battle?BV.layout(battle.units):null,queue=[],overlay=[],put=(x,y,draw)=>queue.push({depth:I.project(x,y).y,draw});
     // The camera projects feet only. Vertical bodies, walls and poles stay upright.
     // Broken woodland at the outer map edge leaves the central plain open.
-    for(let n=0;n<29;n++){if(n%9===4||n%9===5)continue;const x=-340+n*88,y=-225+Math.sin(n*2.3)*65;put(x,y,()=>I.tree(c,x,y,.95+(n%5)*.10));}
-    for(let n=0;n<27;n++){if(n%8===2||n%8===3)continue;const x=-350+n*96,y=1270+Math.sin(n*1.7)*75;put(x,y,()=>I.tree(c,x,y,1.0+(n%4)*.12));}
-    for(let n=0;n<15;n++){if(n%6===2||n%6===3)continue;const y=-100+n*102,left=-365+Math.sin(n)*30,right=2080+Math.cos(n*1.8)*55;put(left,y,()=>I.tree(c,left,y,1.25));put(right,y,()=>I.tree(c,right,y,1.2));}
+    for(let n=0;n<29;n++){if(n%9===4||n%9===5)continue;const x=-650+n*110,y=-550+Math.sin(n*2.3)*65;put(x,y,()=>I.tree(c,x,y,.95+(n%5)*.10));}
+    for(let n=0;n<27;n++){if(n%8===2||n%8===3)continue;const x=-650+n*118,y=1580+Math.sin(n*1.7)*75;put(x,y,()=>I.tree(c,x,y,1.0+(n%4)*.12));}
+    for(let n=0;n<15;n++){if(n%6===2||n%6===3)continue;const y=-400+n*145,left=-650+Math.sin(n)*30,right=2380+Math.cos(n*1.8)*55;put(left,y,()=>I.tree(c,left,y,1.25));put(right,y,()=>I.tree(c,right,y,1.2));}
     const post=(x,y)=>put(x,y,()=>{I.box(c,x,y,8,8,32,'#e0c38a','#a18757','#69583d');});
     for(let x=65;x<560;x+=25){post(x,244);if(x<175||x>420)post(x,645);}
     for(let y=270;y<640;y+=27)post(62,y);
