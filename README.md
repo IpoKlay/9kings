@@ -1,29 +1,28 @@
-# Under the Eagle · Legion Doctrines v0.13
+# Under the Eagle · Frontier Campaign v0.14
 
-[Play online](https://ipoklay.github.io/eagle-standard-demo/)
+[直接试玩 / Play online](https://ipoklay.github.io/eagle-standard-demo/)
 
-A cold, war-torn isometric legion strategy demo with an English interface. Deep green terrain, steel-grey mud, scorched woodland, fires, blood stains and fallen soldiers. World soldiers, buildings and catapults are 70% of their previous size; controls retain their size.
+A full-screen isometric legion strategy game with 24 cards, seven troop types and endless yearly battles. Use the gear button to choose **中文 / English**, adjust sound and war-cry volume, or toggle impact feedback. Settings pause the battle and are saved locally.
 
-Choose a card → build → MARCH. Infantry forms the front, archers the middle, catapults the rear. All squads fight on one shared battlefield. Buildings stay fixed. Pause or change speed during battle; M toggles audio.
+## Growing threats
 
-Download index.html to play offline. Audio credits are included in the source archive.
+Years 1–3 are gentle infantry patrols. Enemy archers arrive in year 4, shield guards in year 6, cavalry in year 8 and catapults in year 10. Health and attack increase gradually every year; enemy squad count grows every other year to a cap of 20. The year label includes a compact preview of the enemy composition before battle.
 
-![Battlefield](preview.png)
+## Build your legion
 
-## Source and design documents
+Every year offers three random cards, avoiding consecutive repeats whenever possible and filtering capped upgrades. Buildings remain fixed; troops automatically form a shared battlefield. Combine Fire Arrows + Pitch Stones, Spearmen + Pin & Pierce, Shields + Medics, Cavalry + Blood & Glory, and melee engagement + Crossfire. BUILD lists your army and synergies.
 
-- [Source archive](eagle-standard-demo-source.zip) — HTML, CSS, JavaScript, audio, 42 tests and packaging scripts.
+Choose a card → build or upgrade → MARCH. Start with three lives; one failed year costs one life. Pause, speed up battle, or press M to toggle sound. Download index.html to play offline. Campaign progress is not saved after reloading.
+
+49 automated checks cover combat, yearly progression, localization, random draws and synergies. The starting army can survive the first three years without supplies. A fixed seven-squad army loses in year 16 without doctrines, and wins with the tested combined build. This is an initial balance pass for further playtesting.
+
+![Bilingual settings](preview.png)
+
+## Source and private design documents
+
+- [Source archive](eagle-standard-demo-source.zip) — current HTML/CSS/JS, assets, 49 checks, balance probe and packaging scripts.
 - [Initial design](123.pdf)
 - [Image prompt handbook](鹰旗之下-完整图像Prompt手册.pdf)
-- Original roguelike.docx preserved.
+- Original roguelike.docx preserved. Audio credits are included in the archive.
 
-Endless years: the year is centered at the top, and three isometric shields behind the rear wall show camp lives. Each year has the same three enemy squads and stats. A failed year costs one life; three failures end the campaign. Each year offers three distinct random cards, avoiding the previous year whenever possible. Capped and unusable cards are filtered out.
-
-
-## Legion Doctrines
-
-24 cards, seven troop types, and twelve permanent upgrades. Add Spearmen, Shield Guards, Cavalry and Field Medics to the original army. New camps and upgrades use the same fixed building grid.
-
-Build combinations: Fire Arrows + Pitch Stones; Spearmen + Pin & Pierce; Shields + Field Medicine; Cavalry + Blood & Glory; melee engagement + Crossfire. United Legion rewards a diverse army. Single-battle orders include Testudo, Hold Fast, War Standard and Rapid Volley.
-
-Open BUILD to inspect the army, permanent upgrades, next-battle orders and synergies. Card faces show their effects and duration. The enemy count and every enemy combat stat remain unchanged at every year. Campaign progress is not saved after reloading.
+The public play link requires no repository invitation. Source collaboration requires access to this private repository; GitHub App authorization is a separate permission.
