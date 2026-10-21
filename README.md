@@ -1,10 +1,12 @@
-# 鹰旗之下
+# 鹰旗之下 · 等距军团 v0.6
 
-全屏像素军团策略 Demo。建设营地、选择补给、部署三路军队，守过三轮进攻。
+斜俯视像素军团策略 Demo，带立体建筑与菱形营地。建设营地、选择补给、部署三路军队，守过三轮进攻。
 
 ![试玩画面](preview.png)
 
 ## 试玩
+
+[打开在线试玩](https://ipoklay.github.io/eagle-standard-demo/)
 
 下载 `index.html` 后直接用浏览器打开，无需安装或联网。游戏资源和音效均已内嵌。
 
@@ -23,4 +25,4 @@
 
 [eagle-standard-demo-source.zip](eagle-standard-demo-source.zip) 包含拆分后的 HTML、CSS、JavaScript、音频、测试、打包脚本及设计文档。
 
-解压后运行 `node --test tests/engine.test.js tests/feedback.test.js`，共 18 项检查。开发说明见压缩包内 `DEVELOPMENT.md`；音频授权见 `dist/AUDIO-CREDITS.txt`。
+解压后运行 `node --test tests/*.test.js`，共 21 项检查。开发说明见压缩包内 `DEVELOPMENT.md`；音频授权见 `dist/AUDIO-CREDITS.txt`。
