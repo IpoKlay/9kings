@@ -1,0 +1,660 @@
+{
+  "types": {
+    "legion": {
+      "name": "Legion Camp",
+      "unit": "Legionary",
+      "role": "front",
+      "hp": 150,
+      "attack": 14,
+      "range": 72,
+      "speed": 65,
+      "interval": 1
+    },
+    "spear": {
+      "name": "Spear Camp",
+      "unit": "Spearman",
+      "role": "front",
+      "hp": 125,
+      "attack": 12,
+      "range": 110,
+      "speed": 60,
+      "interval": 1.1
+    },
+    "guard": {
+      "name": "Guard Camp",
+      "unit": "Shield Guard",
+      "role": "front",
+      "hp": 230,
+      "attack": 8,
+      "range": 72,
+      "speed": 45,
+      "interval": 1.3
+    },
+    "cavalry": {
+      "name": "Stables",
+      "unit": "Cavalry",
+      "role": "front",
+      "hp": 120,
+      "attack": 18,
+      "range": 80,
+      "speed": 100,
+      "interval": 1.4
+    },
+    "archer": {
+      "name": "Archer Camp",
+      "unit": "Auxiliary Archer",
+      "role": "middle",
+      "hp": 65,
+      "attack": 10,
+      "range": 320,
+      "speed": 52,
+      "interval": 1.2
+    },
+    "medic": {
+      "name": "Field Hospital",
+      "unit": "Field Medic",
+      "role": "middle",
+      "hp": 80,
+      "attack": 0,
+      "heal": 12,
+      "range": 280,
+      "speed": 60,
+      "interval": 1.5
+    },
+    "siege": {
+      "name": "Siege Camp",
+      "unit": "Catapult",
+      "role": "rear",
+      "hp": 100,
+      "attack": 30,
+      "range": 510,
+      "speed": 30,
+      "interval": 3.2
+    },
+    "training": {
+      "name": "Drill Yard"
+    }
+  },
+  "cards": {
+    "legion": {
+      "name": "Legion Camp",
+      "kind": "Building",
+      "text": "Durable sword infantry. Holds the front line.",
+      "detail": "Durable sword infantry. Holds the front line. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+1",
+      "tag": "LEGIONARY"
+    },
+    "spear": {
+      "name": "Spear Camp",
+      "kind": "Building",
+      "text": "Long reach. Hits slow enemies 25% for 2s.",
+      "detail": "Long reach. Hits slow enemies 25% for 2s. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+1",
+      "tag": "SPEARMAN"
+    },
+    "guard": {
+      "name": "Guard Camp",
+      "kind": "Building",
+      "text": "Heavy infantry. Starts each battle with 30 shield.",
+      "detail": "Heavy infantry. Starts each battle with 30 shield. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+1",
+      "tag": "SHIELD GUARD"
+    },
+    "cavalry": {
+      "name": "Stables",
+      "kind": "Building",
+      "text": "Fast cavalry. First strike deals 60% extra damage.",
+      "detail": "Fast cavalry. First strike deals 60% extra damage. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+1",
+      "tag": "CAVALRY"
+    },
+    "archer": {
+      "name": "Archer Camp",
+      "kind": "Building",
+      "text": "Ranged support behind the front line.",
+      "detail": "Ranged support behind the front line. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+1",
+      "tag": "AUXILIARY ARCHER"
+    },
+    "medic": {
+      "name": "Field Hospital",
+      "kind": "Building",
+      "text": "Heals a wounded squad for 12 HP every 1.5s.",
+      "detail": "Heals a wounded squad for 12 HP every 1.5s. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+1",
+      "tag": "FIELD MEDIC"
+    },
+    "siege": {
+      "name": "Siege Camp",
+      "kind": "Building",
+      "text": "Rear artillery. Stones deal area damage.",
+      "detail": "Rear artillery. Stones deal area damage. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+1",
+      "tag": "CATAPULT"
+    },
+    "training": {
+      "name": "Drill Yard",
+      "kind": "Building",
+      "text": "Adjacent camps gain 25% attack per yard level.",
+      "detail": "Adjacent camps gain 25% attack per yard level. Build on an empty tile, or upgrade the same camp (max level III).",
+      "impact": "+25%",
+      "tag": "ADJACENT ATTACK"
+    },
+    "legionTrain": {
+      "name": "Sword Drill",
+      "kind": "Permanent",
+      "text": "Legionaries gain 25% attack per rank.",
+      "detail": "Legionaries gain 25% attack per rank.",
+      "impact": "+25%",
+      "tag": "LEGION ATTACK",
+      "max": 2,
+      "requires": [
+        "legion"
+      ]
+    },
+    "archerTrain": {
+      "name": "Bow Drill",
+      "kind": "Permanent",
+      "text": "Archers gain 25% attack per rank.",
+      "detail": "Archers gain 25% attack per rank.",
+      "impact": "+25%",
+      "tag": "ARCHER ATTACK",
+      "max": 2,
+      "requires": [
+        "archer"
+      ]
+    },
+    "siegeTrain": {
+      "name": "Siege Drill",
+      "kind": "Permanent",
+      "text": "Catapults gain 25% attack per rank.",
+      "detail": "Catapults gain 25% attack per rank.",
+      "impact": "+25%",
+      "tag": "SIEGE ATTACK",
+      "max": 2,
+      "requires": [
+        "siege"
+      ]
+    },
+    "shieldDrill": {
+      "name": "Iron Wall",
+      "kind": "Permanent",
+      "text": "All melee squads start with +20 shield per rank.",
+      "detail": "All melee squads start with +20 shield per rank.",
+      "impact": "+20",
+      "tag": "FRONTLINE SHIELD",
+      "max": 2
+    },
+    "crossfire": {
+      "name": "Crossfire",
+      "kind": "Permanent",
+      "text": "Archers deal +25% damage to foes engaged by your melee.",
+      "detail": "Archers deal +25% damage to foes engaged by your melee.",
+      "impact": "+25%",
+      "tag": "ENGAGED TARGETS",
+      "max": 2,
+      "requires": [
+        "archer"
+      ]
+    },
+    "fireArrows": {
+      "name": "Fire Arrows",
+      "kind": "Permanent",
+      "text": "Arrows burn targets for 3 damage/sec for 3s. Refreshes on hit.",
+      "detail": "Arrows burn targets for 3 damage/sec for 3s. Refreshes on hit.",
+      "impact": "3 / SEC",
+      "tag": "BURNING ARROWS",
+      "max": 1,
+      "requires": [
+        "archer"
+      ]
+    },
+    "oilShots": {
+      "name": "Pitch Stones",
+      "kind": "Permanent",
+      "text": "Catapults deal +50% damage to burning enemies.",
+      "detail": "Catapults deal +50% damage to burning enemies.",
+      "impact": "+50%",
+      "tag": "BURNING TARGETS",
+      "max": 1,
+      "requires": [
+        "siege",
+        "archer"
+      ],
+      "needs": "fireArrows"
+    },
+    "charge": {
+      "name": "Shock Charge",
+      "kind": "Permanent",
+      "text": "Cavalry first-strike bonus rises from +60% to +120%.",
+      "detail": "Cavalry first-strike bonus rises from +60% to +120%.",
+      "impact": "+120%",
+      "tag": "FIRST STRIKE",
+      "max": 1,
+      "requires": [
+        "cavalry"
+      ]
+    },
+    "fieldMedicine": {
+      "name": "Field Medicine",
+      "kind": "Permanent",
+      "text": "Medics heal 50% more per rank.",
+      "detail": "Medics heal 50% more per rank.",
+      "impact": "+50%",
+      "tag": "HEALING",
+      "max": 2,
+      "requires": [
+        "medic"
+      ]
+    },
+    "warhorn": {
+      "name": "Blood & Glory",
+      "kind": "Permanent",
+      "text": "Enemy defeats give nearby allies 30% faster attacks for 3s.",
+      "detail": "Enemy defeats give nearby allies 30% faster attacks for 3s.",
+      "impact": "+30%",
+      "tag": "KILL HASTE",
+      "max": 1
+    },
+    "combinedArms": {
+      "name": "United Legion",
+      "kind": "Permanent",
+      "text": "All squads gain +5% attack per different troop type (max 35%).",
+      "detail": "All squads gain +5% attack per different troop type (max 35%).",
+      "impact": "+5% / TYPE",
+      "tag": "ARMY ATTACK",
+      "max": 1
+    },
+    "pinning": {
+      "name": "Pin & Pierce",
+      "kind": "Permanent",
+      "text": "Archers and catapults deal +30% damage to slowed enemies.",
+      "detail": "Archers and catapults deal +30% damage to slowed enemies.",
+      "impact": "+30%",
+      "tag": "SLOWED TARGETS",
+      "max": 1,
+      "requires": [
+        "spear"
+      ]
+    },
+    "shield": {
+      "name": "Hold Fast",
+      "kind": "Battle order",
+      "text": "Every allied squad gains 40 shield for the next battle.",
+      "detail": "Every allied squad gains 40 shield for the next battle.",
+      "impact": "+40",
+      "tag": "ARMY SHIELD"
+    },
+    "testudo": {
+      "name": "Testudo",
+      "kind": "Battle order",
+      "text": "Legionaries take 40% less damage, but move 25% slower.",
+      "detail": "Legionaries take 40% less damage, but move 25% slower.",
+      "impact": "−40%",
+      "tag": "DAMAGE TAKEN"
+    },
+    "rally": {
+      "name": "War Standard",
+      "kind": "Battle order",
+      "text": "All squads gain 25% attack for the next battle.",
+      "detail": "All squads gain 25% attack for the next battle.",
+      "impact": "+25%",
+      "tag": "ARMY ATTACK"
+    },
+    "volley": {
+      "name": "Rapid Volley",
+      "kind": "Battle order",
+      "text": "Archers and catapults attack 40% faster next battle.",
+      "detail": "Archers and catapults attack 40% faster next battle.",
+      "impact": "+40%",
+      "tag": "RANGED ATTACK RATE"
+    }
+  },
+  "enemies": {
+    "enemy": {
+      "name": "Infantry",
+      "hp": 105,
+      "attack": 11,
+      "range": 72,
+      "speed": 57,
+      "interval": 1.1,
+      "role": "front"
+    },
+    "archer": {
+      "name": "Archers",
+      "hp": 60,
+      "attack": 8,
+      "range": 320,
+      "speed": 46,
+      "interval": 1.5,
+      "role": "middle"
+    },
+    "guard": {
+      "name": "Shield Guards",
+      "hp": 160,
+      "attack": 8,
+      "range": 72,
+      "speed": 42,
+      "interval": 1.5,
+      "shield": 30,
+      "role": "front"
+    },
+    "cavalry": {
+      "name": "Cavalry",
+      "hp": 100,
+      "attack": 14,
+      "range": 80,
+      "speed": 90,
+      "interval": 1.5,
+      "role": "front"
+    },
+    "siege": {
+      "name": "Catapults",
+      "hp": 85,
+      "attack": 22,
+      "range": 480,
+      "speed": 25,
+      "interval": 4,
+      "role": "rear"
+    }
+  },
+  "zh": {
+    "Building": "建筑",
+    "Permanent": "永久强化",
+    "Battle order": "单场军令",
+    "BUILD": "构筑",
+    "LEGION DOCTRINES": "军团构筑",
+    "ARMY": "军队",
+    "PERMANENT UPGRADES": "永久强化",
+    "No doctrines yet. Your choices last for this campaign.": "尚未获得永久强化。选取后将在本次征战中持续生效。",
+    "NEXT BATTLE": "下一场战斗",
+    "PERMANENT": "永久强化",
+    "BUILD / UPGRADE": "建造 / 升级",
+    "MARCH": "出征",
+    "Report": "战报",
+    "View report": "查看战报",
+    "Close": "关闭",
+    "Battlefield": "战场",
+    "New campaign": "重新征战",
+    "Next year": "下一年",
+    "CAMPAIGN ENDED": "征战结束",
+    "YEAR HELD": "成功守住",
+    "LINE BREACHED": "防线失守",
+    "ENEMY LOSSES": "歼灭敌军",
+    "SURVIVORS": "我军存活",
+    "CAMP LIVES": "营地生命",
+    "HELD": "守住",
+    "LEGION, ADVANCE!": "军团，前进！",
+    "Cannot build here": "无法在此建造",
+    "Health": "生命",
+    "Attack": "攻击",
+    "Healing": "治疗",
+    "Close building details": "关闭建筑详情",
+    "Skip supply": "放弃补给",
+    "View army and doctrines": "查看军队与构筑",
+    "Pause battle": "暂停战斗",
+    "Resume battle": "继续战斗",
+    "Change battle speed": "切换战斗速度",
+    "Pause / Space": "暂停 / 空格",
+    "Camp and battlefield": "营地与战场",
+    "Camp: four columns, three rows": "营地：四列三行",
+    "Building details": "建筑详情",
+    "Supply": "补给",
+    "Settings": "设置",
+    "Language": "语言",
+    "Sound effects": "战斗音效",
+    "Master volume": "总音量",
+    "War cries": "军团战吼",
+    "Impact effects": "打击震动与停顿",
+    "Resume": "返回游戏",
+    "Settings pause the battle.": "打开设置时战斗暂停。",
+    "Enemy forces": "敌军情报",
+    "Infantry": "步兵",
+    "Archers": "弓兵",
+    "Shield Guards": "重盾兵",
+    "Cavalry": "骑兵",
+    "Catapults": "投石机",
+    "Early patrol": "边境巡逻",
+    "Skirmish line": "混合袭扰",
+    "Shield advance": "盾阵推进",
+    "Flanking riders": "骑兵突袭",
+    "Siege host": "攻城军团",
+    "HP": "生命",
+    "ATK": "攻击",
+    "Threats grow each year.": "敌军将逐年增强。",
+    "FRONT · MELEE": "前排 · 近战",
+    "FRONT · PINNING": "前排 · 牵制",
+    "FRONT · SHIELD": "前排 · 重盾",
+    "FRONT · CHARGE": "前排 · 冲锋",
+    "MIDDLE · HEALING": "中排 · 治疗",
+    "MIDDLE · RANGED": "中排 · 远程",
+    "REAR · SIEGE": "后排 · 攻城",
+    "Legion Camp": "军团营",
+    "Spear Camp": "长矛营",
+    "Guard Camp": "重盾营",
+    "Stables": "骑兵营",
+    "Archer Camp": "弓兵营",
+    "Field Hospital": "野战医院",
+    "Siege Camp": "攻城营",
+    "Drill Yard": "训练场",
+    "Legionary": "军团步兵",
+    "Spearman": "长矛兵",
+    "Shield Guard": "重盾兵",
+    "Auxiliary Archer": "辅助弓兵",
+    "Field Medic": "军医",
+    "Catapult": "投石机",
+    "Durable sword infantry. Holds the front line.": "耐战的持剑步兵，守住军团前线。",
+    "Long reach. Hits slow enemies 25% for 2s.": "长距离近战；命中使敌军减速25%，持续2秒。",
+    "Heavy infantry. Starts each battle with 30 shield.": "重装步兵；每场战斗获得30点护盾。",
+    "Fast cavalry. First strike deals 60% extra damage.": "快速冲锋；首次攻击额外造成60%伤害。",
+    "Ranged support behind the front line.": "在步兵后方提供远程火力。",
+    "Heals a wounded squad for 12 HP every 1.5s.": "每1.5秒为一支受伤小队恢复12点生命。",
+    "Rear artillery. Stones deal area damage.": "后排攻城器械；投石造成范围伤害。",
+    "Adjacent camps gain 25% attack per yard level.": "每级使上下左右相邻兵营攻击提高25%。",
+    "Sword Drill": "剑术训练",
+    "Bow Drill": "弓术训练",
+    "Siege Drill": "攻城训练",
+    "Iron Wall": "钢铁壁垒",
+    "Crossfire": "交叉火力",
+    "Fire Arrows": "火焰箭",
+    "Pitch Stones": "燃油投石",
+    "Shock Charge": "破阵冲锋",
+    "Field Medicine": "战地医疗",
+    "Blood & Glory": "浴血战吼",
+    "United Legion": "联合军团",
+    "Pin & Pierce": "牵制穿射",
+    "Hold Fast": "坚守阵线",
+    "Testudo": "龟甲阵",
+    "War Standard": "军团战旗",
+    "Rapid Volley": "急速齐射",
+    "Legionaries gain 25% attack per rank.": "每级使军团步兵攻击提高25%。",
+    "Archers gain 25% attack per rank.": "每级使弓兵攻击提高25%。",
+    "Catapults gain 25% attack per rank.": "每级使投石机攻击提高25%。",
+    "All melee squads start with +20 shield per rank.": "每级使所有近战小队开战时获得20点护盾。",
+    "Archers deal +25% damage to foes engaged by your melee.": "弓兵对正与我方近战交锋的敌军增伤25%。",
+    "Arrows burn targets for 3 damage/sec for 3s. Refreshes on hit.": "箭矢点燃目标，每秒3点伤害，持续3秒；再次命中刷新。",
+    "Catapults deal +50% damage to burning enemies.": "投石机对燃烧中的敌军增伤50%。",
+    "Cavalry first-strike bonus rises from +60% to +120%.": "骑兵首次攻击的额外伤害由60%提高至120%。",
+    "Medics heal 50% more per rank.": "每级使军医治疗量提高50%。",
+    "Enemy defeats give nearby allies 30% faster attacks for 3s.": "击溃敌军后，附近我军攻击速度提高30%，持续3秒。",
+    "All squads gain +5% attack per different troop type (max 35%).": "每拥有一种不同兵种，全军攻击提高5%，上限35%。",
+    "Archers and catapults deal +30% damage to slowed enemies.": "弓兵与投石机对被减速的敌军增伤30%。",
+    "Every allied squad gains 40 shield for the next battle.": "下一场战斗，所有我军小队获得40点护盾。",
+    "Legionaries take 40% less damage, but move 25% slower.": "下一场战斗，军团步兵减伤40%，移动速度降低25%。",
+    "All squads gain 25% attack for the next battle.": "下一场战斗，全军攻击提高25%。",
+    "Archers and catapults attack 40% faster next battle.": "下一场战斗，弓兵和投石机攻击速度提高40%。",
+    "Burn & Bombard": "烈焰轰击",
+    "Shield & Mend": "盾墙续航",
+    "Charge & Glory": "冲锋战吼",
+    "Hold & Crossfire": "接敌集火",
+    "Fire Arrows → Pitch Stones: +50% siege damage.": "火焰箭点燃 → 燃油投石对燃烧敌军增伤50%。",
+    "Spears slow → ranged attacks deal +30% damage.": "长矛减速 → 牵制穿射使远程伤害提高30%。",
+    "Frontline shields absorb hits while medics restore health.": "前排护盾吸收伤害，军医持续恢复生命。",
+    "Cavalry strikes → enemy defeats grant nearby attack haste.": "骑兵冲锋 → 击溃敌军后战吼提升附近我军攻速。",
+    "Melee engagement → archers deal +25% damage per rank.": "近战缠住敌军 → 交叉火力每级增加25%弓兵伤害。",
+    "SHIELD BROKEN": "护盾击碎",
+    "BLOCKED": "格挡",
+    "ROUTED": "击溃",
+    "SQUAD LOST": "小队阵亡",
+    "UPGRADED": "已升级",
+    "BUILT": "已建造",
+    "3 / SEC": "3 / 秒",
+    "+5% / TYPE": "+5% / 兵种"
+  },
+  "woodland": [
+    [
+      142,
+      220,
+      0.96,
+      "pine",
+      0
+    ],
+    [
+      225,
+      148,
+      0.72,
+      "oak",
+      1
+    ],
+    [
+      330,
+      186,
+      0.82,
+      "pine",
+      2
+    ],
+    [
+      546,
+      145,
+      0.74,
+      "oak",
+      0
+    ],
+    [
+      673,
+      193,
+      0.92,
+      "pine",
+      1
+    ],
+    [
+      740,
+      135,
+      0.6,
+      "cypress",
+      0
+    ],
+    [
+      1194,
+      165,
+      0.78,
+      "oak",
+      2
+    ],
+    [
+      1290,
+      203,
+      1.02,
+      "pine",
+      0
+    ],
+    [
+      1467,
+      149,
+      0.72,
+      "cypress",
+      1
+    ],
+    [
+      1558,
+      191,
+      0.9,
+      "oak",
+      1
+    ],
+    [
+      1746,
+      150,
+      0.85,
+      "pine",
+      2
+    ],
+    [
+      1821,
+      242,
+      0.72,
+      "oak",
+      0
+    ],
+    [
+      104,
+      399,
+      0.88,
+      "oak",
+      2
+    ],
+    [
+      165,
+      489,
+      0.62,
+      "cypress",
+      1
+    ],
+    [
+      80,
+      650,
+      0.78,
+      "pine",
+      1
+    ],
+    [
+      1850,
+      432,
+      0.9,
+      "pine",
+      0
+    ],
+    [
+      1779,
+      340,
+      0.64,
+      "cypress",
+      2
+    ],
+    [
+      116,
+      891,
+      0.83,
+      "oak",
+      1
+    ],
+    [
+      250,
+      987,
+      0.72,
+      "pine",
+      2
+    ],
+    [
+      78,
+      1048,
+      0.6,
+      "cypress",
+      0
+    ],
+    [
+      1760,
+      1043,
+      0.78,
+      "oak",
+      0
+    ],
+    [
+      1853,
+      997,
+      0.65,
+      "pine",
+      1
+    ]
+  ]
+}

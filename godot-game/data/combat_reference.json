@@ -1,0 +1,1244 @@
+[
+  {
+    "initial": {
+      "round": 1,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 3,
+      "deployed": 3,
+      "enemyLosses": 3,
+      "enemyCount": 3,
+      "defenseLost": 0
+    },
+    "time": 13.23333333333357
+  },
+  {
+    "initial": {
+      "round": 1,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 7,
+      "deployed": 7,
+      "enemyLosses": 3,
+      "enemyCount": 3,
+      "defenseLost": 0
+    },
+    "time": 6.483333333333316
+  },
+  {
+    "initial": {
+      "round": 2,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 3,
+      "deployed": 3,
+      "enemyLosses": 3,
+      "enemyCount": 3,
+      "defenseLost": 0
+    },
+    "time": 13.23333333333357
+  },
+  {
+    "initial": {
+      "round": 2,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 7,
+      "deployed": 7,
+      "enemyLosses": 3,
+      "enemyCount": 3,
+      "defenseLost": 0
+    },
+    "time": 6.483333333333316
+  },
+  {
+    "initial": {
+      "round": 3,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 3,
+      "deployed": 3,
+      "enemyLosses": 3,
+      "enemyCount": 3,
+      "defenseLost": 0
+    },
+    "time": 13.23333333333357
+  },
+  {
+    "initial": {
+      "round": 3,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 7,
+      "deployed": 7,
+      "enemyLosses": 3,
+      "enemyCount": 3,
+      "defenseLost": 0
+    },
+    "time": 6.716666666666648
+  },
+  {
+    "initial": {
+      "round": 4,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 2,
+      "deployed": 3,
+      "enemyLosses": 4,
+      "enemyCount": 4,
+      "defenseLost": 0
+    },
+    "time": 20.516666666666783
+  },
+  {
+    "initial": {
+      "round": 4,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 7,
+      "deployed": 7,
+      "enemyLosses": 4,
+      "enemyCount": 4,
+      "defenseLost": 0
+    },
+    "time": 10.600000000000106
+  },
+  {
+    "initial": {
+      "round": 6,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 1,
+      "deployed": 3,
+      "enemyLosses": 5,
+      "enemyCount": 5,
+      "defenseLost": 0
+    },
+    "time": 36.04999999999924
+  },
+  {
+    "initial": {
+      "round": 6,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 7,
+      "deployed": 7,
+      "enemyLosses": 5,
+      "enemyCount": 5,
+      "defenseLost": 0
+    },
+    "time": 12.70000000000021
+  },
+  {
+    "initial": {
+      "round": 8,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": false,
+      "surviving": 0,
+      "deployed": 3,
+      "enemyLosses": 3,
+      "enemyCount": 6,
+      "defenseLost": 1
+    },
+    "time": 19.300000000000185
+  },
+  {
+    "initial": {
+      "round": 8,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 7,
+      "deployed": 7,
+      "enemyLosses": 6,
+      "enemyCount": 6,
+      "defenseLost": 0
+    },
+    "time": 15.266666666667005
+  },
+  {
+    "initial": {
+      "round": 10,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": false,
+      "surviving": 0,
+      "deployed": 3,
+      "enemyLosses": 2,
+      "enemyCount": 7,
+      "defenseLost": 1
+    },
+    "time": 21.50000000000006
+  },
+  {
+    "initial": {
+      "round": 10,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 7,
+      "deployed": 7,
+      "enemyLosses": 7,
+      "enemyCount": 7,
+      "defenseLost": 0
+    },
+    "time": 21.366666666666735
+  },
+  {
+    "initial": {
+      "round": 16,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": false,
+      "surviving": 0,
+      "deployed": 3,
+      "enemyLosses": 2,
+      "enemyCount": 10,
+      "defenseLost": 1
+    },
+    "time": 15.866666666667035
+  },
+  {
+    "initial": {
+      "round": 16,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": true,
+      "surviving": 4,
+      "deployed": 7,
+      "enemyLosses": 10,
+      "enemyCount": 10,
+      "defenseLost": 0
+    },
+    "time": 31.69999999999948
+  },
+  {
+    "initial": {
+      "round": 24,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "id": 1,
+          "type": "legion",
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "id": 2,
+          "type": "archer",
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "id": 3,
+          "type": "siege",
+          "cell": 8,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {},
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": false,
+      "surviving": 0,
+      "deployed": 3,
+      "enemyLosses": 0,
+      "enemyCount": 14,
+      "defenseLost": 1
+    },
+    "time": 12.816666666666883
+  },
+  {
+    "initial": {
+      "round": 24,
+      "defense": 3,
+      "phase": "reward",
+      "buildings": [
+        {
+          "type": "guard",
+          "id": 1,
+          "cell": 0,
+          "level": 1
+        },
+        {
+          "type": "legion",
+          "id": 2,
+          "cell": 1,
+          "level": 1
+        },
+        {
+          "type": "spear",
+          "id": 3,
+          "cell": 2,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 4,
+          "cell": 3,
+          "level": 1
+        },
+        {
+          "type": "archer",
+          "id": 5,
+          "cell": 4,
+          "level": 1
+        },
+        {
+          "type": "siege",
+          "id": 6,
+          "cell": 5,
+          "level": 1
+        },
+        {
+          "type": "medic",
+          "id": 7,
+          "cell": 6,
+          "level": 1
+        }
+      ],
+      "nextId": 4,
+      "boosts": {
+        "legion": 0,
+        "archer": 0,
+        "siege": 0
+      },
+      "upgrades": {
+        "fireArrows": 1,
+        "oilShots": 1,
+        "pinning": 1,
+        "shieldDrill": 2,
+        "fieldMedicine": 1,
+        "crossfire": 1,
+        "combinedArms": 1
+      },
+      "orders": {},
+      "rng": 123,
+      "offered": [],
+      "offerYear": 0,
+      "armyShield": false,
+      "armyTestudo": false,
+      "pending": null,
+      "chosen": null,
+      "history": [],
+      "battle": null
+    },
+    "report": {
+      "won": false,
+      "surviving": 0,
+      "deployed": 7,
+      "enemyLosses": 5,
+      "enemyCount": 14,
+      "defenseLost": 1
+    },
+    "time": 24.099999999999913
+  }
+]

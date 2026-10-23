@@ -1,0 +1,41 @@
+Eagle Standard v0.4 — edited recording-based sound design
+
+All third-party recordings below are used under their CC0 option.
+https://creativecommons.org/publicdomain/zero/1.0/
+
+StarNinjas — 20 Sword Sound Effects (Attacks and Clashes)
+https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes
+Original sword_clash.1.ogg, .2.ogg, .3.ogg. Cut, filtered, lowered slightly, layered with impacts.
+
+Kenney — Impact Sounds
+https://kenney.nl/assets/impact-sounds
+Selected metal, wood, punch, plate, soft, grass-footstep recordings.
+Cut, equalized, layered and normalized; tactile UI sounds derived from the same recordings.
+
+artisticdude — Battle Sound Effects (submitted by Ogrebane)
+https://opengameart.org/content/battle-sound-effects
+Bow.wav, swish_2.wav, swish_3.wav, swish_4.wav. CC0 license option selected.
+Cut, equalized and normalized.
+
+HaelDB — Male Grunt/Yelling sounds
+https://opengameart.org/content/male-gruntyelling-sounds
+3grunt1.wav, 3grunt2.wav, 3grunt3.wav. CC0 license option selected.
+Brief vocal efforts, filtered and layered at different timings/pitches.
+
+StarNinjas — Crowd Shouting/Speaking Ambience
+https://opengameart.org/content/crowd-shoutingspeaking-ambience
+Short excerpt mixed quietly under the rally vocals.
+
+No machine-generated voices. No long reverb tails. Original downloads are not required at runtime.
+audio-bank.js contains 24 kHz mono PCM16 versions for offline/browser compatibility.
+The audio/ folder contains the processed WAV files and a validation manifest.
+
+v0.5 UI cues: original synthesized triangle/sine note sequences layered with the
+credited CC0 wood ticks. These are original cues; no Vampire Survivors audio is
+included. The combat recording edits are unchanged from v0.4.
+
+
+Godot card-hand foley: Kenney Casino Audio v1.1
+Source: https://kenney.nl/assets/casino-audio
+License: CC0 1.0 Universal; original license at cards/License.txt.
+Uses card slide, fan, shove, place and pack-take-out recordings.
