@@ -1,0 +1,28 @@
+Mediterranean expedition map — Under the Eagle v0.23
+
+Coastline geometry: Natural Earth, 1:50m land, public domain.
+https://www.naturalearthdata.com/about/terms-of-use/
+Modern coastline geometry is a cartographic base, not a 30 BCE coastline reconstruction.
+
+Ancient places: Pleiades, https://pleiades.stoa.org/
+Coordinates and place-name references: CC BY 3.0.
+https://creativecommons.org/licenses/by/3.0/
+Each in-game historical archive links to the corresponding place record.
+Original contributors and editorial attribution are listed on those records.
+IDs: 423025, 148127, 246349, 265849, 256177, 462503, 314921,
+373778, 442509, 579885, 590030, 658381, 727070.
+Descriptions are abbreviated Chinese adaptations. War encounters are fictional.
+
+D3 v7.9.0 — https://d3js.org/
+Copyright 2010-2023 Mike Bostock
+ISC License:
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.

@@ -1,8 +1,40 @@
-# Under the Eagle — Godot native port
+# 鹰旗之下 — Godot 原生远征版
 
 Open `project.godot` with Godot 4.7.2 or later compatible 4.x releases and press **F5** (Run Project). The main scene is `scenes/main.tscn`. This is a native GDScript/CanvasItem game, not a browser embedded in Godot. No JavaScript runtime, Node installation, or network connection is required to play.
 
-## Migrated from the local v0.22 game
+## 当前开发入口：Godot
+
+后续以此工程为准，不再更新或发布网页版本。保留原生版本已有的林地裸土地面、苔藓与落叶、卡牌轻微叠放、140%悬停放大和独立纸牌录音。此轮没有重新导入旧网页的军队、美术、地形或音效。
+
+### 远征流程
+
+- 仍从现有初始三选一卡牌开始。选择完成（建筑卡需放置）后留在军营，点击右上角的折叠地图图标打开局内地图。
+- 点击亮起的马西利亚访问港口、领取补给，再选择塔拉科或新迦太基。城邦小窗显示实际敌军、倍率与奖励，可收起。
+- “进入战斗”调用原有 `campaign.gd` 战斗。胜利后点“领取奖励”，通过现有卡牌交互选择或放置，再点击右上角地图图标继续远征。失败不推进、不发胜利奖励，扣一条生命后可重试；第三次失败重开。
+- 军团建筑、等级和永久教义在本局保留。临时军令在战斗后消耗，和平访问不会消耗。港口、精英和战区目标提供一点生命恢复，上限3。
+- 同一局依次完成加德斯、昔兰尼、安条克、亚历山大里亚四个目标；前两站情报可见，已关闭支路不能回头刷奖励。
+- “军营 / 构筑”返回已有军营；右上角地图图标打开同一局地图。战斗中打开地图会暂停战斗，返回后继续；未完成补给时可以查看，但不能前往下一站。Esc依次关闭设置、情报或地图。
+- 地图是原生 `Control` 场景，使用 PNG 纹理、`Line2D` 路线和 `Button` 城邦；没有 WebView、HTML 或 JavaScript 运行时。地图城名、情报、奖励、历史档案与状态提示完整跟随中英设置，切换语言立即刷新且保留路线与选择。
+- 进度仍按原工程保存在当前会话内，关闭游戏后新开一局；此轮未加入跨会话存档或跨局数值成长。
+
+新增文件：`scenes/expedition_map.tscn`、`scripts/expedition_map.gd`（地图界面）、`scripts/expedition.gd`（路线与战役状态）、`data/expedition*.json`、`assets/expedition/`。
+
+地图沿用批准的配色、海岸轮廓与古地名；植被与地势是美术示意，敌我关系与战役顺序为架空。资料与许可见 `assets/expedition/CREDITS.txt`。`tools/build_expedition_map.cjs` 仅为离线纹理制作工具，仅更新地图素材，不触碰原有地形、人物或音效；游戏运行不需要它。
+
+原生验证：`tests/test_expedition.gd` 验证路线、情报、真实战斗、奖励去重、失败和最终通关；`tests/test_expedition_ui.gd` 通过原生按钮连续完成两次城邦战斗、领取卡牌并返回地图，保存原生画面用于检查。原有卡牌交互及音效检查继续通过。
+
+### 远征流程回归检查（2026-10-22）
+
+- 战报入口只在已有战斗结算时出现，无数据时不再打开空白窗口。结算前打开地图，可从右上角直接返回战报；地图提示区分待选牌、待放置、战斗暂停和待结算。
+- 通关后的新远征按钮移到地图右上角，不再遮挡第四个战区目标。重开会清除上局倍速、暂停、建筑选中和战斗反馈状态。
+- `test_expedition_flow.gd` 在中英文下逐一覆盖全部12条路线，以及放置中查看地图、重复领奖、失败锁定分支、三次失败和通关重开。路线测试直接完成战斗以隔离流程，真实战斗另由 `test_expedition.gd` 和 `test_expedition_ui.gd` 验证。
+- `test_report_dialog.gd` 验证中英文的胜利、失败、全军覆没战报与领取奖励后的状态；`test_map_locale.gd` 检查地图双语文字与暂停/恢复。
+
+## 之前的原生移植与更新记录
+
+以下为此前版本记录；无限年份及“出征直接开战”已由上述远征流程替代。
+
+### Migrated from the local v0.22 game
 
 - A cool earthy forest clearing with scattered trees, root moss, leaf litter and boot impressions. The isometric projection, original pixel characters and buildings are preserved.
 - Seven allied troop types plus the training yard, all 24 cards, three nonrepeating choices per year, in-place upgrades, level caps, permanent doctrines and temporary orders.
@@ -14,7 +46,7 @@ Open `project.godot` with Godot 4.7.2 or later compatible 4.x releases and press
 
 ### Controls
 
-Choose a card with the mouse or **1 / 2 / 3**. Building cards reveal camp cells; click an empty cell or matching camp to build/upgrade. Click **MARCH / 出征**, or press **Space**, to start. Space pauses combat; the speed button cycles 1× / 2× / 4×. **Esc** opens settings or closes a panel. **M** toggles sound. Settings and other panels suspend combat. Buildings cannot be moved.
+Choose a card with the mouse or **1 / 2 / 3**. Building cards reveal camp cells; click an empty cell or matching camp to build/upgrade. Click the folded map icon at the top right (or press **Space** when ready), select a reachable city, then travel. Space pauses combat; the speed button cycles 1× / 2× / 4×. **Esc** closes the current panel, closes city intel, or returns from the map; in camp it opens settings. **M** toggles sound in camp or battle. Settings and the map suspend combat. Buildings cannot be moved.
 
 ## Implementation
 

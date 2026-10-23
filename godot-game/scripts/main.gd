@@ -3,9 +3,15 @@ const Campaign = preload('res://scripts/campaign.gd')
 const Field = preload('res://scripts/battlefield.gd')
 const Sound = preload('res://scripts/sound.gd')
 const CardHand = preload('res://scripts/card_hand.gd')
+const Expedition = preload('res://scripts/expedition.gd')
+const MapIcon = preload('res://scripts/map_icon.gd')
+const ExpeditionMap = preload('res://scenes/expedition_map.tscn')
 var card_hand
 var dealt_year = -1
 var campaign = Campaign.new()
+var expedition = Expedition.new(campaign)
+var expedition_map
+var battle_screen: TextureRect
 var world
 var sound
 var ui: Control
@@ -45,6 +51,7 @@ func _ready():
 	world.scale = Vector2(.5,.5)
 	viewport.add_child(world)
 	var screen = TextureRect.new()
+	battle_screen = screen
 	screen.texture = viewport.get_texture()
 	screen.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	screen.position = Vector2.ZERO
@@ -58,6 +65,9 @@ func _ready():
 	ui.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ui.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(ui)
+	expedition_map = ExpeditionMap.instantiate()
+	expedition_map.app = self
+	add_child(expedition_map)
 	world.refresh()
 	render_ui()
 	if '--render-test' in OS.get_cmdline_user_args(): call_deferred('run_render_test')
@@ -68,7 +78,8 @@ func tr_text(value: String) -> String:
 func tx(zh: String,en: String) -> String:
 	return zh if language=='zh' else en
 func year_text() -> String:
-	return '第 %d 年'%campaign.g.round if language=='zh' else 'YEAR %d'%campaign.g.round
+	if expedition.state.target != '': return expedition.node_text(expedition.state.target)+' · '+tx('远征战斗','Battle')
+	return tx('鹰旗之下 · 军营','Under the Eagle · Camp')
 func load_prefs():
 	var config = ConfigFile.new()
 	if config.load('user://settings.cfg') != OK: return
@@ -144,6 +155,13 @@ func remove_children(parent: Node):
 		parent.remove_child(child)
 		child.queue_free()
 func render_ui():
+	expedition.language = language
+	expedition.finish_supply()
+	var on_map = expedition.state.mode == 'map'
+	ui.visible = not on_map
+	battle_screen.visible = not on_map
+	expedition_map.visible = on_map
+	if on_map: expedition_map.render()
 	card_hand=null
 	remove_children(ui)
 	elapsed_label = null
@@ -152,22 +170,32 @@ func render_ui():
 	yr.add_theme_color_override('font_shadow_color',Color('#12251e'))
 	yr.add_theme_constant_override('shadow_offset_x',3)
 	yr.add_theme_constant_override('shadow_offset_y',3)
-	var wave = campaign.encounter(int(campaign.g.round))
-	if campaign.g.phase in ['reward','place','prepare']:
+	var wave = campaign.current_encounter()
+	if expedition.state.target != '' and campaign.g.phase in ['reward','place','prepare']:
 		var counts = {}
 		for type in wave.roster: counts[type]=counts.get(type,0)+1
 		var names: Array[String] = []
 		for type in counts: names.append(tr_text(campaign.enemies[type].name)+' ×'+str(counts[type]))
 		var threat = label(ui,'  ·  '.join(names),Vector2(450,82),Vector2(1020,30),20,Color('#bdd0ad'))
 		threat.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var map_button = button(ui,'',Vector2(1735,25),Vector2(65,60),open_map)
+	map_button.name = 'MapButton'
+	map_button.tooltip_text = tx('远征地图','Expedition map')
+	var icon = MapIcon.new()
+	icon.position = Vector2(12,10)
+	icon.size = Vector2(40,40)
+	map_button.add_child(icon)
 	button(ui,'⚙',Vector2(1820,25),Vector2(65,60),func():open_dialog('settings')).tooltip_text=tr_text('Settings')
 	button(ui,tr_text('BUILD'),Vector2(35,25),Vector2(142,55),func():open_dialog('build')).tooltip_text=tr_text('View army and doctrines')
 	var phase = campaign.g.phase
+	if phase in ['reward','place']:
+		var hint = label(ui,tx('选择补给并完成建造；点击右上角地图继续远征。','Choose supplies and finish building; open the map at the top right to continue.'),Vector2(490,86),Vector2(940,40),24,Color('#dbc89f'))
+		hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if phase=='reward':
 		var hand = campaign.offers()
 		card_hand=CardHand.new()
 		ui.add_child(card_hand)
-		card_hand.allowed=func():return dialog_kind=='' and campaign.g.phase=='reward' and not input_locked
+		card_hand.allowed=func():return expedition.state.mode!='map' and dialog_kind=='' and campaign.g.phase=='reward' and not input_locked
 		card_hand.picked.connect(choose_card)
 		card_hand.cue.connect(func(gesture):sound.play_card(gesture))
 		for i in hand.size(): card_button(hand[i],i)
@@ -183,18 +211,19 @@ func render_ui():
 		picture(p,'card_'+str(campaign.g.pending),Vector2(10,4),Vector2(72,72))
 		label(p,tr_text(campaign.cards[campaign.g.pending].name)+'  ·  '+tr_text('BUILD / UPGRADE'),Vector2(100,18),Vector2(580,45),26)
 		button(ui,'↪',Vector2(1360,966),Vector2(65,55),skip_supply).tooltip_text=tr_text('Skip supply')
-	elif phase=='prepare':
-		button(ui,tr_text('MARCH')+'  →',Vector2(790,945),Vector2(340,82),march,true)
 	elif phase=='battle':
 		button(ui,'Ⅱ' if not paused else '▶',Vector2(797,975),Vector2(72,60),toggle_pause)
 		elapsed_label = label(ui,'00:00',Vector2(880,984),Vector2(140,40),28)
 		elapsed_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 		button(ui,str(speed)+'×',Vector2(1030,975),Vector2(90,60),change_speed)
-	else:
-		button(ui,tr_text('View report'),Vector2(790,970),Vector2(340,65),func():open_dialog('result'))
+	elif has_battle_report():
+		var report_button = button(ui,tr_text('View report'),Vector2(790,970),Vector2(340,65),func():open_dialog('result'))
+		report_button.name = 'ReportButton'
 	toast_label = label(ui,'',Vector2(460,650),Vector2(1000,45),26,Color('#f0d6a2'))
 	toast_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	world.refresh()
+	if campaign.g.battle==null:
+		world.preview=world.preview.filter(func(unit):return unit.side=='ally')
 
 func card_button(id: String,index: int):
 	var data = campaign.cards[id]
@@ -242,9 +271,35 @@ func skip_supply():
 	if input_locked: return
 	if campaign.skip(): render_ui()
 func march():
-	if not campaign.start(): return
+	open_map()
+
+func open_map():
+	if input_locked or dialog_kind!='': return
+	expedition.state.mode = 'map'
+	accumulator=0
+	render_ui()
+
+func show_camp():
+	if dialog_kind!='' or input_locked: return
+	expedition.state.mode = 'battle' if campaign.g.phase=='battle' else 'camp'
+	accumulator=0
+	render_ui()
+
+func travel_to(id: String):
+	if input_locked or dialog_kind!='': return
+	if not expedition.travel(id): return
+	expedition_map.selected = ''
+	if campaign.g.phase != 'battle':
+		world.clear_battle()
+		render_ui()
+		return
+	begin_battle_feedback()
+
+func begin_battle_feedback():
 	paused = false
 	accumulator = 0
+	hit_stop = 0
+	result_delay = -1
 	world.clear_battle()
 	sound.play('horn')
 	sound.play('cry')
@@ -262,6 +317,7 @@ func toast(message: String):
 	toast_time=2
 func _process(delta):
 	if world==null: return
+	if expedition.state.mode == 'map': return
 	if dialog_kind!='' or paused: return
 	if toast_time>0:
 		toast_time-=delta
@@ -306,6 +362,12 @@ func play_events(events: Array):
 
 func _unhandled_input(event):
 	if input_locked: return
+	if expedition.state.mode == 'map':
+		if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE:
+			if dialog_kind != '': close_dialog()
+			elif expedition_map.selected != '': expedition_map.close_info()
+			else: show_camp()
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode==KEY_ESCAPE:
 			if dialog_kind!='': close_dialog()
@@ -345,9 +407,14 @@ func close_dialog():
 	modal=null
 	dialog_kind=''
 	accumulator=0
+func has_battle_report() -> bool:
+	return campaign.g.phase in ['result','defeat'] and campaign.g.battle != null and campaign.g.battle.get('report') != null
+
 func open_dialog(kind: String):
 	if input_locked: return
-	if kind=='result': result_delay=-1
+	if kind=='result':
+		result_delay=-1
+		if not has_battle_report(): return
 	close_dialog()
 	dialog_kind=kind
 	if is_instance_valid(card_hand): card_hand.set_active(-1,false)
@@ -447,26 +514,46 @@ func result_content(panel: Control):
 	if campaign.g.battle==null: return
 	var report=campaign.g.battle.report
 	var ended=campaign.g.phase=='defeat'
-	heading(panel,tr_text('CAMPAIGN ENDED' if ended else 'YEAR HELD' if report.won else 'LINE BREACHED'))
+	heading(panel,tx('远征结束' if ended else '城邦已夺取' if report.won else '进攻失利','Campaign ended' if ended else 'City secured' if report.won else 'Attack repelled'))
 	label(panel,year_text(),Vector2(40,95),Vector2(400,45),27,Color('#6d5a3c'))
 	picture(panel,'card_shield' if ended else 'card_legion',Vector2(295,140),Vector2(130,130))
 	var rows=[['ENEMY LOSSES','%d / %d'%[report.enemyLosses,report.enemyCount]],['SURVIVORS','%d / %d'%[report.surviving,report.deployed]],['CAMP LIVES','%d / 3'%campaign.g.defense]]
 	for i in rows.size():
 		label(panel,tr_text(rows[i][0]),Vector2(65,300+i*60),Vector2(390,45),26,Color('#344331'))
 		label(panel,rows[i][1],Vector2(520,300+i*60),Vector2(150,45),29,Color('#71392d'))
-	button(panel,tr_text('New campaign' if ended else 'Next year')+' →',Vector2(185,535),Vector2(350,70),advance,true)
+	button(panel,tx('重新远征' if ended else '远征告捷' if report.won and expedition.state.target=='727070' else '领取奖励' if report.won else '返回地图','New campaign' if ended else 'Victory' if report.won and expedition.state.target=='727070' else 'Claim reward' if report.won else 'Return to map')+' →',Vector2(185,535),Vector2(350,70),advance,true)
 func advance():
+	if not has_battle_report(): return
 	close_dialog()
 	if campaign.g.phase=='defeat':
-		campaign.reset()
-		dealt_year=-1
-	else: campaign.next_year()
+		restart_expedition()
+		return
+	if not expedition.settle(): return
 	world.clear_battle()
 	world.selected_cell=-1
 	paused=false
 	result_delay=-1
 	speed=1
 	render_ui()
+func restart_expedition():
+	if input_locked: return
+	close_dialog()
+	campaign.reset()
+	expedition.reset()
+	expedition_map.selected=''
+	expedition_map.history_open=false
+	dealt_year=-1
+	result_delay=-1
+	paused=false
+	speed=1
+	hit_stop=0
+	toast_time=0
+	accumulator=0
+	world.selected_cell=-1
+	world.hover_cell=-1
+	world.clear_battle()
+	render_ui()
+
 func building_content(panel: Control):
 	var b=campaign.building_at(world.selected_cell)
 	if b==null: return
@@ -491,7 +578,12 @@ func run_smoke_test():
 	set_language('zh')
 	close_dialog()
 	skip_supply()
-	march()
+	assert(expedition.state.mode=='camp')
+	open_map()
+	assert(expedition.state.mode=='map')
+	travel_to('148127')
+	skip_supply()
+	travel_to('246349')
 	open_dialog('settings')
 	var battle_time=campaign.g.battle.time
 	await get_tree().process_frame
@@ -507,11 +599,16 @@ func run_smoke_test():
 	open_dialog('result')
 	await get_tree().process_frame
 	advance()
-	assert(campaign.g.round==2 and campaign.g.phase=='reward')
+	assert(campaign.g.round==3 and campaign.g.phase=='reward')
+	assert(expedition.state.current=='246349')
+	skip_supply()
+	assert(expedition.state.mode=='camp')
+	open_map()
+	assert(expedition.state.mode=='map' and expedition.can_travel('256177'))
 	prefs=saved_prefs
 	save_prefs()
 	sound.stop()
-	print('NATIVE UI SMOKE PASSED: settings, language, pause, battle, report, next year.')
+	print('NATIVE UI SMOKE PASSED: settings, language, initial cards, port, city battle, reward and next route.')
 	await get_tree().process_frame
 	get_tree().quit()
 
@@ -525,6 +622,7 @@ func run_render_test():
 	var saved_prefs=prefs.duplicate(true)
 	sound.enabled=false
 	campaign.reset(42)
+	expedition.reset()
 	campaign.offers()
 	campaign.g.offered=['spear','crossfire','legionTrain']
 	render_ui()
@@ -566,7 +664,9 @@ func run_render_test():
 	world.refresh()
 	render_ui()
 	await capture_test_image('native-built')
-	march()
+	travel_to('148127')
+	skip_supply()
+	travel_to('246349')
 	sound.enabled=false
 	paused=true
 	for i in 480:

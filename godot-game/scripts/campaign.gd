@@ -40,6 +40,9 @@ func encounter(year: int) -> Dictionary:
 	return {'year':y,'roster':roster,'health':1+.025*(y-1)+.012*maxi(0,y-8),
 		'attack':1+.018*(y-1)+.008*maxi(0,y-8),'name':wave_name}
 
+func current_encounter() -> Dictionary:
+	return g.get('expedition_wave',encounter(int(g.round)))
+
 func rank(id: String) -> int:
 	return int(g.upgrades.get(id,0))
 
@@ -167,7 +170,7 @@ func muster() -> Array:
 				'testudo':g.armyTestudo and b.type == 'legion','interval':s.interval,'shield':float(shield),
 				'maxShield':float(shield),'cooldown':.3+col*.1,'moving':false,'flash':0.0,'charged':false})
 		base += maxi(1,int(ceil(group.size()/4.0)))*75+75
-	var wave = encounter(int(g.round))
+	var wave = current_encounter()
 	for role in ['front','middle','rear']:
 		var group: Array = []
 		for type in wave.roster:
