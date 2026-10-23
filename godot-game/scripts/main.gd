@@ -189,7 +189,8 @@ func render_ui():
 	button(ui,tr_text('BUILD'),Vector2(35,25),Vector2(142,55),func():open_dialog('build')).tooltip_text=tr_text('View army and doctrines')
 	var phase = campaign.g.phase
 	if phase in ['reward','place']:
-		var hint = label(ui,tx('选择补给并完成建造；点击右上角地图继续远征。','Choose supplies and finish building; open the map at the top right to continue.'),Vector2(490,86),Vector2(940,40),24,Color('#dbc89f'))
+		var hint_text = tx('点击高亮地块建造，或点击同类建筑升级。','Click a highlighted plot to build, or a matching building to upgrade.') if phase=='place' else tx('选择本轮补给。','Choose your supplies.')
+		var hint = label(ui,hint_text,Vector2(490,86),Vector2(940,40),24,Color('#dbc89f'))
 		hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	if phase=='reward':
 		var hand = campaign.offers()
@@ -211,6 +212,9 @@ func render_ui():
 		picture(p,'card_'+str(campaign.g.pending),Vector2(10,4),Vector2(72,72))
 		label(p,tr_text(campaign.cards[campaign.g.pending].name)+'  ·  '+tr_text('BUILD / UPGRADE'),Vector2(100,18),Vector2(580,45),26)
 		button(ui,'↪',Vector2(1360,966),Vector2(65,55),skip_supply).tooltip_text=tr_text('Skip supply')
+	elif phase=='prepare':
+		var next_button = button(ui,tx('继续远征  →','Continue expedition  →') if not expedition.state.finished else tx('远征告捷  →','Campaign complete  →'),Vector2(750,970),Vector2(420,65),continue_expedition,true)
+		next_button.name = 'ContinueButton'
 	elif phase=='battle':
 		button(ui,'Ⅱ' if not paused else '▶',Vector2(797,975),Vector2(72,60),toggle_pause)
 		elapsed_label = label(ui,'00:00',Vector2(880,984),Vector2(140,40),28)
@@ -271,6 +275,13 @@ func skip_supply():
 	if input_locked: return
 	if campaign.skip(): render_ui()
 func march():
+	continue_expedition()
+
+func continue_expedition():
+	if input_locked or dialog_kind!='' or campaign.g.phase!='prepare': return
+	var destinations = expedition.next(expedition.state.current).filter(func(id):return expedition.can_travel(id))
+	expedition_map.selected = destinations[0] if destinations.size()==1 else ''
+	expedition_map.history_open = false
 	open_map()
 
 func open_map():
