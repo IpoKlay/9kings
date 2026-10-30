@@ -1,0 +1,44 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1_x407j"]
+
+[resource]
+script = ExtResource("1_x407j")
+display_name = "feedback"
+description = "战斗反馈参数：像素命中、后仰、镜头顿挫与击杀停顿。单位与修改约束见 DATA_GUIDE.md。"
+values = {
+"blast_shake": 6.0,
+"breach_shake": 5.0,
+"caption_rise_speed": 18.0,
+"death_shake": 2.0,
+"hit_stop_seconds": 0.045,
+"particle_gravity": 100.0,
+"particle_lifetime": [0.18, 0.5],
+"particle_limit": 180,
+"particle_size": [2, 5],
+"particle_velocity_x": [-100, 100],
+"particle_velocity_y": [-100, 20],
+"report_delay_seconds": 0.9,
+"shake_decay": 16.0,
+"stain_limit": 240,
+"pixel_step": 2.0,
+"hit_recoil_pixels": 4.0,
+"heavy_recoil_pixels": 6.0,
+"recoil_seconds": 0.16,
+"recoil_hold_seconds": 0.025,
+"hit_flash_seconds": 0.055,
+"hit_flash_color": Color(2.0, 1.75, 1.5, 1),
+"guard_flash_color": Color(1.4, 1.65, 1.8, 1),
+"heavy_hit_hp_fraction": 0.16,
+"hit_repeat_gap_seconds": 0.075,
+"impact_mark_seconds": 0.16,
+"blast_mark_seconds": 0.24,
+"impact_mark_limit": 24,
+"impact_pose_fps": 24.0,
+"hit_particles": 5,
+"guard_particles": 7,
+"shake_limit_pixels": 6.0,
+"shake_repeat_gap_seconds": 0.14,
+"shake_pose_fps": 24.0,
+"shake_poses": [1.0, -0.6, 0.3, -0.15, 0.0]
+}

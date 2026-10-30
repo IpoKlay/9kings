@@ -1,0 +1,9 @@
+Asset: forum-original.jpg
+Added: 2026-10-27
+Source: user-supplied /Users/ip/Downloads/undefined - Imgur.jpg
+Original source SHA-256: fccd87595ee410b21bc83e779e0cda812215cf6be0b8a376eeaddf598f6daef6
+The project copy is byte-for-byte identical to the supplied image.
+No cropping, recoloring, inpainting, scene replacement, or generated content is baked into this asset.
+Runtime: aspect-fit the complete painting, add a separate right-hand menu surface, and render the existing game controls above it.
+Creator and original license were not provided; this source note does not assert a commercial-use license.
+An unused image_gen edit is archived outside the game under output/forum-menu/unused-image-edit.png and is not referenced by the project.

@@ -1,3 +1,5 @@
+// Archived migration source. Native Godot data/art are authoritative.
+throw new Error('Legacy web import disabled: it overwrites current native assets and fixtures. Use the scoped Godot tools instead.');
 /* Rebuild native assets from the existing game's own Canvas drawing functions.
    No browser runtime is required by the resulting Godot game. */
 const fs=require('fs'),path=require('path'),vm=require('vm');

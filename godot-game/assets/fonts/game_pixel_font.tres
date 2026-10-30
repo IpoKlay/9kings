@@ -1,0 +1,9 @@
+[gd_resource type="FontVariation" load_steps=4 format=3]
+
+[ext_resource type="FontFile" path="res://assets/fonts/m5x7-eagle.ttf" id="1"]
+[ext_resource type="FontFile" path="res://assets/fonts/fusion-pixel-12px-proportional-zh_hans.ttf" id="2"]
+[ext_resource type="FontFile" path="res://assets/fonts/monogram-eagle.ttf" id="3"]
+
+[resource]
+base_font = ExtResource("1")
+fallbacks = Array[Font]([ExtResource("2"), ExtResource("3")])

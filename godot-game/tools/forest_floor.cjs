@@ -56,7 +56,7 @@ module.exports=drawForestFloor;
 if(require.main===module){
   const fs=require('fs'),path=require('path');
   const {createCanvas}=require(process.env.EAGLE_CANVAS_MODULE||'@napi-rs/canvas');
-  const root=path.resolve(__dirname,'..'),rules=JSON.parse(fs.readFileSync(path.join(root,'data/rules.json'))),c=createCanvas(960,540);
-  drawForestFloor(c,rules.woodland);fs.writeFileSync(path.join(root,'assets/terrain.png'),c.toBuffer('image/png'));
+  const root=path.resolve(__dirname,'..'),woodland=JSON.parse(fs.readFileSync(path.join(root,'data/sources/legacy_woodland.json'))),c=createCanvas(960,540);
+  drawForestFloor(c,woodland);fs.writeFileSync(path.join(root,'assets/terrain.png'),c.toBuffer('image/png'));
   console.log('Updated forest clearing: cool bare earth, root moss, leaf litter and boot impressions.');
 }

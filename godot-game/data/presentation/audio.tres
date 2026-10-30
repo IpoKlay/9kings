@@ -1,0 +1,267 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1_2xmwq"]
+
+[resource]
+script = ExtResource("1_2xmwq")
+display_name = "audio"
+description = "现有表现参数，默认值逐项保留。单位与修改约束见 DATA_GUIDE.md。"
+values = {
+  "card_files": {
+    "card_deal": [
+      "card-slide",
+      8
+    ],
+    "card_fan": [
+      "card-fan",
+      2
+    ],
+    "card_flex": [
+      "cards-pack-take-out",
+      2
+    ],
+    "card_lift": [
+      "card-slide",
+      8
+    ],
+    "card_pick": [
+      "card-shove",
+      4
+    ],
+    "card_return": [
+      "card-place",
+      4
+    ],
+    "card_settle": [
+      "card-place",
+      4
+    ]
+  },
+  "card_gain": 0.9,
+  "card_lift_gap": 0.075,
+  "card_variants": {
+    "deal": 1,
+    "fan": 1,
+    "lift": 1,
+    "pick": 1
+  },
+  "default_gain": 0.7,
+  "default_gap": 0.045,
+  "menu_move": {
+    "file": "res://assets/menu/menu-move.mp3",
+    "gain": 0.55
+  },
+  "page_turn": {
+    "file": "res://assets/ui_paper_motion/page-turn.wav",
+    "gain": 0.8
+  },
+  "map_paper": {
+    "file": "res://assets/ui_paper_motion/page-turn.wav",
+    "gain": 0.65
+  },
+  "map_pin": {
+    "file": "res://assets/cards/card-place-1.ogg",
+    "gain": 0.3
+  },
+  "gains": {
+    "arrow": 0.62,
+    "bad": 0.8,
+    "break": 0.95,
+    "build": 0.9,
+    "click": 0.45,
+    "cry": 0.7,
+    "foot": 0.24,
+    "horn": 0.55,
+    "hover": 0.18,
+    "impact": 0.6,
+    "kill": 1.0,
+    "select": 0.4,
+    "shield": 0.64,
+    "swing": 0.27,
+    "sword": 0.7,
+    "upgrade": 0.85,
+    "win": 0.8,
+    "equip": 0.38,
+    "cancel": 0.4,
+    "reward": 0.6
+  },
+  "gaps": {
+    "arrow": 0.12,
+    "cry": 2.5,
+    "foot": 0.3,
+    "hover": 0.13,
+    "impact": 0.09,
+    "kill": 0.12,
+    "shield": 0.16,
+    "swing": 0.1,
+    "sword": 0.13,
+    "horn": 3.8,
+    "equip": 0.7,
+    "click": 0.08,
+    "select": 0.1,
+    "cancel": 0.12,
+    "reward": 0.5
+  },
+  "pitch_kinds": [
+    "sword",
+    "swing",
+    "impact",
+    "shield",
+    "foot"
+  ],
+  "pitch_range": [
+    0.97,
+    1.03
+  ],
+  "priority_kinds": [
+    "kill",
+    "break",
+    "cry",
+    "horn",
+    "reward"
+  ],
+  "variants": {
+    "cry": 2,
+    "foot": 4,
+    "impact": 3,
+    "kill": 3,
+    "shield": 3,
+    "swing": 3,
+    "sword": 3,
+    "horn": 1,
+    "equip": 3,
+    "click": 1,
+    "select": 1,
+    "hover": 1,
+    "cancel": 1,
+    "reward": 3
+  },
+  "music": {
+    "crossfade_seconds": 2.4,
+    "interrupt_seconds": 0.18,
+    "loop_crossfade_seconds": 2.0,
+    "volume_smoothing_seconds": 0.12,
+    "duck_seconds": 0.45,
+    "quiet_gain": 0.62,
+    "tracks": {
+      "menu": {
+        "file": "res://assets/music/the-pyre.mp3",
+        "title": "The Pyre",
+        "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100846",
+        "start": 2.197,
+        "end": 232.275,
+        "gain": 0.8622,
+        "author": "Kevin MacLeod",
+        "author_url": "https://incompetech.com"
+      },
+      "camp": {
+        "file": "res://assets/music/lord-of-the-land.mp3",
+        "title": "Lord of the Land",
+        "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400022",
+        "start": 0.0,
+        "end": 186.192,
+        "gain": 1.0957,
+        "author": "Kevin MacLeod",
+        "author_url": "https://incompetech.com"
+      },
+      "battle": {
+        "file": "res://assets/music/crusade.mp3",
+        "title": "Crusade",
+        "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100884",
+        "start": 0.0,
+        "end": 198.74,
+        "gain": 0.7452,
+        "author": "Kevin MacLeod",
+        "author_url": "https://incompetech.com"
+      },
+      "boss": {
+        "file": "res://assets/music/legionnaire-2022.mp3",
+        "title": "Legionnaire · 2022 Remaster",
+        "author": "Scott Buckley",
+        "author_url": "https://www.scottbuckley.com.au",
+        "source": "https://www.scottbuckley.com.au/library/legionnaire-2022/",
+        "start": 0.974286,
+        "end": 185.320771,
+        "gain": 0.927664
+      },
+      "archive": {
+        "file": "res://assets/music/ancient-rite.mp3",
+        "title": "Ancient Rite",
+        "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1900048",
+        "start": 0.0,
+        "end": 113.062,
+        "gain": 0.8731,
+        "author": "Kevin MacLeod",
+        "author_url": "https://incompetech.com"
+      },
+      "map": {
+        "file": "res://assets/music/the-great-sea.mp3",
+        "title": "The Great Sea",
+        "author": "Scott Buckley",
+        "author_url": "https://www.scottbuckley.com.au",
+        "source": "https://www.scottbuckley.com.au/library/the-great-sea/",
+        "start": 1.249887,
+        "end": 281.911791,
+        "gain": 0.937379
+      }
+    }
+  },
+  "voice_pool_size": 12,
+  "effect_files": {
+    "horn": [
+      "res://assets/selected_audio/horn.wav"
+    ],
+    "sword": [
+      "res://assets/selected_audio/sword-0.wav",
+      "res://assets/selected_audio/sword-1.wav",
+      "res://assets/selected_audio/sword-2.wav"
+    ],
+    "shield": [
+      "res://assets/selected_audio/shield-0.wav",
+      "res://assets/selected_audio/shield-1.wav",
+      "res://assets/selected_audio/shield-2.wav"
+    ],
+    "equip": [
+      "res://assets/selected_audio/equip-0.wav",
+      "res://assets/selected_audio/equip-1.wav",
+      "res://assets/selected_audio/equip-2.wav"
+    ],
+    "foot": [
+      "res://assets/selected_audio/foot-0.wav",
+      "res://assets/selected_audio/foot-1.wav",
+      "res://assets/selected_audio/foot-2.wav",
+      "res://assets/selected_audio/foot-3.wav"
+    ],
+    "click": [
+      "res://assets/selected_audio/click.wav"
+    ],
+    "select": [
+      "res://assets/selected_audio/select.wav"
+    ],
+    "hover": [
+      "res://assets/selected_audio/hover.wav"
+    ],
+    "cancel": [
+      "res://assets/selected_audio/cancel.wav"
+    ],
+    "reward": [
+      "res://assets/selected_audio/reward-0.wav",
+      "res://assets/selected_audio/reward-1.wav",
+      "res://assets/selected_audio/reward-2.wav"
+    ]
+  },
+  "ambience": {
+    "fade_seconds": 1.4,
+    "quiet_gain": 0.5,
+    "tracks": {
+      "sea": {
+        "file": "res://assets/selected_audio/sea.wav",
+        "gain": 0.24
+      },
+      "fire": {
+        "file": "res://assets/selected_audio/fire.wav",
+        "gain": 0.2
+      }
+    }
+  }
+}

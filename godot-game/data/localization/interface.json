@@ -1,0 +1,746 @@
+{
+  "expedition_map.assembly": {
+    "zh": "集结",
+    "en": "Assembly"
+  },
+  "expedition_map.rest": {
+    "zh": "整备",
+    "en": "Rest"
+  },
+  "expedition_map.supplies": {
+    "zh": "补给",
+    "en": "Supplies"
+  },
+  "expedition_map.battle": {
+    "zh": "战斗",
+    "en": "Battle"
+  },
+  "expedition_map.elite": {
+    "zh": "精英",
+    "en": "Elite"
+  },
+  "expedition_map.boss": {
+    "zh": "决战",
+    "en": "Boss"
+  },
+  "expedition_map.final": {
+    "zh": "终战",
+    "en": "Final"
+  },
+  "expedition_map.under_the_eagle_mediterranean_campaign": {
+    "zh": "鹰旗之下 · 地中海远征",
+    "en": "Under the Eagle · Mediterranean Campaign"
+  },
+  "expedition_map.30_bc_geography_fictional_campaign_one_mediterranean_run": {
+    "zh": "前30年古地理 · 架空战役 · 一局征服地中海",
+    "en": "30 BC geography · Fictional campaign · One Mediterranean run"
+  },
+  "expedition_map.march_d_45_lives_d_3": {
+    "zh": "行军 %d / {total_steps}     生命 %d/{max_lives}",
+    "en": "March %d / {total_steps}     Lives %d/{max_lives}"
+  },
+  "expedition_map.new_campaign": {
+    "zh": "开始新远征",
+    "en": "New campaign"
+  },
+  "expedition_map.main_menu": {
+    "zh": "主菜单",
+    "en": "Main menu"
+  },
+  "expedition_map.back_to_deployment": {
+    "zh": "返回部署",
+    "en": "Back to deployment"
+  },
+  "expedition_map.back_to_battle": {
+    "zh": "返回战场",
+    "en": "Back to battle"
+  },
+  "expedition_map.back_to_camp": {
+    "zh": "军营 / 构筑",
+    "en": "Back to camp"
+  },
+  "expedition_map.overview": {
+    "zh": "全海域",
+    "en": "Overview"
+  },
+  "expedition_map.zoom_in": {
+    "zh": "放大地图",
+    "en": "Zoom in"
+  },
+  "expedition_map.zoom_out": {
+    "zh": "缩小地图",
+    "en": "Zoom out"
+  },
+  "expedition_map.find_legion": {
+    "zh": "当前路线",
+    "en": "Current front"
+  },
+  "expedition_map.drag_to_pan_scroll_to_zoom_click_a_city": {
+    "zh": "拖动浏览 · 滚轮缩放 · 点击城邦 · 虚线为海运 · 小引线指向原址",
+    "en": "Drag to pan · Scroll to zoom · Click a city · Dashed sea transfers · Site leaders"
+  },
+  "expedition_map.legion": {
+    "zh": "军团驻地：",
+    "en": "Legion: "
+  },
+  "expedition_map.legion_camp": {
+    "zh": "军团驻地",
+    "en": "Legion camp"
+  },
+  "expedition_map.visited": {
+    "zh": "已通过",
+    "en": "Visited"
+  },
+  "expedition_map.route_closed": {
+    "zh": "支线已关闭",
+    "en": "Route closed"
+  },
+  "expedition_map.assembly_point": {
+    "zh": "集结地",
+    "en": "Assembly point"
+  },
+  "expedition_map.friendly_port": {
+    "zh": "友军港口",
+    "en": "Friendly port"
+  },
+  "expedition_map.city_event": {
+    "zh": "城邦事件",
+    "en": "City event"
+  },
+  "expedition_map.battle_2": {
+    "zh": "普通战斗",
+    "en": "Battle"
+  },
+  "expedition_map.elite_battle": {
+    "zh": "精英战斗",
+    "en": "Elite battle"
+  },
+  "expedition_map.regional_showdown": {
+    "zh": "战区决战",
+    "en": "Regional showdown"
+  },
+  "expedition_map.final_battle": {
+    "zh": "最终决战",
+    "en": "Final battle"
+  },
+  "expedition_map.unknown": {
+    "zh": "情报未明",
+    "en": "Unknown"
+  },
+  "expedition_map.first_wave_d_waves_total": {
+    "zh": "首轮敌军 · 共 %d 轮",
+    "en": "First wave · %d waves total"
+  },
+  "expedition_map.enemy_forces": {
+    "zh": "敌军",
+    "en": "Enemy forces"
+  },
+  "expedition_map.awaiting_scout_reports": {
+    "zh": "等待斥候报告",
+    "en": "Awaiting scout reports"
+  },
+  "expedition_map.no_enemies_peaceful_visit": {
+    "zh": "无敌军 · 和平访问",
+    "en": "No enemies · Peaceful visit"
+  },
+  "expedition_map.infantry": {
+    "zh": "步兵",
+    "en": "Infantry"
+  },
+  "expedition_map.archers": {
+    "zh": "弓兵",
+    "en": "Archers"
+  },
+  "expedition_map.shield_guards": {
+    "zh": "重盾兵",
+    "en": "Shield guards"
+  },
+  "expedition_map.cavalry": {
+    "zh": "骑兵",
+    "en": "Cavalry"
+  },
+  "expedition_map.catapults": {
+    "zh": "投石车",
+    "en": "Catapults"
+  },
+  "expedition_map.health_2f_attack_2f": {
+    "zh": "生命 ×%.2f · 攻击 ×%.2f",
+    "en": "Health ×%.2f · Attack ×%.2f"
+  },
+  "expedition_map.enemies_and_rewards_are_revealed_within_two_stops": {
+    "zh": "前方{scouting_distance_zh}站以内揭示敌军与奖励",
+    "en": "Enemies and rewards are revealed within {scouting_distance_en} stops."
+  },
+  "expedition_map.reward_after_capture": {
+    "zh": "攻下城邦后奖励",
+    "en": "Reward after capture"
+  },
+  "expedition_map.rewards": {
+    "zh": "奖励",
+    "en": "Rewards"
+  },
+  "expedition_map.not_yet_scouted": {
+    "zh": "尚未侦察",
+    "en": "Not yet scouted"
+  },
+  "expedition_map.history": {
+    "zh": " 历史档案",
+    "en": " History"
+  },
+  "expedition_map.close_info": {
+    "zh": "关闭城邦情报",
+    "en": "Close city intel"
+  },
+  "expedition_map.reward_recovery": {
+    "zh": "奖励 · 生命 +{recovery_lives}（上限{max_lives}）",
+    "en": "Rewards · +{recovery_lives} life (max {max_lives})"
+  },
+  "expedition_map.battle_3": {
+    "zh": "进入战斗  ⚔",
+    "en": "Battle  ⚔"
+  },
+  "expedition_map.visit": {
+    "zh": "进入城邦  →",
+    "en": "Visit  →"
+  },
+  "expedition_map.already_visited": {
+    "zh": "已通过 · 选择下一站",
+    "en": "Already visited"
+  },
+  "expedition_map.route_closed_2": {
+    "zh": "本局无法折返",
+    "en": "Route closed"
+  },
+  "expedition_map.not_reachable": {
+    "zh": "尚未到达",
+    "en": "Not reachable"
+  },
+  "expedition_map.deploy": {
+    "zh": "步兵出征  →",
+    "en": "March to battle  →"
+  },
+  "expedition_map.departure_port": {
+    "zh": "随首战经过",
+    "en": "Departure port"
+  },
+  "main.western_sea_rocky_scrub": {
+    "zh": "西地中海 · 岩丘灌木",
+    "en": "Western sea · Rocky scrub"
+  },
+  "main.north_africa_oasis": {
+    "zh": "北非 · 沙地绿洲",
+    "en": "North Africa · Oasis"
+  },
+  "main.eastern_sea_harbor": {
+    "zh": "东地中海 · 石柱港口",
+    "en": "Eastern sea · Harbor"
+  },
+  "main.deployment": {
+    "zh": "战前部署",
+    "en": "Deployment"
+  },
+  "main.battle": {
+    "zh": "远征战斗",
+    "en": "Battle"
+  },
+  "main.under_the_eagle_camp": {
+    "zh": "鹰旗之下 · 军营",
+    "en": "Under the Eagle · Camp"
+  },
+  "main.expedition_map": {
+    "zh": "远征地图",
+    "en": "Expedition map"
+  },
+  "main.click_a_highlighted_plot_to_build_or_a_matching": {
+    "zh": "点击空格部署，或点击同类军团／建筑升级。",
+    "en": "Deploy on an empty tile, or upgrade a matching troop or facility."
+  },
+  "main.choose_your_supplies": {
+    "zh": "按住卡牌向上拖动，松手使用。",
+    "en": "Hold a card, drag up, then release to use."
+  },
+  "main.place_or_upgrade_the_building_to_begin_the_first": {
+    "zh": "部署或升级军团／建筑，完成后自动出阵。",
+    "en": "Deploy or upgrade a troop or facility to start marching."
+  },
+  "main.choose_one_starting_card_combat_begins_after_deployment": {
+    "zh": "按住初始卡上滑后松手 · 完成部署后自动开战",
+    "en": "Drag a card up, then release · Deploy to start combat"
+  },
+  "cards.drag_to_use": {
+    "zh": "继续向上拖动 · 右键 / Esc 取消",
+    "en": "Drag upward · Right-click / Esc to cancel"
+  },
+  "cards.release_to_use": {
+    "zh": "松手使用 · 往回拖动取消",
+    "en": "Release to use · Drag back to cancel"
+  },
+  "main.continue_expedition": {
+    "zh": "继续远征  →",
+    "en": "Continue expedition  →"
+  },
+  "main.campaign_complete": {
+    "zh": "远征告捷  →",
+    "en": "Campaign complete  →"
+  },
+  "main.between_waves_survivors_recover_50_max_health_minimum_70": {
+    "zh": "轮间：存活部队恢复{survivor_heal_pct}%最大生命且至少补至{reinforcement_pct}%；溃退部队以{reinforcement_pct}%生命补员，护盾恢复{shield_recovery_pct}%。全军覆没则本次攻坚失败。",
+    "en": "Between waves: survivors recover {survivor_heal_pct}% max health (minimum {reinforcement_pct}% health); routed squads return at {reinforcement_pct}% health; shields recover {shield_recovery_pct}%. Losing the whole army ends the assault."
+  },
+  "main.build_or_upgrade_the_same_camp_max_level_iii": {
+    "zh": " 可建于空地，或升级同类建筑，最高三级。",
+    "en": " Build or upgrade the matching troop or facility, max level III."
+  },
+  "main.wave_d_d_cleared_regroup_1fs_reinforce_and_recover": {
+    "zh": "第 %d / %d 轮已击退 · 重整 %.1f 秒\n补员与治疗后，下一轮自动来袭",
+    "en": "Wave %d / %d cleared · Regroup %.1fs\nReinforce and recover; the next wave starts automatically"
+  },
+  "main.city_assault_wave_d_d_repel_every_wave_to": {
+    "zh": "城邦攻坚 · 第 %d / %d 轮\n全部击退后获得城邦奖励",
+    "en": "City assault · Wave %d / %d\nRepel every wave to claim the city reward"
+  },
+  "main.on": {
+    "zh": "开",
+    "en": "ON"
+  },
+  "main.off": {
+    "zh": "关",
+    "en": "OFF"
+  },
+  "main.waves_cleared_d_d": {
+    "zh": "击退轮次  %d / %d",
+    "en": "Waves cleared  %d / %d"
+  },
+  "main_menu.under_the_eagle": {
+    "zh": "鹰旗之下",
+    "en": "UNDER THE EAGLE"
+  },
+  "main_menu.the_mediterranean_campaign": {
+    "zh": "地 中 海 远 征",
+    "en": "THE MEDITERRANEAN CAMPAIGN"
+  },
+  "main_menu.start_game": {
+    "zh": "开始游戏",
+    "en": "Start Game"
+  },
+  "main_menu.continue": {
+    "zh": "继续远征",
+    "en": "Continue"
+  },
+  "main_menu.settings": {
+    "zh": "设置",
+    "en": "Settings"
+  },
+  "main_menu.quit": {
+    "zh": "退出游戏",
+    "en": "Quit"
+  },
+  "main_menu.no_run": {
+    "zh": "暂无可继续的远征，请先开始游戏",
+    "en": "No expedition to continue. Start a new game first."
+  },
+  "main_menu.english": {
+    "zh": "中文",
+    "en": "English"
+  },
+  "main_menu.volume": {
+    "zh": "音量 ",
+    "en": "Volume "
+  },
+  "expedition.starting_legion_infantry_archers_and_catapults": {
+    "zh": "初始兵力：一队步兵；其他部队与建筑通过后续选牌获得。",
+    "en": "Starting force: one infantry squad. Recruit troops and facilities through later rewards."
+  },
+  "expedition.passed_en_route_to_the_first_battle_no_separate": {
+    "zh": "随首段行军经过 · 不单独选牌",
+    "en": "Passed en route to the first battle · No separate card choice"
+  },
+  "expedition.complete_the_campaign_unite_the_mediterranean": {
+    "zh": "完成本局远征 · 地中海成为内海",
+    "en": "Complete the campaign · Unite the Mediterranean"
+  },
+  "expedition.legion_life_1_max_3": {
+    "zh": "军团生命 +{recovery_lives}（上限{max_lives}）\n",
+    "en": "Legion life +{recovery_lives} (max {max_lives})\n"
+  },
+  "expedition.choose_1_of_3_building_doctrine_or_order": {
+    "zh": "三选一：部队、建筑、强化或军令；每攻下3座城额外获得一次扩建。",
+    "en": "Choose 1 of 3 troops, facilities, upgrades or orders. Every 3 captured cities grant one extra camp tile."
+  },
+  "expedition.choose_the_highlighted_first_destination_pick_one_starting_card": {
+    "zh": "选择第一座目标城邦，以初始步兵出征。攻下城邦后获得第一轮选牌。",
+    "en": "Choose your first destination and march with infantry. The first card reward comes after victory."
+  },
+  "expedition.opening_deployment_pending_return_to_deployment_choose_a_card": {
+    "zh": "首战部署尚未完成。返回部署，选牌并完成建造后自动开战。",
+    "en": "Opening deployment pending. Return to deployment, choose a card and finish building to begin combat automatically."
+  },
+  "expedition.battle_complete_open_view_report_at_the_top_right": {
+    "zh": "战斗已结束。点击右上角“查看战报”完成结算。",
+    "en": "Battle complete. Open View report at the top right to settle the encounter."
+  },
+  "expedition.battle_suspended_select_back_to_battle_at_the_top": {
+    "zh": "战斗已暂停。点击右上角“返回战场”继续。",
+    "en": "Battle suspended. Select Back to battle at the top right to return."
+  },
+  "expedition.building_placement_pending_return_to_camp_and_finish_building": {
+    "zh": "部署尚未完成，返回军营放置或升级后继续远征。",
+    "en": "Deployment pending. Return to camp and place or upgrade before traveling."
+  },
+  "expedition.supplies_pending_return_to_camp_and_choose_a_card": {
+    "zh": "补给尚未领取。返回军营选择一张卡牌后继续远征。",
+    "en": "Supplies pending. Return to camp and choose a card before traveling."
+  },
+  "expedition.supplies_ready_choose_your_next_destination": {
+    "zh": "。整备完毕，选择下一站。",
+    "en": ". Supplies ready. Choose your next destination."
+  },
+  "expedition.s_secured_your_army_buildings_and_permanent_doctrines_carry": {
+    "zh": "已夺取%s。军团、建筑与永久教义继续随军。",
+    "en": "%s secured. Your army, buildings and permanent doctrines carry over."
+  },
+  "expedition.victory_the_eagle_reaches_s_the_mediterranean_is_united": {
+    "zh": "远征告捷。鹰旗抵达%s，地中海成为内海。",
+    "en": "Victory! The eagle reaches %s. The Mediterranean is united."
+  },
+  "expedition.attack_repelled_life_1_no_reward_you_may_attack": {
+    "zh": "进攻失利，生命 −{loss_lives}。未领取奖励；可再次进攻%s。",
+    "en": "Attack repelled. Life −{loss_lives}; no reward. You may attack %s again."
+  },
+  "expedition.the_legion_is_ready_choose_s_to_begin_the": {
+    "zh": "军团集结完毕。选择%s，展开地中海远征。",
+    "en": "The legion is ready. Choose %s to begin the Mediterranean campaign."
+  },
+  "settings.frame_limit": {
+    "zh": "帧率上限",
+    "en": "Frame limit"
+  },
+  "settings.unlimited": {
+    "zh": "无限制",
+    "en": "Unlimited"
+  },
+  "settings.frame_limit_hint": {
+    "zh": "立即生效并保存；实际帧率取决于设备性能。",
+    "en": "Applies immediately and saves. Actual FPS depends on performance."
+  },
+  "documents.reference_date": {
+    "zh": "地理参考：公元前30年",
+    "en": "Geographic reference: 30 BC"
+  },
+  "documents.context_note": {
+    "zh": "历史地名资料；本局行军与交战为架空。",
+    "en": "Historical place names; the campaign itinerary and battles are fictional."
+  },
+  "documents.return_to_map": {
+    "zh": "返回地图",
+    "en": "Return to map"
+  },
+  "documents.unvisited": {
+    "zh": "尚未到访",
+    "en": "Not yet visited"
+  },
+  "documents.page_count": {
+    "zh": "档案 %d / %d · 页 %d / %d",
+    "en": "Record %d / %d · Page %d / %d"
+  },
+  "documents.previous": {
+    "zh": "上一页",
+    "en": "Previous page"
+  },
+  "documents.next": {
+    "zh": "下一页",
+    "en": "Next page"
+  },
+  "documents.region_0": {
+    "zh": "全部",
+    "en": "All"
+  },
+  "documents.region_1": {
+    "zh": "伊比利亚",
+    "en": "Iberia"
+  },
+  "documents.region_2": {
+    "zh": "北非",
+    "en": "Africa"
+  },
+  "documents.region_3": {
+    "zh": "东地中海",
+    "en": "East"
+  },
+  "documents.supplies_ready": {
+    "zh": "补给已抵达",
+    "en": "Supplies have arrived"
+  },
+  "documents.supplies_effect": {
+    "zh": "军团生命 +%d（%d / %d）\n接下来选择一张补给卡。",
+    "en": "Legion lives +%d (%d / %d)\nChoose one supply card next."
+  },
+  "documents.choose_supply": {
+    "zh": "选择补给卡",
+    "en": "Choose a supply card"
+  },
+  "settings.music_credits": {
+    "zh": "音乐鸣谢",
+    "en": "Music credits"
+  },
+  "settings.music_edits": {
+    "zh": "原始音乐文件未修改。游戏播放时调整音量、略过首尾静音，并应用淡入淡出与循环衔接。",
+    "en": "Original audio files are unchanged. Playback adjusts levels, skips edge silence, and applies fades and loop transitions."
+  },
+  "settings.back": {
+    "zh": "返回设置",
+    "en": "Back to settings"
+  },
+  "camp.expand": {
+    "zh": "扩建军营 ×%d",
+    "en": "Expand camp ×%d"
+  },
+  "camp.cancel": {
+    "zh": "取消调整",
+    "en": "Cancel"
+  },
+  "camp.move": {
+    "zh": "调整位置",
+    "en": "Reposition"
+  },
+  "camp.expanding": {
+    "zh": "选择外围16格中的任意一格扩建，包括四个角。",
+    "en": "Choose any of the 16 border plots, including corners."
+  },
+  "camp.moving": {
+    "zh": "选择已解锁格；空格移动，有部队或建筑则交换。",
+    "en": "Choose an unlocked tile. Move to empty space or swap occupants."
+  },
+  "camp.progress": {
+    "zh": "军营 %d / %d 格\n已攻下 %d 座城 · 距下次扩建 %d 座\n扩建次数：%d",
+    "en": "Camp %d / %d tiles\n%d cities captured · %d until expansion\nExpansion credits: %d"
+  },
+  "camp.positions": {
+    "zh": "靠敌军的一列先接敌\n训练场：相邻攻击 +{yard_pct}% / 级\n医疗营：相邻军团生命 +{hospital_pct}% / 级\n只计上下左右；同类取最高加成",
+    "en": "Forward columns engage first\nDrill yard: adjacent attack +{yard_pct}% / level\nHospital: adjacent troop health +{hospital_pct}% / level\nOrthogonal only; strongest of each type"
+  },
+  "camp.preview": {
+    "zh": "此格：攻击 +%d%% · 生命 +%d%%",
+    "en": "This tile: attack +%d%% · health +%d%%"
+  },
+  "camp.frontline": {
+    "zh": "前线 →",
+    "en": "FRONT →"
+  },
+  "camp.expanded": {
+    "zh": "新地块已解锁；兵种或建筑仍通过选牌获得。",
+    "en": "Tile unlocked. Recruit its occupant through card rewards."
+  },
+  "camp.repositioned": {
+    "zh": "已调整位置，相邻协同已更新。",
+    "en": "Position changed; adjacency bonuses updated."
+  },
+  "camp.full": {
+    "zh": "军营已扩满 · %d 格\n已攻下 %d 座城",
+    "en": "Camp fully expanded · %d tiles\n%d cities captured"
+  },
+  "route.branch": {
+    "zh": "当前分岔：%s · %d条路线选1条 · 在%s汇合",
+    "en": "Fork at %s · choose 1 of %d routes · rejoin at %s"
+  },
+  "route.forward": {
+    "zh": "当前行军：%s → %s",
+    "en": "March: %s → %s"
+  },
+  "route.preview": {
+    "zh": "战区预览：%s · 按行军顺序解锁，不能直接跳转",
+    "en": "Theater preview: %s · unlocked in campaign order"
+  },
+  "route.sea": {
+    "zh": "海路",
+    "en": "SEA"
+  },
+  "route.land": {
+    "zh": "陆路",
+    "en": "LAND"
+  },
+  "route.merge": {
+    "zh": "汇合",
+    "en": "JOIN"
+  },
+  "route.fork": {
+    "zh": "分岔",
+    "en": "FORK"
+  },
+  "route.port": {
+    "zh": "港口转场：%s → %s",
+    "en": "Sea transfer: %s → %s"
+  },
+  "route.legend": {
+    "zh": "粗线 下一步   细线 后续   A/B 分支   汇合后继续推进",
+    "en": "Bold NEXT   Thin LATER   A/B CHOICES   Rejoin, then advance"
+  },
+  "route.choice": {
+    "zh": "%s · %s · %s",
+    "en": "%s · %s · %s"
+  },
+  "route.tab_tip": {
+    "zh": "仅查看此战区；不会移动军团。",
+    "en": "Preview this theater; does not move the legion."
+  },
+  "journey.rally": {
+    "zh": "军团集结 · %s",
+    "en": "Rally the legion · %s"
+  },
+  "journey.land": {
+    "zh": "陆路进军 · %s",
+    "en": "Marching to %s"
+  },
+  "journey.sea": {
+    "zh": "扬帆渡海 · %s",
+    "en": "Sailing to %s"
+  },
+  "journey.arrival": {
+    "zh": "抵达 · %s",
+    "en": "Arriving at %s"
+  },
+  "journey.skip": {
+    "zh": "空格 / Esc  快速结束",
+    "en": "Space / Esc  Skip"
+  },
+  "routeintel.now": {
+    "zh": "当前分岔 · 点击 A / B 比较",
+    "en": "CHOOSE A ROUTE · inspect A / B"
+  },
+  "routeintel.ahead": {
+    "zh": "前方分岔 · 可提前规划",
+    "en": "NEXT FORK · plan ahead"
+  },
+  "routeintel.single": {
+    "zh": "下一站 · 查看敌情再出发",
+    "en": "NEXT STOP · inspect before marching"
+  },
+  "routeintel.future": {
+    "zh": "预览情报 · 到达分岔后可选",
+    "en": "Preview only · reach the fork to choose"
+  },
+  "routeintel.owned": {
+    "zh": "可用：%s",
+    "en": "Available: %s"
+  },
+  "routeintel.missing": {
+    "zh": "可补：%s",
+    "en": "Consider: %s"
+  },
+  "routeintel.rounds": {
+    "zh": "%s · %d轮",
+    "en": "%s · %d waves"
+  },
+  "routeintel.reward": {
+    "zh": "奖励：三选一",
+    "en": "Reward: choose 1 of 3"
+  },
+  "routeintel.recovery": {
+    "zh": "三选一 + 恢复1生命",
+    "en": "Choose 1 of 3 + restore 1 life"
+  },
+  "routeintel.victory": {
+    "zh": "胜利目标 · 完成远征",
+    "en": "Victory objective · end campaign"
+  },
+  "routeintel.view": {
+    "zh": "查看敌军 →",
+    "en": "Inspect forces →"
+  },
+  "routeintel.patrol.name": {
+    "zh": "步兵先遣队",
+    "en": "Infantry patrol"
+  },
+  "routeintel.patrol.threat": {
+    "zh": "近战接敌，后续有弓兵支援",
+    "en": "Melee advance, later bow support"
+  },
+  "routeintel.patrol.advice": {
+    "zh": "步兵接敌，逐步补齐兵种",
+    "en": "Hold the front; expand your force"
+  },
+  "routeintel.bowline.name": {
+    "zh": "弓兵阵线",
+    "en": "Archer line"
+  },
+  "routeintel.bowline.threat": {
+    "zh": "多弓兵远程齐射，前排较薄",
+    "en": "Bow volleys behind a thin front"
+  },
+  "routeintel.bowline.advice": {
+    "zh": "盾兵推进，医者维持续航",
+    "en": "Guard advance; medics sustain"
+  },
+  "routeintel.bulwark.name": {
+    "zh": "重盾守军",
+    "en": "Shield garrison"
+  },
+  "routeintel.bulwark.threat": {
+    "zh": "盾量与血量高，推进较慢",
+    "en": "High shields and health; slow advance"
+  },
+  "routeintel.bulwark.advice": {
+    "zh": "前排拖住，用弓兵持续消耗",
+    "en": "Hold them; wear down with archers"
+  },
+  "routeintel.raiders.name": {
+    "zh": "骑兵突击队",
+    "en": "Cavalry raiders"
+  },
+  "routeintel.raiders.threat": {
+    "zh": "快速接敌，首次攻击有冲锋",
+    "en": "Fast approach; first hit charges"
+  },
+  "routeintel.raiders.advice": {
+    "zh": "枪兵减速，盾兵保护后排",
+    "en": "Spears slow; guards protect the rear"
+  },
+  "routeintel.battery.name": {
+    "zh": "投石阵地",
+    "en": "Catapult battery"
+  },
+  "routeintel.battery.threat": {
+    "zh": "远距离范围打击，有前排掩护",
+    "en": "Long-range blasts behind a screen"
+  },
+  "routeintel.battery.advice": {
+    "zh": "骑兵加快接敌，或投石对攻",
+    "en": "Close with cavalry or counterfire"
+  },
+  "routeintel.peace.name": {
+    "zh": "友军整备",
+    "en": "Friendly stop"
+  },
+  "routeintel.peace.threat": {
+    "zh": "没有战斗，抵达后领取补给",
+    "en": "No combat; collect supplies on arrival"
+  },
+  "routeintel.peace.advice": {
+    "zh": "保留军团与当前军令",
+    "en": "Army and battle orders carry over"
+  },
+  "routeintel.current": {
+    "zh": "军团驻地",
+    "en": "LEGION"
+  },
+  "routeintel.toward": {
+    "zh": "→ 汇合",
+    "en": "→ JOIN"
+  },
+  "routeintel.road": {
+    "zh": "%s · %s",
+    "en": "%s · %s"
+  },
+  "routeintel.reward_detail": {
+    "zh": "三选一卡牌\n每攻下{expansion_cities}城，额外扩建一格",
+    "en": "Choose 1 of 3 cards.\nExtra camp tile every {expansion_cities} captures."
+  },
+  "routeintel.elite": {
+    "zh": "恢复1生命 · 强化保底 · 重抽1次",
+    "en": "+1 life · upgrade · 1 redraw"
+  },
+  "routeintel.elite_detail": {
+    "zh": "三选一：可用强化保底，可重抽一次\n每攻下{expansion_cities}城，额外扩建一格",
+    "en": "Pick 1 · upgrade guaranteed · 1 redraw\nEvery {expansion_cities} captures: +1 camp tile"
+  }
+}

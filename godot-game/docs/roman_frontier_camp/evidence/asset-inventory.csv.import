@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://6qewgwxketq4"
+
+[deps]
+
+files=["res://docs/roman_frontier_camp/evidence/asset-inventory.width.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.height.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.opaque.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.partial.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.opaque.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.nontransparent.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.sha256.translation"]
+
+source_file="res://docs/roman_frontier_camp/evidence/asset-inventory.csv"
+dest_files=["res://docs/roman_frontier_camp/evidence/asset-inventory.width.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.height.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.opaque.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.partial.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.opaque.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.nontransparent.translation", "res://docs/roman_frontier_camp/evidence/asset-inventory.sha256.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

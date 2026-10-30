@@ -1,0 +1,37 @@
+Under the Eagle — Music credits
+
+All five tracks below are by Kevin MacLeod (incompetech.com).
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+
+Original MP3 files are unchanged. At runtime the game adjusts gain, skips edge silence,
+and applies crossfades and loop transitions. No artist endorsement is implied.
+
+The Pyre — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100846
+ISRC: USUAN1100846
+
+Lord of the Land — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400022
+ISRC: USUAN1400022
+
+Crusade — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100884
+ISRC: USUAN1100884
+
+Five Armies — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100875
+ISRC: USUAN1100875
+
+Ancient Rite — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1900048
+ISRC: USUAN1900048
+
+
+
+Legionnaire (2022 Remaster) and The Great Sea — Scott Buckley
+https://www.scottbuckley.com.au
+Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+https://www.scottbuckley.com.au/library/legionnaire-2022/
+https://www.scottbuckley.com.au/library/the-great-sea/
+Original MP3 files unchanged. Runtime gain, edge-silence skips, crossfades and loop transitions.

@@ -1,0 +1,48 @@
+{
+  "strength": {
+    "battle": 1.0,
+    "elite": 1.1,
+    "boss": 1.18,
+    "final": 1.25
+  },
+  "waves": {
+    "early": 3,
+    "normal": 5,
+    "elite": 8,
+    "boss": 10,
+    "final": 10
+  },
+  "early_step_max": 4,
+  "early_progress_threshold": 5,
+  "early_variants": [
+    "archer",
+    "enemy",
+    "guard"
+  ],
+  "later_variants": [
+    "archer",
+    "cavalry",
+    "guard",
+    "siege"
+  ],
+  "relief_pressure": 0.8,
+  "mid_pressure": 0.92,
+  "wave_growth": 0.01,
+  "growth_wave_cap": 6,
+  "health_factor": {
+    "boss": 0.89,
+    "elite": 1.06,
+    "normal": 1.12
+  },
+  "health_per_progress": 0.035,
+  "attack_per_progress": 0.025,
+  "progress_growth_start": 2,
+  "relief_attack_threshold": 0.9,
+  "relief_attack_multiplier": 0.88,
+  "early_roster_limits": {
+    "2": 1,
+    "3": 1,
+    "4": 2,
+    "5": 2
+  }
+}

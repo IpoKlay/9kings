@@ -1,0 +1,9 @@
+Source: user-provided c_janine-page-turn-503579 (1).mp3, 2026-10-25.
+Original: /Users/ip/Downloads/c_janine-page-turn-503579 (1).mp3
+The original file is unchanged.
+
+Processing: retain 1.32–2.16 seconds of the 3.6049-second source. Remove leading silence and the low-level tail; use short edge fades. Render at 1.2x with macOS AVAudioUnitTimePitch, preserving pitch, then apply final 3ms/10ms edge fades and a 0.70 peak ceiling.
+Output: page-turn.wav, 0.700 seconds, 44.1kHz stereo PCM16. Playback pitch_scale stays 1.0 so the speed is not applied twice.
+Trigger: successful archive page/region changes, both mouse and keyboard. One dedicated voice; rapid changes restart it. Close/cancel, global mute and stop release the sound.
+Processing script, metadata and original source SHA-256: ../../../output/book-page-audio/
+No additional original-source license was supplied with the file.

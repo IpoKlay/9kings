@@ -1,0 +1,40 @@
+{
+  "data_version": 1,
+  "settings_version": 1,
+  "simulation_step_seconds": 0.016666666666666666,
+  "maximum_delta_seconds": 0.1,
+  "random_multiplier": 1664525,
+  "random_increment": 1013904223,
+  "random_mask": 4294967295,
+  "random_divisor": 4294967296.0,
+  "languages": [
+    "zh",
+    "en"
+  ],
+  "phases": [
+    "reward",
+    "place",
+    "prepare",
+    "battle",
+    "result",
+    "defeat"
+  ],
+  "map_world_size": [
+    5760,
+    2520
+  ],
+  "map_texture_size": [
+    2880,
+    1260
+  ],
+  "viewport_size": [
+    1920,
+    1080
+  ],
+  "battle_render_size": [
+    960,
+    540
+  ],
+  "technical_gust_capacity": 12,
+  "technical_water_polygon_capacity": 24
+}

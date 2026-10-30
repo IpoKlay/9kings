@@ -7,7 +7,8 @@ Modern coastline geometry is a cartographic base, not a 30 BCE coastline reconst
 Ancient places: Pleiades, https://pleiades.stoa.org/
 Coordinates and place-name references: CC BY 3.0.
 https://creativecommons.org/licenses/by/3.0/
-Each in-game historical archive links to the corresponding place record.
+Each itinerary node stores its place-record URL in the source field.
+The full offline reference index is data/expedition_sources.json.
 Original contributors and editorial attribution are listed on those records.
 IDs: 423025, 148127, 246349, 265849, 256177, 462503, 314921,
 373778, 442509, 579885, 590030, 658381, 727070.
@@ -26,3 +27,17 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+Long itinerary expansion (2026-10-23):
+Place names and coordinates continue to use the same Pleiades export (CC BY 3.0).
+Per-place URLs, source titles and Barrington Atlas references are retained in
+data/expedition_sources.json; contributor attribution is available at those URLs.
+The original route display was schematic. The 2026-10-23 geographic atlas uses
+the existing place coordinates, with marker offsets and site leaders for clarity.
+Three theaters of fifteen
+stops are a gameplay structure, not an attested 30 BCE campaign. Oea hinterland
+is an abstract encounter anchored to Oea, not a separate ancient settlement.
+
+Geographic atlas: atlas.png, 2880x1260 pixel texture generated offline from the
+same Natural Earth geometry and palette. All 55 anchors are listed in
+data/expedition_atlas_positions.json; routes are unchanged fictional itineraries.

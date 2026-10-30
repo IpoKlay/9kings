@@ -25,11 +25,12 @@ func no_report(context: String):
 func capture(id: String):
 	if DisplayServer.get_name() == 'headless': return
 	await process_frame
-	await RenderingServer.frame_post_draw
+	RenderingServer.force_draw() # Deterministic capture even when the OS occludes this test window.
 	root.get_texture().get_image().save_png('res://tests/' + id + '.png')
 
 func run():
 	scene = load('res://scenes/main.tscn').instantiate()
+	scene.main_menu=false # Enter gameplay directly; boot menu has its own tests.
 	root.add_child(scene)
 	current_scene = scene
 	scene.set_process(false)
@@ -49,12 +50,10 @@ func run():
 			scene.close_dialog()
 			scene.ui.get_node('MapButton').pressed.emit()
 			check(scene.expedition_map.visible, 'Preparation still opens map')
-			scene.travel_to('148127')
-			scene.skip_supply()
-			no_report(lang + ' port preparation')
-			if outcome == 'win': await capture('report-fix-camp-' + lang)
-			scene.open_map()
 			scene.travel_to('246349')
+			no_report(lang + ' opening deployment')
+			if outcome == 'win': await capture('report-fix-camp-' + lang)
+			preload('res://tests/expedition_test_support.gd').deploy(scene)
 			check(scene.campaign.g.phase == 'battle', 'Real encounter started')
 			no_report(lang + ' battle in progress')
 			if outcome == 'defeat': scene.campaign.g.defense = 1

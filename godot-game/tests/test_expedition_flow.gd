@@ -29,10 +29,15 @@ func by_text(node: Node, value: String):
 func capture(id: String):
 	if DisplayServer.get_name() == 'headless': return
 	await process_frame
-	await RenderingServer.frame_post_draw
+	RenderingServer.force_draw() # Deterministic capture even when the OS occludes this test window.
 	root.get_texture().get_image().save_png('res://tests/' + id + '.png')
 func supply():
+	if app.dialog_kind=='event':
+		app.modal.get_child(1).get_node('EventConfirm').pressed.emit()
+	var opening=app.expedition.state.opening=='card'
 	check(app.campaign.g.phase == 'reward', 'Supply offered exactly once')
+	while app.campaign.g.expansion_credits>0 and not app.campaign.expansion_candidates().is_empty():
+		check(app.campaign.expand(app.campaign.expansion_candidates()[0]),'Awarded expansion remains independent of supplies')
 	var offers = app.campaign.offers()
 	check(offers.size() == 3, 'Three choices')
 	app.open_map()
@@ -50,12 +55,12 @@ func supply():
 		var snapshot = app.campaign.g.duplicate(true)
 		check(not app.campaign.place(-1) and app.campaign.g == snapshot, 'Invalid placement leaves state intact')
 		var cell = -1
-		for i in 12:
+		for i in app.campaign.g.unlocked_cells:
 			var building = app.campaign.building_at(i)
 			if building == null or (building.type == picked and building.level < 3): cell = i; break
 		check(app.campaign.place(cell), 'Place or upgrade reward')
 		app.render_ui()
-	check(app.campaign.g.phase == 'prepare' and not app.expedition.state.reward_due, 'Supply completed in camp')
+	check(app.campaign.g.phase == ('battle' if opening else 'prepare') and not app.expedition.state.reward_due, 'Supply completes into combat or camp')
 	var before = app.campaign.g.duplicate(true)
 	check(not app.campaign.choose(picked) and not app.campaign.skip(), 'Cannot claim or skip twice')
 	check(before == app.campaign.g, 'Duplicate supply leaves state unchanged')
@@ -63,26 +68,42 @@ func supply():
 
 func run():
 	app = load('res://scenes/main.tscn').instantiate()
+	app.main_menu=false # Enter gameplay directly; boot menu has its own tests.
+	app.settings_path='/private/tmp/eagle-camp-flow-test.cfg'
 	root.add_child(app)
 	current_scene = app
 	app.set_process(false)
-	app.sound.enabled = false
+	app.prefs.music_volume=0;app.apply_prefs();app.sound.enabled=false
 	paths('423025', [])
-	check(routes.size() == 12, 'All twelve branching routes enumerated')
+	check(routes.size() == 512, 'All 512 fixed-depth itineraries enumerated')
+	var all_routes = routes.duplicate()
+	routes.clear()
+	# Eight representative itineraries exercise every branch and edge in both languages.
+	for i in 8: routes.append(all_routes[i*73])
+	var covered_edges = {}
+	for route in routes:
+		var previous = app.expedition.data.start
+		for id in route:
+			covered_edges[previous+'>'+id] = true
+			previous = id
+	check(covered_edges.size()==app.expedition.data.edges.size(),'Representative itineraries cover every graph edge')
 	for lang in ['zh', 'en']:
 		app.language = lang
 		for route in routes:
 			app.restart_expedition()
 			app.campaign.reset(23)
+			app.expedition.reset()
 			app.render_ui()
-			supply()
-			for id in route:
+			for id in route.slice(1):
 				app.expedition_map.select_city(id)
 				check(not app.expedition_map.travel_button.disabled, 'Next city is reachable: ' + id)
 				var army = app.campaign.g.buildings.duplicate(true)
 				var upgrades = app.campaign.g.upgrades.duplicate(true)
 				var visited = app.expedition.state.visited.size()
+				var opening=app.expedition.state.opening=='destination'
 				app.expedition_map.travel_button.pressed.emit()
+				preload('res://tests/expedition_test_support.gd').finish_departure(app)
+				if opening: check(app.campaign.g.phase=='battle' and app.card_hand==null,'Opening has no free card')
 				check(not app.expedition.travel(id), 'Repeated travel rejected')
 				if app.campaign.g.phase == 'battle':
 					app.toggle_pause()
@@ -104,21 +125,23 @@ func run():
 					var settled = app.campaign.g.duplicate(true)
 					app.advance()
 					check(app.campaign.g == settled, 'Duplicate settlement gives no reward or life')
-				check(app.expedition.state.current == id and app.expedition.state.visited.size() == visited + 1, 'Exactly one route step')
+				check(app.expedition.state.current == id and app.expedition.state.visited.size() == visited + (2 if opening else 1), 'Exactly one route step')
 				check(app.campaign.g.buildings == army and app.campaign.g.upgrades == upgrades, 'Permanent army persists')
 				if app.campaign.g.phase == 'reward': supply()
 				await process_frame
 			check(app.expedition.state.finished, 'Route reaches final victory')
-			for goal in app.expedition.data.goals: check(goal in app.expedition.state.visited, 'All four regional objectives complete')
-			var restart = by_text(app.expedition_map.content, app.tx('开始新远征','New campaign'))
-			check(restart != null, 'Victory offers restart')
-			var goal_label = by_text(app.expedition_map.content, '◆ ' + app.tx('内海终章','The Inland Sea'))
-			check(not restart.get_global_rect().intersects(goal_label.get_global_rect()), 'Victory restart does not overlap final objective')
+			for goal in app.expedition.data.goals: check(goal in app.expedition.state.visited, 'All three theater objectives complete')
+			app.expedition_map.content.get_node('SettingsButton').pressed.emit()
+			var restart = by_text(app.modal, app.tx('开始新远征','New campaign'))
+			check(restart != null, 'Victory offers restart through the gear')
+			check(app.modal.get_child(1).get_global_rect().encloses(restart.get_global_rect()), 'Victory restart fits inside settings')
+			app.close_dialog()
 			if route == routes.back(): await capture('audit-victory-' + lang)
 			app.show_camp()
 			check(not app.ui.has_node('ReportButton'), 'No stale report after final settlement')
 			app.open_map()
-			restart = by_text(app.expedition_map.content, app.tx('开始新远征','New campaign'))
+			app.expedition_map.content.get_node('SettingsButton').pressed.emit()
+			restart = by_text(app.modal, app.tx('开始新远征','New campaign'))
 			app.speed = 4
 			app.world.selected_cell = 8
 			restart.pressed.emit()
@@ -126,17 +149,16 @@ func run():
 			check(app.campaign.g.defense == 3 and app.expedition.state.visited == ['423025'], 'Restart restores three lives and route')
 	# Defeats, retry lock and reports recovered directly from the map.
 	app.restart_expedition()
-	app.skip_supply()
-	app.travel_to('148127')
-	app.skip_supply()
+	preload('res://tests/expedition_test_support.gd').deploy(app)
 	for attempt in 3:
-		app.travel_to('246349')
+		if attempt>0: app.travel_to('246349')
 		app.campaign.finish(false)
 		app.render_ui()
 		app.open_map()
 		await capture('audit-pending-report-' + str(attempt))
-		var report_link = by_text(app.expedition_map.content, app.tr_text('View report'))
-		check(report_link != null, 'Map exposes pending report instead of an apparent dead end')
+		app.expedition_map.content.get_node('SettingsButton').pressed.emit()
+		var report_link = by_text(app.modal, app.tr_text('View report'))
+		check(report_link != null, 'Map gear exposes pending report instead of an apparent dead end')
 		if report_link != null:
 			report_link.pressed.emit()
 			check(app.dialog_kind == 'result', 'Map report button opens settlement')
@@ -146,8 +168,10 @@ func run():
 			check(not app.expedition.can_travel('265849'), 'Defeat keeps branch locked')
 			check(app.expedition.can_travel('246349'), 'Failed city can be retried')
 		else:
-			check(app.campaign.g.phase == 'reward' and app.campaign.g.defense == 3, 'Third defeat restarts cleanly')
+			check(app.campaign.g.phase == 'prepare' and app.expedition.state.opening=='destination' and app.campaign.g.defense == 3, 'Third defeat restarts cleanly')
 		await process_frame
-	app.sound.stop()
+	app.sound.stop();app.music.set_process(false)
+	for i in 2:app.music.retire_slot(i)
+	await create_timer(.1).timeout;app.queue_free();await process_frame;await process_frame
 	print('%d expedition flow checks over %d routes in both languages, %d failures' % [checks, routes.size(), failures])
 	quit(1 if failures else 0)

@@ -1,0 +1,484 @@
+[
+  {
+    "file": "horn.wav",
+    "selection": "S1",
+    "author": "adharca",
+    "source": "https://freesound.org/people/adharca/sounds/539956/",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "sources/S1.mp3"
+    ],
+    "edits": {
+      "start": 0.02126984126984127,
+      "end": 4.356281179138322,
+      "gain": 1.9070726026412659,
+      "fade_out": 0.4
+    },
+    "duration": 4.3350113378684805,
+    "peak": 0.72,
+    "rms": 0.1526923743838104,
+    "sha256": "ceb869889e78e94500087e17fa42186b743cb005df93de31650dbdddcf6759d6",
+    "download": "https://cdn.freesound.org/previews/539/539956_4366671-hq.mp3",
+    "source_format": "Full-duration HQ MP3 preview supplied by Freesound (4.356 seconds)."
+  },
+  {
+    "file": "sword-0.wav",
+    "selection": "S2",
+    "author": "Ben Jaszczak & Brian Nelson",
+    "source": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/medieval_sfx_weapon_on_weapon_1_of_2/Dagger Norse Sword Blade on Blade.wav"
+    ],
+    "edits": {
+      "start": 0.09446712018140589,
+      "end": 0.6944671201814059,
+      "gain": 1.0864683310158638,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.6,
+    "peak": 0.6999999999999998,
+    "rms": 0.02148585484158399,
+    "sha256": "1fcadbbb0a1cf159ef38ec8e49198e879b34ba141dbcf14ea1c3e3ebd015090f"
+  },
+  {
+    "file": "sword-1.wav",
+    "selection": "S2",
+    "author": "Ben Jaszczak & Brian Nelson",
+    "source": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/medieval_sfx_weapon_on_weapon_1_of_2/Dagger Spear Blade on Blade.wav"
+    ],
+    "edits": {
+      "start": 0.0674829931972789,
+      "end": 0.6674829931972789,
+      "gain": 1.386548606076692,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.6,
+    "peak": 0.7,
+    "rms": 0.028155591569155376,
+    "sha256": "54501d9c9032e55d4e8df52c17245b416ae17ad9762972d0e28fa2f9d56594b9"
+  },
+  {
+    "file": "sword-2.wav",
+    "selection": "S2",
+    "author": "Ben Jaszczak & Brian Nelson",
+    "source": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/medieval_sfx_weapon_on_weapon_1_of_2/Axe Norse Sword Blade on Blade.wav"
+    ],
+    "edits": {
+      "start": 0.11628117913832199,
+      "end": 0.716281179138322,
+      "gain": 1.0015961181776054,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.6,
+    "peak": 0.7,
+    "rms": 0.02765739126397159,
+    "sha256": "f1426b43e935a4458d04c27ea4cc1bb2459701dbd0cca6bc60a58ec06fc0a7eb"
+  },
+  {
+    "file": "shield-0.wav",
+    "selection": "S2",
+    "author": "Ben Jaszczak & Brian Nelson",
+    "source": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/medieval_sfx_weapon_on_weapon_1_of_2/Axe Spear Blade on haft.wav"
+    ],
+    "edits": {
+      "start": 0.11151927437641723,
+      "end": 0.5715192743764173,
+      "gain": 1.652441198619853,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.46,
+    "peak": 0.7,
+    "rms": 0.025640271250126585,
+    "sha256": "8ba6cecde2e643f48c6bc70e3333449b0d447aa9f37c7a4479ca24ad21a9b777"
+  },
+  {
+    "file": "shield-1.wav",
+    "selection": "S2",
+    "author": "Ben Jaszczak & Brian Nelson",
+    "source": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/medieval_sfx_weapon_on_weapon_1_of_2/Mace Spear Haft.wav"
+    ],
+    "edits": {
+      "start": 0.09149659863945578,
+      "end": 0.5514965986394558,
+      "gain": 1.79861088984303,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.46,
+    "peak": 0.7,
+    "rms": 0.03872217243247824,
+    "sha256": "994f0c5ef6315ba12a2a47f87c063b859d9b81b4677a262c6b320b0b38c91ae7"
+  },
+  {
+    "file": "shield-2.wav",
+    "selection": "S2",
+    "author": "Ben Jaszczak & Brian Nelson",
+    "source": "https://opengameart.org/content/medieval-sound-effects-weapon-impacts",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/medieval_sfx_weapon_on_weapon_1_of_2/Dagger Axe Blade on Haft.wav"
+    ],
+    "edits": {
+      "start": 0.0692517006802721,
+      "end": 0.5292517006802722,
+      "gain": 1.3328791060997127,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.46,
+    "peak": 0.7,
+    "rms": 0.025357189179310003,
+    "sha256": "72bd71b14c212f997b9526b2d90939a1304aa84d535d3641e278efa61eb03feb"
+  },
+  {
+    "file": "equip-0.wav",
+    "selection": "S3",
+    "author": "Vehicle",
+    "source": "https://opengameart.org/content/fantasy-weapons-and-apparel-sfx-library",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/weapons-apparel/sfx/knife-unsheathe-01.wav"
+    ],
+    "edits": {
+      "start": 0.1259637188208617,
+      "end": 0.8759637188208617,
+      "gain": 2.1050241465818127,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.75,
+    "peak": 0.7,
+    "rms": 0.020831014164997524,
+    "sha256": "445c8400000ec7ba6ffa139d6a05e140edff7974c6367ef7b391c2bec3491b2c"
+  },
+  {
+    "file": "equip-1.wav",
+    "selection": "S3",
+    "author": "Vehicle",
+    "source": "https://opengameart.org/content/fantasy-weapons-and-apparel-sfx-library",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/weapons-apparel/sfx/knife-unsheathe-02.wav"
+    ],
+    "edits": {
+      "start": 0.04587301587301587,
+      "end": 0.4637868480725624,
+      "gain": 0.700009833032041,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.4179138321995465,
+    "peak": 0.7,
+    "rms": 0.030880796792988725,
+    "sha256": "4ec5f63fb683288ceba3505e03224a5f94796fb30270e6beb2db91ecf97f0d90"
+  },
+  {
+    "file": "equip-2.wav",
+    "selection": "S3",
+    "author": "Vehicle",
+    "source": "https://opengameart.org/content/fantasy-weapons-and-apparel-sfx-library",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/weapons-apparel/sfx/quiver-leather-squeeze-01.wav"
+    ],
+    "edits": {
+      "start": 0.015102040816326531,
+      "end": 0.7203628117913832,
+      "gain": 0.6993377823505976,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.7052607709750567,
+    "peak": 0.7,
+    "rms": 0.0924188702486729,
+    "sha256": "5fb6770084da31de1688b7a82f08ea362401812312179119fb89ddbc32f086cb"
+  },
+  {
+    "file": "foot-0.wav",
+    "selection": "S4",
+    "author": "HaelDB",
+    "source": "https://opengameart.org/content/footsteps-leather-cloth-armor",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/footsteps/footsteps/step_metal.ogg"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.25,
+      "gain": 27.39544436021849,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.25,
+    "peak": 0.7,
+    "rms": 0.12719695978056986,
+    "sha256": "54db13dfe8d86993f42fa6b0dedbc69a05dfb64c149377d096a5c6a0d823c36c"
+  },
+  {
+    "file": "foot-1.wav",
+    "selection": "S4",
+    "author": "HaelDB",
+    "source": "https://opengameart.org/content/footsteps-leather-cloth-armor",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/footsteps/footsteps/step_metal (2).ogg"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.25,
+      "gain": 14.17268312130873,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.25,
+    "peak": 0.7,
+    "rms": 0.1269032208539549,
+    "sha256": "a73c78cbdf903a60a3cae2a1189c6ea96d4788c1fa87b59a87cd3b11781d8ca6"
+  },
+  {
+    "file": "foot-2.wav",
+    "selection": "S4",
+    "author": "HaelDB",
+    "source": "https://opengameart.org/content/footsteps-leather-cloth-armor",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/footsteps/footsteps/step_lth1.ogg"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.25,
+      "gain": 15.641197394133744,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.25,
+    "peak": 0.7,
+    "rms": 0.09892694410572639,
+    "sha256": "c8863ec1ed97c72177bd756fa3c67a222b69f4c4b22be5c34b9b9c16dcb9aab6"
+  },
+  {
+    "file": "foot-3.wav",
+    "selection": "S4",
+    "author": "HaelDB",
+    "source": "https://opengameart.org/content/footsteps-leather-cloth-armor",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/footsteps/footsteps/step_cloth2.ogg"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.25,
+      "gain": 20.620194617507966,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.25,
+    "peak": 0.7,
+    "rms": 0.08479792827368333,
+    "sha256": "ea8376128e4ae61dc714e950ed688c6d59aa1723f197fe055fdfde3e690d23c6"
+  },
+  {
+    "file": "click.wav",
+    "selection": "S7",
+    "author": "qubodup",
+    "source": "https://opengameart.org/content/click-ui-menu-sfx-yesnoselect",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/click-ui_0/click-ui/click-positive-mono.wav"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.5391383219954649,
+      "gain": 2.083730890057993,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.5391383219954649,
+    "peak": 0.7,
+    "rms": 0.04077018701782137,
+    "sha256": "109f8dafe79364a0dd3c2540838d5b3b2ff818049ea9fd90d3c8b2dae3fda562"
+  },
+  {
+    "file": "select.wav",
+    "selection": "S7",
+    "author": "qubodup",
+    "source": "https://opengameart.org/content/click-ui-menu-sfx-yesnoselect",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/click-ui_0/click-ui/click-click-mono.wav"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.06489795918367347,
+      "gain": 34.101440634749935,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.06489795918367347,
+    "peak": 0.7,
+    "rms": 0.09525746669297548,
+    "sha256": "98ff758c139df802d865bf8ad1d251b188fd6d4ee94d4bd14c78b00b9c88f9e2"
+  },
+  {
+    "file": "hover.wav",
+    "selection": "S7",
+    "author": "qubodup",
+    "source": "https://opengameart.org/content/click-ui-menu-sfx-yesnoselect",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/click-ui_0/click-ui/click-click-mono.wav"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.06489795918367347,
+      "gain": 34.101440634749935,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.06489795918367347,
+    "peak": 0.7,
+    "rms": 0.09525746669297548,
+    "sha256": "98ff758c139df802d865bf8ad1d251b188fd6d4ee94d4bd14c78b00b9c88f9e2"
+  },
+  {
+    "file": "cancel.wav",
+    "selection": "S7",
+    "author": "qubodup",
+    "source": "https://opengameart.org/content/click-ui-menu-sfx-yesnoselect",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/click-ui_0/click-ui/click-negative-mono.wav"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.35027210884353743,
+      "gain": 2.08331976634148,
+      "fade_out": 0.01199546485260771
+    },
+    "duration": 0.35027210884353743,
+    "peak": 0.7000000000000001,
+    "rms": 0.0420750850474283,
+    "sha256": "3064fa6af2733bd1dcc452fb2a0ead5688bb2198f71e0ff6ae3c17e036498eef"
+  },
+  {
+    "file": "reward-0.wav",
+    "selection": "S8",
+    "author": "StarNinjas",
+    "source": "https://opengameart.org/content/12-coin-sound-effects",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/coins_-_starninjas/coin.1.ogg"
+    ],
+    "edits": {
+      "start": 0.07854875283446712,
+      "end": 0.39789115646258505,
+      "gain": 0.49176622813655557,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.3193424036281179,
+    "peak": 0.62,
+    "rms": 0.09648388542211851,
+    "sha256": "1c73c4cbe070f7d44a0eded23fb98b93540ca7804e93f9359d631987ec9f5413"
+  },
+  {
+    "file": "reward-1.wav",
+    "selection": "S8",
+    "author": "StarNinjas",
+    "source": "https://opengameart.org/content/12-coin-sound-effects",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/coins_-_starninjas/coin.4.ogg"
+    ],
+    "edits": {
+      "start": 0.0,
+      "end": 0.24841269841269842,
+      "gain": 0.671032905557683,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.24841269841269842,
+    "peak": 0.62,
+    "rms": 0.04621115941770617,
+    "sha256": "d8724371cd13ba92f6e7f34ae963beb1f39ade77b9e508cc98780cd6b1066635"
+  },
+  {
+    "file": "reward-2.wav",
+    "selection": "S8",
+    "author": "StarNinjas",
+    "source": "https://opengameart.org/content/12-coin-sound-effects",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "extracted/coins_-_starninjas/coin.7.ogg"
+    ],
+    "edits": {
+      "start": 0.10122448979591837,
+      "end": 0.22569160997732426,
+      "gain": 0.44928582053585964,
+      "fade_out": 0.03498866213151927
+    },
+    "duration": 0.12446712018140589,
+    "peak": 0.62,
+    "rms": 0.06552140056452666,
+    "sha256": "e4402adc53e331ad6baaf4ae0df9565596f9b955e36d0058f4e0da2e99f51502"
+  },
+  {
+    "file": "sea.wav",
+    "selection": "S5",
+    "author": "jasinski / qubodup",
+    "source": "https://opengameart.org/content/beach-ocean-waves",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "sources/wave_01.flac",
+      "sources/wave_02.flac",
+      "sources/wave_03.flac",
+      "sources/wave_04.flac"
+    ],
+    "edits": {
+      "circular_crossfade_seconds": 0.45
+    },
+    "duration": 10.460997732426303,
+    "peak": 0.65,
+    "rms": 0.08199866256037161,
+    "sha256": "a4945fe973bad96b17cbdf66c206334bfb2bf057d8906147f520c7864991ad6d"
+  },
+  {
+    "file": "fire.wav",
+    "selection": "S6",
+    "author": "AntumDeluge",
+    "source": "https://opengameart.org/content/fire-crackling",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "originals": [
+      "sources/fire-1.wav"
+    ],
+    "edits": {
+      "circular_crossfade_seconds": 0.18
+    },
+    "duration": 2.690612244897959,
+    "peak": 0.65,
+    "rms": 0.045050687717611865,
+    "sha256": "14bb3bddbb01f8859cb126ea6fd2e8a161701267c711057600f56150d556270f"
+  }
+]

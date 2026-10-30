@@ -1,0 +1,14 @@
+{
+  "current": "423025",
+  "visited": [
+    "423025"
+  ],
+  "target": "",
+  "locked_target": "",
+  "mode": "map",
+  "reward_due": false,
+  "finished": false,
+  "opening": "destination",
+  "notice": "departure",
+  "notice_city": ""
+}

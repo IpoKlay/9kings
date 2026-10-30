@@ -1,0 +1,14 @@
+{
+  "scouting_distance": 2,
+  "recovery_kinds": [
+    "port",
+    "elite",
+    "boss"
+  ],
+  "recovery_lives": 1,
+  "starting_theaters": [
+    1,
+    2,
+    3
+  ]
+}

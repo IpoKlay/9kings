@@ -1,0 +1,244 @@
+{
+  "slow_pct": {
+    "sources": [
+      "balance/effects#slow.speed_multiplier"
+    ],
+    "operation": "reduction_percent"
+  },
+  "slow_seconds": {
+    "sources": [
+      "balance/effects#slow.duration"
+    ],
+    "operation": "number"
+  },
+  "guard_shield": {
+    "sources": [
+      "balance/effects#guard.base_shield"
+    ],
+    "operation": "number"
+  },
+  "charge_pct": {
+    "sources": [
+      "balance/effects#charge.base_multiplier"
+    ],
+    "operation": "bonus_percent"
+  },
+  "charge_upgraded_pct": {
+    "sources": [
+      "balance/effects#charge.base_multiplier",
+      "balance/effects#charge.bonus_per_rank"
+    ],
+    "operation": "sum_bonus_percent"
+  },
+  "medic_heal": {
+    "sources": [
+      "balance/units#medic.heal"
+    ],
+    "operation": "number"
+  },
+  "medic_interval": {
+    "sources": [
+      "balance/units#medic.interval"
+    ],
+    "operation": "number"
+  },
+  "yard_pct": {
+    "sources": [
+      "balance/camp#training_adjacency_per_level"
+    ],
+    "operation": "percent"
+  },
+  "training_pct": {
+    "sources": [
+      "balance/camp#training_boost_per_rank"
+    ],
+    "operation": "percent"
+  },
+  "shield_rank": {
+    "sources": [
+      "balance/effects#shieldDrill.per_rank"
+    ],
+    "operation": "number"
+  },
+  "crossfire_pct": {
+    "sources": [
+      "balance/effects#crossfire.damage_bonus_per_rank"
+    ],
+    "operation": "percent"
+  },
+  "burn_damage": {
+    "sources": [
+      "balance/effects#burn.damage_per_second"
+    ],
+    "operation": "number"
+  },
+  "burn_seconds": {
+    "sources": [
+      "balance/effects#burn.duration"
+    ],
+    "operation": "number"
+  },
+  "oil_pct": {
+    "sources": [
+      "balance/effects#oilShots.damage_bonus_per_rank"
+    ],
+    "operation": "percent"
+  },
+  "healing_pct": {
+    "sources": [
+      "balance/effects#fieldMedicine.heal_bonus_per_rank"
+    ],
+    "operation": "percent"
+  },
+  "haste_pct": {
+    "sources": [
+      "balance/effects#haste.attack_rate_multiplier"
+    ],
+    "operation": "bonus_percent"
+  },
+  "haste_seconds": {
+    "sources": [
+      "balance/effects#haste.duration"
+    ],
+    "operation": "number"
+  },
+  "diversity_pct": {
+    "sources": [
+      "balance/effects#combinedArms.per_type_per_rank"
+    ],
+    "operation": "percent"
+  },
+  "pinning_pct": {
+    "sources": [
+      "balance/effects#pinning.damage_bonus_per_rank"
+    ],
+    "operation": "percent"
+  },
+  "army_shield": {
+    "sources": [
+      "balance/effects#shield.amount"
+    ],
+    "operation": "number"
+  },
+  "testudo_damage_pct": {
+    "sources": [
+      "balance/effects#testudo.damage_multiplier"
+    ],
+    "operation": "reduction_percent"
+  },
+  "testudo_speed_pct": {
+    "sources": [
+      "balance/effects#testudo.speed_multiplier"
+    ],
+    "operation": "reduction_percent"
+  },
+  "rally_pct": {
+    "sources": [
+      "balance/effects#rally.attack_bonus"
+    ],
+    "operation": "percent"
+  },
+  "volley_pct": {
+    "sources": [
+      "balance/effects#volley.attack_rate_multiplier"
+    ],
+    "operation": "bonus_percent"
+  },
+  "diversity_max_pct": {
+    "sources": [
+      "balance/effects#combinedArms.per_type_per_rank",
+      "balance/effects#combinedArms.max_types"
+    ],
+    "operation": "product_percent"
+  },
+  "max_level": {
+    "sources": [
+      "balance/camp#max_building_level"
+    ],
+    "operation": "roman"
+  },
+  "max_lives": {
+    "sources": [
+      "balance/camp#max_lives"
+    ],
+    "operation": "number"
+  },
+  "recovery_lives": {
+    "sources": [
+      "balance/expedition_rules#recovery_lives"
+    ],
+    "operation": "number"
+  },
+  "loss_lives": {
+    "sources": [
+      "balance/camp#loss_lives"
+    ],
+    "operation": "number"
+  },
+  "reward_choices": {
+    "sources": [
+      "balance/camp#reward_choices"
+    ],
+    "operation": "number"
+  },
+  "reward_choices_zh": {
+    "sources": [
+      "balance/camp#reward_choices"
+    ],
+    "operation": "chinese"
+  },
+  "scouting_distance": {
+    "sources": [
+      "balance/expedition_rules#scouting_distance"
+    ],
+    "operation": "number"
+  },
+  "scouting_distance_zh": {
+    "sources": [
+      "balance/expedition_rules#scouting_distance"
+    ],
+    "operation": "chinese"
+  },
+  "scouting_distance_en": {
+    "sources": [
+      "balance/expedition_rules#scouting_distance"
+    ],
+    "operation": "english"
+  },
+  "total_steps": {
+    "sources": [
+      "content/routes#total_steps"
+    ],
+    "operation": "number"
+  },
+  "survivor_heal_pct": {
+    "sources": [
+      "balance/combat#survivor_heal_fraction"
+    ],
+    "operation": "percent"
+  },
+  "reinforcement_pct": {
+    "sources": [
+      "balance/combat#reinforcement_fraction"
+    ],
+    "operation": "percent"
+  },
+  "shield_recovery_pct": {
+    "sources": [
+      "balance/combat#shield_recovery_fraction"
+    ],
+    "operation": "percent"
+  },
+  "hospital_pct": {
+    "sources": [
+      "balance/camp#medic_adjacency_health_per_level"
+    ],
+    "operation": "percent"
+  },
+  "expansion_cities": {
+    "sources": [
+      "balance/camp#expansion_every_victories"
+    ],
+    "operation": "number"
+  }
+}

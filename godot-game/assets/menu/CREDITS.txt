@@ -1,0 +1,3 @@
+Menu selector reference: user-supplied /Users/ip/Downloads/menu.zip
+Only the 16x16 s_cursor sprite is imported. The menu layout/input is implemented natively in GDScript.
+The example background, room, font and GameMaker runtime are not included.

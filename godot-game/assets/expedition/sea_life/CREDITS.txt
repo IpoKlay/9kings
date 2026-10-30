@@ -1,0 +1,7 @@
+La petite tile – Maps
+Studio Garrigue
+https://studio-garrigue.itch.io/la-petite-tile-maps
+User-supplied licensed asset pack. Only Kraken and white/red ships are used.
+Original pixels and eight-direction 5 fps sprite frames retained.
+Used as decorative creatures and ships on the existing native expedition atlas.
+See LICENSE.txt for the original license.

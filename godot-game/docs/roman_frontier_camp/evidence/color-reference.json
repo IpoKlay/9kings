@@ -1,0 +1,52 @@
+{
+  "status": "observed_reference_only_not_approved_palette",
+  "unit_exact": [
+    "#2B2523",
+    "#401F25",
+    "#872E2A",
+    "#B34F36",
+    "#344957",
+    "#879DA6",
+    "#DCE0D5",
+    "#75572E",
+    "#C3A15A",
+    "#70523D",
+    "#A97456",
+    "#DBAD7B"
+  ],
+  "iberia_representative_quantized_for_analysis_only": [
+    [
+      "#9E876D",
+      268398
+    ],
+    [
+      "#937661",
+      237815
+    ],
+    [
+      "#937F68",
+      212618
+    ],
+    [
+      "#6F5D4E",
+      196996
+    ],
+    [
+      "#9C8069",
+      187874
+    ],
+    [
+      "#B39A7C",
+      160664
+    ],
+    [
+      "#46382F",
+      155642
+    ],
+    [
+      "#7C7060",
+      152404
+    ]
+  ],
+  "method": "Pillow median-cut to 8 colors, full original Iberia image; does not modify source asset"
+}

@@ -1,0 +1,45 @@
+{
+  "source": "/Users/ip/Desktop/9king/美术素材/AncientRome",
+  "user_approved_scope": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "files_unchanged": true,
+  "display_adaptation": "Godot shader warms bright neutral outlines and gently reduces highlights; source PNGs unchanged.",
+  "files": [
+    {
+      "asset": "gear.png",
+      "source": "Misc/Gear_.png",
+      "sha256": "c9720ba3e9771a93eb87e068f6e53a0474a707d394a170fb8b930b7c474d8e13"
+    },
+    {
+      "asset": "helmet.png",
+      "source": "Military/CenturionHelmet_.png",
+      "sha256": "c59cfd7805ced7b57ef2825fe458f8f0fbbac3b90ac5c7b644cdf6364b75a481"
+    },
+    {
+      "asset": "legion_flag.png",
+      "source": "Flags & Banners/flagSPQR_.png",
+      "sha256": "dc3c78e0b6d3784d52e2359869de26ef0bec08338bc163956744a91d818110e6"
+    },
+    {
+      "asset": "scroll.png",
+      "source": "Misc/Scroll_.png",
+      "sha256": "bae65ff1355a1f42e23b64a9a967a8592a4f12b698bdc3c9ed4e11ee41d3ec04"
+    },
+    {
+      "asset": "laurels.png",
+      "source": "Misc/LaurelsGold.png",
+      "sha256": "60eea34d58748d90f50983ad3ee8d72c6b66944864e9f6e2f328cc2ab3e42228"
+    },
+    {
+      "asset": "banner.png",
+      "source": "Flags & Banners/Banner_.png",
+      "sha256": "99da8f4480577044c6c4827452a3e3b103c2b71352da3daf7eb4aa9c709663f8"
+    }
+  ]
+}

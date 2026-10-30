@@ -1,6 +1,7 @@
 Eagle Standard v0.4 — edited recording-based sound design
 
-All third-party recordings below are used under their CC0 option.
+The sound-effect recordings in this section use their CC0 option.
+Music has separate CC BY 4.0 credits at the end of this file.
 https://creativecommons.org/publicdomain/zero/1.0/
 
 StarNinjas — 20 Sword Sound Effects (Attacks and Clashes)
@@ -39,3 +40,73 @@ Godot card-hand foley: Kenney Casino Audio v1.1
 Source: https://kenney.nl/assets/casino-audio
 License: CC0 1.0 Universal; original license at cards/License.txt.
 Uses card slide, fan, shove, place and pack-take-out recordings.
+
+
+Under the Eagle — Music credits
+
+All five tracks below are by Kevin MacLeod (incompetech.com).
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+https://creativecommons.org/licenses/by/4.0/
+
+Original MP3 files are unchanged. At runtime the game adjusts gain, skips edge silence,
+and applies crossfades and loop transitions. No artist endorsement is implied.
+
+The Pyre — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100846
+ISRC: USUAN1100846
+
+Lord of the Land — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400022
+ISRC: USUAN1400022
+
+Crusade — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100884
+ISRC: USUAN1100884
+
+Five Armies — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100875
+ISRC: USUAN1100875
+
+Ancient Rite — Kevin MacLeod
+https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1900048
+ISRC: USUAN1900048
+
+
+
+Legionnaire (2022 Remaster) and The Great Sea — Scott Buckley
+https://www.scottbuckley.com.au
+Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+https://www.scottbuckley.com.au/library/legionnaire-2022/
+https://www.scottbuckley.com.au/library/the-great-sea/
+Original MP3 files unchanged. Runtime gain, edge-silence skips, crossfades and loop transitions.
+
+
+Selected sound effects — CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+
+S1 — 古代军号 — adharca
+https://freesound.org/people/adharca/sounds/539956/
+
+S2 — 兵器金属碰撞 — Ben Jaszczak & Brian Nelson
+https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+
+S3 — 武器与装备动作 — Vehicle
+https://opengameart.org/content/fantasy-weapons-and-apparel-sfx-library
+
+S4 — 皮革、布料与盔甲脚步 — HaelDB
+https://opengameart.org/content/footsteps-leather-cloth-armor
+
+S5 — 海岸浪花 — jasinski / qubodup
+https://opengameart.org/content/beach-ocean-waves
+
+S6 — 营火噼啪声 — AntumDeluge
+https://opengameart.org/content/fire-crackling
+
+S7 — 确认、返回与选择点击 — qubodup
+https://opengameart.org/content/click-ui-menu-sfx-yesnoselect
+
+S8 — 金币与战利品 — StarNinjas
+https://opengameart.org/content/12-coin-sound-effects
+
+Edits: selected isolated cues, trimmed silence, matched levels, short fades; sea/fire have circular crossfades. Horn uses the full-duration HQ preview and a softened tail.
+Originals and rebuild script: output/selected-audio/ in the source workspace.

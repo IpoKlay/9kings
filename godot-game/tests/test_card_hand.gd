@@ -9,9 +9,11 @@ func check(value: bool,message: String):
 func _init(): call_deferred('run')
 func run():
 	var scene=load('res://scenes/main.tscn').instantiate()
+	scene.main_menu=false # Boot menu is covered separately.
 	root.add_child(scene)
 	current_scene=scene
 	scene.sound.enabled=false
+	scene.travel_to(scene.expedition.destinations()[0]);scene.campaign.finish(true);scene.advance()
 	await create_timer(.5).timeout
 	var hand=scene.card_hand
 	hand.input_enabled=false
@@ -46,7 +48,7 @@ func run():
 	scene.choose_card(ids[1])
 	check(scene.input_locked,'Selection animation locks repeat input')
 	await create_timer(.3).timeout
-	check(scene.campaign.g.chosen==ids[0],'Rapid double-click awards exactly the first card')
+	check(scene.campaign.g.chosen==ids[0],'Repeated commit requests award exactly the first card')
 	check(not scene.input_locked and scene.campaign.g.phase!='reward','Selection finishes and unlocks next phase')
 	for group in scene.sound.card_files.values():
 		for i in group[1]:

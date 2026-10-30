@@ -1,0 +1,5 @@
+Pixel RPG UI Pack — supplied by the user on 2026-10-25.
+Source archive: /Users/ip/Downloads/Pixel RPG UI Pack.rar
+Imported: Ui.png, unchanged; regions and tint are applied in Godot.
+SHA-256: 5a0473da87a28ef7ed2bb6578e8bd1539c9bcc813b3cb8440eea016ced95d2ac
+The archive contained PNG previews, Ui.png, Ui.aseprite and Ui.psd, but no license text. Commercial redistribution permissions have not been established from this archive.

@@ -1,0 +1,86 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1_t8rur"]
+
+[resource]
+script = ExtResource("1_t8rur")
+display_name = "atlas"
+description = "现有表现参数，默认值逐项保留。单位与修改约束见 DATA_GUIDE.md。"
+values = {
+"departure": {
+"rally_seconds": 0.48,
+"march_min_seconds": 1.0,
+"march_max_seconds": 1.65,
+"march_pixels_per_second": 700.0,
+"cover_seconds": 0.5,
+"covered_seconds": 0.08,
+"reveal_seconds": 1.6,
+"reduced_seconds": 0.2,
+"pose_fps": 12,
+"cloud_fps": 15,
+"cloud_size": Vector2i(480, 270),
+"cloud_count": 24,
+"cloud_width": Vector2(110, 190),
+"cloud_drift": Vector2(28, 90),
+"soldier_scale": 3.0,
+"ship_scale": 4.0,
+"cloud_shadow": Color(0.51, 0.60, 0.59, 1),
+"cloud_mid": Color(0.65, 0.70, 0.65, 1),
+"cloud_light": Color(0.77, 0.79, 0.70, 1),
+"cloud_highlight": Color(0.85, 0.85, 0.75, 1)
+},
+"route_ink": {
+"outline": Color(0.055, 0.12, 0.14, 1),
+"ready_color": Color(1, 0.86, 0.48, 1),
+"selected_color": Color(1, 0.95, 0.75, 1),
+"future_width": 3.0,
+"ready_width": 10.0,
+"branch_lane_offset": 16.0,
+"outline_extra": 4.0,
+"pixel_step": 2.0,
+"label_size": 21,
+"nameplate": Color(0.06, 0.14, 0.16, 0.94)
+},
+"sea_life": {
+"world_pixel_scale": 4.0,
+"kraken_position": Vector2(1990, 1110),
+"kraken_sway_period": 6.4,
+"kraken_sway_pixels": 2.2,
+"ships": [
+{"frames": "res://assets/expedition/sea_life/ship_white.tres", "speed": 16.0, "phase": 0.18, "route": [Vector2(1580, 1300), Vector2(1800, 1290), Vector2(2090, 1230)]},
+{"frames": "res://assets/expedition/sea_life/ship_red.tres", "speed": 14.0, "phase": 0.45, "route": [Vector2(2740, 1540), Vector2(3000, 1690), Vector2(3280, 1820)]},
+{"frames": "res://assets/expedition/sea_life/ship_white.tres", "speed": 12.0, "phase": 0.65, "route": [Vector2(4020, 1850), Vector2(4320, 1810), Vector2(4550, 1740)]}
+]
+},
+"boundary": {
+"inset": 24.0,
+"side_depth": 18.0,
+"horizontal_depth": 6.0,
+"corner_size": 24.0,
+"pixel_step": 3.0,
+"period": 54.0,
+"shoulder_steps": 3,
+"crest_steps": 4,
+"ink_color": Color(0.055, 0.12, 0.15, 1),
+"edge_color": Color(0.73, 0.79, 0.79, 1),
+"paper_palette": [Color(0.40, 0.28, 0.18, 1), Color(0.47, 0.33, 0.21, 1), Color(0.55, 0.40, 0.25, 1), Color(0.62, 0.47, 0.30, 1), Color(0.68, 0.53, 0.34, 1), Color(0.73, 0.59, 0.39, 1), Color(0.78, 0.65, 0.45, 1)],
+"paper_seed": 304753,
+"paper_stain_scale": 48.0,
+"ink_width": 9.0,
+"edge_width": 6.0
+},
+"city_zoom": 0.85,
+"compact_below_zoom": 0.44,
+"compact_marker_size": Vector2(30, 30),
+"focus_max_zoom": 1.25,
+"focus_min_zoom": 0.46,
+"focus_screen_margin": Vector2(460, 230),
+"focus_world_margin": Vector2(270, 190),
+"initial_zoom": 0.7,
+"marker_gap": Vector2(8, 10),
+"marker_size": Vector2(56, 52),
+"max_zoom": 2.4,
+"min_zoom": 0.32,
+"route_colors": [Color(0.92941177, 0.7411765, 0.44705883, 1), Color(0.92941177, 0.6, 0.5019608, 1), Color(0.6392157, 0.8352941, 0.79607844, 1)],
+"separation_iterations": 80
+}

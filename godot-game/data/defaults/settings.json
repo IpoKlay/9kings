@@ -1,0 +1,9 @@
+{
+  "language": "zh",
+  "enabled": true,
+  "volume": 0.7,
+  "music_volume": 0.45,
+  "voices": 0.55,
+  "impact": true,
+  "fps_limit": 60
+}

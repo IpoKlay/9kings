@@ -1,0 +1,29 @@
+Selected sound effects — CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+
+S1 — 古代军号 — adharca
+https://freesound.org/people/adharca/sounds/539956/
+
+S2 — 兵器金属碰撞 — Ben Jaszczak & Brian Nelson
+https://opengameart.org/content/medieval-sound-effects-weapon-impacts
+
+S3 — 武器与装备动作 — Vehicle
+https://opengameart.org/content/fantasy-weapons-and-apparel-sfx-library
+
+S4 — 皮革、布料与盔甲脚步 — HaelDB
+https://opengameart.org/content/footsteps-leather-cloth-armor
+
+S5 — 海岸浪花 — jasinski / qubodup
+https://opengameart.org/content/beach-ocean-waves
+
+S6 — 营火噼啪声 — AntumDeluge
+https://opengameart.org/content/fire-crackling
+
+S7 — 确认、返回与选择点击 — qubodup
+https://opengameart.org/content/click-ui-menu-sfx-yesnoselect
+
+S8 — 金币与战利品 — StarNinjas
+https://opengameart.org/content/12-coin-sound-effects
+
+Edits: selected isolated cues, trimmed silence, matched levels, short fades; sea/fire have circular crossfades. Horn uses the full-duration HQ preview and a softened tail.
+Originals and rebuild script: output/selected-audio/ in the source workspace.
