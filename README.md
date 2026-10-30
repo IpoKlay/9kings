@@ -54,8 +54,6 @@ Choose a card → build or upgrade → MARCH. Start with three lives; one failed
 
 49 automated checks cover combat, yearly progression, localization, random draws and synergies. The starting army can survive the first three years without supplies. A fixed seven-squad army loses in year 16 without doctrines, and wins with the tested combined build. This is an initial balance pass for further playtesting.
 
-![Bilingual settings](preview.png)
-
 ## Source and private design documents
 
 - [Source archive](eagle-standard-demo-source.zip) — current HTML/CSS/JS, assets, 49 checks, balance probe and packaging scripts.
