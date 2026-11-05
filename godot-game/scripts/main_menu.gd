@@ -60,7 +60,7 @@ func can_interact() -> bool:
 	return visible and app.main_menu and app.dialog_kind=='' and not app.input_locked
 
 func option_available(index: int) -> bool:
-	return index!=1 or app.has_run
+	return options[index].name!='ResumeGame' or app.has_run
 
 func menu_button(id: String,value: String,y: float,action: Callable):
 	var index=options.size()
@@ -84,7 +84,7 @@ func menu_button(id: String,value: String,y: float,action: Callable):
 		if can_interact():
 			set_selected(index,false)
 			activate_selected())
-	if index==1 and not app.has_run:
+	if id=='ResumeGame' and not app.has_run:
 		control.tooltip_text=app.loc('main_menu.no_run')
 	add_child(control)
 	options.append(control)
@@ -149,12 +149,12 @@ func render():
 	centered_text('S P Q R',228,460,38,23,Color('#c4ad76'))
 	centered_text(app.loc('main_menu.under_the_eagle'),282,520,104,80 if app.language=='zh' else 52,Color('#f2deae'))
 	centered_text(app.loc('main_menu.the_mediterranean_campaign'),394,520,40,25,Color('#dbc9a6'))
-	var labels=[app.loc('main_menu.start_game'),app.loc('main_menu.continue'),app.loc('main_menu.settings'),app.loc('main_menu.quit')]
-	menu_button('StartGame',labels[0],preset.menu_start_y,app.request_new_game)
-	menu_button('ResumeGame',labels[1],preset.menu_secondary_y,app.resume_game)
-	menu_button('MenuSettings',labels[2],preset.menu_secondary_y+preset.menu_button_spacing,func():app.open_dialog('settings'))
-	menu_button('QuitGame',labels[3],preset.menu_secondary_y+preset.menu_button_spacing*2,func():get_tree().quit())
-	selection_hint=centered_text('',910,520,40,23,Color('#dbc9a6'))
+	menu_button('TacticalTrial',app.tx('军团会战 · RTS','Legion Battle · RTS'),480,app.open_tactical_trial)
+	menu_button('ResumeGame',app.tx('继续远征','Continue Expedition'),560,app.resume_game)
+	menu_button('StartGame',app.tx('新远征','New Expedition'),640,app.request_new_game)
+	menu_button('MenuSettings',app.loc('main_menu.settings'),720,func():app.open_dialog('settings'))
+	menu_button('QuitGame',app.loc('main_menu.quit'),800,func():get_tree().quit())
+	selection_hint=centered_text('',978,520,24,18,Color('#dbc9a6'))
 	selection_hint.name='SelectionHint'
 	cursor=TextureRect.new()
 	cursor.name='SelectionCursor'

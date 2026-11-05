@@ -134,7 +134,8 @@ values = {
     "select": 1,
     "hover": 1,
     "cancel": 1,
-    "reward": 3
+    "reward": 3,
+    "arrow": 3
   },
   "music": {
     "crossfade_seconds": 2.4,
@@ -248,6 +249,20 @@ values = {
       "res://assets/selected_audio/reward-0.wav",
       "res://assets/selected_audio/reward-1.wav",
       "res://assets/selected_audio/reward-2.wav"
+    ],
+    "impact": [
+      "res://assets/combat_audio/impact0.wav",
+      "res://assets/combat_audio/impact1.wav",
+      "res://assets/combat_audio/impact2.wav"
+    ],
+    "arrow": [
+      "res://assets/combat_audio/arrow0.wav",
+      "res://assets/combat_audio/arrow1.wav",
+      "res://assets/combat_audio/arrow2.wav"
+    ],
+    "cry": [
+      "res://assets/combat_audio/cry0.wav",
+      "res://assets/combat_audio/cry1.wav"
     ]
   },
   "ambience": {

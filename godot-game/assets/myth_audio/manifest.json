@@ -1,0 +1,226 @@
+{
+  "date": "2026-11-01",
+  "method": "Deterministic edits of existing CC0 foley plus original noise/resonant synthesis; no generated voices.",
+  "sample_rate": 24000,
+  "format": "mono PCM16",
+  "seed": 1411,
+  "sources": {
+    "selected_audio/sea.wav": "a4945fe973bad96b17cbdf66c206334bfb2bf057d8906147f520c7864991ad6d",
+    "selected_audio/fire.wav": "14bb3bddbb01f8859cb126ea6fd2e8a161701267c711057600f56150d556270f",
+    "selected_audio/shield-0.wav": "8ba6cecde2e643f48c6bc70e3333449b0d447aa9f37c7a4479ca24ad21a9b777",
+    "selected_audio/equip-0.wav": "445c8400000ec7ba6ffa139d6a05e140edff7974c6367ef7b391c2bec3491b2c",
+    "combat_audio/arrow0.wav": "add1b02928318ccea8a21c71a06eedc0cdd6932168f9221a7b8014f55edfd37b",
+    "break0.wav": "34a42719393aa4e77a6a90ffa28cc3f7d09ec0434b484e7784633fbea3b1ffbc",
+    "impact0.wav": "acc441891e4d3931139972532d29b141b72010b03bcf905151b963232a810d30",
+    "combat_audio/earthquake.wav": "af3a9e886cc0685b32716b1c1b5073350bb4bdd9fb62bb02ac6b6e0965d30c3b",
+    "kill0.wav": "9f88526c6b51b81afeff4698bcc16406f2a29dbcdd1845014cfe7b44f61b91a8",
+    "swing0.wav": "70a782d4876f5b4e1a566dde17ee2cbf24f738397caf095d5492e68e86518d17",
+    "selected_audio/equip-1.wav": "4ec5f63fb683288ceba3505e03224a5f94796fb30270e6beb2db91ecf97f0d90",
+    "tactical_thunder.wav": "e52320d3734cac2afe3b4f0a64b9ed01845ef224bf1cccb8ed38e52ff6d203f3",
+    "selected_audio/shield-1.wav": "994f0c5ef6315ba12a2a47f87c063b859d9b81b4677a262c6b320b0b38c91ae7",
+    "combat_audio/impact1.wav": "bf615119e6ad4d04d0f5fc9fa5f5a449b5b8193aa9358898f856c7cc006e825e"
+  },
+  "files": [
+    {
+      "file": "zeus-cast.wav",
+      "duration": 0.26,
+      "peak": 0.58,
+      "rms": 0.09148370428600816,
+      "sha256": "e2afb4e20e5535441aa9f7074e7a28b2b01a9e8849a90183b195a0421f70db94"
+    },
+    {
+      "file": "zeus-impact.wav",
+      "duration": 1.65,
+      "peak": 0.58,
+      "rms": 0.06477869919193821,
+      "sha256": "d28a18fb042346369e3280ddd3e4bb9b9fec00c764ca034ec94e024f2266cafe"
+    },
+    {
+      "file": "poseidon-cast.wav",
+      "duration": 0.85,
+      "peak": 0.58,
+      "rms": 0.1062866884882173,
+      "sha256": "083a6e0c9121ae7e4c246ba26707c62daad3d84d2ffe6df0f3963f070027c97f"
+    },
+    {
+      "file": "poseidon-impact.wav",
+      "duration": 1.7,
+      "peak": 0.5796275992956821,
+      "rms": 0.11999999999999998,
+      "sha256": "8b6d495b4c0c36782dd696177b4b9d0127f77ecaa895d885c1ccda77ce450c12"
+    },
+    {
+      "file": "athena-cast.wav",
+      "duration": 0.42,
+      "peak": 0.5626522241256144,
+      "rms": 0.12,
+      "sha256": "6fddc5336813fe36b80e0bb45d4e32f68d2b31d13090476fb7e53d7a4ed6cc95"
+    },
+    {
+      "file": "athena-impact.wav",
+      "duration": 1.0,
+      "peak": 0.58,
+      "rms": 0.02907699205004799,
+      "sha256": "1cfc653169bec408b1430e6dd18c4b4b6e81fd136c6d16ae69ee4d2ec251f4d9"
+    },
+    {
+      "file": "artemis-cast.wav",
+      "duration": 0.32,
+      "peak": 0.58,
+      "rms": 0.09434595565378204,
+      "sha256": "ab49b5aa1e796912d2d96bf6f55f6e3752861c21e918f424648e75d8f5f95b64"
+    },
+    {
+      "file": "artemis-impact.wav",
+      "duration": 0.62,
+      "peak": 0.58,
+      "rms": 0.03988999719268878,
+      "sha256": "fe77c5943540e5087acbca6de7edbb4594ceb0871b04b7dae50c0f982089577d"
+    },
+    {
+      "file": "hephaestus-cast.wav",
+      "duration": 0.45,
+      "peak": 0.58,
+      "rms": 0.05154356892553376,
+      "sha256": "b011fa677ee6e09dcca343d8ee05714438cc49643cd99a04816b524ba3e86aa6"
+    },
+    {
+      "file": "hephaestus-impact.wav",
+      "duration": 1.5,
+      "peak": 0.58,
+      "rms": 0.05822647041291662,
+      "sha256": "cafd3634313515d18f6c286fe3b7d8c9abbf3470e31f29d245c3dd62d93541d8"
+    },
+    {
+      "file": "demeter-cast.wav",
+      "duration": 0.45,
+      "peak": 0.58,
+      "rms": 0.04645202364057572,
+      "sha256": "6b259c1d13d97450f3ad001d561ab6504312f5310fefe49f0e6bfdc880425f55"
+    },
+    {
+      "file": "demeter-impact.wav",
+      "duration": 0.95,
+      "peak": 0.58,
+      "rms": 0.04931071536826552,
+      "sha256": "a8756defbefeb4cda7ba652be9291f968b1bf1597dca97d508f954631286cea6"
+    },
+    {
+      "file": "achilles-cast.wav",
+      "duration": 0.35,
+      "peak": 0.58,
+      "rms": 0.0784061784778955,
+      "sha256": "89f313f4e69b68dcc48a0e4ec9aafde6936a6592b61c1bcae77e79f588bf8400"
+    },
+    {
+      "file": "achilles-impact.wav",
+      "duration": 0.6,
+      "peak": 0.58,
+      "rms": 0.07076788593024994,
+      "sha256": "505c638462dba6903577732b9d79c7e1700a534da4d89d25959fc540c77a622a"
+    },
+    {
+      "file": "odysseus-cast.wav",
+      "duration": 0.52,
+      "peak": 0.58,
+      "rms": 0.07357774923302676,
+      "sha256": "f943224ea059322b1805dda4011aa61e646714183fe38fe350b5e75dfb17f997"
+    },
+    {
+      "file": "odysseus-impact.wav",
+      "duration": 1.1499583333333334,
+      "peak": 0.58,
+      "rms": 0.0765824395002903,
+      "sha256": "ed86c149b94827fd04649269619f4f4a65efb887bc05d3a64cdfbb7942396841"
+    },
+    {
+      "file": "heracles-cast.wav",
+      "duration": 0.48,
+      "peak": 0.58,
+      "rms": 0.09616630108367477,
+      "sha256": "82a7ec28b0c18ef70d44c27ce3807d15fd45e9cd20a1a60e4f4de8415fc20914"
+    },
+    {
+      "file": "heracles-impact.wav",
+      "duration": 1.1499583333333334,
+      "peak": 0.58,
+      "rms": 0.08770901271561733,
+      "sha256": "83f6bd13a78275c343513d4eb0b9bc1556b2ec2215c2b4c5e8e5be4cc6b1a0e9"
+    },
+    {
+      "file": "minotaur-cast.wav",
+      "duration": 0.62,
+      "peak": 0.58,
+      "rms": 0.07904124721506174,
+      "sha256": "3cecc930b396e5d8cd199608378f54ffb0a43a0742606fffbca54713267918d8"
+    },
+    {
+      "file": "minotaur-impact.wav",
+      "duration": 1.2,
+      "peak": 0.5433926069760034,
+      "rms": 0.12000000000000001,
+      "sha256": "81537c610434ffb91b040da3045aed9f21e991a083a398dd5bc251f88e8e2bc4"
+    },
+    {
+      "file": "medusa-cast.wav",
+      "duration": 0.5,
+      "peak": 0.58,
+      "rms": 0.09677681197193112,
+      "sha256": "1a9cde700e5678727d0e8d378af5f4312bb1a4cfaa587514e84dd7b82ddc8cfd"
+    },
+    {
+      "file": "medusa-impact.wav",
+      "duration": 1.05,
+      "peak": 0.5518686335292873,
+      "rms": 0.12,
+      "sha256": "2c50e02e941f79816f2c4a31eae3b75b905f218da712a8ffdd6404b229f3630e"
+    },
+    {
+      "file": "cyclops-cast.wav",
+      "duration": 0.5,
+      "peak": 0.5168697048102453,
+      "rms": 0.11999999999999998,
+      "sha256": "9f69cc2e37963c8e9cb6a2ffb9db9689ada6e05bf8d20e3df5ed8d2dbbb4be8e"
+    },
+    {
+      "file": "cyclops-impact.wav",
+      "duration": 1.3,
+      "peak": 0.3812504170186565,
+      "rms": 0.12,
+      "sha256": "d06b325b402e135b2996d599aac8550a85c37a763c13d07e56c44520c496993f"
+    },
+    {
+      "file": "hydra-cast.wav",
+      "duration": 0.5,
+      "peak": 0.58,
+      "rms": 0.0933828022373338,
+      "sha256": "f271e5dcc9109855021695cdc8a8de700764437e2137db40ceb827d693e8d09d"
+    },
+    {
+      "file": "hydra-impact.wav",
+      "duration": 1.45,
+      "peak": 0.5629274599444433,
+      "rms": 0.11999999999999998,
+      "sha256": "49a8755fa8d7b7e600ad5b2fb2279770b8f7bc16eff2764201ec5d508e819acb"
+    },
+    {
+      "file": "harpy-cast.wav",
+      "duration": 0.56,
+      "peak": 0.58,
+      "rms": 0.09254995223176447,
+      "sha256": "67c2332a85c03889876497147b7237cd1967a4356b00c24581d90e9a0e804314"
+    },
+    {
+      "file": "harpy-impact.wav",
+      "duration": 0.85,
+      "peak": 0.58,
+      "rms": 0.061365120709702514,
+      "sha256": "c3ee5689b8dee1a62bfc4b8d752a28ec1842f51e1f3d7e2fbc791edaf4aff2f2"
+    }
+  ],
+  "credit_files": [
+    "../AUDIO-CREDITS.txt",
+    "../selected_audio/CREDITS.txt",
+    "../combat_audio/CREDITS.txt"
+  ]
+}

@@ -1,0 +1,59 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/mythology/animated_oblique/achilles.png" id="1_r3u6m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qacc"]
+atlas = ExtResource("1_r3u6m")
+region = Rect2(0, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lglh6"]
+atlas = ExtResource("1_r3u6m")
+region = Rect2(512, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqxou"]
+atlas = ExtResource("1_r3u6m")
+region = Rect2(1024, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcd7x"]
+atlas = ExtResource("1_r3u6m")
+region = Rect2(0, 512, 512, 512)
+margin = Rect2(128, 170, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxgq3"]
+atlas = ExtResource("1_r3u6m")
+region = Rect2(512, 512, 512, 512)
+margin = Rect2(128, 170, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dwmx"]
+atlas = ExtResource("1_r3u6m")
+region = Rect2(1024, 512, 512, 512)
+margin = Rect2(128, 170, 256, 256)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qacc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lglh6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqxou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcd7x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxgq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dwmx")
+}],
+"loop": 0,
+"name": &"action",
+"speed": 6.0
+}]

@@ -1,0 +1,21 @@
+Combat audio — CC0 recordings, edited for Under the Eagle (2026-11-01).
+License: CC0 1.0 Universal, https://creativecommons.org/publicdomain/zero/1.0/
+
+impact0/1/2.wav: StarNinjas, 20 Sword Sound Effects (Attacks and Clashes).
+https://opengameart.org/content/20-sword-sound-effects-attacks-and-clashes
+Source files sword_clash.1/3/5.ogg. Mono, silence trim, normalized, edge fades.
+
+arrow0/1/2.wav: artisticdude, Battle Sound Effects (submitted by Ogrebane).
+https://opengameart.org/content/battle-sound-effects
+Selected CC0 license offered by author. Source Bow.wav. Mono, trim, 3 speed variants, normalized, edge fades.
+
+cry0/1.wav: StarNinjas, Crowd Shouting/Speaking Ambience.
+https://opengameart.org/content/crowd-shoutingspeaking-ambience
+Source crowd_shouting_0.ogg. Two non-overlapping energetic excerpts, mono, 0.88x playback, normalized and faded.
+
+ earth quake: mieki256, Earthquake and Open sesame.
+https://opengameart.org/content/earthquake-and-open-sesame
+Source shake.flac. Mono, 1.8x playback, trim, normalization and edge fades; output earthquake.wav.
+
+These are free replacement recordings, NOT the BOOM/Krotos/YouTube demonstration tracks.
+Build: tools/prepare_trial_audio.py. Downloaded originals and page evidence: output/mythic-test/audio-source (outside game).

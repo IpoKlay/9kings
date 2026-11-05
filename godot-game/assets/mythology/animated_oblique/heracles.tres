@@ -1,0 +1,59 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/mythology/animated_oblique/heracles.png" id="1_ofllq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_viift"]
+atlas = ExtResource("1_ofllq")
+region = Rect2(0, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfm5m"]
+atlas = ExtResource("1_ofllq")
+region = Rect2(512, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uchv"]
+atlas = ExtResource("1_ofllq")
+region = Rect2(1024, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5rq6"]
+atlas = ExtResource("1_ofllq")
+region = Rect2(0, 512, 512, 512)
+margin = Rect2(128, 167, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xaioj"]
+atlas = ExtResource("1_ofllq")
+region = Rect2(512, 512, 512, 512)
+margin = Rect2(128, 167, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmopg"]
+atlas = ExtResource("1_ofllq")
+region = Rect2(1024, 512, 512, 512)
+margin = Rect2(128, 167, 256, 256)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_viift")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cfm5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uchv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5rq6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xaioj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmopg")
+}],
+"loop": 0,
+"name": &"action",
+"speed": 6.0
+}]

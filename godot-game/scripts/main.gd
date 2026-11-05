@@ -1137,3 +1137,23 @@ func save_run():
 func request_new_game():
 	if has_run and not expedition.state.finished and campaign.g.phase!='defeat':open_dialog('new_run')
 	else:start_game()
+
+
+func open_tactical_trial():
+	var trial=load('res://scenes/tactical_trial.tscn').instantiate()
+	trial.app=self
+	hide()
+	set_process(false)
+	set_process_input(false)
+	set_process_unhandled_input(false)
+	menu_view.set_process(false)
+	music.play_track('battle')
+	get_tree().root.add_child(trial)
+	trial.closed.connect(func():
+		trial.queue_free()
+		show()
+		set_process(true)
+		set_process_input(true)
+		set_process_unhandled_input(true)
+		menu_view.set_process(true)
+		music.play_track('menu'))

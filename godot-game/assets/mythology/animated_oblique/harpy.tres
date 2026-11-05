@@ -1,0 +1,59 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/mythology/animated_oblique/harpy.png" id="1_yymk6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dymr"]
+atlas = ExtResource("1_yymk6")
+region = Rect2(0, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_seqhw"]
+atlas = ExtResource("1_yymk6")
+region = Rect2(512, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hno7h"]
+atlas = ExtResource("1_yymk6")
+region = Rect2(1024, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sflr4"]
+atlas = ExtResource("1_yymk6")
+region = Rect2(0, 512, 512, 512)
+margin = Rect2(128, 140, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkm5k"]
+atlas = ExtResource("1_yymk6")
+region = Rect2(512, 512, 512, 512)
+margin = Rect2(128, 140, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3ovq"]
+atlas = ExtResource("1_yymk6")
+region = Rect2(1024, 512, 512, 512)
+margin = Rect2(128, 140, 256, 256)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dymr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_seqhw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hno7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sflr4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkm5k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3ovq")
+}],
+"loop": 0,
+"name": &"action",
+"speed": 6.0
+}]

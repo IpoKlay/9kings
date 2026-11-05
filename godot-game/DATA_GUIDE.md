@@ -2,6 +2,12 @@
 
 本次是原生 Godot 工程的数据整理。保留整理前的数值、随机顺序、玩法流程、像素画面和素材。运行入口仍是 `project.godot`；没有网站、WebView 或额外网络依赖。
 
+## 试战神话技能（2026-11-01）
+
+新增12技能的唯一数值来源是 `data/balance/myth_skills.json`；原宙斯、波塞冬与兵种值仍在 `data/balance/tactical_trial.json`。`data/content/myth_vfx.json` 保存美术绑定、特效节奏和中英文参数模板，UI从数值配置填充百分比与持续时间。
+
+`MythPowers` 的施法队列、冲刺、火场、幻军，以及每队的护盾/定身/石化/标记/中毒/再生计时，都是本场试战的瞬时状态，不进入远征存档或设置。结算和重试时清理。技能边界与验证详见 [MYTH_SKILLS.md](MYTH_SKILLS.md)。
+
 ## 当前远征存档与奖励状态（2026-10-28）
 
 | 数据层 | 入口 | 内容与边界 |
@@ -286,3 +292,37 @@
 `scripts/music.gd` 只保留两个原生播放声部，场景切换2.4秒、曲末衔接2秒，使用等功率交叉淡入淡出。快速出现第三个目标时用0.18秒释放较轻的声部，再进入最新目标。每首曲目记录离开时的进度，因此历史书/菜单往返从原位置接续。播放参数与音量响应时长均留在上述 audio 配置；音乐不使用战斗模拟时间。
 
 验证入口：`tests/test_music.gd`（原生窗口可额外生成设置截图及游戏内混音录音）、`tests/test_city_waves.gd`、`tests/test_data_layers.gd`。下载记录、修改前备份和运行证据在 `../output/music-integration/`。
+
+### 独立战术试战
+- `data/balance/tactical_trial.json`：试战时间上限、预备队数量、兵种生命/伤害/射程/速度/攻击间隔/显示人数、敌阵位置、雷击次数/范围/伤害/失衡/冷却。
+- `scripts/tactical/trial_rules.gd`：仅当前试战的部队、计时、冷却与胜败；不加入当前远征存档格式。
+- `scripts/tactical/trial_field.gd`：沿用现有岩丘环境、64px兵种动画图集与960×540战场渲染。
+- 音量、语言、帧率沿用主菜单已加载的玩家设置；试战不修改玩家设置文件。
+- 波塞冬参数：同一 JSON 的 `earthquake` 配置管理裂带长度/宽度、传播时间、单次命中伤害、击退距离、失衡时间、次数与冷却；`deity`、传播中的 `quakes` 只属于本场内存状态。形象存于 `assets/gods/poseidon.png`，原创地震音效及生成源分别为 `assets/poseidon_rumble.wav`、`tools/synthesize_poseidon.py`。
+
+
+### PixelFX 图集（战术试战）
+`assets/fx/pixelfx/source.json` 记录上游仓库版本、导出帧率、色板和随机种子；每张同名 JSON 是图集原始帧表（矩形、FPS、脚点），不要与战斗数值混写。`tools/export_pixelfx.mjs` 是可重复导出的来源，调色后重新生成素材。`scripts/tactical/pixelfx_atlas.gd` 在试战创建时加载并缓存帧表和贴图。`trial_field.gd` 只决定视觉播放时机；神力伤害、冷却、次数、范围仍统一来自 `data/balance/tactical_trial.json`，此次没有修改。
+
+
+`data/presentation/trial_god.tres`：试战波塞冬显现时长、尺寸、相对裂带位置及画面边界。`fade_out_start_seconds` 从施法时刻计时，`end_seconds` 必须大于淡出开始且小于地裂视觉总时长 3.2 秒；这些值不改变神力伤害与冷却。
+
+### 神话战斗素材与测试开关（2026-11-01）
+- `data/balance/tactical_trial.json/testing.unlimited_powers`：独立试战测试开关。关闭后恢复原配置的神力冷却与次数；不会写入远征存档。
+- `data/presentation/trial_god.tres`：新增蓄力结束、下击结束和下击偏移参数，三帧显现图集在 `assets/gods/poseidon_cast.png`，原头像 `poseidon.png` 保留。
+- `data/content/myth_vfx.json`：14 位神话角色的效果选型和实现状态；不代表全部效果已导入或全部技能已实现。
+- `data/sources/cavalry_rider.json`：原骑手的像素源，配合 `tools/build_cavalry.gd` 重建双方六类动作图集，64px 帧/16 帧规格不变。
+- `assets/combat_audio/`：当前 CC0 近战、弓箭、战吼和地裂声音；CREDITS/manifest 记录来源与校验。前三类文件路由、增益和限频仍在 `data/presentation/audio.tres`；地裂由试战的现有独立声部播放。上文 `poseidon_rumble.wav` 已不作为当前试战音源。`tools/prepare_trial_audio.py` 可从原始下载素材复现加工结果。
+
+### 六姿势显现与角色美术目录（2026-11-01）
+- `data/presentation/trial_god.tres` 的 `texture`、`frame_starts`、`frame_regions`、`frame_anchors`、`frame_offsets`、`motion_fps` 管理波塞冬的新六帧与重心位移，替代旧的 `windup_end_seconds`、`strike_end_seconds`、`strike_drop_pixels`。与地裂伤害数据独立。
+- `assets/gods/poseidon_ocean_cast.png` 是已接入试战的单张动画图集；旧 `poseidon_cast.png` 和 `poseidon.png` 保留，不覆盖原文件。
+- `assets/mythology/*.png` 是其余 13 位角色的静态美术；`source.json` 保存模型与校验。只保存素材，不在战斗初始化时加载整套图库。
+- `data/content/myth_vfx.json/characters[].art` 明确美术路径与状态：`static_art_only` 或 `six_frame_cast_integrated`，不能据此推断技能已实现。
+- `tools/preview_myth_roster.gd` 生成原生 alpha 合成总览；`tools/capture_poseidon_cast.gd` 在实际试战中生成逐帧证据。仅为制作/验证工具，不改变主菜单与远征流程。
+
+## 神话音效表现配置（2026-11-01）
+
+`data/presentation/myth_audio.json` 独立存放角色起手／生效音路径、各段音量、海浪延时、声音数量上限和重复播放间隔。它只影响声音，不改伤害、技能冷却或存档。
+
+`scripts/tactical/myth_audio.gd` 在试战进入时一次加载28个预制WAV，复用6个播放器；待播、暂停和防连播状态只活在当前场景。沿用玩家原有音效开关与总音量。`assets/myth_audio/` 保存WAV与来源清单，`tools/build_myth_audio.py` 可复现生成（Python＋numpy），运行游戏不依赖Python或网络。

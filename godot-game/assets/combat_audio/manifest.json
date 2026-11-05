@@ -1,0 +1,41 @@
+{
+  "license": "CC0-1.0",
+  "files": [
+    {
+      "name": "arrow0.wav",
+      "sha256": "add1b02928318ccea8a21c71a06eedc0cdd6932168f9221a7b8014f55edfd37b"
+    },
+    {
+      "name": "arrow1.wav",
+      "sha256": "7a43e396920e07cd522ac4bdc6cd0752103ea32832458b9a4ff715dac7c2d7ad"
+    },
+    {
+      "name": "arrow2.wav",
+      "sha256": "6103c94f500d323992d2689529a6faa9a8ee1dd7a0fba3a5414451fbe1e577f5"
+    },
+    {
+      "name": "cry0.wav",
+      "sha256": "cd6d1a1b0ae56b60ad7d624dac5ed9060de7c3b27b2b35a22e07fcfb7643c05a"
+    },
+    {
+      "name": "cry1.wav",
+      "sha256": "f421ba1a1824c973e192c1e8503581cbb86b00ebeae069cf2f601b6dd2cb61d2"
+    },
+    {
+      "name": "earthquake.wav",
+      "sha256": "af3a9e886cc0685b32716b1c1b5073350bb4bdd9fb62bb02ac6b6e0965d30c3b"
+    },
+    {
+      "name": "impact0.wav",
+      "sha256": "7ed0dd5261e1809730013dfdb0d8a38871dba6145a2e08c989b720fe2dd0d704"
+    },
+    {
+      "name": "impact1.wav",
+      "sha256": "bf615119e6ad4d04d0f5fc9fa5f5a449b5b8193aa9358898f856c7cc006e825e"
+    },
+    {
+      "name": "impact2.wav",
+      "sha256": "f9912d0aeb5e6130b0e0773f882d565c0771104e2086e0aae8fd686c5be18038"
+    }
+  ]
+}

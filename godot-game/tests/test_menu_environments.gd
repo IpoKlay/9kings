@@ -68,7 +68,7 @@ func run():
 	check(app.dialog_kind=='settings','Settings accessible before starting')
 	app.set_language('en')
 	check(app.main_menu and app.menu_view.visible,'Language change stays on menu')
-	check(find_name(app.menu_view,'StartGame').text=='Start Game','Main menu follows language')
+	check(find_name(app.menu_view,'StartGame').text=='New Expedition','Main menu follows language')
 	await capture('settings-en')
 	var panel=app.modal.get_child(1)
 	for child in panel.get_children():

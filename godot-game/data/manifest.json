@@ -29,7 +29,9 @@
     "schema/field_contracts": "res://data/schema/field_contracts.json",
     "content/march_choices": "res://data/content/march_choices.json",
     "generated/march_paths": "res://data/generated/march_paths.json",
-    "balance/enemy_doctrines": "res://data/balance/enemy_doctrines.json"
+    "balance/enemy_doctrines": "res://data/balance/enemy_doctrines.json",
+    "content/myth_vfx": "res://data/content/myth_vfx.json",
+    "sources/cavalry_rider": "res://data/sources/cavalry_rider.json"
   },
   "presentation": {
     "atlas": "res://data/presentation/atlas.tres",
@@ -39,6 +41,7 @@
     "environment": "res://data/presentation/environment.tres",
     "feedback": "res://data/presentation/feedback.tres",
     "field": "res://data/presentation/field.tres",
-    "ui": "res://data/presentation/ui.tres"
+    "ui": "res://data/presentation/ui.tres",
+    "trial_god": "res://data/presentation/trial_god.tres"
   }
 }

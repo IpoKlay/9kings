@@ -9,6 +9,11 @@ static var TREE_LAYOUTS = preset.tree_layouts
 const WATER_SHADER = preload('res://shaders/water_surface.gdshader')
 static var WATER_POLYGONS = preset.water_polygons
 static var WATER_SPEEDS = preset.water_speeds
+var landscape_texture: Texture2D
+var landscape_size=Vector2(1920,1080)
+var landscape_trees: Array=[]
+var landscape_flags: Array=[]
+var shore_origin=Vector2.ZERO
 var surface: Sprite2D
 var surface_act = -1
 static var FLAG_ROOTS = preset.flag_roots
@@ -51,8 +56,10 @@ func attach(canvas: Node2D):
 
 func update_surface(canvas: Node2D, index: int, offset: Vector2):
 	if surface_act!=index:
-		surface.texture=canvas.tex(BACKGROUNDS[index])
-		surface.scale=Vector2(1920,1080)/surface.texture.get_size()
+		surface.texture=landscape_texture if landscape_texture else canvas.tex(BACKGROUNDS[index])
+		surface.scale=landscape_size/surface.texture.get_size()
+		surface.material.set_shader_parameter('landscape_size',landscape_size)
+		surface.material.set_shader_parameter('shore_origin',shore_origin)
 		var points=PackedVector2Array(WATER_POLYGONS[index])
 		points.resize(24)
 		surface.material.set_shader_parameter('water_points',points)
@@ -71,7 +78,7 @@ func draw(canvas: Node2D, act: int, offset: Vector2 = Vector2.ZERO):
 		canvas.draw_texture_rect(canvas.tex(preset.ground_overlays[index]),Rect2(Vector2.ZERO,Vector2(1920,1080)),false)
 	var trees: Texture2D=canvas.tex('environments/oak' if index==0 else 'environments/trees')
 	var cell=trees.get_size().x if index==0 else trees.get_size().x/3.0
-	var layout=TREE_LAYOUTS[index]
+	var layout=landscape_trees if not landscape_trees.is_empty() else TREE_LAYOUTS[index]
 	for i in layout.size():
 		var planting=layout[i]
 		var root=Vector2(planting.x,planting.y)
@@ -80,11 +87,12 @@ func draw(canvas: Node2D, act: int, offset: Vector2 = Vector2.ZERO):
 		# foliage moves; no baked terrain or entire background image is distorted.
 		for strip in int(preset.tree_strips):
 			var fraction=strip/float(preset.tree_strips)
-			var sway=tree_sway(index+1,i,fraction,clock)
+			var sway=tree_sway(index+1,i%wind_profiles[index].size(),fraction,clock)
 			var src=Rect2(0 if index==0 else index*cell,trees.get_height()*fraction,cell,trees.get_height()/float(preset.tree_strips))
 			var dest=Rect2(root-Vector2(size.x*.5,size.y)+Vector2(sway,size.y*fraction),Vector2(size.x,size.y/float(preset.tree_strips)+.5))
 			canvas.draw_texture_rect_region(trees,dest,src)
-	for i in FLAG_ROOTS.size(): draw_flag(canvas,FLAG_ROOTS[i],i)
+	var flags=landscape_flags if not landscape_flags.is_empty() else FLAG_ROOTS
+	for i in flags.size(): draw_flag(canvas,flags[i],i)
 	# Sparse drift at the boundaries. The center remains visually quiet.
 	for i in int(preset.drift_count):
 		var speed=preset.drift_speeds[index]

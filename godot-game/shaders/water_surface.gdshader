@@ -6,7 +6,8 @@ uniform float flow_speed = 1.0;
 uniform float ripple_strength = 0.12;
 uniform int water_count = 0;
 uniform vec2 water_points[24];
-const vec2 FIELD_SIZE = vec2(1920.0, 1080.0);
+uniform vec2 landscape_size = vec2(1920.0, 1080.0);
+uniform vec2 shore_origin = vec2(0.0);
 
 // A hand-traced water footprint plus a color guard prevents any shore/land warp.
 float water_color(vec3 c) {
@@ -36,8 +37,8 @@ vec2 water_region(vec2 p) {
 void fragment() {
 	vec4 original=texture(TEXTURE,UV);
 	vec4 result=original;
-	vec2 p=floor(UV*FIELD_SIZE/2.0)*2.0;
-	if (p.x<640.0 && p.y>580.0 && water_count>=3) {
+	vec2 p=floor((UV*landscape_size-shore_origin)/2.0)*2.0;
+	if (p.x>=0.0 && p.x<640.0 && p.y>580.0 && p.y<=1080.0 && water_count>=3) {
 		vec2 region=water_region(p);
 		float wet=region.x*water_color(original.rgb);
 		if (wet>0.001) {
@@ -46,9 +47,9 @@ void fragment() {
 			// Gentle moving refraction, snapped to the native pixel grid.
 			vec2 motion=vec2(sin(p.y*.071-t*.73)+.45*sin(p.x*.043+t*.41),
 				.65*cos(p.x*.061+p.y*.025-t*.53))*2.0*interior;
-			vec2 sample_uv=UV+round(motion/2.0)*2.0/FIELD_SIZE;
+			vec2 sample_uv=UV+round(motion/2.0)*2.0/landscape_size;
 			vec4 refracted=texture(TEXTURE,sample_uv);
-			float safe=water_color(refracted.rgb)*water_region(sample_uv*FIELD_SIZE).x;
+			float safe=water_color(refracted.rgb)*water_region(sample_uv*landscape_size-shore_origin).x;
 			result=mix(original,refracted,wet*safe*.72);
 			// Uneven bands drift across the water instead of blinking in place.
 			float wave=sin(p.y*.19+p.x*.045-t*1.25+sin(p.x*.028+t*.25)*1.3);

@@ -1,0 +1,59 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://assets/mythology/animated_oblique/hydra.png" id="1_5xbn0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_regtt"]
+atlas = ExtResource("1_5xbn0")
+region = Rect2(0, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do4kl"]
+atlas = ExtResource("1_5xbn0")
+region = Rect2(512, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwh7p"]
+atlas = ExtResource("1_5xbn0")
+region = Rect2(1024, 0, 512, 512)
+margin = Rect2(128, 128, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0d62k"]
+atlas = ExtResource("1_5xbn0")
+region = Rect2(0, 512, 512, 512)
+margin = Rect2(128, 162, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1c1s"]
+atlas = ExtResource("1_5xbn0")
+region = Rect2(512, 512, 512, 512)
+margin = Rect2(128, 162, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dio2"]
+atlas = ExtResource("1_5xbn0")
+region = Rect2(1024, 512, 512, 512)
+margin = Rect2(128, 162, 256, 256)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_regtt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_do4kl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwh7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0d62k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1c1s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dio2")
+}],
+"loop": 0,
+"name": &"action",
+"speed": 6.0
+}]
