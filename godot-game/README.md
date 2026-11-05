@@ -8,6 +8,10 @@
 
 山口岩壁以伊比利亚底图的岩脊纹理标出，岩壁之间为正面通道和单列侧道。选队后地上的细框表示方阵占地。箭头会绕开岩壁并显示实际行军折线，红叉表示当前落点或路段无法通过。窄口后队会等前队让出位置。遭敌阵截击时转入交战，仍可重新选队改道。
 
+### 会战 HUD 编辑器场景（2026-11-05）
+
+固定 HUD 位于 `scenes/ui/battle_hud.tscn`，由 `tactical_trial.tscn` 实际实例化。移动右下角 `BattleActions/StartButton` 并保存，即可改变游戏内「开战／坚守／重新试战」按钮位置；布局不会被刷新逻辑覆盖。纸签和选中颜色在 `assets/ui/battle_hud/battle_hud_theme.tres`，回调在 `scripts/tactical/trial.gd`。兵种栏与部队栏的整行位置、间距分别在 `ReserveActions` 和 `RegimentRoster` 调整。详细节点说明、自动化检查与手动验收见 [BATTLE_HUD.md](docs/BATTLE_HUD.md)。
+
 ### 14角色专属技能音效（2026-11-01）
 
 - 每位角色接入起手与技能生效两段音效，共28段；波塞冬使用海潮，冲锋撞击在首次实际接敌时播放。原技能数值、画面和普通兵种声音不变。
