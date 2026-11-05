@@ -52,11 +52,12 @@ jobs:
             sleep 15
             xdotool mousemove 80 135 click 1
             xdotool mousemove 620 22 click 1
+            xdotool mousemove 360 153 click --repeat 8 --delay 120 1
             xdotool mousemove 800 450 key f
             sleep 2
             xdotool mousemove 135 95 click 1 key ctrl+a type StartButton
             sleep 1
-            xdotool mousemove 110 180 click 1
+            xdotool mousemove 110 135 click 1
             sleep 1
             import -window root output/battle-hud/editor-preview.png
             kill "$editor_pid"

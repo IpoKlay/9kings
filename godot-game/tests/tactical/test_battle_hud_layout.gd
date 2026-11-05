@@ -33,6 +33,7 @@ func run():
 	probe.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	root.add_child(probe)
 	var hud=load('res://scenes/ui/battle_hud.tscn').instantiate()
+	check(hud.size==Vector2(1920,1080),'Standalone scene has a real design-time canvas before entering tree')
 	root.add_child(hud)
 	await process_frame
 	await process_frame
