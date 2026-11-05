@@ -1,7 +1,19 @@
 {
   "duration": 180.0,
+  "pass_standard": {
+    "center": [340, 780],
+    "radius": 115,
+    "capture_seconds": 12
+  },
   "testing": {
     "unlimited_powers": true
+  },
+  "directional_combat": {
+    "shield_front": 0.72,
+    "charge": 3.5,
+    "rearm_distance": 160,
+    "side": {"damage": 1.2, "morale": 3},
+    "rear": {"damage": 1.4, "morale": 5}
   },
   "reserve": {
     "legion": 2,

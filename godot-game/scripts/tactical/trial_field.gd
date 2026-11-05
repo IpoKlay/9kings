@@ -70,7 +70,7 @@ func advance(dt: float):
 func effect(event: Dictionary):
 	var e=event.duplicate()
 	e.age=0.0
-	e.duration=.5
+	e.duration=.72 if e.kind=='flanking_charge' else .5
 	if e.has('character'):
 		e.duration=2.0 if e.character in ['medusa','odysseus'] else 1.0
 		for fx in characters[e.character].cast_fx:
@@ -86,6 +86,10 @@ func _draw():
 	if rules.terrain:draw_pass_ground()
 	draw_set_transform_matrix(ground_transform())
 	draw_rect(rules.bounds,Color('#bea36c99'),false,3)
+	if rules is PassBattle:
+		var tint=flag_color(rules)
+		draw_circle(rules.flag_center,rules.flag_radius,Color(tint,.16))
+		draw_arc(rules.flag_center,rules.flag_radius,0,TAU,48,tint,4)
 	if rules.phase=='deploy' or (rules.phase=='battle' and rules.reserve.has(trial.selected)):
 		var zone: Rect2=rules.deployment
 		draw_rect(zone,Color('#dbc17e14'))
@@ -141,11 +145,14 @@ func _draw():
 			if u.general:draw_rect(Rect2(pole+Vector2(10,-24),Vector2(8,8)),Color('#ffdc80'))
 			draw_rect(Rect2(p+Vector2(0,10),Vector2(88,4)),Color('#423a32'))
 			draw_rect(Rect2(p+Vector2(0,10),Vector2(88*clampf(u.morale/100,0,1),4)),Color('#d3bd79'))
+		if not u.get('routing',false):
+			draw_front_marker(p+Vector2(108,5),u)
 		if u.side=='ally' and u.id in trial.squad_ids and u.obstruction!='':
 			var note=trial.words('等待前队','Waiting') if u.obstruction=='queue' else trial.words('敌阵截击','Intercepted')
 			terrain_sign(p+Vector2(0,-32),note)
 		if u.stun>0:
 			for j in 3: draw_rect(Rect2(p+Vector2(25+j*16,-10+(int(clock*8+j)%2)*4),Vector2(6,6)),Color('#fff0ad'))
+	if pass_battle:draw_standard(rules)
 	for shot in rules.stones:
 		var t: float=clampf(shot.age/float(rules.config.types.siege.flight),0,1)
 		var rock:=project(shot.from).lerp(project(shot.pos),t)-Vector2(0,18+sin(t*PI)*115)
@@ -167,6 +174,17 @@ func _draw():
 				for lane in [-2,-1,1,2]:
 					var shift=Vector2(lane*10,lane*5)
 					draw_line(q+shift-Vector2(12,4),q+shift,Color('#dfc58d'),3)
+		elif e.kind=='flanking_charge':
+			var dir=project(e.from).direction_to(p)
+			var tip=(p-dir*(36-floorf(e.age*10)*3)).round()
+			var flash=Color('#ffd08a') if e.sector=='side' else Color('#ff976e')
+			for offset in [0,12]:
+				var center=tip-dir*offset
+				var chevron=PackedVector2Array([center-dir*12+dir.orthogonal()*11,center,center-dir*12-dir.orthogonal()*11])
+				draw_polyline(chevron,Color('#432b24'),9)
+				draw_polyline(chevron,flash,5)
+			var label=trial.words('侧击','Flank') if e.sector=='side' else trial.words('背击','Rear')
+			terrain_sign(p+Vector2(14,-156),label)
 		elif e.kind=='heal':
 			var lift:=Vector2(0,42+e.age*32)
 			draw_line(p-lift-Vector2(7,0),p-lift+Vector2(7,0),Color('#cae8ae'),4)
@@ -271,6 +289,34 @@ func terrain_sign(pos: Vector2, value: String):
 	draw_rect(Rect2(pos-Vector2(5,18),Vector2(w+10,23)),Color('#352f24df'))
 	draw_string(font,pos,value,HORIZONTAL_ALIGNMENT_LEFT,-1,17,Color('#f1dda6'))
 
+func flag_color(rules) -> Color:
+	match rules.flag_state:
+		'capturing':return Color('#ff8768')
+		'contested':return Color('#ffd373')
+	return Color('#eac68a')
+
+func draw_standard(rules):
+	var foot=project(rules.flag_center).round()
+	var top=foot-Vector2(0,147)
+	draw_line(foot,top,Color('#493323'),8)
+	draw_line(foot,top,Color('#c39a56'),4)
+	draw_rect(Rect2(top+Vector2(-17,10),Vector2(36,44)),Color('#562d27'))
+	draw_rect(Rect2(top+Vector2(-14,13),Vector2(30,37)),Color('#a44635'))
+	draw_rect(Rect2(top+Vector2(-20,9),Vector2(41,4)),Color('#f3cb78'))
+	draw_colored_polygon(PackedVector2Array([top+Vector2(-9,20),top+Vector2(0,24),top+Vector2(9,20),
+		top+Vector2(6,28),top+Vector2(2,30),top+Vector2(0,35),top+Vector2(-3,30),top+Vector2(-7,27)]),Color('#f1ce7e'))
+	draw_rect(Rect2(top+Vector2(-11,41),Vector2(24,3)),Color('#ddb261'))
+	# The eagle finial has stepped wings and a raised head.
+	var wing=PackedVector2Array([top+Vector2(-16,-5),top+Vector2(-8,-3),top+Vector2(-3,1),
+		top+Vector2(-2,-7),top+Vector2(5,-7),top+Vector2(8,-4),top+Vector2(3,-3),
+		top+Vector2(4,0),top+Vector2(16,-6),top+Vector2(12,2),top+Vector2(3,6),
+		top+Vector2(3,9),top+Vector2(-2,9),top+Vector2(-3,6),top+Vector2(-12,2)])
+	draw_colored_polygon(wing,Color('#f1ce7e'))
+	if rules.flag_state!='secure':
+		var bar=top-Vector2(46,23)
+		draw_rect(Rect2(bar,Vector2(92,10)),Color('#322925'))
+		draw_rect(Rect2(bar+Vector2(2,2),Vector2(roundf(88*rules.capture_time/rules.capture_seconds),6)),flag_color(rules))
+
 func draw_pass_ground():
 	# Outline sampled from the original Iberian rock bank. Rotate its long axis into the pass.
 	var bank=PackedVector2Array([Vector2(8,50),Vector2(29,26),Vector2(61,17),Vector2(88,25),
@@ -292,6 +338,15 @@ func draw_pass_ground():
 			draw_polygon(poly,PackedColorArray([Color.WHITE]),uv,rock_art)
 	terrain_sign(Vector2(986,600),trial.words('正面通道','Main pass'))
 	terrain_sign(Vector2(986,908),trial.words('侧道','Side pass'))
+
+# Compact bearing pip beside each strength bar, using the sprite's ground projection.
+func draw_front_marker(center: Vector2, u: Dictionary):
+	var dir=ground_transform().basis_xform(u.heading).normalized()
+	var points=PackedVector2Array([(center+dir*13).round(),(center-dir*8+dir.orthogonal()*8).round(),
+		(center-dir*8-dir.orthogonal()*8).round()])
+	draw_colored_polygon(points,Color('#ffe6ab') if u.side=='ally' else Color('#f6ac89'))
+	points.append(points[0])
+	draw_polyline(points,Color('#473626'),3)
 
 func draw_route_arrow(squad: Dictionary):
 	var origin=project(squad.pos)
@@ -317,7 +372,7 @@ func draw_route_arrow(squad: Dictionary):
 	var tail=project(plan.points[-2]) if plan.points.size()>1 else origin
 	if trial.draft_waypoints.is_empty() and trial.squad_at((tip-trial.camera_offset)*trial.zoom,'ally',true).get('id',-1)==squad.id:
 		tail=origin
-		tip=origin+Vector2(squad.facing*96,0)
+		tip=origin+ground_transform().basis_xform(squad.heading).normalized()*96
 		draw_line(tail,tip,tint,4)
 	var dir=tail.direction_to(tip)
 	if dir==Vector2.ZERO:return
