@@ -22,6 +22,8 @@ func click(point: Vector2):
 		event.pressed=down
 		root.push_input(event,true)
 	await process_frame
+	# SceneTree.process_frame precedes Node._process; wait for refresh and layout.
+	await process_frame
 
 func screenshot(name: String):
 	await process_frame

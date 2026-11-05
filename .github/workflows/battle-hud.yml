@@ -50,6 +50,14 @@ jobs:
             Godot_v4.7.2-stable_linux.x86_64 --editor --audio-driver Dummy --path godot-game --resolution 1600x1000 res://scenes/ui/battle_hud.tscn > output/battle-hud/editor.log 2>&1 &
             editor_pid=$!
             sleep 15
+            xdotool mousemove 80 135 click 1
+            xdotool mousemove 620 22 click 1
+            xdotool mousemove 800 450 key f
+            sleep 2
+            xdotool mousemove 135 95 click 1 key ctrl+a type StartButton
+            sleep 1
+            xdotool mousemove 110 180 click 1
+            sleep 1
             import -window root output/battle-hud/editor-preview.png
             kill "$editor_pid"
             wait "$editor_pid" || true
