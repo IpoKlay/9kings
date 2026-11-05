@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
-          ref: 3f975e1dff46fef5f3763280dfbce4d83a9b67c0
+          ref: 7648f81c3b47a30ec3e1a8579d6a036359628189
           path: baseline
       - name: Install native test tools
         run: |
@@ -40,7 +40,7 @@ jobs:
       - name: Regression - seven arms, pass, waypoints and terrain
         run: |
           set -o pipefail
-          for test in test_combined_arms test_pass_battle test_route_waypoints test_pass_terrain; do
+          for test in test_combined_arms test_pass_battle test_route_waypoints test_pass_terrain test_facing_tactics test_pass_standard; do
             xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --audio-driver Dummy --fixed-fps 60 --path godot-game --script "res://tests/tactical/$test.gd" 2>&1 | tee "output/battle-hud/$test.log"
           done
       - name: Open actual HUD in the native editor

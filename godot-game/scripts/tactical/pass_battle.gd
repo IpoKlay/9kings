@@ -1,10 +1,19 @@
 extends "res://scripts/tactical/trial_rules.gd"
 ## Shared battle rules for manual deployment and all formation presets.
+var flag_center: Vector2
+var flag_radius: float
+var capture_seconds: float
+var capture_time=0.0
+var flag_state='secure'
+var outcome=''
 var barrels: Array=[]
 var routed={'ally':0,'enemy':0}
 
 func _init():
 	super()
+	flag_center=Vector2(config.pass_standard.center[0],config.pass_standard.center[1])
+	flag_radius=config.pass_standard.radius
+	capture_seconds=config.pass_standard.capture_seconds
 	terrain=preload('res://scripts/tactical/pass_terrain.gd').new(projection,bounds,config.types)
 	enemy_wait=0
 	for p in [Vector2(1130,513),Vector2(1170,910)]:
@@ -37,10 +46,10 @@ func spawn(kind: String,side: String,pos: Vector2):
 func alive(side: String) -> Array:
 	return units.filter(func(u):return u.side==side and u.hp>0 and not u.routing)
 
-func hurt(u: Dictionary, damage: float, source_kind: String='') -> float:
+func hurt(u: Dictionary, damage: float, source_kind: String='', morale_shock: float=0.0) -> float:
 	var dealt=super(u,damage,source_kind)
 	if dealt>0 and u.has('morale') and not u.routing:
-		u.morale-=dealt/u.max_hp*(106 if u.general else 125)
+		u.morale-=dealt/u.max_hp*(106 if u.general else 125)+morale_shock
 		if u.hp<=0 or u.morale<=0:
 			u.routing=true
 			if u.hp>0:routed[u.side]+=1
@@ -48,18 +57,6 @@ func hurt(u: Dictionary, damage: float, source_kind: String='') -> float:
 				for other in alive(u.side):
 					other.morale=maxf(1,other.morale-18)
 	return dealt
-
-func deal_blow(attacker: Dictionary,target: Dictionary,damage: float):
-	# A mounted blow from behind an engaged line increases the shock.
-	if target.kind=='decoy':
-		super.deal_blow(attacker,target,damage)
-		return
-	var rear=(attacker.pos.x-target.pos.x)*target.facing < -30
-	if not rear and target.order=='hold' and target.kind=='legion':damage*=.72
-	if rear and attacker.kind=='cavalry':
-		damage*=1.4
-		target.morale-=5
-	hurt(target,damage,attacker.kind)
 
 func barrel_at(pos: Vector2) -> Dictionary:
 	for b in barrels:
@@ -122,7 +119,52 @@ func step(dt: float):
 			u.attack_age=10
 			if not bounds.has_point(u.pos):u.escaped=true
 	super(dt)
-	if phase=='timeout' and not alive('ally').is_empty():phase='victory'
+
+func inside_flag(unit: Dictionary) -> bool:
+	return flag_center.distance_squared_to(unit.pos)<=flag_radius*flag_radius
+
+# Take an exposed standard when it is closer than an out-of-range combat target.
+func advance_objective(u: Dictionary, target: Dictionary, dt: float) -> bool:
+	if u.side!='enemy' or u.order!='auto' or u.kind=='medic':return false
+	var at_flag=inside_flag(u)
+	if not target.is_empty():
+		var distance: float=u.pos.distance_to(target.pos)
+		if target.kind=='decoy' or distance<=attack_reach(u,target):return false
+		if not at_flag and distance<u.pos.distance_to(flag_center):return false
+	if not at_flag and u.rooted<=0:
+		var previous: Vector2=u.pos
+		var next: Vector2=u.pos.move_toward(travel_target(u,flag_center),float(config.types[u.kind].speed)*powers.speed_multiplier(u)*dt)
+		if may_advance(u,next):
+			u.pos=next
+			record_march(u,previous)
+	return true
+
+func resolve_battle(dt: float):
+	var attackers=alive('enemy')
+	var defenders=alive('ally')
+	if not attackers.any(inside_flag):
+		flag_state='secure'
+		capture_time=0.0
+	elif defenders.any(inside_flag):
+		flag_state='contested'
+	else:
+		flag_state='capturing'
+		capture_time=minf(capture_seconds,capture_time+dt)
+	# Resolve once, after movement, damage and routs for this simulation step.
+	if attackers.is_empty():
+		outcome='enemy_routed'
+		phase='victory'
+	elif capture_time>=capture_seconds-1e-8:
+		capture_time=capture_seconds
+		outcome='flag_lost'
+		phase='defeat'
+	elif defenders.is_empty() and not reserve.values().any(func(stock):return stock>0):
+		outcome='defenders_routed'
+		phase='defeat'
+	elif elapsed>=float(config.duration)-1e-8:
+		outcome='defenders_routed' if defenders.is_empty() else 'time_held'
+		phase='defeat' if defenders.is_empty() else 'victory'
+
 
 func strength(side: String) -> float:
 	var value=0.0

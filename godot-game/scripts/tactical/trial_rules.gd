@@ -47,7 +47,7 @@ func spawn(kind: String, side: String, pos: Vector2):
 		'obstruction':'', 'order':'auto', 'destination':pos, 'waypoints':[], 'target_id':-1,
 		'heading':Vector2.RIGHT if side=='ally' else Vector2.LEFT, 'march_distance':0.0, 'moving':false, 'attack_age':10.0, 'hit_age':10.0, 'facing':1.0 if side=='ally' else -1.0,
 		'shield':0.0,'rooted':0.0,'petrified':0.0,'marked':0.0,'poison':0.0,'regen':0.0,
-		'push':Vector2.ZERO, 'charge':kind=='cavalry', 'dead_age':0.0})
+		'push':Vector2.ZERO, 'charge':kind=='cavalry','clear_run':0.0, 'dead_age':0.0})
 	next_id += 1
 
 func deployment_valid(pos: Vector2, kind: String='legion') -> bool:
@@ -191,7 +191,7 @@ func advance_waves(dt: float):
 				u.push=Vector2(float(q.push),0)
 	waves=waves.filter(func(wave):return wave.age<float(q.travel_seconds))
 
-func hurt(u: Dictionary, damage: float, source_kind: String='') -> float:
+func hurt(u: Dictionary, damage: float, source_kind: String='', _morale_shock: float=0.0) -> float:
 	if u.hp<=0:return 0.0
 	if u.get('shield',0)>0:damage*=1.0-float(powers.config.athena.reduction)
 	if source_kind=='archer' and u.get('marked',0)>0:damage*=float(powers.config.artemis.archer_bonus)
@@ -287,8 +287,57 @@ func travel_target(u: Dictionary, goal: Vector2) -> Vector2:
 	u.steer_corner=corner
 	return corner
 
+func record_march(u: Dictionary, previous: Vector2):
+	u.moving=previous!=u.pos
+	if not u.moving:return
+	var distance=previous.distance_to(u.pos)
+	u.march_distance+=distance
+	u.heading=previous.direction_to(u.pos)
+	if u.kind!='cavalry' or u.charge:return
+	# Accumulate a fresh run only on open ground, outside every live enemy formation.
+	for other in alive('enemy' if u.side=='ally' else 'ally'):
+		var gap: Vector2=other.pos-u.pos
+		var reach=attack_reach(u,other)
+		if terrain:
+			var edges: Vector2=terrain.extents[u.kind]+terrain.extents[other.kind]
+			var separation=ground_basis.basis_xform(gap).abs()
+			if separation.x<=edges.x and separation.y<=edges.y:
+				u.clear_run=0.0
+				return
+		if gap.length()<=reach:
+			u.clear_run=0.0
+			return
+	if u.order!='move':return
+	u.clear_run+=distance
+	if u.clear_run>=float(config.directional_combat.rearm_distance):u.charge=true
+
+func impact_side(attacker: Dictionary, target: Dictionary) -> String:
+	if not target.has('heading'):return 'front'
+	var incoming: Vector2=target.pos.direction_to(attacker.pos)
+	if incoming.is_zero_approx():return 'front'
+	var alignment: float=target.heading.normalized().dot(incoming)
+	if alignment>.5 or is_equal_approx(alignment,.5):return 'front'
+	if alignment<-.5 or is_equal_approx(alignment,-.5):return 'rear'
+	return 'side'
+
 func deal_blow(attacker: Dictionary,target: Dictionary,damage: float):
-	hurt(target,damage,attacker.kind)
+	var sector=impact_side(attacker,target)
+	var tactics: Dictionary=config.directional_combat
+	var kind='arrow' if attacker.kind=='archer' else 'hit'
+	var shock=0.0
+	if sector=='front' and target.kind in ['legion','guard'] and target.order=='hold':
+		damage*=tactics.shield_front
+	if attacker.charge:
+		attacker.charge=false
+		attacker.clear_run=0.0
+		damage*=tactics.charge
+		kind='charge'
+		if sector!='front':
+			kind='flanking_charge'
+			damage*=tactics[sector].damage
+			shock=tactics[sector].morale
+	hurt(target,damage,attacker.kind,shock)
+	events.append({'kind':kind,'pos':target.pos,'from':attacker.pos,'sector':sector})
 
 # In the large deployment, melee lines engage at their facing edges.
 func attack_reach(u: Dictionary, target: Dictionary) -> float:
@@ -394,9 +443,7 @@ func step(dt: float):
 			var next: Vector2=u.pos.move_toward(travel_target(u,u.destination),float(config.types[u.kind].speed)*powers.speed_multiplier(u)*dt)
 			if not may_advance(u,next):continue
 			u.pos=next
-			u.march_distance+=previous.distance_to(u.pos)
-			u.moving=previous!=u.pos
-			if u.moving:u.heading=previous.direction_to(u.pos)
+			record_march(u,previous)
 			if absf(u.pos.x-previous.x)>.001:u.facing=signf(u.pos.x-previous.x)
 			if u.pos.is_equal_approx(u.destination):
 				if u.waypoints.is_empty():u.order='hold'
@@ -417,10 +464,12 @@ func step(dt: float):
 				u.order='auto'
 				u.obstruction=''
 		if target.is_empty():target=powers.select_target(self,u)
+		if advance_objective(u,target,dt):continue
 		if target.is_empty(): continue
 		var distance: float=u.pos.distance_to(target.pos)
 		var stats: Dictionary=config.types[u.kind]
-		if absf(target.pos.x-u.pos.x)>2: u.facing=signf(target.pos.x-u.pos.x)
+		var lock_front: bool=u.order=='hold' and u.kind in ['legion','guard']
+		if not lock_front and absf(target.pos.x-u.pos.x)>2: u.facing=signf(target.pos.x-u.pos.x)
 		# Defenders hold their line until the player approaches; cavalry is a reserve.
 		if u.kind!='medic' and u.side=='enemy' and target.kind!='decoy' and distance>float(stats.range)+220 and elapsed<enemy_wait: continue
 		if distance>attack_reach(u,target):
@@ -439,11 +488,9 @@ func step(dt: float):
 				next=u.pos.move_toward(steer,float(stats.speed)*powers.speed_multiplier(u)*dt)
 				if not may_advance(u,next):continue
 			u.pos=next
-			u.march_distance+=previous.distance_to(u.pos)
-			u.moving=previous!=u.pos
-			if u.moving:u.heading=previous.direction_to(u.pos)
+			record_march(u,previous)
 		elif u.cooldown<=0:
-			if distance>.01:u.heading=u.pos.direction_to(target.pos)
+			if not lock_front and distance>.01:u.heading=u.pos.direction_to(target.pos)
 			u.cooldown=float(stats.interval)
 			u.attack_age=0.0
 			if u.kind=='medic':
@@ -455,22 +502,23 @@ func step(dt: float):
 				events.append({'kind':'launch','pos':u.pos})
 				continue
 			var damage: float=stats.damage
-			if u.charge:
-				damage*=3.5
-				u.charge=false
-				events.append({'kind':'charge','pos':target.pos})
 			if target.kind=='legion' and u.kind=='archer': damage*=.65
 			if target.kind=='guard' and u.kind=='archer':damage*=1.0-float(config.types.guard.missile_reduction)
 			if target.kind=='cavalry' and u.kind=='spear':damage*=float(stats.mounted_bonus)
 			deal_blow(u,target,damage)
 			target.hit_age=0.0
-			events.append({'kind':'arrow' if u.kind=='archer' else 'hit','pos':target.pos,'from':u.pos})
 	if combined_arms:separate_lines(dt)
-	if alive('enemy').is_empty(): phase='victory'
-	elif alive('ally').is_empty() and not reserve.values().any(func(stock):return stock>0): phase='defeat'
-	elif elapsed>=float(config.duration): phase='timeout'
+	resolve_battle(dt)
 
 	if phase!='battle':
 		powers.clear(self)
 		waves.clear()
 		stones.clear()
+
+func advance_objective(_u: Dictionary, _target: Dictionary, _dt: float) -> bool:
+	return false
+
+func resolve_battle(_dt: float):
+	if alive('enemy').is_empty(): phase='victory'
+	elif alive('ally').is_empty() and not reserve.values().any(func(stock):return stock>0): phase='defeat'
+	elif elapsed>=float(config.duration): phase='timeout'

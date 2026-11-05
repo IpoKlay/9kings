@@ -70,6 +70,7 @@ func run():
 	check(trial.notice==trial.words('神力已施放','Power released'),'Target click executes actual divine power')
 	await screenshot('power-zh')
 	for phase in ['victory','defeat','timeout']:
+		trial.rules.outcome='enemy_routed' if phase=='victory' else 'flag_lost'
 		trial.rules.phase=phase
 		trial.refresh()
 		check(trial.result.visible and trial.start_button.text=='重新试战','Terminal UI fixture '+phase)
@@ -123,6 +124,9 @@ func run():
 	moved.app=main
 	main.hide()
 	main.set_process(false)
+	main.set_process_input(false)
+	main.set_process_unhandled_input(false)
+	main.menu_view.set_process(false)
 	root.add_child(moved)
 	await process_frame
 	check(moved.start_button.position==position-Vector2(96,0),'Saved scene movement reaches the live controller')

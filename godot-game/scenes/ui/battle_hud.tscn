@@ -70,6 +70,20 @@ theme_override_colors/font_color = Color(0.219608, 0.184314, 0.145098, 1)
 
 theme_override_constants/outline_size = 0
 
+[node name="FlagAlert" type="Label" parent="StatusGroup"]
+visible = false
+layout_mode = 0
+offset_left = 382.0
+offset_top = 16.0
+offset_right = 742.0
+offset_bottom = 62.0
+mouse_filter = 2
+theme_override_styles/normal = ExtResource("2")
+theme_override_colors/font_color = Color(0.219608, 0.184314, 0.145098, 1)
+theme_override_constants/outline_size = 0
+horizontal_alignment = 1
+text = "军旗告急  0.0 / 12 s"
+
 [node name="HintLabel" type="Label" parent="StatusGroup"]
 
 layout_mode = 0
@@ -86,7 +100,7 @@ mouse_filter = 2
 
 theme_override_font_sizes/font_size = 21
 
-text = "山口 · 选择布阵或手动部署 · 右键油桶后点击布置"
+text = "保护鹰旗 · 敌军独占 12 秒即失守 · 选择布阵或手动部署"
 
 [node name="TopActions" type="Control" parent="."]
 

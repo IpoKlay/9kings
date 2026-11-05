@@ -8,6 +8,7 @@ var menu_button: Button
 var deployment_actions: Control
 var regiment_roster: HBoxContainer
 var defender_button: Button
+var flag_alert: Label
 var assault_button: Button
 var strength_bar: ColorRect
 var ally_bar: ColorRect
@@ -100,6 +101,7 @@ func rank_slots() -> Dictionary:
 # Fixed controls belong to battle_hud.tscn. Never set their rects here.
 func bind_hud():
 	status=hud.get_node('StatusGroup/StatusLabel')
+	flag_alert=hud.get_node('StatusGroup/FlagAlert')
 	hint=hud.get_node('StatusGroup/HintLabel')
 	controls=hud.get_node('HelpGroup/ControlsLabel')
 	power_note=hud.get_node('HelpGroup/PowerNote')
@@ -265,10 +267,15 @@ func refresh():
 	result.visible=rules.phase in ['victory','defeat','timeout']
 	controls.text=words('左拖移图 · Shift 拖框选队 · 右键移动或集火\nH 坚守 · A 自动 · 方向键／中键移镜 · 滚轮缩放','Drag to pan · Shift-drag select · RMB move / focus\nH hold · A auto · Arrows / MMB pan · Wheel zoom')
 	if rules.phase=='battle':
+		start_button.tooltip_text=words('短三角为阵面。盾兵坚守时保持当前朝向。','The triangle marks the front. Holding shield infantry keep their heading.')
 		start_button.text=words('坚守','Hold')+' ×'+str(squad_ids.size())
 		start_button.disabled=squad_ids.is_empty()
 	if rules.phase in ['victory','defeat','timeout']:
-		result.text=words('敌军溃败 · 胜利','VICTORY') if rules.phase=='victory' else words('未能突破 · 重新部署再战','DEFEAT · Redeploy and retry')
+		match rules.outcome:
+			'enemy_routed':result.text=words('敌军已被击溃 · 胜利','Victory · Enemy army routed')
+			'time_held':result.text=words('守城时间已到 · 军旗守住了','Victory · Standard held until time expired')
+			'flag_lost':result.text=words('罗马军旗失守 · 战败','Defeat · The Roman standard fell')
+			'defenders_routed':result.text=words('守军溃败 · 战败','Defeat · Defenders routed')
 		start_button.disabled=false
 		start_button.text=words('重新试战','Retry')
 	assault_button.visible=rules.phase=='battle'
@@ -293,11 +300,14 @@ func refresh():
 		tab.tooltip_text=words('士气 %d','Morale %d')%ceili(u.morale)
 	if notice_seconds<=0 and not paused and selected!='lightning':
 		if rules.phase=='deploy' and squad_ids.is_empty():
-			hint.text=words('山口 · 选择布阵或手动部署 · 右键油桶后点击布置','The pass · Choose a formation or deploy manually · Right-click oil to reposition')
+			hint.text=words('保护鹰旗 · 敌军独占 %s 秒即失守 · 选择布阵或手动部署','Guard the standard · Enemy captures in %s s · Choose a formation or deploy')%str(rules.capture_seconds).trim_suffix('.0')
 		elif rules.phase=='battle':
-			hint.text=words('守住三分钟或击溃敌军 · 右键油桶发射火箭','Hold for 3 min or rout the enemy · Right-click oil for fire arrows')
-	if rules.phase=='victory':result.text=words('山口守住了 · 胜利','Pass secured · Victory')
-	if rules.phase in ['defeat','timeout']:result.text=words('守军溃败','The defenders broke')
+			hint.text=words('守住军旗三分钟或击溃敌军 · 右键油桶发射火箭','Guard the standard for 3 min or rout the enemy · Right-click oil for fire arrows')
+	flag_alert.visible=rules.flag_state!='secure' and rules.phase=='battle'
+	if flag_alert.visible:
+		var state=words('军旗告急','Flag threatened') if rules.flag_state=='capturing' else words('旗区争夺','Contested')
+		flag_alert.text=state+'  %.1f / %s s'%[floorf((rules.capture_time+1e-8)*10)/10,str(rules.capture_seconds).trim_suffix('.0')]
+		flag_alert.modulate=Color('#ffd294') if rules.flag_state=='contested' else Color('#ffac88')
 	if selected=='route' and rules.phase=='battle' and notice_seconds<=0:
 		hint.text=words('Shift＋点击添加途经点 · 左键确认终点 · Esc 取消','Shift-click for waypoints · Click to march · Esc to cancel')
 		if paused:hint.text=words('已暂停 · ','Paused · ')+hint.text
