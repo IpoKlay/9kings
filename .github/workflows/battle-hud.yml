@@ -29,19 +29,19 @@ jobs:
         run: |
           mkdir -p output/battle-hud
           Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path baseline/godot-game --import --quit > output/battle-hud/baseline-import.log 2>&1
-          xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --audio-driver Dummy --fixed-fps 60 --path baseline/godot-game --script "$PWD/godot-game/tests/tactical/capture_battle_hud.gd" > output/battle-hud/baseline-capture.log 2>&1
+          xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --verbose --audio-driver Dummy --fixed-fps 60 --path baseline/godot-game --script "$PWD/godot-game/tests/tactical/capture_battle_hud.gd" > output/battle-hud/baseline-capture.log 2>&1
       - name: Import refactored native project
         run: Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path godot-game --import --quit > output/battle-hud/import.log 2>&1
       - name: Check authored controls and live menu-to-battle flow
         run: |
           set -o pipefail
           Godot_v4.7.2-stable_linux.x86_64 --headless --path godot-game --script res://tests/tactical/test_battle_hud_layout.gd 2>&1 | tee output/battle-hud/layout.log
-          xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --audio-driver Dummy --fixed-fps 60 --path godot-game --script res://tests/tactical/test_battle_hud_live.gd 2>&1 | tee output/battle-hud/live.log
+          xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --verbose --audio-driver Dummy --fixed-fps 60 --path godot-game --script res://tests/tactical/test_battle_hud_live.gd 2>&1 | tee output/battle-hud/live.log
       - name: Regression - seven arms, pass, waypoints and terrain
         run: |
           set -o pipefail
           for test in test_combined_arms test_pass_battle test_route_waypoints test_pass_terrain test_facing_tactics test_pass_standard; do
-            xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --audio-driver Dummy --fixed-fps 60 --path godot-game --script "res://tests/tactical/$test.gd" 2>&1 | tee "output/battle-hud/$test.log"
+            xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --verbose --audio-driver Dummy --fixed-fps 60 --path godot-game --script "res://tests/tactical/$test.gd" 2>&1 | tee "output/battle-hud/$test.log"
           done
       - name: Open actual HUD in the native editor
         if: always()
