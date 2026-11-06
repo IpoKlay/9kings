@@ -43,6 +43,30 @@ jobs:
           for test in test_combined_arms test_pass_battle test_route_waypoints test_pass_terrain test_facing_tactics test_pass_standard; do
             xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --verbose --audio-driver Dummy --fixed-fps 60 --path godot-game --script "res://tests/tactical/$test.gd" 2>&1 | tee "output/battle-hud/$test.log"
           done
+      - name: Check real WAV and MP3 teardown
+        run: |
+          set -o pipefail
+          Godot_v4.7.2-stable_linux.x86_64 --headless --verbose --fixed-fps 60 --path godot-game --script res://tests/tactical/test_audio_shutdown.gd -- --game-audio 2>&1 | tee output/battle-hud/audio-shutdown.log
+      - name: Reject runtime errors and unreleased objects
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          logs = [Path("output/battle-hud") / name for name in
+                  ["layout.log", "live.log", "audio-shutdown.log", "test_combined_arms.log",
+                   "test_pass_battle.log", "test_route_waypoints.log", "test_pass_terrain.log",
+                   "test_facing_tactics.log", "test_pass_standard.log"]]
+          pattern = re.compile(r"(?:SCRIPT ERROR:|ERROR:|ObjectDB instances were leaked|Leaked instance:|Resource still in use:)")
+          bad = []
+          for log in logs:
+              if not log.is_file():
+                  bad.append(f"{log}: missing log")
+                  continue
+              bad.extend(f"{log}: {line}" for line in log.read_text().splitlines() if pattern.search(line))
+          if bad:
+              raise SystemExit("\n".join(bad))
+          print("Native runtime logs: no errors or unreleased objects")
+          PY
       - name: Open actual HUD in the native editor
         if: always()
         run: |

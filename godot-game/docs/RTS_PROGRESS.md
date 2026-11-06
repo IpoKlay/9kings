@@ -1,5 +1,12 @@
 # 《鹰旗之下》RTS 开发进度
 
+## 2026-11-06 · 自动测试退出音频清理
+
+- 详细日志基线：[运行 42157950892](https://github.com/IpoKlay/9kings/actions/runs/42157950892)。残留类型全部为 AudioStreamWAV/MP3 及对应 AudioStreamPlayback；具体资源包括 horn.wav、cry0.wav、impact1.wav、the-pyre.mp3、crusade.mp3，无场景节点残留。单独创建一个 WAV 播放器，停止、释放、只等一帧后退出，可复现同类提示。
+- 测试在 queue_free 后立即 quit，没有留足音频混音线程回收播放对象的真实时间。新增 tests/tactical/helpers/native_shutdown.gd，六组有音频的原生流程测试在销毁场景后让主循环继续运行至少 300 毫秒（真实时间，不受 --fixed-fps 加速影响）。此为测试退出同步，不改变游戏规则、音效素材或正常交互速度。
+- 新增 test_audio_shutdown.gd：8 次播放/停止/销毁，用弱引用确认播放器、音频流与播放对象均已释放；本地生成 WAV 的回归已通过。CI 使用实际 horn.wav 和 crusade.mp3，覆盖 WAV/MP3，并检查完整回归日志；出现引擎错误、ObjectDB 残留或资源仍在使用即失败，不屏蔽日志。完整工程结果以本提交 Native battle HUD 工作流为准。
+- 下一步：确认本次完整 CI 的音频释放检查通过，然后继续原有 HUD 编辑器人工拖动→保存→F5 验收。PR #1 仍保持草稿且未合并 main。
+
 ## 2026-11-05 · 会战 HUD 场景重构 · 自动验收通过，人工编辑验收待完成
 
 - 本轮优先执行用户点名的 HUD 重构，不额外扩展战斗规则。整合 GitHub `7648f81c3b47a30ec3e1a8579d6a036359628189` 的朝向与军旗更新。当前真实入口为主菜单「军团会战 · RTS」，由 `main.open_tactical_trial()` 实例化 `tactical_trial.tscn`；山口守阵是同一部署界面的预设，没有独立山口菜单。

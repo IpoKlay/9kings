@@ -1,4 +1,5 @@
 extends SceneTree
+const Shutdown=preload('res://tests/tactical/helpers/native_shutdown.gd')
 ## Requires the complete native project. Terminal outcomes below are explicit
 ## UI fixtures, not evidence of victory or balance in a full simulated battle.
 var failures=0
@@ -142,4 +143,5 @@ func run():
 	await process_frame
 	for path in ['user://battle-hud-moved.tscn','user://battle-trial-moved.tscn']:DirAccess.remove_absolute(path)
 	print('BATTLE HUD LIVE: %d checks, %d failures'%[checks,failures])
+	await Shutdown.settle(self)
 	quit(1 if failures else 0)

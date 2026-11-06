@@ -1,4 +1,5 @@
 extends SceneTree
+const Shutdown=preload('res://tests/tactical/helpers/native_shutdown.gd')
 
 const Pass=preload('res://scripts/tactical/pass_battle.gd')
 const Plain=preload('res://scripts/tactical/trial_rules.gd')
@@ -126,4 +127,5 @@ func run():
 	main.queue_free()
 	await process_frame
 	print('FACING TACTICS failures: ',failures)
+	await Shutdown.settle(self)
 	quit(1 if failures else 0)
