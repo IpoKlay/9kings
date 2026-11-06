@@ -1,4 +1,5 @@
 extends SceneTree
+const Shutdown=preload('res://tests/tactical/helpers/native_shutdown.gd')
 
 const OUTPUT="res://../output/rts-waypoints/"
 var failures=0
@@ -135,4 +136,5 @@ func run():
 	main.queue_free()
 	await process_frame
 	print('Waypoint native input failures: ',failures)
+	await Shutdown.settle(self)
 	quit(1 if failures else 0)

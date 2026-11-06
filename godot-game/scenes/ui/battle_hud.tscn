@@ -1,0 +1,483 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/battle_hud/battle_hud_theme.tres" id="1"]
+
+[ext_resource type="StyleBoxTexture" path="res://assets/ui/battle_hud/status_paper.tres" id="2"]
+
+[node name="BattleHUD" type="Control"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+theme = ExtResource("1")
+texture_filter = 1
+
+[node name="StatusGroup" type="Control" parent="."]
+layout_mode = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StatusLabel" type="Label" parent="StatusGroup"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 370.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 22
+text = "00:00   我军 0 · 敌军 6"
+horizontal_alignment = 1
+theme_override_styles/normal = ExtResource("2")
+theme_override_colors/font_color = Color(0.219608, 0.184314, 0.145098, 1)
+theme_override_constants/outline_size = 0
+
+[node name="FlagAlert" type="Label" parent="StatusGroup"]
+visible = false
+layout_mode = 0
+offset_left = 382.0
+offset_top = 16.0
+offset_right = 742.0
+offset_bottom = 62.0
+mouse_filter = 2
+theme_override_styles/normal = ExtResource("2")
+theme_override_colors/font_color = Color(0.219608, 0.184314, 0.145098, 1)
+theme_override_constants/outline_size = 0
+horizontal_alignment = 1
+text = "军旗告急  0.0 / 12 s"
+
+[node name="HintLabel" type="Label" parent="StatusGroup"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 66.0
+offset_right = 1308.0
+offset_bottom = 102.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "保护鹰旗 · 敌军独占 12 秒即失守 · 选择布阵或手动部署"
+
+[node name="TopActions" type="Control" parent="."]
+layout_mode = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StrengthBar" type="ColorRect" parent="TopActions"]
+layout_mode = 0
+offset_left = 754.0
+offset_top = 30.0
+offset_right = 1166.0
+offset_bottom = 42.0
+mouse_filter = 2
+color = Color(0.34902, 0.498039, 0.572549, 1)
+
+[node name="AllyBar" type="ColorRect" parent="TopActions/StrengthBar"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 206.0
+offset_bottom = 12.0
+mouse_filter = 2
+color = Color(0.764706, 0.4, 0.286275, 1)
+
+[node name="PaceButton" type="Button" parent="TopActions"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -694.0
+offset_top = 12.0
+offset_right = -606.0
+offset_bottom = 66.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "1×"
+
+[node name="Portrait" type="TextureRect" parent="TopActions"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -578.0
+offset_top = 8.0
+offset_right = -518.0
+offset_bottom = 70.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CharacterPicker" type="OptionButton" parent="TopActions"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -514.0
+offset_top = 12.0
+offset_right = -296.0
+offset_bottom = 68.0
+focus_mode = 0
+mouse_filter = 0
+item_count = 1
+selected = 0
+popup/item_0/text = "宙斯"
+popup/item_0/id = 0
+
+[node name="HelpButton" type="Button" parent="TopActions"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -286.0
+offset_top = 12.0
+offset_right = -230.0
+offset_bottom = 66.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "?"
+
+[node name="PauseButton" type="Button" parent="TopActions"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -224.0
+offset_top = 12.0
+offset_right = -125.0
+offset_bottom = 66.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "暂停"
+
+[node name="MenuButton" type="Button" parent="TopActions"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -119.0
+offset_top = 12.0
+offset_right = -18.0
+offset_bottom = 66.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "菜单"
+
+[node name="HelpGroup" type="Control" parent="."]
+layout_mode = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PowerNote" type="Label" parent="HelpGroup"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -860.0
+offset_top = 72.0
+offset_right = -26.0
+offset_bottom = 144.0
+visible = false
+mouse_filter = 2
+horizontal_alignment = 2
+text = "神力说明\n角色效果与技能数值在游戏中更新"
+
+[node name="ControlsLabel" type="Label" parent="HelpGroup"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+offset_left = 28.0
+offset_top = -237.0
+offset_right = 1108.0
+offset_bottom = -157.0
+visible = false
+mouse_filter = 2
+theme_override_font_sizes/font_size = 21
+text = "左拖移图 · Shift 拖框选队 · 右键移动或集火\nH 坚守 · A 自动 · 方向键／中键移镜 · 滚轮缩放"
+
+[node name="DeploymentActions" type="Control" parent="."]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+offset_left = 18.0
+offset_top = -142.0
+offset_right = 649.0
+offset_bottom = -86.0
+mouse_filter = 2
+
+[node name="CombinedButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 210.0
+offset_bottom = 54.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "七兵种布阵"
+
+[node name="VanguardButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 0.0
+offset_right = 402.0
+offset_bottom = 56.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "标准布阵"
+
+[node name="DefenderButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 0.0
+offset_right = 631.0
+offset_bottom = 56.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "山口守阵"
+
+[node name="RegimentRoster" type="HBoxContainer" parent="."]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+offset_left = 18.0
+offset_top = -142.0
+offset_right = 1164.0
+offset_bottom = -86.0
+visible = false
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Regiment01" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "1 步兵"
+
+[node name="Regiment02" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "2 步兵"
+
+[node name="Regiment03" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "3 步兵"
+
+[node name="Regiment04" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "4 步兵"
+
+[node name="Regiment05" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "5 步兵"
+
+[node name="Regiment06" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "6 步兵"
+
+[node name="Regiment07" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "7 步兵"
+
+[node name="Regiment08" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "8 步兵"
+
+[node name="Regiment09" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "9 步兵"
+
+[node name="Regiment10" type="Button" parent="RegimentRoster"]
+custom_minimum_size = Vector2(111, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "10 步兵"
+
+[node name="ReserveActions" type="HBoxContainer" parent="."]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+offset_left = 18.0
+offset_top = -74.0
+offset_right = 1084.0
+offset_bottom = -18.0
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="LegionButton" type="Button" parent="ReserveActions"]
+custom_minimum_size = Vector2(148, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "步兵 ×2"
+
+[node name="ArcherButton" type="Button" parent="ReserveActions"]
+custom_minimum_size = Vector2(148, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "弓兵 ×2"
+
+[node name="CavalryButton" type="Button" parent="ReserveActions"]
+custom_minimum_size = Vector2(148, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "骑兵 ×2"
+
+[node name="SpearButton" type="Button" parent="ReserveActions"]
+custom_minimum_size = Vector2(148, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "长矛兵 ×1"
+
+[node name="GuardButton" type="Button" parent="ReserveActions"]
+custom_minimum_size = Vector2(148, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "重盾卫 ×1"
+
+[node name="MedicButton" type="Button" parent="ReserveActions"]
+custom_minimum_size = Vector2(148, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "军医 ×1"
+
+[node name="SiegeButton" type="Button" parent="ReserveActions"]
+custom_minimum_size = Vector2(148, 56)
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 0
+text = "投石机 ×1"
+
+[node name="BattleActions" type="Control" parent="."]
+layout_mode = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AssaultButton" type="Button" parent="BattleActions"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -572.0
+offset_top = -74.0
+offset_right = -387.0
+offset_bottom = -18.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "全军进攻"
+visible = false
+
+[node name="PowerButton" type="Button" parent="BattleActions"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -370.0
+offset_top = -74.0
+offset_right = -195.0
+offset_bottom = -18.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "神力 ∞"
+
+[node name="StartButton" type="Button" parent="BattleActions"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+offset_left = -182.0
+offset_top = -74.0
+offset_right = -18.0
+offset_bottom = -18.0
+focus_mode = 0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+text = "开战"
+
+[node name="ResultGroup" type="Control" parent="."]
+layout_mode = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ResultLabel" type="Label" parent="ResultGroup"]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 440.0
+offset_right = 1510.0
+offset_bottom = 590.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 46
+text = "山口守住了 · 胜利"
+visible = false
+horizontal_alignment = 1
+theme_override_colors/font_shadow_color = Color(0.086275, 0.172549, 0.192157, 1)
+theme_override_constants/outline_size = 0
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4

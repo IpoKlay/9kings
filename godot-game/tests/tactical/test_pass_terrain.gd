@@ -1,4 +1,5 @@
 extends SceneTree
+const Shutdown=preload('res://tests/tactical/helpers/native_shutdown.gd')
 
 const OUTPUT='res://../output/pass-terrain/'
 const Plain=preload('res://scripts/tactical/trial_rules.gd')
@@ -156,4 +157,5 @@ func run():
 	main.queue_free()
 	await process_frame
 	print('PASS TERRAIN failures: ',errors)
+	await Shutdown.settle(self)
 	quit(1 if errors else 0)

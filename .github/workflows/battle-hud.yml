@@ -1,0 +1,104 @@
+name: Native battle HUD
+on:
+  pull_request:
+    paths:
+      - 'godot-game/**'
+      - '.github/workflows/battle-hud.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: 7648f81c3b47a30ec3e1a8579d6a036359628189
+          path: baseline
+      - name: Install native test tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y xvfb xdotool imagemagick
+          curl --fail --location --retry 2 -o /tmp/godot.zip https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          chmod +x /tmp/godot/Godot_v4.7.2-stable_linux.x86_64
+          echo '/tmp/godot' >> "$GITHUB_PATH"
+      - name: Import original project and capture baseline
+        run: |
+          mkdir -p output/battle-hud
+          Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path baseline/godot-game --import --quit > output/battle-hud/baseline-import.log 2>&1
+          xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --verbose --audio-driver Dummy --fixed-fps 60 --path baseline/godot-game --script "$PWD/godot-game/tests/tactical/capture_battle_hud.gd" > output/battle-hud/baseline-capture.log 2>&1
+      - name: Import refactored native project
+        run: Godot_v4.7.2-stable_linux.x86_64 --headless --editor --path godot-game --import --quit > output/battle-hud/import.log 2>&1
+      - name: Check authored controls and live menu-to-battle flow
+        run: |
+          set -o pipefail
+          Godot_v4.7.2-stable_linux.x86_64 --headless --path godot-game --script res://tests/tactical/test_battle_hud_layout.gd 2>&1 | tee output/battle-hud/layout.log
+          xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --verbose --audio-driver Dummy --fixed-fps 60 --path godot-game --script res://tests/tactical/test_battle_hud_live.gd 2>&1 | tee output/battle-hud/live.log
+      - name: Regression - seven arms, pass, waypoints and terrain
+        run: |
+          set -o pipefail
+          for test in test_combined_arms test_pass_battle test_route_waypoints test_pass_terrain test_facing_tactics test_pass_standard; do
+            xvfb-run -a Godot_v4.7.2-stable_linux.x86_64 --verbose --audio-driver Dummy --fixed-fps 60 --path godot-game --script "res://tests/tactical/$test.gd" 2>&1 | tee "output/battle-hud/$test.log"
+          done
+      - name: Check real WAV and MP3 teardown
+        run: |
+          set -o pipefail
+          Godot_v4.7.2-stable_linux.x86_64 --headless --verbose --fixed-fps 60 --path godot-game --script res://tests/tactical/test_audio_shutdown.gd -- --game-audio 2>&1 | tee output/battle-hud/audio-shutdown.log
+      - name: Reject runtime errors and unreleased objects
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          logs = [Path("output/battle-hud") / name for name in
+                  ["layout.log", "live.log", "audio-shutdown.log", "test_combined_arms.log",
+                   "test_pass_battle.log", "test_route_waypoints.log", "test_pass_terrain.log",
+                   "test_facing_tactics.log", "test_pass_standard.log"]]
+          pattern = re.compile(r"(?:SCRIPT ERROR:|ERROR:|ObjectDB instances were leaked|Leaked instance:|Resource still in use:)")
+          bad = []
+          for log in logs:
+              if not log.is_file():
+                  bad.append(f"{log}: missing log")
+                  continue
+              bad.extend(f"{log}: {line}" for line in log.read_text().splitlines() if pattern.search(line))
+          if bad:
+              raise SystemExit("\n".join(bad))
+          print("Native runtime logs: no errors or unreleased objects")
+          PY
+      - name: Open actual HUD in the native editor
+        if: always()
+        run: |
+          xvfb-run -a -s '-screen 0 1600x1000x24' bash -c '
+            Godot_v4.7.2-stable_linux.x86_64 --editor --audio-driver Dummy --path godot-game --resolution 1600x1000 res://scenes/ui/battle_hud.tscn > output/battle-hud/editor.log 2>&1 &
+            editor_pid=$!
+            sleep 15
+            xdotool mousemove 80 135 click 1
+            xdotool mousemove 620 22 click 1
+            xdotool mousemove 800 450 key f
+            sleep 2
+            # Reset zoom after framing, then show the full 1920x1080 canvas.
+            xdotool mousemove 405 153 click 1
+            xdotool mousemove 360 153 click --repeat 2 --delay 150 1
+            xdotool mousemove 800 500 mousedown 2 mousemove 460 270 mouseup 2
+            sleep 1
+            import -window root output/battle-hud/editor-layout.png
+            xdotool mousemove 135 95 click 1 key ctrl+a type StartButton
+            sleep 1
+            xdotool mousemove 110 135 click 1
+            sleep 1
+            import -window root output/battle-hud/editor-preview.png
+            kill "$editor_pid"
+            wait "$editor_pid" || true
+          '
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-battle-hud-evidence
+          path: |
+            output/battle-hud/
+            output/rts-waypoints/
+            output/pass-terrain/
+            baseline/output/battle-hud-baseline/
+          retention-days: 14

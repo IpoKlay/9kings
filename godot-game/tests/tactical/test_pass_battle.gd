@@ -1,4 +1,5 @@
 extends SceneTree
+const Shutdown=preload('res://tests/tactical/helpers/native_shutdown.gd')
 var failed=0
 var t
 func _initialize():call_deferred('run')
@@ -92,4 +93,5 @@ func run():
 	main.queue_free()
 	await create_timer(.3).timeout
 	print('PASS BATTLE native input and complete combat: ',failed,' failures')
+	await Shutdown.settle(self)
 	quit(1 if failed else 0)

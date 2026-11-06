@@ -1,11 +1,15 @@
 extends Control
 signal closed
-const Paper=preload('res://scripts/rpg_ui.gd')
 const INK=Color('#382f25')
 const PassBattle=preload('res://scripts/tactical/pass_battle.gd')
+@onready var hud: Control = $BattleHUD
+var pause_button: Button
+var menu_button: Button
+var deployment_actions: Control
+var regiment_roster: HBoxContainer
 var defender_button: Button
-var assault_button: Button
 var flag_alert: Label
+var assault_button: Button
 var strength_bar: ColorRect
 var ally_bar: ColorRect
 var pace_button: Button
@@ -66,7 +70,6 @@ func skill_text(zh: String, en: String) -> String:
 func _ready():
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
-	theme=preload('res://assets/fonts/game_pixel_theme.tres')
 	var viewport=SubViewport.new()
 	viewport.size=Vector2i(960,540)
 	viewport.canvas_item_default_texture_filter=Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
@@ -81,111 +84,9 @@ func _ready():
 	screen.size=Vector2(1920,1080)
 	screen.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	add_child(screen)
-	status=label('',Vector2(18,12),Vector2(352,52),22)
-	status.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	status.add_theme_stylebox_override('normal',Paper.box('toolbar'))
-	status.add_theme_color_override('font_color',INK)
-	flag_alert=label('',Vector2(382,16),Vector2(360,46),22)
-	flag_alert.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	flag_alert.add_theme_stylebox_override('normal',Paper.box('toolbar'))
-	flag_alert.add_theme_color_override('font_color',INK)
-	hint=label('',Vector2(28,66),Vector2(1280,36),21)
-	outline(hint)
-	button('?',Vector2(1634,12),Vector2(56,54),func():
-		controls.visible=not controls.visible
-		power_note.visible=controls.visible)
-	button(words('暂停','Pause'),Vector2(1696,12),Vector2(99,54),func():paused=not paused)
-	button(words('菜单','Menu'),Vector2(1801,12),Vector2(101,54),func():closed.emit())
-	character_picker=OptionButton.new()
-	character_picker.position=Vector2(1406,12)
-	character_picker.size=Vector2(218,56)
-	character_picker.focus_mode=Control.FOCUS_NONE
-	character_picker.add_theme_font_size_override('font_size',22)
-	Paper.button(character_picker,'toolbar')
-	character_picker.get_popup().add_theme_stylebox_override('panel',Paper.box('paper'))
-	character_picker.get_popup().add_theme_stylebox_override('hover',Paper.box('toolbar','selected'))
-	character_picker.get_popup().add_theme_color_override('font_color',INK)
-	character_picker.get_popup().add_theme_color_override('font_hover_color',Color('#fff0c5'))
-	character_picker.get_popup().add_theme_color_override('font_separator_color',INK)
-	character_picker.get_popup().add_theme_font_size_override('font_size',22)
-	var last_category=''
-	for row in rules.characters:
-		if row.category!=last_category:
-			character_picker.add_separator(words(row.category,{'神明':'Gods','英雄':'Heroes','怪物':'Creatures'}[row.category]))
-			character_ids.append('')
-			last_category=row.category
-		character_picker.add_item(words(row.name,row.name_en))
-		character_ids.append(row.id)
-	character_picker.item_selected.connect(func(index):choose_deity(character_ids[index]))
-	add_child(character_picker)
-	portrait=TextureRect.new()
-	portrait.position=Vector2(1342,8)
-	portrait.size=Vector2(60,62)
-	portrait.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
-	portrait.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	portrait.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	add_child(portrait)
-	power_note=label('',Vector2(1060,72),Vector2(834,72),22)
-	power_note.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
-	outline(power_note)
-	power_note.hide()
-	var kinds=['legion','archer','cavalry','spear','guard','medic','siege']
-	for i in kinds.size():
-		var kind=kinds[i]
-		buttons[kind]=button('',Vector2(18+i*153,1006),Vector2(148,56),func():arm_reserve(kind))
-	combined_button=button(words('七兵种布阵','All seven arms'),Vector2(18,938),Vector2(210,54),func():
-		if rules.deploy_combined():
-			selected=''
-			set_camera(Vector2(100,100)))
-	setup_button=button(words('标准布阵','Vanguard'),Vector2(240,938),Vector2(180,56),func():
-		if rules.deploy_vanguard():selected='')
-	setup_button.tooltip_text=words('步兵在前，弓兵在后，骑兵守侧翼。各留一队弓兵和骑兵。','Infantry front, archers behind, cavalry on the wing. Keep one archer and one cavalry in reserve.')
-	defender_button=button(words('山口守阵','Defensive line'),Vector2(434,938),Vector2(215,56),func():
-		if rules.deploy_defenders():
-			selected=''
-			set_camera(Vector2(-120,110)))
-	defender_button.tooltip_text=words('指挥军阵守住山口，火箭可点燃油桶','Command the defending regiments. Fire arrows ignite oil barrels.')
-	strength_bar=ColorRect.new()
-	strength_bar.position=Vector2(754,30)
-	strength_bar.size=Vector2(412,12)
-	strength_bar.color=Color('#597f92')
-	strength_bar.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	add_child(strength_bar)
-	ally_bar=ColorRect.new()
-	ally_bar.color=Color('#c36649')
-	ally_bar.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	strength_bar.add_child(ally_bar)
-	pace_button=button('1×',Vector2(1226,12),Vector2(88,54),func():slow=not slow)
-	assault_button=button(words('全军进攻','All attack'),Vector2(1348,1006),Vector2(185,56),func():
-		if selected=='route':selected=''
-		rules.command(rules.alive('ally').map(func(u):return u.id),'auto',Vector2.ZERO))
-	var roster_size=0
-	for stock in rules.reserve.values():roster_size+=int(stock)
-	for i in roster_size:
-		var tab=button('',Vector2(18+i*115,938),Vector2(111,56),func():
-			var army=rules.units.filter(func(u):return u.side=='ally')
-			if i<army.size() and not army[i].routing and army[i].hp>0:
-				squad_ids=[army[i].id]
-				selected='route' if rules.phase=='battle' else '')
-		roster.append(tab)
-	buttons.lightning=button('',Vector2(1550,1006),Vector2(175,56),arm_power)
-	start_button=button(words('开战','Begin'),Vector2(1738,1006),Vector2(164,56),func():
-		if rules.start():
-			oil_index=-1
-			placing_rank=false
-			selected=''
-			if app!=null:app.sound.play_rally()
-		elif rules.phase=='battle':
-			if selected=='route':selected=''
-			rules.command(squad_ids,'hold',Vector2.ZERO))
-	controls=label('',Vector2(28,843),Vector2(1080,80),21)
-	outline(controls)
-	controls.hide()
-	result=label('',Vector2(410,440),Vector2(1100,150),46)
-	result.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	result.add_theme_color_override('font_shadow_color',Color('#162c31'))
-	result.add_theme_constant_override('shadow_offset_x',4)
-	result.add_theme_constant_override('shadow_offset_y',4)
+	# The screen is behind the authored HUD, including after re-entering battle.
+	move_child(screen,0)
+	bind_hud()
 	add_child(myth_audio)
 	refresh()
 func arm_reserve(kind: String):
@@ -197,31 +98,117 @@ func arm_reserve(kind: String):
 func rank_slots() -> Dictionary:
 	return rules.layout_positions(squad_ids,rank_start,rank_end,rank_dragged)
 
-func outline(text_label: Label):
-	text_label.add_theme_color_override('font_outline_color',Color('#212c28'))
-	text_label.add_theme_constant_override('outline_size',5)
+# Fixed controls belong to battle_hud.tscn. Never set their rects here.
+func bind_hud():
+	status=hud.get_node('StatusGroup/StatusLabel')
+	flag_alert=hud.get_node('StatusGroup/FlagAlert')
+	hint=hud.get_node('StatusGroup/HintLabel')
+	controls=hud.get_node('HelpGroup/ControlsLabel')
+	power_note=hud.get_node('HelpGroup/PowerNote')
+	result=hud.get_node('ResultGroup/ResultLabel')
+	portrait=hud.get_node('TopActions/Portrait')
+	character_picker=hud.get_node('TopActions/CharacterPicker')
+	strength_bar=hud.get_node('TopActions/StrengthBar')
+	ally_bar=strength_bar.get_node('AllyBar')
+	pace_button=hud.get_node('TopActions/PaceButton')
+	pause_button=hud.get_node('TopActions/PauseButton')
+	menu_button=hud.get_node('TopActions/MenuButton')
+	deployment_actions=hud.get_node('DeploymentActions')
+	combined_button=deployment_actions.get_node('CombinedButton')
+	setup_button=deployment_actions.get_node('VanguardButton')
+	defender_button=deployment_actions.get_node('DefenderButton')
+	regiment_roster=hud.get_node('RegimentRoster')
+	start_button=hud.get_node('BattleActions/StartButton')
+	assault_button=hud.get_node('BattleActions/AssaultButton')
+	buttons.lightning=hud.get_node('BattleActions/PowerButton')
+	var kinds=['legion','archer','cavalry','spear','guard','medic','siege']
+	var reserve_names=['LegionButton','ArcherButton','CavalryButton','SpearButton','GuardButton','MedicButton','SiegeButton']
+	for i in kinds.size():
+		buttons[kinds[i]]=hud.get_node('ReserveActions/'+reserve_names[i])
+		connect_once(buttons[kinds[i]],arm_reserve.bind(kinds[i]))
+	roster.clear()
+	for tab in regiment_roster.get_children():
+		connect_once(tab,select_regiment.bind(roster.size()))
+		roster.append(tab)
+	connect_once(hud.get_node('TopActions/HelpButton'),toggle_help)
+	connect_once(pause_button,toggle_pause)
+	connect_once(menu_button,close_trial)
+	connect_once(pace_button,toggle_pace)
+	connect_once(combined_button,deploy_combined)
+	connect_once(setup_button,deploy_vanguard)
+	connect_once(defender_button,deploy_defenders)
+	connect_once(assault_button,assault)
+	connect_once(buttons.lightning,arm_power)
+	connect_once(start_button,start_or_hold_or_retry)
+	# Clear the scene's design-time preview entry before populating real data.
+	character_picker.clear()
+	character_ids.clear()
+	var last_category=''
+	for row in rules.characters:
+		if row.category!=last_category:
+			character_picker.add_separator(words(row.category,{'神明':'Gods','英雄':'Heroes','怪物':'Creatures'}[row.category]))
+			character_ids.append('')
+			last_category=row.category
+		character_picker.add_item(words(row.name,row.name_en))
+		character_ids.append(row.id)
+	if not character_picker.item_selected.is_connected(on_character_selected):
+		character_picker.item_selected.connect(on_character_selected)
 
-func label(value: String,pos: Vector2,dimensions: Vector2,font_size: int) -> Label:
-	var l=Label.new()
-	l.text=value
-	l.position=pos
-	l.size=dimensions
-	l.add_theme_font_size_override('font_size',font_size)
-	l.add_theme_color_override('font_color',Color('#f1dc9f'))
-	l.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	add_child(l)
-	return l
-func button(value: String,pos: Vector2,dimensions: Vector2,action: Callable) -> Button:
-	var b=Button.new()
-	b.text=value
-	b.position=pos
-	b.size=dimensions
-	b.add_theme_font_size_override('font_size',22)
-	b.focus_mode=Control.FOCUS_NONE
-	Paper.button(b,'toolbar')
-	b.pressed.connect(action)
-	add_child(b)
-	return b
+func connect_once(control: Button, action: Callable):
+	if not control.pressed.is_connected(action):control.pressed.connect(action)
+
+func on_character_selected(index: int):
+	if index>=0 and index<character_ids.size() and character_ids[index]!='':
+		choose_deity(character_ids[index])
+
+func toggle_help():
+	controls.visible=not controls.visible
+	power_note.visible=controls.visible
+
+func toggle_pause():paused=not paused
+func toggle_pace():slow=not slow
+func close_trial():closed.emit()
+
+func deploy_combined():
+	if rules.deploy_combined():
+		selected=''
+		set_camera(Vector2(100,100))
+
+func deploy_vanguard():
+	if rules.deploy_vanguard():selected=''
+
+func deploy_defenders():
+	if rules.deploy_defenders():
+		selected=''
+		set_camera(Vector2(-120,110))
+
+func select_regiment(index: int):
+	var army=rules.units.filter(func(u):return u.side=='ally')
+	if index<army.size() and not army[index].routing and army[index].hp>0:
+		squad_ids=[army[index].id]
+		selected='route' if rules.phase=='battle' else ''
+
+func assault():
+	if selected=='route':selected=''
+	rules.command(rules.alive('ally').map(func(u):return u.id),'auto',Vector2.ZERO)
+
+func start_or_hold_or_retry():
+	# One permanent connection: a retry can never also start the new battle.
+	if rules.phase in ['victory','defeat','timeout']:
+		retry()
+	elif rules.phase=='deploy':
+		if rules.start():
+			oil_index=-1
+			placing_rank=false
+			selected=''
+			if app!=null:app.sound.play_rally()
+	elif rules.phase=='battle':
+		if selected=='route':selected=''
+		rules.command(squad_ids,'hold',Vector2.ZERO)
+
+func select_button(control: Button, active: bool):
+	control.theme_type_variation=&'SelectedBattleButton' if active else &''
+
 func refresh():
 	var character=rules.characters.filter(func(c):return c.id==rules.deity)[0]
 	if portrait_id!=rules.deity:
@@ -241,9 +228,20 @@ func refresh():
 	hint.text=words('在虚线区点击部署','Click inside the marked zone to deploy') if rules.phase=='deploy' else ''
 	if selected=='lightning' and rules.phase=='battle':
 		hint.text=words(character.power,character.power_en)+words(' · 点击落点',' · Choose a target')
-	setup_button.visible=rules.phase=='deploy' and rules.alive('ally').is_empty()
-	combined_button.visible=setup_button.visible
-	defender_button.visible=setup_button.visible
+	deployment_actions.visible=rules.phase=='deploy' and rules.alive('ally').is_empty()
+	# Keep these public control visibility flags for existing native tests.
+	setup_button.visible=deployment_actions.visible
+	combined_button.visible=deployment_actions.visible
+	defender_button.visible=deployment_actions.visible
+	regiment_roster.visible=not deployment_actions.visible and rules.phase in ['battle','deploy']
+	pause_button.text=words('继续','Resume') if paused else words('暂停','Pause')
+	menu_button.text=words('菜单','Menu')
+	combined_button.text=words('七兵种布阵','All seven arms')
+	setup_button.text=words('标准布阵','Vanguard')
+	defender_button.text=words('山口守阵','Defensive line')
+	setup_button.tooltip_text=words('步兵在前，弓兵在后，骑兵守侧翼。各留一队弓兵和骑兵。','Infantry front, archers behind, cavalry on the wing. Keep one archer and one cavalry in reserve.')
+	defender_button.tooltip_text=words('指挥军阵守住山口，火箭可点燃油桶','Command the defending regiments. Fire arrows ignite oil barrels.')
+	assault_button.text=words('全军进攻','All attack')
 	if rules.phase=='deploy' and not squad_ids.is_empty():
 		hint.text=words('右键移动 · 右拖拉出阵线 · R 收回','Right click to reposition · Right drag a line · R to reserve')
 	elif rules.phase=='deploy' and not setup_button.visible:
@@ -254,17 +252,19 @@ func refresh():
 	for kind in names:
 		var active: bool=selected==kind
 		if buttons[kind].get_meta('active',false)!=active:
-			Paper.button(buttons[kind],'toolbar',active)
+			select_button(buttons[kind],active)
 			buttons[kind].set_meta('active',active)
 		buttons[kind].text=names[kind]+' ×'+str(int(rules.reserve.get(kind,0)))
 		buttons[kind].disabled=rules.reserve.get(kind,0)<=0 or rules.phase not in ['deploy','battle']
 	var aiming=selected=='lightning'
 	if buttons.lightning.get_meta('active',false)!=aiming:
-		Paper.button(buttons.lightning,'toolbar',aiming)
+		select_button(buttons.lightning,aiming)
 		buttons.lightning.set_meta('active',aiming)
 	buttons.lightning.text=words('神力','Cast')+(' ∞' if rules.unlimited_powers else ' ×'+str(rules.charges)+(' %ds'%ceili(rules.cooldown) if rules.cooldown>0 else ''))
 	buttons.lightning.disabled=rules.phase in ['victory','defeat','timeout']
 	start_button.disabled=rules.phase=='deploy' and rules.alive('ally').is_empty()
+	if rules.phase=='deploy':start_button.text=words('开战','Begin')
+	result.visible=rules.phase in ['victory','defeat','timeout']
 	controls.text=words('左拖移图 · Shift 拖框选队 · 右键移动或集火\nH 坚守 · A 自动 · 方向键／中键移镜 · 滚轮缩放','Drag to pan · Shift-drag select · RMB move / focus\nH hold · A auto · Arrows / MMB pan · Wheel zoom')
 	if rules.phase=='battle':
 		start_button.tooltip_text=words('短三角为阵面。盾兵坚守时保持当前朝向。','The triangle marks the front. Holding shield infantry keep their heading.')
@@ -278,13 +278,14 @@ func refresh():
 			'defenders_routed':result.text=words('守军溃败 · 战败','Defeat · Defenders routed')
 		start_button.disabled=false
 		start_button.text=words('重新试战','Retry')
-		if not start_button.has_meta('retry'):
-			start_button.set_meta('retry',true)
-			start_button.pressed.connect(retry)
 	assault_button.visible=rules.phase=='battle'
 	pace_button.text='0.5×' if slow else '1×'
 	var strength=rules.strength('ally')
-	ally_bar.size=Vector2(412*strength/maxf(1,strength+rules.strength('enemy')),12)
+	# Only the data-driven fill fraction changes; the scene owns the track rect.
+	ally_bar.anchor_right=strength/maxf(1,strength+rules.strength('enemy'))
+	ally_bar.anchor_bottom=1.0
+	ally_bar.offset_right=0
+	ally_bar.offset_bottom=0
 	var army=rules.units.filter(func(u):return u.side=='ally')
 	for i in roster.size():
 		var tab: Button=roster[i]
@@ -295,7 +296,7 @@ func refresh():
 		tab.text=str(i+1)+' '+names[u.kind]
 		if tab.get_meta('chosen',false)!=(u.id in squad_ids):
 			tab.set_meta('chosen',u.id in squad_ids)
-			Paper.button(tab,'toolbar',u.id in squad_ids)
+			select_button(tab,u.id in squad_ids)
 		tab.tooltip_text=words('士气 %d','Morale %d')%ceili(u.morale)
 	if notice_seconds<=0 and not paused and selected!='lightning':
 		if rules.phase=='deploy' and squad_ids.is_empty():
@@ -331,8 +332,6 @@ func retry():
 	notice_seconds=0
 	notice=''
 	start_button.text=words('开战','Begin')
-	if start_button.pressed.is_connected(retry):start_button.pressed.disconnect(retry)
-	start_button.remove_meta('retry')
 	refresh()
 func _process(dt: float):
 	notice_seconds=maxf(0,notice_seconds-dt)
@@ -589,3 +588,4 @@ func arm_power():
 		var character=rules.characters.filter(func(c):return c.id==rules.deity)[0]
 		notice=skill_text(character.summary,character.summary_en)+words(' · 点击落点释放',' · Click a target location')
 	notice_seconds=4
+
