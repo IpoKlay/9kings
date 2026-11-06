@@ -1,0 +1,25 @@
+La petite tile - Maps, by Studio Garrigue
+
+Thank you for your purchase!
+
+If you have any question or problem, don't hesitate to ask me in the comments!
+https://studio-garrigue.itch.io/la-petite-tile-maps
+
+---
+
+LICENCE
+Applies for all the content of this pack including the fonts:
+• Feel free to use this asset pack in your personal and commercial projects.
+• You can modify the assets as you wish.
+• Credit is appreciated but not necessary!
+• You may not redistribute, resell or repackage any content of this pack, even if the files have been modified.
+• You may not use any content of this pack to train artificial intelligence or any image or video generation software.
+
+---
+
+BONUS
+RenderMapToPNG.cs is the script I use to export the final maps from Godot without having to screenshot. It's pretty clunky, so I'm only including it as a bonus and I don't provide support for this script.
+I only know C# and not GDScript so it's a C# script needing the Godot Mono version, sorry for this. You do not need Godot Mono to use the rest of the pack, it is only required for this specific script.
+The variables FrameCount and FrameDelayMs are used to export multiples frames with a delay between them. 
+The animations are animated with 200ms per frame. The waves animation consists of 10 frames of 200ms (waves) and 1 frame of 800 ms (or 4 x 200ms) for the cooldown time with no waves.
+I usually export with FrameCount higher than 14 and FrameDelayMs lower than 200 because it's not very precise on the delays.

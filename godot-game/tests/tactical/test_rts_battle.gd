@@ -88,6 +88,7 @@ func run():
 	check(r.reserve.legion==2 and r.alive('ally').size()==2,'Recall selected squads')
 	trial.retry()
 	r=trial.rules
+	trial.choose_deity('poseidon')
 	var drop=field.project(Vector2(650,420))
 	await pan(drop,Vector2(-180,-80))
 	check(trial.camera_offset.distance_to(Vector2(180,80))<2 and r.alive('ally').is_empty(),'Dragging a deployment location pans without spawning')
@@ -177,7 +178,7 @@ func run():
 	var far_point=Vector2(2400,1100)
 	await click((field.project(far_point)-trial.camera_offset)*trial.zoom,MOUSE_BUTTON_RIGHT)
 	check(units.all(func(u):return u.order=='move' and march_end(u).x>1640),'Orders reach new flank')
-	trial.choose_deity('poseidon')
+	trial.arm_power()
 	await pan(Vector2(940,600),Vector2(-130,-80))
 	check(r.waves.is_empty() and trial.selected=='lightning','Dragging while targeting never casts')
 	var target=Vector2(2240,1100)

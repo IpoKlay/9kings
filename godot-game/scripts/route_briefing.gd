@@ -33,8 +33,9 @@ func _ready():
 			box.anti_aliasing=false
 			button.add_theme_stylebox_override(state,box)
 		button.tooltip_text=exp.loc('routeintel.future' if brief.ahead else 'routeintel.view')
-		button.tooltip_text+='\n'+exp.doctrine_text(id,'advice')
-		button.accessibility_name=exp.node_text(id)+' · '+exp.doctrine_text(id,'name')
+		var advice=exp.tx('守住罗马军旗，留预备队应对侧袭。','Hold the standard and keep a reserve for the flank.') if exp.is_pass(id) else exp.doctrine_text(id,'advice')
+		button.tooltip_text+='\n'+advice
+		button.accessibility_name=exp.node_text(id)+' · '+(exp.tx('山口守卫战','Hold the Pass') if exp.is_pass(id) else exp.doctrine_text(id,'name'))
 		button.pressed.connect(func():map.select_city(id))
 		slip.add_child(button)
 		choice_buttons[id]=button
@@ -45,11 +46,12 @@ func _ready():
 		map.text(button,title,Vector2(20,10),Vector2(390,30),title_size,Paper.INK)
 		var wave=exp.encounter(id)
 		var meta=exp.doctrine_text(id,'name') if wave.is_empty() else exp.loc('routeintel.rounds')%[exp.doctrine_text(id,'name'),wave.waves.size()]
+		if exp.is_pass(id):meta=exp.tx('山口守卫战 · 罗马军旗','Hold the Pass · Roman standard')
 		map.text(button,meta,Vector2(20,40),Vector2(390,26),20,Paper.RED)
-		map.text(button,exp.doctrine_text(id,'threat'),Vector2(20,68),Vector2(390,24),18,Paper.MUTED)
-		var response=map.text(button,exp.response_text(id),Vector2(20,94),Vector2(390,42),18,Paper.INK)
+		map.text(button,exp.tx('守住三分钟或击溃敌军','Hold 3 minutes or rout the enemy') if exp.is_pass(id) else exp.doctrine_text(id,'threat'),Vector2(20,68),Vector2(390,24),18,Paper.MUTED)
+		var response=map.text(button,exp.tx('随征：','Escort: ')+exp.escort_text() if exp.is_pass(id) else exp.response_text(id),Vector2(20,94),Vector2(390,42),18,Paper.INK)
 		response.name='Response'
-		response.tooltip_text=exp.doctrine_text(id,'advice')
+		response.tooltip_text=advice
 		var reward_key='elite' if exp.nodes[id].kind=='elite' else 'victory' if exp.nodes[id].kind=='final' else 'recovery' if exp.nodes[id].kind in exp.travel_rules.recovery_kinds else 'reward'
 		map.text(button,exp.loc('routeintel.'+reward_key),Vector2(20,140),Vector2(390,24),18,Paper.RED)
 	# Bounds match actual papers, for map label placement and pointer routing.

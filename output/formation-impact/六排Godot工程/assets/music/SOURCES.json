@@ -1,0 +1,84 @@
+[
+  {
+    "title": "The Pyre",
+    "author": "Kevin MacLeod",
+    "isrc": "USUAN1100846",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100846",
+    "download": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/The%20Pyre.mp3",
+    "sha256": "3333c6b26dbe96a275051bb4d9089a803e664aefd317c1b5a8118c16fb533179",
+    "retrieved": "2026-10-26",
+    "file": "the-pyre.mp3"
+  },
+  {
+    "title": "Lord of the Land",
+    "author": "Kevin MacLeod",
+    "isrc": "USUAN1400022",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400022",
+    "download": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Lord%20of%20the%20Land.mp3",
+    "sha256": "47ce185fdc1f2e5514566307d652d6cb62a06bed47ea730e28214d3cedc2f948",
+    "retrieved": "2026-10-26",
+    "file": "lord-of-the-land.mp3"
+  },
+  {
+    "title": "Crusade",
+    "author": "Kevin MacLeod",
+    "isrc": "USUAN1100884",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100884",
+    "download": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Crusade.mp3",
+    "sha256": "863758365f6a03cd0cf85237d7d49448d5cb3c1af2e0858dc7c786bc9c0b981e",
+    "retrieved": "2026-10-26",
+    "file": "crusade.mp3"
+  },
+  {
+    "title": "Five Armies",
+    "author": "Kevin MacLeod",
+    "isrc": "USUAN1100875",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100875",
+    "download": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Five%20Armies.mp3",
+    "sha256": "f56746c90756db04675a80ebd29e22253177a6fcc16f56602da62af9eae8d733",
+    "retrieved": "2026-10-26",
+    "file": "five-armies.mp3"
+  },
+  {
+    "title": "Ancient Rite",
+    "author": "Kevin MacLeod",
+    "isrc": "USUAN1900048",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1900048",
+    "download": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Ancient%20Rite.mp3",
+    "sha256": "3a0f9d6fc09c4d0605bfd07577600245fdd6c91394dc4037b5112c94a6d93756",
+    "retrieved": "2026-10-26",
+    "file": "ancient-rite.mp3"
+  },
+  {
+    "title": "Legionnaire · 2022 Remaster",
+    "author": "Scott Buckley",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://www.scottbuckley.com.au/library/legionnaire-2022/",
+    "download": "https://www.scottbuckley.com.au/library/wp-content/uploads/2022/04/sb_legionnaire2022.mp3",
+    "sha256": "1e18197d21268fe9467f4f31c8c35ebd3b73a97479ebff486e07ca0c2757d44f",
+    "retrieved": "2026-10-26",
+    "file": "legionnaire-2022.mp3"
+  },
+  {
+    "title": "The Great Sea",
+    "author": "Scott Buckley",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "source": "https://www.scottbuckley.com.au/library/the-great-sea/",
+    "download": "https://www.scottbuckley.com.au/library/wp-content/uploads/2024/01/TheGreatSea.mp3",
+    "sha256": "f2c2d69a0c89656e676c0fac3da23a201237951c8be7e77dcaa1705dca5b9cf8",
+    "retrieved": "2026-10-26",
+    "file": "the-great-sea.mp3"
+  }
+]

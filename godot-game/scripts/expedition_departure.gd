@@ -162,6 +162,7 @@ func complete():
 	finished=true;app.input_locked=false;app.departure=null
 	app.accumulator=0
 	hide();queue_free()
+	if committed and app.expedition.is_pass(target):app.open_pass_pilot()
 
 func cancel():
 	if finished: return

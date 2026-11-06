@@ -51,7 +51,7 @@ func select_cavalry(unit: Dictionary):
 
 func exercise(mode: String):
 	var pass_mode=mode=='pass'
-	var entry=main.menu_view.get_node('TacticalTrial')
+	var entry=main.menu_view.get_node('%TacticalTrial')
 	click(entry.get_global_rect().get_center())
 	await process_frame
 	trial=root.get_child(-1)

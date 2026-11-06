@@ -23,15 +23,16 @@ func boot():
 func reboot():
 	app.sound.stop();app.queue_free();await process_frame;await process_frame;await boot()
 func run():
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT))
 	for suffix in ['.run','.run.bak','.run.tmp']:DirAccess.remove_absolute(PATH+suffix)
 	var host=Window.new();root.add_child(host);view=SubViewport.new();view.size=Vector2i(1280,720)
 	view.size_2d_override=Vector2i(1920,1080);view.size_2d_override_stretch=true;view.render_target_update_mode=SubViewport.UPDATE_ALWAYS;host.add_child(view)
-	await boot();await click(app.menu_view.get_node('StartGame'))
+	await boot();await click(app.menu_view.get_node('%StartGame'))
 	check(app.has_run and not app.save_error,'Fresh run saved')
 	var id=app.expedition.destinations()[0];app.travel_to(id)
 	check(app.campaign.g.phase=='battle' and not app.save_error,'Battle checkpoint saved')
 	await reboot();check(app.has_run and app.main_menu,'Cold launch finds run')
-	await click(app.menu_view.get_node('ResumeGame'))
+	await click(app.menu_view.get_node('%ResumeGame'))
 	check(app.expedition.can_travel(id) and app.campaign.g.phase=='prepare','Cold resume before same battle')
 	app.travel_to(id);app.campaign.finish(false);app.advance()
 	check(app.expedition.state.mode=='camp','Loss opens camp')
@@ -39,7 +40,7 @@ func run():
 	await click(app.ui.get_node('RecoveryOrder'))
 	check(app.campaign.g.reward_context=='recovery','Recovery card hand')
 	await capture('02-temporary-orders')
-	await reboot();await click(app.menu_view.get_node('ResumeGame'))
+	await reboot();await click(app.menu_view.get_node('%ResumeGame'))
 	check(app.campaign.g.reward_context=='recovery' and app.card_hand!=null,'Recovery choice resumes')
 	# Exercise the same upward gesture used by ordinary cards.
 	await create_timer(.4).timeout
@@ -50,7 +51,7 @@ func run():
 		var ev=InputEventMouseButton.new();ev.position=p;ev.global_position=p;ev.button_index=MOUSE_BUTTON_LEFT;ev.pressed=down;view.push_input(ev,true)
 	await create_timer(.5).timeout
 	check(app.campaign.order_rank('shield')==1 and app.campaign.rank('shield')==0,'Swipe claims temporary order')
-	await reboot();await click(app.menu_view.get_node('ResumeGame'))
+	await reboot();await click(app.menu_view.get_node('%ResumeGame'))
 	check(app.campaign.order_rank('shield')==1 and not app.expedition.can_reorganize(),'Temporary order and limit persist')
 	# Explicit victory fixture tests elite reward UI, not balance.
 	app.campaign.reset(23);app.expedition.reset(1);app.expedition.state.opening='done';app.expedition.state.current='246369'
@@ -63,9 +64,9 @@ func run():
 	app.language='zh';app.render_ui()
 	await click(app.ui.get_node('EliteReroll'));var offers=app.campaign.offers()
 	check(app.campaign.g.reward_rerolls==0,'Click consumes redraw')
-	await reboot();await click(app.menu_view.get_node('ResumeGame'))
+	await reboot();await click(app.menu_view.get_node('%ResumeGame'))
 	check(app.campaign.offers()==offers and not app.ui.has_node('EliteReroll'),'Cold resume cannot repeat redraw')
-	app.return_to_menu();await click(app.menu_view.get_node('StartGame'))
+	app.return_to_menu();await click(app.menu_view.get_node('%StartGame'))
 	check(app.dialog_kind=='new_run','Replacing a saved run asks in-game')
 	app.close_dialog();check(app.campaign.offers()==offers,'Cancel retains run')
 	app.sound.stop();print(checks,' native save/recovery checks, ',failures,' failures');quit(1 if failures else 0)

@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+PASS Held for full 180 simulated seconds
+PASS Flag holds until the 720th tick
+PASS Loses flag at 12 seconds with surviving defenders
+PASS Reserve medic deployed behind the pass
+PASS Returning regiment enters on a move order and freezes progress
+PASS Enemy resumes from contested progress
+PASS Defender control resets progress
+PASS Empty zone clears progress
+PASS Routing and dead attackers inside zone do not capture
+PASS Routing defenders cannot contest
+PASS Capture beats the defense deadline on the same tick
+PASS Final captor killed this tick beats the deadline and imminent capture
+PASS Early rout wins immediately
+PASS Last-tick contest interrupts capture at the deadline
+PASS Ordinary RTS uses its original timeout
+PASS An unopposed attacker marches into the flag zone and takes it
+PASS Threat HUD shown beside strength bar
+PASS Contested HUD shown
+PASS Defeat screen gives flag loss as cause
+PASS Retry clears capture, warning and outcome
+PASS Victory screen distinguishes an enemy rout
+PASS Victory screen distinguishes holding to the deadline
+PASS STANDARD failures: 0

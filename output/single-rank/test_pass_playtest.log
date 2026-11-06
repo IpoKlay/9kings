@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Checked official charges and cooldowns for 14 roles and explicit unlimited testing
+shield time_held seconds=180.0 first melee=12.2 rear=false gap=0.0 starting gap=250.0 oils=1
+feint enemy_routed seconds=127.73 first melee=9.32 rear=true gap=790.519958496094 starting gap=250.0 oils=1
+abandon flag_lost seconds=32.88 first melee=-1.0 rear=false gap=0.0 starting gap=250.0 oils=0
+PASS LEVEL failures: 0

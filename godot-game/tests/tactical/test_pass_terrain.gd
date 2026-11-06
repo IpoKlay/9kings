@@ -62,7 +62,7 @@ func run():
 	root.add_child(main)
 	await process_frame
 	main.language='zh'
-	click(main.menu_view.get_node('TacticalTrial').get_global_rect().get_center())
+	click(main.menu_view.get_node('%TacticalTrial').get_global_rect().get_center())
 	await process_frame
 	t=root.get_child(-1)
 	fixture()
@@ -98,7 +98,7 @@ func run():
 	await snap('02-unreachable',bad)
 	click(bad)
 	check(t.selected=='route' and rider.order=='hold' and not r.plan_route(rider,direct,world(bad)).ok,'Invalid click preserves current order')
-	var slot=world(Vector2(1022,859))
+	var slot=world(Vector2(880,790))
 	check(r.terrain.clear_segment('medic',slot,slot) and not r.terrain.clear_segment('legion',slot,slot),'Passability depends on footprint')
 
 	fixture()

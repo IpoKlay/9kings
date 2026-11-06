@@ -32,7 +32,7 @@ func run():
 	view.add_child(app);app.sound.enabled=false
 	var game_fps=Engine.max_fps
 	app.starting_theaters.assign([1])
-	await click(app.menu_view.get_node('StartGame'))
+	await click(app.menu_view.get_node('%StartGame'))
 	var map=app.expedition_map
 	map.settle_entry()
 	var state=app.expedition.state.duplicate(true)

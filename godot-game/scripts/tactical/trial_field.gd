@@ -3,13 +3,17 @@ const PassBattle=preload('res://scripts/tactical/pass_battle.gd')
 const Scenery = preload('res://scripts/battle_environment.gd')
 const PixelFX = preload('res://scripts/tactical/pixelfx_atlas.gd')
 var pixelfx = PixelFX.new()
-const LANDSCAPE=Rect2(-320,-140,3840,2160)
-var environment = Scenery.new()
+const PassLayout=preload("res://scenes/battlefields/roman_pass.tscn")
+var LANDSCAPE: Rect2
+var pass_layout
+var environment
 var trial
 var textures = {}
 var regiments: Dictionary={}
 var clock = 0.0
 var effects: Array = []
+var debug_first_contact=false
+var clean_capture=false
 const Terrain=preload('res://scripts/tactical/pass_terrain.gd')
 var characters: Dictionary={}
 var animations: Dictionary={}
@@ -43,18 +47,10 @@ func tex(id: String):
 	return textures[id]
 func _ready():
 	texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
-	environment.landscape_texture=preload('res://assets/environments/iberia-rts.png')
-	environment.landscape_size=LANDSCAPE.size
-	environment.shore_origin=Vector2(0,1080)
-	# Absolute planting positions on this level; canopy sizes use the classic field scale.
-	environment.landscape_trees=[Vector3(284,203,155),Vector3(748,242,170),Vector3(1010,212,146),
-		Vector3(490,545,164),Vector3(418,591,145),Vector3(532,618,130),
-		Vector3(1740,345,158),Vector3(1854,365,139),Vector3(2218,390,166),
-		Vector3(3122,680,178),Vector3(3500,850,149),Vector3(2685,1440,161),
-		Vector3(3100,1520,177),Vector3(3030,1470,138),Vector3(326,1712,172),
-		Vector3(505,2010,158),Vector3(1060,2022,171),Vector3(1930,1850,154)]
-	environment.landscape_flags=[Vector2(710,435),Vector2(2650,1220)]
-	environment.attach(self)
+	pass_layout=PassLayout.instantiate()
+	add_child(pass_layout)
+	environment=pass_layout.environment
+	LANDSCAPE=Rect2(pass_layout.landscape.position,environment.landscape_size)
 	for kind in trial.rules.config.types:
 		var art := {}
 		for side in ['ally','enemy','stone']:
@@ -63,7 +59,7 @@ func _ready():
 
 func advance(dt: float):
 	clock+=dt
-	environment.tick(dt)
+	pass_layout.advance(dt)
 	for e in effects: e.age+=dt
 	effects=effects.filter(func(e):return e.age<e.duration)
 	queue_redraw()
@@ -75,12 +71,16 @@ func effect(event: Dictionary):
 		e.duration=2.0 if e.character in ['medusa','odysseus'] else 1.0
 		for fx in characters[e.character].cast_fx:
 			e.duration=maxf(e.duration,float(fx.delay)+(pixelfx.duration(fx.id)-float(fx.start))/float(fx.speed))
+	if e.get('mounted_contact',false) and not e.braced:
+		var ground: Vector2=e.get('ground_pos',e.pos)
+		effects.append({'kind':'hoof_marks','pos':ground,'from':ground+(e.from-e.pos),'age':0.0,'duration':3.6})
+	if e.get('mounted_contact',false):
+		effects.append({'kind':'wood_chips','pos':e.pos,'axis':project(e.from).direction_to(project(e.pos)),'age':0.,'duration':.22})
+	if e.kind=='hoof_dust':e.duration=.22
 	effects.append(e)
 	if effects.size()>80: effects.pop_front()
 func _draw():
 	if trial==null: return
-	draw_set_transform(LANDSCAPE.position)
-	environment.draw(self,1,LANDSCAPE.position)
 	draw_set_transform(Vector2.ZERO)
 	var rules=trial.rules
 	if rules.terrain:draw_pass_ground()
@@ -104,7 +104,7 @@ func _draw():
 			draw_rect(Rect2(slot-Vector2(39,28),Vector2(78,56)),tint,false,4)
 			draw_circle(slot,5,tint)
 	for squad in rules.alive('ally'):
-		if squad.id not in trial.squad_ids:continue
+		if clean_capture or squad.id not in trial.squad_ids:continue
 		draw_arc(squad.pos,57,0,TAU,32,Color('#ffe39d'),5)
 		if squad.order=='move' and trial.selected!='route':
 			draw_dashed_line(squad.pos,squad.destination,Color('#f4da94'),3,12)
@@ -127,12 +127,21 @@ func _draw():
 	if pass_battle:
 		draw_oil(rules)
 		for squad in rules.alive('ally'):
-			if squad.id in trial.squad_ids:
+			if not clean_capture and squad.id in trial.squad_ids:
 				var half: Vector2=rules.terrain.extents[squad.kind]
 				draw_rect(Rect2(project(squad.pos)-half,half*2),Color('#ffe39d99'),false,3)
+	for e in effects:
+		if clean_capture or e.kind!='hoof_marks':continue
+		var pos=project(e.pos)
+		var axis=project(e.from).direction_to(pos)
+		var fade=1.0-smoothstep(2.3,3.6,e.age)
+		for i in 9:
+			var offset=axis*(i*10-60)+axis.orthogonal()*((i%3-1)*9)
+			var mark=(pos+offset).snapped(Vector2(2,2))
+			draw_line(mark-axis*3,mark+axis*4,Color('#533c28')*Color(1,1,1,.67*fade),4)
 	draw_regiments(rules,pass_battle)
 	for u in rules.units:
-		if u.hp<=0 or u.get('escaped',false):continue
+		if clean_capture or u.hp<=0 or u.get('escaped',false):continue
 		var p: Vector2=(project(u.pos)+Vector2(-44,regiment_bounds(u).position.y-14)).round()
 		draw_rect(Rect2(p,Vector2(88,8)),Color('#203638'))
 		draw_rect(Rect2(p,Vector2(roundf(88*u.hp/u.max_hp),6)),Color('#d9bc79') if u.side=='ally' else Color('#b45440'))
@@ -147,13 +156,30 @@ func _draw():
 			draw_rect(Rect2(p+Vector2(0,10),Vector2(88*clampf(u.morale/100,0,1),4)),Color('#d3bd79'))
 		if not u.get('routing',false):
 			draw_front_marker(p+Vector2(108,5),u)
-		if u.side=='ally' and u.id in trial.squad_ids and u.obstruction!='':
-			var note=trial.words('等待前队','Waiting') if u.obstruction=='queue' else trial.words('敌阵截击','Intercepted')
-			terrain_sign(p+Vector2(0,-32),note)
 		if u.stun>0:
 			for j in 3: draw_rect(Rect2(p+Vector2(25+j*16,-10+(int(clock*8+j)%2)*4),Vector2(6,6)),Color('#fff0ad'))
-	if pass_battle:draw_standard(rules)
+	if pass_battle:
+		draw_standard(rules)
+		if rules.phase=='battle' and rules.flank_state in ['warning','crossing','divert']:
+			var tip=project(rules.flank_entry()).round()
+			draw_line(tip,tip-Vector2(0,58),Color('#543323'),7)
+			draw_line(tip,tip-Vector2(0,58),Color('#e6bc79'),3)
+			draw_colored_polygon(PackedVector2Array([tip+Vector2(0,-58),tip+Vector2(-38,-53),tip+Vector2(0,-36)]),Color('#bd4f37'))
+			draw_rect(Rect2(tip+Vector2(-13,-53),Vector2(5,9)),Color('#ffe0a0'))
+			var note=trial.words('敌骑集结','Riders forming')
+			if rules.flank_state=='crossing':note=trial.words('侧道突击','Flank attack')
+			elif rules.flank_state=='divert':note=trial.words('敌骑转攻正面','Riders divert')
+			terrain_sign(tip+Vector2(-45,-66),note)
+	for volley in rules.volleys:
+		if volley.age<.23:continue
+		var progress:=clampf((volley.age-.23)/.35,0,1)
+		var launch:=project(volley.from)-Vector2(0,34)
+		var impact:=project(volley.pos)-Vector2(0,16)
+		for lane in [-2,-1,0,1,2]:
+			var arrow:=launch.lerp(impact,progress)+Vector2(lane*7,lane*3-sin(progress*PI)*48)
+			draw_line(arrow-launch.direction_to(impact)*10,arrow,Color('#dfc58d'),3)
 	for shot in rules.stones:
+		if shot.age<0:continue
 		var t: float=clampf(shot.age/float(rules.config.types.siege.flight),0,1)
 		var rock:=project(shot.from).lerp(project(shot.pos),t)-Vector2(0,18+sin(t*PI)*115)
 		draw_rect(Rect2(rock.round()-Vector2(6,6),Vector2(12,10)),Color('#453d33'))
@@ -165,8 +191,15 @@ func _draw():
 			draw_apparition(effects[i])
 			break
 	for e in effects:
+		if clean_capture:continue
 		var p: Vector2=project(e.pos)
-		if e.kind=='arrow':
+		if e.kind in ['hoof_dust','wood_chips']:
+			var axis: Vector2=e.axis
+			var step:=floori(e.age/.055)
+			for j in 3:
+				var pos: Vector2=(p-axis*(step*4+j*2)+axis.orthogonal()*(j-1)*(step+3)).snapped(Vector2(2,2))
+				draw_rect(Rect2(pos,Vector2(4,2)),Color('#bda779') if e.kind=='hoof_dust' else Color('#d2b68a'))
+		elif e.kind=='arrow':
 			var q: Vector2=project(e.from).lerp(p,minf(1,e.age/.35))
 			q.y-=sin(minf(1,e.age/.35)*PI)*60
 			draw_line(q-Vector2(12,4),q,Color('#f0dab0'),3)
@@ -174,9 +207,9 @@ func _draw():
 				for lane in [-2,-1,1,2]:
 					var shift=Vector2(lane*10,lane*5)
 					draw_line(q+shift-Vector2(12,4),q+shift,Color('#dfc58d'),3)
-		elif e.kind=='flanking_charge':
+		elif e.kind=='flanking_charge' and e.age<.72:
 			var dir=project(e.from).direction_to(p)
-			var tip=(p-dir*(36-floorf(e.age*10)*3)).round()
+			var tip=p.round() if e.has('contact') else (p-dir*(36-floorf(e.age*10)*3)).round()
 			var flash=Color('#ffd08a') if e.sector=='side' else Color('#ff976e')
 			for offset in [0,12]:
 				var center=tip-dir*offset
@@ -196,13 +229,20 @@ func _draw():
 		elif e.kind in ['hit','charge'] and e.age<.18:
 			var radius=12 if e.kind=='hit' else 40
 			draw_line(p-Vector2(radius,12),p+Vector2(radius,-12),Color('#e9d49d'),4)
+	if debug_first_contact:
+		for u in rules.units:
+			if u.has('last_contact'):
+				var mark=project(u.last_contact.pos).round()
+				draw_circle(mark,8,Color.BLACK,false,4)
+				draw_circle(mark,8,Color.CYAN,false,2)
+				draw_line(mark-Vector2(10,0),mark+Vector2(10,0),Color.CYAN,2)
 	if rules.phase in ['deploy','battle']:
 		draw_set_transform_matrix(ground_transform())
 		var p: Vector2=trial.pointer.snapped(Vector2(2,2))
 		if trial.selected=='route' and rules.phase=='battle':
 			draw_set_transform(Vector2.ZERO)
 			for squad in rules.alive('ally'):
-				if squad.id in trial.squad_ids:
+				if not clean_capture and squad.id in trial.squad_ids:
 					draw_route_arrow(squad)
 					break
 			return
@@ -230,49 +270,74 @@ func _draw():
 func regiment_bounds(u: Dictionary) -> Rect2:
 	var stats: Dictionary=trial.rules.config.types[u.kind]
 	var layout:=Terrain.layout(u.kind)
-	var rows:=ceili(float(stats.soldiers)/int(stats.files))
-	var half:=Vector2(((int(stats.files)-1)*layout.x+(rows-1)*5)*.5,(rows-1)*layout.y*.5)
+	var half:=Vector2((int(stats.files)-1)*layout.x*.5,0)
 	return Rect2(-half-Vector2(14,43)*layout.z,half*2+Vector2(28,48)*layout.z)
+
+func mounted_bearing(u: Dictionary,angle: float) -> int:
+	return trial.rules.Contact.bearing(u,angle,trial.rules.config.regiment_impact.bearing_hysteresis_degrees)
 
 func draw_regiments(rules, pass_battle: bool):
 	var ranks: Array=[]
 	for u in rules.units:
 		if u.get('escaped',false) or (u.hp<=0 and u.dead_age>4):continue
 		var stats: Dictionary=rules.config.types[u.kind]
-		var total:=int(stats.soldiers)
 		var files:=int(stats.files)
-		var depth:=ceili(float(total)/files)
-		var count:=maxi(1,ceili(total*u.hp/u.max_hp))
+		var count: int=rules.Contact.count(u,stats)
 		var layout:=Terrain.layout(u.kind)
 		var heading:=ground_transform().basis_xform(u.heading)
-		var bearing:=posmod(roundi(atan2(heading.x,heading.y)/(PI/4)),8)
+		var angle=atan2(heading.x,heading.y)
+		var bearing:=mounted_bearing(u,angle) if u.kind=='cavalry' else posmod(roundi(angle/(PI/4)),8)
 		var texture: Texture2D=regiments[u.kind][u.side]
 		var tint:=Color.WHITE
-		var action: bool=u.attack_age<.55 and u.hp>0
+		var action: bool=u.attack_age<.55 and u.hp>0 and (u.kind!='cavalry' or not u.moving or u.gait=='impact')
 		var walk: bool=u.moving and u.hp>0
 		if u.petrified>0 and u.hp>0:
 			texture=regiments[u.kind].stone
 			action=false
 			walk=false
-		if u.hit_age<.12:tint=Color('#fff1b8')
+		if u.hit_age<.12 and not u.has('contact_motion') and not u.has('slot_states'):tint=Color('#fff1b8')
 		if u.hp<=0:tint=Color(.55,.4,.3,maxf(0,1-u.dead_age/4))
 		var center:=project(u.pos)
 		var frame:=clampi(int(u.attack_age/.55*8),0,7) if action else floori(8*u.march_distance/float(stats.stride))
-		for rank in ceili(float(count)/files):
-			var row_offset:=rank-(depth-1)*.5
-			var first:=center+Vector2(-(files-1)*layout.x*.5+row_offset*5,row_offset*layout.y)
-			ranks.append({'first':first,'count':mini(files,count-rank*files),'layout':layout,
-				'texture':texture,'tint':tint,'bearing':bearing,'frame':frame,
-				'action':action,'walk':walk,'rank':rank,'unit':u})
+		var reaction: Dictionary=u.get('contact_motion',{})
+		var contact: Dictionary=reaction.get('contact',{})
+		var first_flash=not contact.is_empty() and rules.elapsed-contact.time<.10
+		if first_flash:count=maxi(count,reaction.old_count)
+		var slots=files if u.has('slot_priority') else count
+		var first=center-Vector2((files-1)*layout.x*.5,0)
+		var group={'first':first,'col':0,'count':slots,'layout':layout,
+			'texture':texture,'tint':tint,'bearing':bearing,'frame':frame,
+			'action':action,'walk':walk,'rank':0,'unit':u}
+		if not u.has('contact_motion') and not u.has('slot_priority') and not u.has('slot_states'):
+			ranks.append(group)
+			continue
+		for col in int(group.count):
+			var slot=col
+			if not rules.Contact.present(u,slot,count):continue
+			var item=group.duplicate()
+			var offset=rules.Contact.body_shift(u,slot,rules.elapsed)
+			item.first=first+Vector2(col*layout.x,0)+offset
+			item.col=col
+			item.count=1
+			if u.get('wall_next',0.)>rules.elapsed and not u.get('wall_files',{}).has(slot):item.action=false
+			if offset.length_squared()>1:
+				item.walk=true
+				if u.kind=='cavalry':
+					item.action=false
+					item.frame=floori((u.march_distance+offset.length())*8/stats.stride)
+				elif not item.action:item.frame=floori(rules.elapsed*8+slot)
+				if u.hit_age<.12:item.tint=Color('#fff1b8')
+			if first_flash and slot==contact.defender_slot:item.tint=Color('#fff1b8')
+			ranks.append(item)
 	ranks.sort_custom(func(a,b):return a.first.y<b.first.y)
 	for row in ranks:
 		var u: Dictionary=row.unit
 		var layout: Vector3=row.layout
+		var first: Dictionary=u.get('last_contact',{}) if u.kind=='cavalry' else u.get('contact_motion',{}).get('contact',{})
+		var impact_frame=not first.is_empty() and rules.elapsed-first.time<1.0/60+.00001
 		for col in int(row.count):
-			var phase: int=(col+row.rank*3)%4
-			var frame:=0
-			if row.action:frame=9+maxi(0,int(row.frame)-(phase%2))
-			elif row.walk:frame=1+posmod(int(row.frame)+[0,1,0,-1][phase],8)
+			var phase: int=(row.col+col+row.rank*3)%4
+			var frame=rules.Contact.cell_index(row.action,row.walk,row.frame,phase)
 			var feet: Vector2=row.first+Vector2(col*layout.x,0)
 			if pass_battle and u.get('routing',false):
 				feet+=Vector2(sin(col*7.3+row.rank),cos(row.rank*4.7+col))*12
@@ -280,7 +345,16 @@ func draw_regiments(rules, pass_battle: bool):
 			if u.hp<=0:
 				draw_set_transform(feet.round(),PI/2)
 				dest.position=-Vector2(32,54)*layout.z
-			draw_texture_rect_region(row.texture,dest,Rect2(frame*64,int(row.bearing)*64,64,64),row.tint)
+			var bearing: int=row.bearing
+			if impact_frame:
+				var slot: int=row.rank*int(rules.config.types[u.kind].files)+row.col+col
+				if u.kind=='cavalry' and slot==first.rider_slot:
+					frame=first.rider_cell
+					bearing=first.rider_bearing
+				elif u.kind=='legion' and slot==first.defender_slot:
+					frame=first.defender_cell
+					bearing=first.defender_bearing
+			draw_texture_rect_region(row.texture,dest,Rect2(frame*64,bearing*64,64,64),row.tint)
 			if u.hp<=0:draw_set_transform(Vector2.ZERO)
 
 func terrain_sign(pos: Vector2, value: String):
@@ -296,48 +370,15 @@ func flag_color(rules) -> Color:
 	return Color('#eac68a')
 
 func draw_standard(rules):
-	var foot=project(rules.flag_center).round()
-	var top=foot-Vector2(0,147)
-	draw_line(foot,top,Color('#493323'),8)
-	draw_line(foot,top,Color('#c39a56'),4)
-	draw_rect(Rect2(top+Vector2(-17,10),Vector2(36,44)),Color('#562d27'))
-	draw_rect(Rect2(top+Vector2(-14,13),Vector2(30,37)),Color('#a44635'))
-	draw_rect(Rect2(top+Vector2(-20,9),Vector2(41,4)),Color('#f3cb78'))
-	draw_colored_polygon(PackedVector2Array([top+Vector2(-9,20),top+Vector2(0,24),top+Vector2(9,20),
-		top+Vector2(6,28),top+Vector2(2,30),top+Vector2(0,35),top+Vector2(-3,30),top+Vector2(-7,27)]),Color('#f1ce7e'))
-	draw_rect(Rect2(top+Vector2(-11,41),Vector2(24,3)),Color('#ddb261'))
-	# The eagle finial has stepped wings and a raised head.
-	var wing=PackedVector2Array([top+Vector2(-16,-5),top+Vector2(-8,-3),top+Vector2(-3,1),
-		top+Vector2(-2,-7),top+Vector2(5,-7),top+Vector2(8,-4),top+Vector2(3,-3),
-		top+Vector2(4,0),top+Vector2(16,-6),top+Vector2(12,2),top+Vector2(3,6),
-		top+Vector2(3,9),top+Vector2(-2,9),top+Vector2(-3,6),top+Vector2(-12,2)])
-	draw_colored_polygon(wing,Color('#f1ce7e'))
+	var top=project(rules.flag_center).round()-Vector2(0,147)
 	if rules.flag_state!='secure':
 		var bar=top-Vector2(46,23)
 		draw_rect(Rect2(bar,Vector2(92,10)),Color('#322925'))
 		draw_rect(Rect2(bar+Vector2(2,2),Vector2(roundf(88*rules.capture_time/rules.capture_seconds),6)),flag_color(rules))
 
 func draw_pass_ground():
-	# Outline sampled from the original Iberian rock bank. Rotate its long axis into the pass.
-	var bank=PackedVector2Array([Vector2(8,50),Vector2(29,26),Vector2(61,17),Vector2(88,25),
-		Vector2(107,52),Vector2(147,55),Vector2(179,36),Vector2(205,18),Vector2(232,14),
-		Vector2(271,31),Vector2(294,37),Vector2(280,59),Vector2(248,70),Vector2(225,90),
-		Vector2(185,99),Vector2(156,103),Vector2(128,101),Vector2(94,89),Vector2(60,85),
-		Vector2(29,72),Vector2(15,69)])
-	var rock_art=environment.landscape_texture
-	var uv=PackedVector2Array()
-	for vertex in bank:uv.append((Vector2(1950,245)+vertex)/rock_art.get_size())
-	for wall: Rect2 in Terrain.ROCKS:
-		for flank in 2:
-			var poly=PackedVector2Array()
-			for vertex in bank:
-				var along=(vertex.x-8)/286.0
-				var across=(vertex.y-14)/89.0
-				if flank==1:along=1.0-along
-				poly.append((wall.position+Vector2((flank*.30+across*.70)*wall.size.x,along*wall.size.y)).round())
-			draw_polygon(poly,PackedColorArray([Color.WHITE]),uv,rock_art)
-	terrain_sign(Vector2(986,600),trial.words('正面通道','Main pass'))
-	terrain_sign(Vector2(986,908),trial.words('侧道','Side pass'))
+	terrain_sign(trial.rules.terrain.main_pass.get_center()+Vector2(-37,-10),trial.words('正面通道','Main pass'))
+	terrain_sign(trial.rules.terrain.SIDE_GATE.get_center()+Vector2(-37,18),trial.words('侧道','Side pass'))
 
 # Compact bearing pip beside each strength bar, using the sprite's ground projection.
 func draw_front_marker(center: Vector2, u: Dictionary):

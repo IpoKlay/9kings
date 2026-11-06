@@ -1,0 +1,7 @@
+Menu selection movement sound
+
+User-supplied source: creatorshome-digital-click-357350.mp3
+Imported file: menu-move.mp3
+Copied byte-for-byte on 2026-10-24; no trimming, pitch shifting or conversion.
+Playback gain is configured in data/presentation/audio.tres (menu_move.gain).
+Used when the main menu selection changes by keyboard or mouse.

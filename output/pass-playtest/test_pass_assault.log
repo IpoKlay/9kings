@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+front t=14.02 reserve -> warning
+front t=20.03 warning -> crossing
+front t=26.5 crossing -> through
+front t=78.47 through -> ended
+front result=enemy_routed time=174.95 crossed=true diverted=false response_reached=true shots=67 max_range=360.0 capture_at=-1.00 oil=1
+seal t=14.02 reserve -> warning
+seal t=20.03 warning -> divert
+seal t=64.6 divert -> ended
+seal result=time_held time=180.00 crossed=false diverted=true response_reached=true shots=140 max_range=360.0 capture_at=-1.00 oil=1
+withdraw t=14.02 reserve -> warning
+withdraw t=20.03 warning -> crossing
+withdraw t=26.5 crossing -> through
+withdraw result=flag_lost time=32.88 crossed=true diverted=false response_reached=false shots=4 max_range=359.3 capture_at=20.90 oil=0
+lure t=14.02 reserve -> warning
+lure t=20.03 warning -> crossing
+lure t=26.5 crossing -> through
+lure result=flag_lost time=32.88 crossed=true diverted=false response_reached=false shots=4 max_range=359.3 capture_at=20.90 oil=0
+PASS ASSAULT failures: 0

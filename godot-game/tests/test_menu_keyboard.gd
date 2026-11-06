@@ -44,6 +44,8 @@ func capture(name: String):
 	RenderingServer.force_draw()
 	root.get_texture().get_image().save_png('res://../output/menu-four/'+name+'.png')
 func run():
+	for directory in ['res://../output/menu-four','res://../output/tactical-trial']:
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(directory))
 	app=load('res://scenes/main.tscn').instantiate()
 	app.settings_path='res://../output/menu-four/test-settings.cfg'
 	app.run_path_override='res://../output/tactical-trial/menu-test-run.cfg'
@@ -110,8 +112,8 @@ func run():
 		await key(KEY_W)
 		check(menu.selected==3,'W selects previous option')
 		menu._process(.35)
-		check(absf(menu.cursor.position.y-(menu.options[3].position.y+13))<=5,'Cursor settles at the selected row within 350ms')
-		check(is_zero_approx(fmod(menu.cursor.position.x,3)) and is_zero_approx(fmod(menu.cursor.position.y,3)),'Cursor moves on its native pixel grid')
+		check(absf(menu.cursor.global_position.y-(menu.options[3].global_position.y+13))<=5,'Cursor settles at the selected row within 350ms')
+		check(is_zero_approx(fmod(menu.cursor.global_position.x,3)) and is_zero_approx(fmod(menu.cursor.global_position.y,3)),'Cursor moves on its native pixel grid')
 		await capture('settings-selected-'+lang)
 		await key(KEY_SPACE)
 		check(app.dialog_kind=='settings','Space opens selected Settings')

@@ -1,0 +1,5 @@
+approach,visible_edges,first_reaction,steps_apart,rider_slot,infantry_slot,point_to_rider_px,point_to_infantry_px,world_speed,damage,main_audio
+east,234,234,0,7,0,0.0,0.0,252.98,71.4,1
+west,236,236,0,16,39,0.0,0.0,252.98,71.4,1
+north_east,203,203,0,7,50,0.0,0.0,252.98,71.4,1
+north_west,175,175,0,0,58,0.0,0.0,252.21,71.4,1

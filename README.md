@@ -15,6 +15,18 @@
 
 运行与历史更新见 [工程说明](godot-game/README.md)，数值与数据归属见 [DATA_GUIDE](godot-game/DATA_GUIDE.md)。山口地形与行军的验收记录见 [RTS 开发进度](godot-game/docs/RTS_PROGRESS.md)。
 
+## 2026-11-05 原生工程同步
+
+主工程保持单排编队，包含山口进攻计划、预备队、战后复盘、萨贡图姆远征战斗，以及骑兵冲击和各兵种反馈。三个正式布局现在可直接在 Godot 2D 编辑器修改并保存。
+
+- [会战 HUD](godot-game/scenes/ui/battle_hud.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-hud.png)
+- [山口布局](godot-game/scenes/battlefields/roman_pass.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-pass.png)
+- [主菜单](godot-game/scenes/ui/main_menu.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-menu.png)
+- [六排冲锋独立源码](output/formation-impact/六排Godot工程/project.godot) · [冲击验收与录像](output/formation-impact/试玩与验收.md)
+- [同步范围与复测说明](docs/SYNC-2026-11-05.md)
+
+按钮位置、纸签样式、树木、军旗、阻挡岩壁、出生标记与菜单行距的具体编辑入口见 [DATA_GUIDE](godot-game/DATA_GUIDE.md)。六排源码保留当时的冲锋验收版本，具有独立应用标识；后续编辑器场景重构位于当前单排主工程。
+
 ## 最新游戏画面
 
 以下为当前 Godot 开发原型的游戏截图。

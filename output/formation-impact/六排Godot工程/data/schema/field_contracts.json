@@ -1,0 +1,503 @@
+[
+  {
+    "path": "balance/units#*.hp",
+    "type": "number",
+    "unit": "生命",
+    "min": 0.001,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/units#*.attack",
+    "type": "number",
+    "unit": "伤害/次",
+    "min": 0,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/units#*.range",
+    "type": "number",
+    "unit": "战场逻辑像素",
+    "min": 0,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/units#*.speed",
+    "type": "number",
+    "unit": "战场逻辑像素/秒",
+    "min": 0,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/units#*.interval",
+    "type": "number",
+    "unit": "秒/次",
+    "min": 0.001,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/enemies#*.hp",
+    "type": "number",
+    "unit": "生命",
+    "min": 0.001,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/enemies#*.attack",
+    "type": "number",
+    "unit": "伤害/次",
+    "min": 0,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/enemies#*.range",
+    "type": "number",
+    "unit": "战场逻辑像素",
+    "min": 0,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/enemies#*.speed",
+    "type": "number",
+    "unit": "战场逻辑像素/秒",
+    "min": 0,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/enemies#*.interval",
+    "type": "number",
+    "unit": "秒/次",
+    "min": 0.001,
+    "note": "training 训练场没有部队属性；由内容验证单独识别。"
+  },
+  {
+    "path": "balance/camp#columns",
+    "type": "integer",
+    "unit": "个",
+    "min": 5,
+    "max": 5,
+    "note": "5×5为外围边界；开局只解锁中间3×3。绘制和输入共用固定格子ID。"
+  },
+  {
+    "path": "balance/camp#rows",
+    "type": "integer",
+    "unit": "个",
+    "min": 5,
+    "max": 5,
+    "note": "5×5为外围边界；开局只解锁中间3×3。绘制和输入共用固定格子ID。"
+  },
+  {
+    "path": "balance/camp#max_buildings",
+    "type": "integer",
+    "unit": "个",
+    "min": 25,
+    "max": 25,
+    "note": "5×5为外围边界；开局只解锁中间3×3。绘制和输入共用固定格子ID。"
+  },
+  {
+    "path": "balance/camp#max_building_level",
+    "type": "integer",
+    "unit": "个",
+    "min": 3,
+    "max": 3,
+    "note": "固定布局/素材容量须同步修改画面并回归，不能只改此项。"
+  },
+  {
+    "path": "balance/camp#max_lives",
+    "type": "integer",
+    "unit": "个",
+    "min": 1,
+    "max": 3
+  },
+  {
+    "path": "balance/camp#reward_choices",
+    "type": "integer",
+    "unit": "个",
+    "min": 3,
+    "max": 3,
+    "note": "固定布局/素材容量须同步修改画面并回归，不能只改此项。"
+  },
+  {
+    "path": "balance/camp#history_limit",
+    "type": "integer",
+    "unit": "个",
+    "min": 1,
+    "max": 10000
+  },
+  {
+    "path": "balance/camp#loss_lives",
+    "type": "integer",
+    "unit": "个",
+    "min": 1,
+    "max": 3
+  },
+  {
+    "path": "balance/camp#level_growth",
+    "type": "number",
+    "unit": "比例，0.25=25%",
+    "min": 0
+  },
+  {
+    "path": "balance/camp#training_adjacency_per_level",
+    "type": "number",
+    "unit": "比例，0.25=25%",
+    "min": 0
+  },
+  {
+    "path": "balance/camp#training_boost_per_rank",
+    "type": "number",
+    "unit": "比例，0.25=25%",
+    "min": 0
+  },
+  {
+    "path": "balance/combat#survivor_heal_fraction",
+    "type": "number",
+    "unit": "比例",
+    "min": 0,
+    "max": 1
+  },
+  {
+    "path": "balance/combat#reinforcement_fraction",
+    "type": "number",
+    "unit": "比例",
+    "min": 0,
+    "max": 1
+  },
+  {
+    "path": "balance/combat#shield_recovery_fraction",
+    "type": "number",
+    "unit": "比例",
+    "min": 0,
+    "max": 1
+  },
+  {
+    "path": "balance/combat#blast_edge_falloff",
+    "type": "number",
+    "unit": "比例",
+    "min": 0,
+    "max": 1
+  },
+  {
+    "path": "balance/combat#wave_rest_seconds",
+    "type": "number",
+    "unit": "秒",
+    "min": 0.001
+  },
+  {
+    "path": "balance/combat#wave_timeout_seconds",
+    "type": "number",
+    "unit": "秒",
+    "min": 0.001
+  },
+  {
+    "path": "balance/combat#arrow_flight_seconds",
+    "type": "number",
+    "unit": "秒",
+    "min": 0.001
+  },
+  {
+    "path": "balance/combat#siege_flight_seconds",
+    "type": "number",
+    "unit": "秒",
+    "min": 0.001
+  },
+  {
+    "path": "balance/combat#heal_flash_seconds",
+    "type": "number",
+    "unit": "秒",
+    "min": 0.001
+  },
+  {
+    "path": "balance/combat#hit_flash_seconds",
+    "type": "number",
+    "unit": "秒",
+    "min": 0.001
+  },
+  {
+    "path": "balance/combat#blast_radius",
+    "type": "number",
+    "unit": "战场逻辑单位",
+    "min": 0.0001
+  },
+  {
+    "path": "balance/combat#separation_radius",
+    "type": "number",
+    "unit": "战场逻辑单位",
+    "min": 0.0001
+  },
+  {
+    "path": "balance/combat#separation_speed",
+    "type": "number",
+    "unit": "战场逻辑单位",
+    "min": 0.0001
+  },
+  {
+    "path": "balance/combat#separation_epsilon",
+    "type": "number",
+    "unit": "战场逻辑单位",
+    "min": 0.0001
+  },
+  {
+    "path": "balance/combat#ally_spawn.rows",
+    "type": "integer",
+    "unit": "队列行数",
+    "min": 1,
+    "max": 20
+  },
+  {
+    "path": "balance/combat#enemy_spawn.rows",
+    "type": "integer",
+    "unit": "队列行数",
+    "min": 1,
+    "max": 20
+  },
+  {
+    "path": "balance/assaults#waves.*",
+    "type": "integer",
+    "unit": "轮",
+    "min": 1,
+    "max": 100
+  },
+  {
+    "path": "balance/assaults#strength.*",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0.001
+  },
+  {
+    "path": "balance/assaults#health_factor.*",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0.001
+  },
+  {
+    "path": "balance/assaults#growth_wave_cap",
+    "type": "integer",
+    "unit": "轮",
+    "min": 0,
+    "max": 100
+  },
+  {
+    "path": "balance/assaults#health_per_progress",
+    "type": "number",
+    "unit": "每进度/每轮增加的比例",
+    "min": 0
+  },
+  {
+    "path": "balance/assaults#attack_per_progress",
+    "type": "number",
+    "unit": "每进度/每轮增加的比例",
+    "min": 0
+  },
+  {
+    "path": "balance/assaults#wave_growth",
+    "type": "number",
+    "unit": "每进度/每轮增加的比例",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#combinedArms.per_type_per_rank",
+    "type": "number",
+    "unit": "比例",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#combinedArms.max_types",
+    "type": "integer",
+    "unit": "数量",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#rally.attack_bonus",
+    "type": "number",
+    "unit": "比例",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#fieldMedicine.heal_bonus_per_rank",
+    "type": "number",
+    "unit": "比例",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#volley.attack_rate_multiplier",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#shield.amount",
+    "type": "number",
+    "unit": "数量",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#shieldDrill.per_rank",
+    "type": "number",
+    "unit": "数量",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#guard.base_shield",
+    "type": "number",
+    "unit": "数量",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#testudo.speed_multiplier",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0,
+    "max": 1
+  },
+  {
+    "path": "balance/effects#testudo.damage_multiplier",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0,
+    "max": 1
+  },
+  {
+    "path": "balance/effects#pinning.damage_bonus_per_rank",
+    "type": "number",
+    "unit": "比例",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#oilShots.damage_bonus_per_rank",
+    "type": "number",
+    "unit": "比例",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#crossfire.damage_bonus_per_rank",
+    "type": "number",
+    "unit": "比例",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#crossfire.engagement_margin",
+    "type": "number",
+    "unit": "战场逻辑像素",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#burn.damage_per_second",
+    "type": "number",
+    "unit": "数量",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#burn.duration",
+    "type": "number",
+    "unit": "秒",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#slow.speed_multiplier",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0,
+    "max": 1
+  },
+  {
+    "path": "balance/effects#slow.duration",
+    "type": "number",
+    "unit": "秒",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#haste.attack_rate_multiplier",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#haste.duration",
+    "type": "number",
+    "unit": "秒",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#haste.radius",
+    "type": "number",
+    "unit": "战场逻辑像素",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#charge.base_multiplier",
+    "type": "number",
+    "unit": "倍率",
+    "min": 0
+  },
+  {
+    "path": "balance/effects#charge.bonus_per_rank",
+    "type": "number",
+    "unit": "比例",
+    "min": 0
+  },
+  {
+    "path": "balance/expedition_rules#scouting_distance",
+    "type": "integer",
+    "unit": "站",
+    "min": 1,
+    "max": 45
+  },
+  {
+    "path": "balance/expedition_rules#recovery_lives",
+    "type": "integer",
+    "unit": "生命",
+    "min": 0,
+    "max": 3
+  },
+  {
+    "path": "balance/legacy_encounters#count_growth_divisor",
+    "type": "number",
+    "unit": "轮",
+    "min": 0.001
+  },
+  {
+    "path": "balance/legacy_encounters#max_count",
+    "type": "integer",
+    "unit": "队",
+    "min": 3,
+    "max": 100
+  },
+  {
+    "path": "defaults/settings#music_volume",
+    "type": "number",
+    "unit": "线性音乐音量",
+    "min": 0,
+    "max": 1,
+    "note": "独立音乐音量；与主音量相乘，0静音且保留播放位置。"
+  },
+  {
+    "path": "balance/camp#expansion_every_victories",
+    "type": "integer",
+    "min": 1,
+    "unit": "局内军营规则"
+  },
+  {
+    "path": "balance/camp#medic_adjacency_health_per_level",
+    "type": "number",
+    "min": 0,
+    "unit": "局内军营规则"
+  },
+  {
+    "path": "balance/camp#guaranteed_troop_until",
+    "type": "integer",
+    "min": 0,
+    "unit": "局内军营规则"
+  },
+  {
+    "path": "balance/combat#deployment_column_spacing",
+    "type": "number",
+    "min": 1,
+    "unit": "局内军营规则"
+  },
+  {
+    "path": "balance/combat#deployment_row_spacing",
+    "type": "number",
+    "min": 1,
+    "unit": "局内军营规则"
+  }
+]

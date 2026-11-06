@@ -1,0 +1,484 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/environments/iberia-rts.png" id="terrain"]
+[ext_resource type="Texture2D" path="res://assets/environments/oak.png" id="oak"]
+[ext_resource type="Script" path="res://scenes/battlefields/pass_flag.gd" id="flag"]
+
+[ext_resource type="Script" path="res://scenes/battlefields/roman_pass.gd" id="layout"]
+
+[ext_resource type="Script" path="res://scenes/battlefields/pass_rock.gd" id="rock"]
+
+[node name="RomanPass" type="Node2D"]
+script = ExtResource("layout")
+texture_filter = 1
+z_index = -2
+
+[node name="Landscape" type="Sprite2D" parent="."]
+centered = false
+position = Vector2(-320, -140)
+scale = Vector2(1.1497005988023952, 1.1477151965993624)
+texture = ExtResource("terrain")
+
+[node name="Decoration" type="Node2D" parent="."]
+[node name="Trees" type="Node2D" parent="Decoration"]
+
+[node name="Oak01" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(-36, 63)
+scale = Vector2(0.12360446570972887, 0.12360446570972887)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak02" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(428, 102)
+scale = Vector2(0.13556618819776714, 0.13556618819776714)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak03" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(690, 72)
+scale = Vector2(0.11642743221690591, 0.11642743221690591)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak04" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(170, 405)
+scale = Vector2(0.13078149920255183, 0.13078149920255183)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak05" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(98, 451)
+scale = Vector2(0.11562998405103668, 0.11562998405103668)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak06" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(212, 478)
+scale = Vector2(0.10366826156299841, 0.10366826156299841)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak07" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(1420, 205)
+scale = Vector2(0.12599681020733652, 0.12599681020733652)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak08" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(1534, 225)
+scale = Vector2(0.11084529505582137, 0.11084529505582137)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak09" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(1898, 250)
+scale = Vector2(0.13237639553429026, 0.13237639553429026)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak10" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(2802, 540)
+scale = Vector2(0.1419457735247209, 0.1419457735247209)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak11" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(3180, 710)
+scale = Vector2(0.11881977671451356, 0.11881977671451356)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak12" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(2365, 1300)
+scale = Vector2(0.1283891547049442, 0.1283891547049442)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak13" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(2780, 1380)
+scale = Vector2(0.14114832535885166, 0.14114832535885166)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak14" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(2710, 1330)
+scale = Vector2(0.11004784688995216, 0.11004784688995216)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak15" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(6, 1572)
+scale = Vector2(0.1371610845295056, 0.1371610845295056)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak16" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(185, 1870)
+scale = Vector2(0.12599681020733652, 0.12599681020733652)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak17" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(740, 1882)
+scale = Vector2(0.13636363636363635, 0.13636363636363635)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Oak18" type="Sprite2D" parent="Decoration/Trees"]
+position = Vector2(1610, 1710)
+scale = Vector2(0.12280701754385964, 0.12280701754385964)
+centered = false
+offset = Vector2(-627.0, -1254)
+texture = ExtResource("oak")
+
+[node name="Flags" type="Node2D" parent="Decoration"]
+
+[node name="WestPennant" type="Marker2D" parent="Decoration/Flags"]
+position = Vector2(390, 295)
+script = ExtResource("flag")
+
+[node name="EastPennant" type="Marker2D" parent="Decoration/Flags"]
+position = Vector2(2330, 1080)
+script = ExtResource("flag")
+
+[node name="Gameplay" type="Node2D" parent="."]
+
+
+[node name="RockWalls" type="Node2D" parent="Gameplay"]
+
+
+[node name="NorthRidge" type="ReferenceRect" parent="Gameplay/RockWalls"]
+offset_left = 980.000000
+offset_top = 292.000000
+offset_right = 1062.000000
+offset_bottom = 438.000000
+mouse_filter = 2
+border_color = Color(0.9,0.73,0.4,0.75)
+border_width = 2.0
+script = ExtResource("rock")
+
+[node name="MiddleRidge" type="ReferenceRect" parent="Gameplay/RockWalls"]
+offset_left = 980.000000
+offset_top = 767.000000
+offset_right = 1066.000000
+offset_bottom = 825.000000
+mouse_filter = 2
+border_color = Color(0.9,0.73,0.4,0.75)
+border_width = 2.0
+script = ExtResource("rock")
+
+[node name="SouthRidge" type="ReferenceRect" parent="Gameplay/RockWalls"]
+offset_left = 980.000000
+offset_top = 955.000000
+offset_right = 1066.000000
+offset_bottom = 1132.000000
+mouse_filter = 2
+border_color = Color(0.9,0.73,0.4,0.75)
+border_width = 2.0
+script = ExtResource("rock")
+
+[node name="MainPass" type="ReferenceRect" parent="Gameplay"]
+offset_left = 980.000000
+offset_top = 438.000000
+offset_right = 1066.000000
+offset_bottom = 767.000000
+mouse_filter = 2
+border_color = Color(0.9,0.73,0.4,0.75)
+border_width = 2.0
+
+[node name="SidePass" type="ReferenceRect" parent="Gameplay"]
+offset_left = 980.000000
+offset_top = 825.000000
+offset_right = 1066.000000
+offset_bottom = 955.000000
+mouse_filter = 2
+border_color = Color(0.9,0.73,0.4,0.75)
+border_width = 2.0
+
+[node name="EagleStandard" type="Marker2D" parent="Gameplay"]
+position = Vector2(355.20000, 492.70000)
+z_as_relative = false
+z_index = 1
+script = ExtResource("flag")
+objective = true
+
+[node name="Areas" type="Node2D" parent="Gameplay"]
+
+
+[node name="BattleBounds" type="Line2D" parent="Gameplay/Areas"]
+position = Vector2(589.60000,261.60000)
+width = 2.0
+points = PackedVector2Array(0.0000, 0.0000, 2173.6000, 772.2000, 1452.8000, 1196.2000, -720.8000, 424.0000, 0.0000, 0.0000)
+default_color = Color(0.9,0.73,0.4,0.60)
+
+[node name="Deployment" type="Line2D" parent="Gameplay/Areas"]
+position = Vector2(689.20000,303.40000)
+width = 2.0
+points = PackedVector2Array(0.0000, 0.0000, 266.0000, 94.5000, -339.2000, 450.5000, -605.2000, 356.0000, 0.0000, 0.0000)
+default_color = Color(0.9,0.73,0.4,0.60)
+
+[node name="CombinedDeployment" type="Line2D" parent="Gameplay/Areas"]
+position = Vector2(589.60000,261.60000)
+width = 2.0
+points = PackedVector2Array(0.0000, 0.0000, 813.2000, 288.9000, 92.4000, 712.9000, -720.8000, 424.0000, 0.0000, 0.0000)
+default_color = Color(0.9,0.73,0.4,0.60)
+
+[node name="DefenderDeployment" type="Line2D" parent="Gameplay/Areas"]
+position = Vector2(666.40000,295.30000)
+width = 2.0
+points = PackedVector2Array(0.0000, 0.0000, 592.8000, 210.6000, -87.2000, 610.6000, -680.0000, 400.0000, 0.0000, 0.0000)
+default_color = Color(0.9,0.73,0.4,0.60)
+
+[node name="OilPlacement" type="Line2D" parent="Gameplay/Areas"]
+position = Vector2(1151.00000,483.50000)
+width = 2.0
+points = PackedVector2Array(0.0000, 0.0000, 288.8000, 102.6000, -323.2000, 462.6000, -612.0000, 360.0000, 0.0000, 0.0000)
+default_color = Color(0.9,0.73,0.4,0.60)
+
+[node name="Spawns" type="Node2D" parent="."]
+
+
+[node name="InitialEnemy" type="Node2D" parent="Spawns"]
+
+
+[node name="Legion01" type="Marker2D" parent="Spawns/InitialEnemy"]
+position = Vector2(1260.60000, 548.10000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Legion02" type="Marker2D" parent="Spawns/InitialEnemy"]
+position = Vector2(1138.20000, 620.10000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Legion03" type="Marker2D" parent="Spawns/InitialEnemy"]
+position = Vector2(1015.80000, 692.10000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Archer04" type="Marker2D" parent="Spawns/InitialEnemy"]
+position = Vector2(1442.00000, 635.00000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Archer05" type="Marker2D" parent="Spawns/InitialEnemy"]
+position = Vector2(1265.20000, 739.00000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Cavalry06" type="Marker2D" parent="Spawns/InitialEnemy"]
+position = Vector2(1326.00000, 882.50000)
+gizmo_extents = 7.0
+metadata/kind = "cavalry"
+
+[node name="Vanguard" type="Node2D" parent="Spawns"]
+
+
+[node name="Legion01" type="Marker2D" parent="Spawns/Vanguard"]
+position = Vector2(776.20000, 453.00000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Legion02" type="Marker2D" parent="Spawns/Vanguard"]
+position = Vector2(626.60000, 541.00000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Archer03" type="Marker2D" parent="Spawns/Vanguard"]
+position = Vector2(515.20000, 430.85000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Cavalry04" type="Marker2D" parent="Spawns/Vanguard"]
+position = Vector2(398.40000, 610.70000)
+gizmo_extents = 7.0
+metadata/kind = "cavalry"
+
+[node name="CombinedAllies" type="Node2D" parent="Spawns"]
+
+
+[node name="Guard01" type="Marker2D" parent="Spawns/CombinedAllies"]
+position = Vector2(799.92000, 365.19000)
+gizmo_extents = 7.0
+metadata/kind = "guard"
+
+[node name="Legion02" type="Marker2D" parent="Spawns/CombinedAllies"]
+position = Vector2(800.28000, 544.96000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Spear03" type="Marker2D" parent="Spawns/CombinedAllies"]
+position = Vector2(799.96000, 725.13000)
+gizmo_extents = 7.0
+metadata/kind = "spear"
+
+[node name="Cavalry04" type="Marker2D" parent="Spawns/CombinedAllies"]
+position = Vector2(782.28000, 906.19000)
+gizmo_extents = 7.0
+metadata/kind = "cavalry"
+
+[node name="Archer05" type="Marker2D" parent="Spawns/CombinedAllies"]
+position = Vector2(461.96000, 429.90000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Medic06" type="Marker2D" parent="Spawns/CombinedAllies"]
+position = Vector2(474.96000, 739.91000)
+gizmo_extents = 7.0
+metadata/kind = "medic"
+
+[node name="Siege07" type="Marker2D" parent="Spawns/CombinedAllies"]
+position = Vector2(234.84000, 587.88000)
+gizmo_extents = 7.0
+metadata/kind = "siege"
+
+[node name="CombinedEnemies" type="Node2D" parent="Spawns"]
+
+
+[node name="Guard01" type="Marker2D" parent="Spawns/CombinedEnemies"]
+position = Vector2(1230.08000, 530.20000)
+gizmo_extents = 7.0
+metadata/kind = "guard"
+
+[node name="Legion02" type="Marker2D" parent="Spawns/CombinedEnemies"]
+position = Vector2(1229.48000, 714.12000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Spear03" type="Marker2D" parent="Spawns/CombinedEnemies"]
+position = Vector2(1230.56000, 899.92000)
+gizmo_extents = 7.0
+metadata/kind = "spear"
+
+[node name="Cavalry04" type="Marker2D" parent="Spawns/CombinedEnemies"]
+position = Vector2(1610.40000, 680.07000)
+gizmo_extents = 7.0
+metadata/kind = "cavalry"
+
+[node name="Archer05" type="Marker2D" parent="Spawns/CombinedEnemies"]
+position = Vector2(1549.52000, 865.03000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Medic06" type="Marker2D" parent="Spawns/CombinedEnemies"]
+position = Vector2(1529.68000, 1040.19000)
+gizmo_extents = 7.0
+metadata/kind = "medic"
+
+[node name="Siege07" type="Marker2D" parent="Spawns/CombinedEnemies"]
+position = Vector2(1870.16000, 905.16000)
+gizmo_extents = 7.0
+metadata/kind = "siege"
+
+[node name="PassAllies" type="Node2D" parent="Spawns"]
+
+
+[node name="Guard01" type="Marker2D" parent="Spawns/PassAllies"]
+position = Vector2(1051.00000, 499.30000)
+gizmo_extents = 7.0
+metadata/kind = "guard"
+
+[node name="Legion02" type="Marker2D" parent="Spawns/PassAllies"]
+position = Vector2(910.24000, 582.10000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Spear03" type="Marker2D" parent="Spawns/PassAllies"]
+position = Vector2(769.48000, 664.90000)
+gizmo_extents = 7.0
+metadata/kind = "spear"
+
+[node name="Legion04" type="Marker2D" parent="Spawns/PassAllies"]
+position = Vector2(628.72000, 747.70000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Archer05" type="Marker2D" parent="Spawns/PassAllies"]
+position = Vector2(764.68000, 490.61000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Archer06" type="Marker2D" parent="Spawns/PassAllies"]
+position = Vector2(523.28000, 632.61000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Cavalry07" type="Marker2D" parent="Spawns/PassAllies"]
+position = Vector2(261.80000, 716.15000)
+gizmo_extents = 7.0
+metadata/kind = "cavalry"
+
+[node name="PassEnemies" type="Node2D" parent="Spawns"]
+
+
+[node name="Legion01" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1757.00000, 743.70000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Legion02" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1631.88000, 817.30000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Legion03" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1506.76000, 890.90000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Legion04" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1381.64000, 964.50000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Legion05" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1256.52000, 1038.10000)
+gizmo_extents = 7.0
+metadata/kind = "legion"
+
+[node name="Archer06" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1848.40000, 869.20000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Archer07" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1562.80000, 1037.20000)
+gizmo_extents = 7.0
+metadata/kind = "archer"
+
+[node name="Cavalry08" type="Marker2D" parent="Spawns/PassEnemies"]
+position = Vector2(1309.20000, 1107.50000)
+gizmo_extents = 7.0
+metadata/kind = "cavalry"
+
+[node name="OilBarrels" type="Node2D" parent="Spawns"]
+
+
+[node name="Barrel1" type="Marker2D" parent="Spawns/OilBarrels"]
+position = Vector2(1137.16000, 599.20000)
+gizmo_extents = 7.0
+
+[node name="Barrel2" type="Marker2D" parent="Spawns/OilBarrels"]
+position = Vector2(897.60000, 768.80000)
+gizmo_extents = 7.0
+
+[node name="CampEscort" type="Marker2D" parent="Spawns"]
+position = Vector2(428.20000, 525.05000)
+gizmo_extents = 7.0

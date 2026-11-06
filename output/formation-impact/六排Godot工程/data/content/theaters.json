@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "西地中海 · 伊比利亚",
+    "name_en": "West · Iberia",
+    "route": "马西利亚 → 伊比利亚东岸 → 贝提斯河谷 → 加德斯",
+    "route_en": "Massilia → Iberian coast → Baetis valley → Gades",
+    "steps": 15,
+    "goal": "256177"
+  },
+  {
+    "id": 2,
+    "name": "北非 · 昔兰尼加",
+    "name_en": "Africa · Cyrenaica",
+    "route": "西西里 → 阿非利加 → 苏尔特湾沿岸 → 昔兰尼",
+    "route_en": "Sicily → Africa → Gulf of Syrtis → Cyrene",
+    "steps": 15,
+    "goal": "373778"
+  },
+  {
+    "id": 3,
+    "name": "东地中海 · 埃及",
+    "name_en": "East · Egypt",
+    "route": "亚得里亚海 → 爱琴海 → 叙利亚 → 尼罗河三角洲",
+    "route_en": "Adriatic → Aegean → Syria → Nile Delta",
+    "steps": 15,
+    "goal": "727070"
+  }
+]

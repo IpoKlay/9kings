@@ -105,7 +105,14 @@ func run():
 				preload('res://tests/expedition_test_support.gd').finish_departure(app)
 				if opening: check(app.campaign.g.phase=='battle' and app.card_hand==null,'Opening has no free card')
 				check(not app.expedition.travel(id), 'Repeated travel rejected')
-				if app.campaign.g.phase == 'battle':
+				if app.expedition.is_pass(id):
+					var trial=app.active_trial
+					check(is_instance_valid(trial) and trial.pilot,'Reach pilot in itinerary')
+					# This suite uses result fixtures for route coverage; the pass suite plays the battle.
+					app.campaign.finish(true)
+					trial.closed.emit()
+					app.advance()
+				elif app.campaign.g.phase == 'battle':
 					app.toggle_pause()
 					app.open_map()
 					key(KEY_ESCAPE)

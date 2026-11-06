@@ -29,7 +29,7 @@ func run():
 	app.starting_theaters.assign([1]);app.render_ui()
 	await process_frame
 	var frame_cap=Engine.max_fps
-	click(app.menu_view.get_node('StartGame'))
+	click(app.menu_view.get_node('%StartGame'))
 	var map=app.expedition_map;var pins=map.pins;var sound=app.sound
 	pins.set_process(false);map.atlas.set_process(false)
 	check(map.visible and map.content.get_parent()==map and map.content.visible,'Start immediately shows the full map with no offscreen wrapper')

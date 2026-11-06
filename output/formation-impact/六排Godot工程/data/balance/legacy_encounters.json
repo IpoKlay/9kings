@@ -1,0 +1,30 @@
+{
+  "minimum_year": 1,
+  "base_count": 3,
+  "max_count": 20,
+  "count_growth_start": 2,
+  "count_growth_divisor": 2.0,
+  "unlock_years": {
+    "archer": 4,
+    "guard": 6,
+    "cavalry": 8,
+    "siege": 10
+  },
+  "rotating_roster": [
+    "archer",
+    "guard",
+    "cavalry"
+  ],
+  "health_growth": 0.025,
+  "health_late_growth": 0.012,
+  "attack_growth": 0.018,
+  "attack_late_growth": 0.008,
+  "late_growth_start": 8,
+  "wave_names": [
+    "Early patrol",
+    "Skirmish line",
+    "Shield advance",
+    "Flanking riders",
+    "Siege host"
+  ]
+}

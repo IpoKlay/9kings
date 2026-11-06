@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+CONTACT east display frame 58 { "rider": 7, "soldier": 0, "p": [1212.99975585938, 477.0], "fraction": 0.03601274218749, "speed": 252.977142333984, "charge_id": 1, "attacker": 7, "target": 6, "dir": [0.82884061336517, -0.55948477983475], "rider_bearing": 2, "defender_bearing": 4, "rider_cell": 5, "defender_cell": 0, "damage": 71.4, "time": 3.90060021236978, "audio": 1 }
+First contact failures: 0

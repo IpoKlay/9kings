@@ -8,7 +8,7 @@ const SettingsStore=preload('res://scripts/data/settings_store.gd')
 var contracts: Dictionary=Catalog.data('schema/contracts')
 var feedback: Dictionary=Catalog.presentation('feedback')
 var ui_preset: Dictionary=Catalog.presentation('ui')
-const MainMenu = preload('res://scripts/main_menu.gd')
+const MainMenu = preload('res://scenes/ui/main_menu.tscn')
 const Campaign = preload('res://scripts/campaign.gd')
 const Field = preload('res://scripts/battlefield.gd')
 const Sound = preload('res://scripts/sound.gd')
@@ -26,6 +26,7 @@ var dealt_year = -1
 var campaign = Campaign.new()
 var expedition = Expedition.new(campaign)
 var expedition_map
+var active_trial
 var battle_screen: TextureRect
 var world
 var sound
@@ -96,7 +97,7 @@ func _ready():
 	expedition_map = ExpeditionMap.instantiate()
 	expedition_map.app = self
 	add_child(expedition_map)
-	menu_view=MainMenu.new()
+	menu_view=MainMenu.instantiate()
 	menu_view.app=self
 	add_child(menu_view)
 	if '--render-test' in OS.get_cmdline_user_args() or '--smoke-test' in OS.get_cmdline_user_args(): main_menu=false
@@ -496,6 +497,10 @@ func travel_to(id: String,arrival_call: bool=true):
 			documents.event_recovered=campaign.g.defense-previous_lives
 			open_dialog('event')
 		return
+	if expedition.is_pass(id):
+		save_run()
+		if not is_instance_valid(departure):open_pass_pilot()
+		return
 	begin_battle_feedback(arrival_call)
 
 func begin_battle_feedback(arrival_call: bool=true):
@@ -527,6 +532,7 @@ func _process(delta):
 	if main_menu:
 		return
 	if expedition.state.mode == 'map': return
+	if campaign.g.phase=='battle' and campaign.g.battle.get('external_battle',false):return
 	if dialog_kind!='' or paused: return
 	world.tick_environment(delta)
 	if toast_time>0:
@@ -908,16 +914,24 @@ func result_content(panel: Control):
 	var close=panel.get_child(0)
 	close.position=Vector2(610,60);close.size=Vector2(48,48)
 	RPGUI.button(close,'button')
-	label(panel,tx('远征结束' if ended else '城邦已夺取' if report.won else '进攻失利','Campaign ended' if ended else 'City secured' if report.won else 'Attack repelled'),Vector2(90,118),Vector2(540,50),34,ui_preset.rpg_ink)
+	var title=tx('远征结束','Campaign ended') if ended else tx('城邦已夺取','City secured') if report.won else tx('进攻失利','Attack repelled')
+	if report.has('passOutcome') and not ended:
+		title=tx('山口守住了','Pass held') if report.won else tx('山口失守','Pass lost')
+	label(panel,title,Vector2(90,118),Vector2(540,50),34,ui_preset.rpg_ink)
 	label(panel,year_text(),Vector2(90,172),Vector2(540,40),27,Color('#6d5a3c'))
 	if report.won: RomanUI.icon(panel,'laurels',Vector2(300,222),Vector2(120,120))
 	else: picture(panel,'card_shield' if ended else 'card_legion',Vector2(300,222),Vector2(120,120))
 	if report.has('waveCount'):
 		var waves_text = label(panel,loc('main.waves_cleared_d_d')%[report.wavesCleared,report.waveCount],Vector2(60,558),Vector2(600,34),24,Color('#344331'))
 		waves_text.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	if report.has('passOutcome'):
+		var reasons={'flag_lost':tx('罗马军旗失守','The Roman standard fell'),'defenders_routed':tx('守军溃败','Defenders routed'),'time_held':tx('守满三分钟，军旗屹立','Standard held for three minutes'),'enemy_routed':tx('攻方全军溃败','Enemy army routed')}
+		var cause=label(panel,reasons.get(report.passOutcome,''),Vector2(60,558),Vector2(600,34),24,Color('#344331'))
+		cause.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	var rows=[['ENEMY LOSSES','%d / %d'%[report.enemyLosses,report.enemyCount]],['SURVIVORS','%d / %d'%[report.surviving,report.deployed]],['CAMP LIVES','%d / %d'%[campaign.g.defense,campaign.camp.max_lives]]]
+	var labels=[tx('敌阵退出战斗','Enemy squads out'),tx('我方仍在列','Allies still fighting'),tr_text('CAMP LIVES')] if report.has('passOutcome') else []
 	for i in rows.size():
-		label(panel,tr_text(rows[i][0]),Vector2(90,366+i*58),Vector2(390,45),26,Color('#344331'))
+		label(panel,labels[i] if not labels.is_empty() else tr_text(rows[i][0]),Vector2(90,366+i*58),Vector2(390,45),26,Color('#344331'))
 		label(panel,rows[i][1],Vector2(520,366+i*58),Vector2(120,45),29,Color('#71392d'))
 	var claim=button(panel,tx('重新远征' if ended else '远征告捷' if report.won and expedition.state.target==expedition.data.final else '领取奖励' if report.won else '整备后再战','New campaign' if ended else 'Victory' if report.won and expedition.state.target==expedition.data.final else 'Claim reward' if report.won else 'Regroup')+' →',Vector2(185,626),Vector2(350,62),advance,true)
 	claim.name='ReportContinue'
@@ -1139,21 +1153,63 @@ func request_new_game():
 	else:start_game()
 
 
-func open_tactical_trial():
+func open_pass_pilot():
+	if main_menu or is_instance_valid(active_trial) or campaign.g.phase!='battle' or not expedition.is_pass(expedition.state.target):return
+	open_tactical_trial(false,true)
+
+func open_tactical_trial(test_powers: bool=false,pilot: bool=false):
+	if is_instance_valid(active_trial):return
 	var trial=load('res://scenes/tactical_trial.tscn').instantiate()
+	active_trial=trial
+	if test_powers:trial.rules=trial.PassBattle.new(true)
 	trial.app=self
+	trial.pilot=pilot
+	if pilot:
+		trial.rules.deploy_defenders()
+		trial.rules.deploy_escort(campaign,expedition.escort_building())
+		trial.selected=''
+		trial.resolved.connect(func():record_pass_result(trial))
 	hide()
 	set_process(false)
 	set_process_input(false)
 	set_process_unhandled_input(false)
 	menu_view.set_process(false)
 	music.play_track('battle')
+	sound.set_ambience('',false)
 	get_tree().root.add_child(trial)
+	if pilot:trial.set_camera(Vector2(-120,110))
 	trial.closed.connect(func():
+		if active_trial!=trial:return
+		if pilot:record_pass_result(trial)
+		active_trial=null
 		trial.queue_free()
 		show()
 		set_process(true)
 		set_process_input(true)
 		set_process_unhandled_input(true)
 		menu_view.set_process(true)
-		music.play_track('menu'))
+		if not pilot:
+			music.play_track('menu')
+			return
+		if campaign.g.phase=='battle':
+			var checkpoint=RunStore.snapshot(campaign,expedition)
+			campaign.g=checkpoint.campaign
+			expedition.state=checkpoint.expedition
+			expedition_map.selected=expedition.state.locked_target
+		world.clear_battle()
+		render_ui()
+		if has_battle_report():open_dialog('result'))
+
+func record_pass_result(trial):
+	if active_trial!=trial or not expedition.is_pass(expedition.state.target) or campaign.g.phase!='battle':return
+	var r=trial.rules
+	if r.phase not in ['victory','defeat']:return
+	var deployed=r.units.filter(func(u):return u.side=='ally').size()
+	var enemies=r.units.size()-deployed
+	campaign.g.battle.time=r.elapsed
+	campaign.finish(r.phase=='victory',{'deployed':deployed,'surviving':r.alive('ally').size(),
+		'enemyCount':enemies,'enemyLosses':enemies-r.alive('enemy').size(),'passOutcome':r.outcome})
+	save_run()
+
+func _exit_tree():
+	if is_instance_valid(active_trial):active_trial.queue_free()

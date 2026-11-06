@@ -1,0 +1,138 @@
+{
+  "version": "1.0_trial",
+  "phase": 1,
+  "production_ready": false,
+  "note": "Documentation only. P01 is approved for a first sample; exact palette and bulk asset production require sample review. Existing game assets and settings are unchanged.",
+  "confirmed": {
+    "engine": "current_native_godot_project",
+    "first_delivery": "independent_playable_level_then_integrate",
+    "biome": "mediterranean_rocky_scrub_current_iberia",
+    "new_camp_display": "integer_scale_with_letterboxing",
+    "preserve_existing_game": true,
+    "style": "2d_pixel_art_current_color_direction",
+    "D04": {
+      "status": "confirmed_by_user",
+      "confirmed_value": "existing_oblique_view_with_2x_world_camera"
+    },
+    "D05": {
+      "status": "confirmed_by_user",
+      "confirmed_value": "four_screen_diagonal_directions"
+    }
+  },
+  "observed": {
+    "ui_logical_size_px": [
+      1920,
+      1080
+    ],
+    "default_window_px": [
+      1280,
+      720
+    ],
+    "battle_render_px": [
+      960,
+      540
+    ],
+    "world_node_scale": 0.5,
+    "unit_source_frame_px": [
+      64,
+      64
+    ],
+    "unit_source_pivot_px": [
+      32,
+      52
+    ],
+    "unit_runtime_draw_scale": 1.0,
+    "terrain_tile_size_px": null,
+    "projection_axes": [
+      [
+        0.76,
+        0.27
+      ],
+      [
+        -0.68,
+        0.4
+      ]
+    ],
+    "direction_support": "side_mirror_only_not_16_directions",
+    "asset_inventory_png_count": 209
+  },
+  "pending": {
+    "sample_review": {
+      "status": "required_before_bulk_production",
+      "scope": [
+        "exact_color_palette",
+        "material_detail_density",
+        "directional_sample_readability",
+        "building_scale_and_pivots",
+        "animation_frame_timing"
+      ]
+    }
+  },
+  "phase_1_complete": true,
+  "sample_ready": true,
+  "trial_spec": {
+    "status": "approved_for_first_sample_only",
+    "scope": "new_camp_assets_only",
+    "world_render_px": [
+      960,
+      540
+    ],
+    "ui_logical_px": [
+      960,
+      540
+    ],
+    "terrain_image_module_px": [
+      32,
+      32
+    ],
+    "terrain_module_is_navigation_cell": false,
+    "new_infantry_frame_px": [
+      32,
+      32
+    ],
+    "new_infantry_pivot_px": [
+      16,
+      26
+    ],
+    "new_building_frame_options_px": [
+      [
+        48,
+        48
+      ],
+      [
+        64,
+        64
+      ]
+    ],
+    "new_outline_px": 1,
+    "new_light_direction": "upper_left",
+    "subject_alpha_values": [
+      0,
+      255
+    ],
+    "shadow": "separate_layer_with_declared_exceptions",
+    "palette": "existing_colors_sampled_material_ramps_3_to_5_steps",
+    "exact_palette_status": "requires_first_asset_sample_review",
+    "idle": {
+      "frame_count": 4,
+      "fps": 6
+    },
+    "walk": {
+      "frame_count": 8,
+      "fps": 12
+    },
+    "interact": {
+      "frame_count_range": [
+        4,
+        6
+      ],
+      "fps": 8
+    },
+    "formats": [
+      "aseprite_source",
+      "png_rgba",
+      "json_metadata"
+    ],
+    "naming": "snake_case_with_direction_ne_se_sw_nw_when_applicable"
+  }
+}

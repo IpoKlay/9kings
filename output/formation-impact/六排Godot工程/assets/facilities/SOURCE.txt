@@ -1,0 +1,19 @@
+Roman siege workshop and field hospital, levels I–III.
+Generated with the built-in Imagegen tool on 2026-10-26 for this project.
+Original designs; no third-party building sprites were copied.
+
+Prompts and unmodified generated masters:
+../../../output/legions-v1/art-prompts.json
+../../../output/legions-v1/source-art/
+
+Production import: 96×96 RGBA, nearest-neighbor sampling, alpha preserved.
+Godot uses nearest texture filtering; no mipmaps, no lit 3D geometry.
+Preparation script: res://tools/prepare_facility_art.gd
+In-game footprint stays one cell for all three levels.
+
+Direction:
+I = spare rough wood, patched tan leather or plain rescue tent.
+II = complete timber shelter, working equipment, organized stores.
+III = reinforced pavilion, muted red trim and restrained bronze fittings.
+Do not add a ground platform, enclosing fence or modern medical cross.
+Troop formations use existing unit animation sheets at the existing 1.0 scale.

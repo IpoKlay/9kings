@@ -1,0 +1,393 @@
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,8 @@
+ # 鹰旗之下 — Godot 原生远征版
++
++## 六排冲锋试玩版
++
++从「军团会战 · RTS」进入山口，选择「七兵种布阵」后开战。本副本使用 10 列 × 6 排的步兵和独立试玩设置目录。正式部队的寻路、生命、士气以方阵为单位，冲入、站稳和补位作用在接触带的槽位上。冲锋参数在 `data/balance/tactical_trial.json` 的 `regiment_impact` 中。录像、逐帧测量和复测脚本与此工程并列存放在交付目录中。
+ 
+ 主菜单「军团会战 · RTS」进入统一的山口战场。守住罗马鹰旗三分钟或击溃敌军即可获胜。敌军方阵中心独占旗区满 12 秒即夺旗；双方争夺时冻结进度，敌军全部离开则清零。死亡及溃逃部队不计入占领。部署阶段可以手动放置部队，也可以点「标准布阵」「七兵种布阵」或「山口守卫战」。山口守卫战在前排安排重盾卫、军团步兵和长矛兵，两队弓兵位于后方，骑兵守侧翼。三种起阵共享士气、溃退、军团纸签、神力和油桶。经典远征从「新远征」和「继续远征」进入。
+ 
+--- a/export_presets.cfg
++++ b/export_presets.cfg
+@@ -40,7 +40,7 @@
+ custom_template/release=""
+ export/distribution_type=1
+ binary_format/architecture="universal"
+-application/bundle_identifier="games.under-the-eagle.playtest"
++application/bundle_identifier="games.under-the-eagle.playtest.sixrank"
+ application/short_version="0.24.0"
+ application/version="0.24.0"
+ application/app_category="public.app-category.strategy-games"
+--- a/project.godot
++++ b/project.godot
+@@ -10,7 +10,7 @@
+ 
+ [application]
+ 
+-config/name="Under the Eagle"
++config/name="Under the Eagle - Six Rank Playtest"
+ run/main_scene="res://scenes/main.tscn"
+ config/features=PackedStringArray("4.7", "GL Compatibility")
+ config/icon="res://icon.svg"
+--- a/scripts/tactical/legion_sweep.gd
++++ b/scripts/tactical/legion_sweep.gd
+@@ -93,7 +93,7 @@
+ 	var count=Contact.count(u,stats)
+ 	var anchor=Vector2(32,54)*Terrain.layout(u.kind).z
+ 	var figures_out=[]
+-	for slot in int(stats.files):
++	for slot in int(stats.soldiers):
+ 		if not Contact.present(u,slot,count):continue
+ 		var feet: Vector2=r.contact_profiles[u.kind].feet[slot]
+ 		var old_shift=Contact.body_shift(u,slot,start_time)
+--- a/scripts/tactical/pass_terrain.gd
++++ b/scripts/tactical/pass_terrain.gd
+@@ -9,14 +9,13 @@
+ var clearances={}
+ var extents={}
+ 
+-# Single rank. Spread the old staggered frontage across the remaining files.
+ static func layout(kind: String) -> Vector3:
+ 	match kind:
+-		'cavalry':return Vector3(246.0/7,0,1.83)
+-		'siege':return Vector3(90.5,0,2.0)
+-		'medic':return Vector3(27,0,1.23)
+-		'spear':return Vector3(259.0/9,0,1.86)
+-		_:return Vector3(259.0/9,0,1.23)
++		'cavalry':return Vector3(33,24,1.83)
++		'siege':return Vector3(88,39,2.0)
++		'medic':return Vector3(25,15,1.23)
++		'spear':return Vector3(26,16,1.86)
++		_:return Vector3(26,16,1.23)
+ 
+ func _init(projection: Transform2D, area: Rect2, types: Dictionary):
+ 	basis=projection
+@@ -25,8 +24,9 @@
+ 	for kind in types:
+ 		var slots=layout(kind)
+ 		var files=int(types[kind].files)
++		var rows=ceili(float(types[kind].soldiers)/files)
+ 		# Boots and mounts occupy the ground; helmets and raised spears overhang it.
+-		var half=Vector2((files-1)*slots.x*.5,0)+Vector2(9,5)*slots.z
++		var half=Vector2((files-1)*slots.x+(rows-1)*5,(rows-1)*slots.y)*.5+Vector2(9,5)*slots.z
+ 		extents[kind]=half
+ 		var walls: Array[Rect2]=[]
+ 		for rock in ROCKS:walls.append(Rect2(rock.position-half,rock.size+half*2))
+--- a/scripts/tactical/regiment_contact.gd
++++ b/scripts/tactical/regiment_contact.gd
+@@ -17,10 +17,11 @@
+ static func slot_offset(kind: String, stats: Dictionary, slot: int) -> Vector2:
+ 	var layout=Terrain.layout(kind)
+ 	var files=int(stats.files)
+-	return Vector2((slot-(files-1)*.5)*layout.x,0)
++	var row=slot/files-(ceili(float(stats.soldiers)/files)-1)*.5
++	return Vector2((slot%files-(files-1)*.5)*layout.x+row*5,row*layout.y)
+ 
+ static func count(u: Dictionary, stats: Dictionary) -> int:
+-	return maxi(1,ceili(stats.files*u.hp/u.max_hp))
++	return maxi(1,ceili(stats.soldiers*u.hp/u.max_hp))
+ 
+ static func present(u: Dictionary, slot: int, visible_count: int) -> bool:
+ 	return int(u.slot_priority[slot] if u.has('slot_priority') else slot)<visible_count
+@@ -34,7 +35,7 @@
+ 		'spear':radius=Vector2(25,30)
+ 		'siege':radius=Vector2(40,26)
+ 	var slots=PackedVector2Array()
+-	for i in int(stats.files):slots.append(slot_offset(kind,stats,i))
++	for i in int(stats.soldiers):slots.append(slot_offset(kind,stats,i))
+ 	return {'radius':radius,'feet':slots,'files':int(stats.files),'spacing':Terrain.layout(kind).x}
+ 
+ static func touching(r,a: Dictionary,b: Dictionary,advance: Vector2=Vector2.ZERO) -> bool:
+@@ -105,10 +106,10 @@
+ 	var near_b=Vector2.ZERO
+ 	var near_slot=0
+ 	var target_slots={}
+-	for j in int(sb.files):
++	for j in int(sb.soldiers):
+ 		if present(b,j,bn):
+ 			target_slots[j]=r.contact_profiles[b.kind].feet[j]+body_shift(b,j,r.elapsed)
+-	for i in int(sa.files):
++	for i in int(sa.soldiers):
+ 		if not present(a,i,an):continue
+ 		var foot: Vector2=r.contact_profiles[a.kind].feet[i]+body_shift(a,i,r.elapsed)
+ 		var tip=ac+foot+Vector2(0,-r.contact_profiles[a.kind].radius.y)+dir*16
+@@ -133,7 +134,10 @@
+ 	# A legal regiment centre can leave its outermost boot beyond the map edge.
+ 	# Only forbid excursions farther out from that boot.
+ 	var finish: Vector2=start+r.ground_basis.basis_xform(bounded-world_start.clamp(r.bounds.position,r.bounds.end-Vector2(.001,.001)))
+-	for wall: Rect2 in Terrain.ROCKS:
++	var obstacles: Array=Terrain.ROCKS
++	if u.get('obstruction','')=='queue' and not Terrain.SIDE_GATE.has_point(start):
++		obstacles=Terrain.ROCKS+[Terrain.SIDE_GATE]
++	for wall: Rect2 in obstacles:
+ 		if r.terrain.crosses(wall,start,finish):
+ 			for edge in 4:
+ 				var corners=[wall.position,Vector2(wall.end.x,wall.position.y),wall.end,Vector2(wall.position.x,wall.end.y)]
+@@ -149,7 +153,7 @@
+ 	var dir: Vector2=contact.dir
+ 	var sb: Dictionary=r.config.types[b.kind]
+ 	var casualties=[]
+-	for j in int(sb.files):
++	for j in int(sb.soldiers):
+ 		if present(b,j,old_count):
+ 			casualties.append([j,slot_offset(b.kind,sb,j).distance_squared_to(contact.entry)])
+ 	begin_passage(r,a,b,contact,side,braced)
+@@ -165,7 +169,7 @@
+ 	var lost=old_count-count(b,sb)
+ 	if lost>0:
+ 		casualties.sort_custom(func(x,y):return x[1]<y[1])
+-		var order: Array=range(int(sb.files))
++		var order: Array=range(int(sb.soldiers))
+ 		var priority: Dictionary=b.get('slot_priority',{})
+ 		order.sort_custom(func(x,y):return priority.get(x,x)<priority.get(y,y))
+ 		for index in mini(lost,casualties.size()):
+--- a/scripts/tactical/trial_field.gd
++++ b/scripts/tactical/trial_field.gd
+@@ -278,7 +278,8 @@
+ func regiment_bounds(u: Dictionary) -> Rect2:
+ 	var stats: Dictionary=trial.rules.config.types[u.kind]
+ 	var layout:=Terrain.layout(u.kind)
+-	var half:=Vector2((int(stats.files)-1)*layout.x*.5,0)
++	var rows:=ceili(float(stats.soldiers)/int(stats.files))
++	var half:=Vector2(((int(stats.files)-1)*layout.x+(rows-1)*5)*.5,(rows-1)*layout.y*.5)
+ 	return Rect2(-half-Vector2(14,43)*layout.z,half*2+Vector2(28,48)*layout.z)
+ 
+ func mounted_bearing(u: Dictionary,angle: float) -> int:
+@@ -289,8 +290,10 @@
+ 	for u in rules.units:
+ 		if u.get('escaped',false) or (u.hp<=0 and u.dead_age>4):continue
+ 		var stats: Dictionary=rules.config.types[u.kind]
++		var total:=int(stats.soldiers)
+ 		var files:=int(stats.files)
+-		var count: int=rules.Contact.count(u,stats)
++		var depth:=ceili(float(total)/files)
++		var count:=maxi(1,ceili(total*u.hp/u.max_hp))
+ 		var layout:=Terrain.layout(u.kind)
+ 		var heading:=ground_transform().basis_xform(u.heading)
+ 		var angle=atan2(heading.x,heading.y)
+@@ -311,32 +314,51 @@
+ 		var contact: Dictionary=reaction.get('contact',{})
+ 		var first_flash=not contact.is_empty() and rules.elapsed-contact.time<.10
+ 		if first_flash:count=maxi(count,reaction.old_count)
+-		var slots=files if u.has('slot_priority') else count
+-		var first=center-Vector2((files-1)*layout.x*.5,0)
+-		var group={'first':first,'col':0,'count':slots,'layout':layout,
+-			'texture':texture,'tint':tint,'bearing':bearing,'frame':frame,
+-			'action':action,'walk':walk,'rank':0,'unit':u}
+-		if not u.has('contact_motion') and not u.has('slot_priority') and not u.has('slot_states'):
+-			ranks.append(group)
+-			continue
+-		for col in int(group.count):
+-			var slot=col
+-			if not rules.Contact.present(u,slot,count):continue
+-			var item=group.duplicate()
+-			var offset=rules.Contact.body_shift(u,slot,rules.elapsed)
+-			item.first=first+Vector2(col*layout.x,0)+offset
+-			item.col=col
+-			item.count=1
+-			if u.get('wall_next',0.)>rules.elapsed and not u.get('wall_files',{}).has(slot):item.action=false
+-			if offset.length_squared()>1:
+-				item.walk=true
+-				if u.kind=='cavalry':
+-					item.action=false
+-					item.frame=floori((u.march_distance+offset.length())*8/stats.stride)
+-				elif not item.action:item.frame=floori(rules.elapsed*8+slot)
+-				if u.hit_age<.12:item.tint=Color('#fff1b8')
+-			if first_flash and slot==contact.defender_slot:item.tint=Color('#fff1b8')
+-			ranks.append(item)
++		var slots=total if u.has('slot_priority') else count
++		for rank in ceili(float(slots)/files):
++			var row_offset:=rank-(depth-1)*.5
++			var first:=center+Vector2(-(files-1)*layout.x*.5+row_offset*5,row_offset*layout.y)
++			var group={'first':first,'col':0,'count':mini(files,slots-rank*files),'layout':layout,
++				'texture':texture,'tint':tint,'bearing':bearing,'frame':frame,
++				'action':action,'walk':walk,'rank':rank,'unit':u}
++			if not u.has('contact_motion') and not u.has('slot_priority') and not u.has('slot_states'):
++				ranks.append(group)
++				continue
++			for col in int(group.count):
++				var slot=rank*files+col
++				if not rules.Contact.present(u,slot,count):continue
++				var item=group.duplicate()
++				var offset=rules.Contact.body_shift(u,slot,rules.elapsed)
++				item.first=first+Vector2(col*layout.x,0)+offset
++				item.col=col
++				item.count=1
++				if u.get('wall_next',0.)>rules.elapsed and not u.get('wall_files',{}).has(slot):item.action=false
++				if offset.length_squared()>1:
++					item.walk=true
++					if u.kind=='cavalry':
++						item.action=false
++						item.frame=floori((u.march_distance+offset.length())*8/stats.stride)
++					elif not item.action:item.frame=floori(rules.elapsed*8+slot)
++					if u.hit_age<.12:item.tint=Color('#fff1b8')
++				# Feet plant during the open interval. Surviving infantry take real
++				# return steps, turn toward the vacant slot, then face the line again.
++				var state: Dictionary=u.get('slot_states',{}).get(slot,{})
++				if not state.is_empty() and not state.get('wall',false) and not u.moving and u.hp>0 and u.petrified<=0:
++					var age: float=rules.elapsed-state.start
++					if age>=state.rise and age<state.hold:
++						item.walk=false
++						item.action=false
++					elif age>=state.hold and offset.length()>1:
++						item.action=false
++						item.walk=true
++						var progress:=clampf((age-state.hold)/state.recover,0,1)
++						var return_dir: Vector2=-state.goal
++						var turn_weight:=minf(smoothstep(0,.2,progress),1.-smoothstep(.68,1.,progress))
++						var return_angle:=lerp_angle(angle,atan2(return_dir.x,return_dir.y),turn_weight)
++						item.bearing=posmod(roundi(return_angle/(PI/4)),8)
++						item.frame=floori((state.goal.length()-offset.length())/5.)
++				if first_flash and slot==contact.defender_slot:item.tint=Color('#fff1b8')
++				ranks.append(item)
+ 	ranks.sort_custom(func(a,b):return a.first.y<b.first.y)
+ 	for row in ranks:
+ 		var u: Dictionary=row.unit
+--- a/tests/tactical/capture_regiment_contact.gd
++++ b/tests/tactical/capture_regiment_contact.gd
+@@ -76,16 +76,13 @@
+ 	var bearing=posmod(roundi(atan2(h.x,h.y)/(PI/4)),8)
+ 	if u.kind=='cavalry' and trial.field.has_method('mounted_bearing'):
+ 		bearing=trial.field.mounted_bearing(u,atan2(h.x,h.y))
+-	var stats: Dictionary=trial.rules.config.types[u.kind]
+-	var slots=int(stats.soldiers)
++	var profile: Dictionary=trial.rules.contact_profiles[u.kind]
+ 	var layout=preload('res://scripts/tactical/pass_terrain.gd').layout(u.kind)
++	var formation=[profile.files,ceili(float(profile.feet.size())/profile.files),layout.x,layout.y,layout.z]
+ 	var offsets={}
+-	if 'contact_profiles' in trial.rules:
+-		slots=trial.rules.contact_profiles[u.kind].feet.size()
+-		for slot in slots:
+-			var shift: Vector2=trial.rules.Contact.body_shift(u,slot,trial.rules.elapsed)
+-			if shift!=Vector2.ZERO:offsets[slot]=[shift.x,shift.y]
+-	var formation=[int(stats.files),ceili(float(slots)/int(stats.files)),layout.x,layout.y,layout.z]
++	for slot in profile.feet.size():
++		var shift: Vector2=trial.rules.Contact.body_shift(u,slot,trial.rules.elapsed)
++		if shift!=Vector2.ZERO:offsets[slot]=[shift.x,shift.y]
+ 	return {'formation':formation,'offsets':offsets,'priority':u.get('slot_priority',{}),'kind':u.kind,'p':[p.x,p.y],'dir':bearing,
+ 		'hp':u.hp,'max':u.max_hp,'attack':u.attack_age,'hit':u.hit_age,'walk':u.moving,'march':u.march_distance,
+ 		'pace':u.get('pace',0)}
+--- a/tests/tactical/test_formation_passage.gd
++++ b/tests/tactical/test_formation_passage.gd
+@@ -19,7 +19,7 @@
+ 	var first_morale:float=b.morale
+ 	for i in [1,2]:
+ 		var a=r.units[i]
+-		var j=2+5*(i-1)
++		var j=20+10*(i-1)
+ 		var dir:=Vector2.RIGHT
+ 		a.heading=r.ground_basis.affine_inverse().basis_xform(dir).normalized()
+ 		a.pace=1.82;a.charge=true;a.charge_target=b.id;a.charge_id=1
+@@ -36,7 +36,7 @@
+ 	for tick in 20:
+ 		r.elapsed+=DT
+ 		for a in [r.units[1],r.units[2]]:r.Contact.advance_passage(r,a,b,DT)
+-	check(b.slot_states.has(2) and b.slot_states.has(7),'Both contact bands survive overlapping times')
++	check(b.slot_states.has(20) and b.slot_states.has(30),'Both contact bands survive overlapping times')
+ 	check(first_hp-b.hp==damage and first_morale-b.morale==morale_spent,'No damage or morale spent on per-slot motion')
+ 	var sample:Dictionary=r.units[1]
+ 	r.command([sample.id],'hold',sample.pos)
+@@ -51,6 +51,13 @@
+ 		b.pos=r.projection.affine_inverse()*(foot-r.contact_profiles.legion.feet[0])
+ 		var shift=r.Contact.clip_shift(r,b,0,Vector2(60,0))
+ 		check(shift.x>=0 and shift.x<9,'Displaced boot stays on approach side of rock')
++	var gate:Rect2=r.terrain.SIDE_GATE
++	var outside:=Vector2(gate.position.x-7,gate.get_center().y)
++	b.pos=r.projection.affine_inverse()*(outside-r.contact_profiles.legion.feet[0])
++	b.obstruction='queue'
++	var queued:Vector2=r.Contact.clip_shift(r,b,0,Vector2(25,0))
++	check(queued.x>=0 and queued.x<7,'A queued boot cannot skip into the single-file gate')
++	b.obstruction=''
+ 	var boundary=r.bounds.end-Vector2(1,1)
+ 	b.pos=boundary-r.ground_basis.affine_inverse().basis_xform(r.contact_profiles.legion.feet[0])
+ 	var clipped=r.Contact.clip_shift(r,b,0,r.ground_basis.basis_xform(Vector2(150,50)))
+--- a/tests/tactical/test_pass_terrain.gd
++++ b/tests/tactical/test_pass_terrain.gd
+@@ -98,7 +98,7 @@
+ 	await snap('02-unreachable',bad)
+ 	click(bad)
+ 	check(t.selected=='route' and rider.order=='hold' and not r.plan_route(rider,direct,world(bad)).ok,'Invalid click preserves current order')
+-	var slot=world(Vector2(880,790))
++	var slot=world(Vector2(1022,859))
+ 	check(r.terrain.clear_segment('medic',slot,slot) and not r.terrain.clear_segment('legion',slot,slot),'Passability depends on footprint')
+ 
+ 	fixture()
+--- a/tests/tactical/test_regiment_contact.gd
++++ b/tests/tactical/test_regiment_contact.gd
+@@ -43,13 +43,13 @@
+ 	check(absf(r.elapsed-time-.25)<.001 and pos!=horse.pos,'Half speed advances 15 battle ticks')
+ 	var count=r.Contact.count(wall,r.config.types.guard)
+ 	var displaced=0
+-	for slot in int(r.config.types.guard.files):
++	for slot in 60:
+ 		if r.Contact.present(wall,slot,count) and r.Contact.body_shift(wall,slot,r.elapsed).length()>4:displaced+=1
+-	check(displaced>=1 and displaced<count/2,'Only the contacted files part')
++	check(displaced>=4 and displaced<count/2,'Only the contacted files part')
+ 	var width: float=t.field.regiment_bounds(wall).size.x/1920.
+ 	check(width>.14 and width<.17 and width*5./3>.24 and width*5./3<.27,'Infantry footprint at default and closest zoom')
+ 	for stats in r.config.types.values():check(int(stats.files)>0,'Seven valid formations')
+-	check(r.config.types.guard.files==10 and r.config.types.guard.soldiers==60,'Ten visible guards represent sixty soldiers')
++	check(r.config.types.guard.files==10 and r.config.types.guard.soldiers==60,'Full guard block is 10 by 6')
+ 	t.field.effects.clear()
+ 	# Real oil ignition and real myth collision use their own producers.
+ 	r.barrels[0].state='arrow'
+--- a/tests/tactical/test_single_rank.gd
++++ /dev/null
+@@ -1,36 +0,0 @@
+-extends SceneTree
+-const DT=1./60
+-var failures=0
+-func _initialize():call_deferred('run')
+-func check(ok: bool,note: String):
+-	if not ok:failures+=1;push_error(note)
+-func run():
+-	var main=load('res://scenes/main.tscn').instantiate()
+-	main.settings_path='/tmp/eagle-single-rank.cfg'
+-	root.add_child(main)
+-	main.menu_view.get_node('TacticalTrial').pressed.emit()
+-	var t=main.active_trial
+-	t.set_process(false)
+-	t.combined_button.pressed.emit()
+-	t.refresh()
+-	var r=t.rules
+-	for side in ['ally','enemy']:
+-		var army=r.alive(side)
+-		check(army.size()==7,'All seven arms deployed on '+side)
+-		for u in army:
+-			var feet: PackedVector2Array=r.contact_profiles[u.kind].feet
+-			check(feet.size()==r.Contact.count(u,r.config.types[u.kind]),'All visible slots use combat geometry')
+-			for i in feet.size():
+-				check(feet[i].y==0 and (i==0 or feet[i].x>feet[i-1].x),'Distinct feet on one baseline: '+u.kind)
+-	t.start_button.pressed.emit()
+-	check(r.phase=='battle','Official combined-arms battle started')
+-	await process_frame
+-	await process_frame
+-	if DisplayServer.get_name()!='headless':
+-		RenderingServer.force_draw()
+-		root.get_texture().get_image().save_png('res://../output/single-rank/七兵种单排.png')
+-	t.closed.emit()
+-	main.queue_free()
+-	await process_frame
+-	print('Single rank failures: ',failures)
+-	quit(1 if failures else 0)
+--- a/tests/tactical/test_swept_legion.gd
++++ b/tests/tactical/test_swept_legion.gd
+@@ -41,12 +41,11 @@
+ 	r.spawn('legion','enemy',pb.pos)
+ 	var depleted=r.units.back()
+ 	depleted.heading=b.heading
+-	var slots=r.contact_profiles.legion.feet.size()
+-	depleted.hp=depleted.max_hp*(slots-1)/slots
++	depleted.hp=depleted.max_hp*(59./60)
+ 	depleted.slot_priority={}
+-	for i in slots:depleted.slot_priority[i]=i
+-	depleted.slot_priority[c.defender_slot]=slots-1
+-	depleted.slot_priority[slots-1]=c.defender_slot
++	for i in 60:depleted.slot_priority[i]=i
++	depleted.slot_priority[c.defender_slot]=59
++	depleted.slot_priority[59]=c.defender_slot
+ 	var old_b=r.Sweep.pose(r,depleted)
+ 	depleted.pos=b.pos
+ 	a.pos=Vector2(2910,700)

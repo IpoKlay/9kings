@@ -199,6 +199,23 @@ func destinations() -> Array:
 	# The friendly departure port is transit, not a second opening card stop.
 	return next(departure_port()) if state.opening=='destination' else next(state.current)
 
+func is_pass(id: String) -> bool:
+	return id==travel_rules.pass_pilot
+
+# One camp cohort marches with the local garrison. Building ID breaks equal-level ties.
+func escort_building() -> Dictionary:
+	var best={}
+	for b in campaign.g.buildings:
+		if not campaign.types[b.type].has('role'):continue
+		if best.is_empty() or b.level>best.level or (b.level==best.level and b.id<best.id):best=b
+	return best
+
+func escort_text() -> String:
+	var b=escort_building()
+	if b.is_empty():return tx('无随征队','No escort')
+	var unit: String=campaign.types[b.type].unit
+	return tx(campaign.rules.zh.get(unit,unit),unit)+' '+['','I','II','III'][int(b.level)]
+
 func encounter(id: String) -> Dictionary:
 	if not nodes.has(id) or nodes[id].roster == null: return {}
 	var n = nodes[id]
@@ -271,7 +288,7 @@ func travel(id: String) -> bool:
 		if first_battle:
 			state.opening = 'done'
 		state.mode = 'battle'
-		return campaign.start()
+		return campaign.start(is_pass(id))
 	arrive(id)
 	supply()
 	state.notice = 'visit'

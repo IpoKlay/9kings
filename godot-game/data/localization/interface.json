@@ -349,7 +349,7 @@
   },
   "expedition.starting_legion_infantry_archers_and_catapults": {
     "zh": "初始兵力：一队步兵；其他部队与建筑通过后续选牌获得。",
-    "en": "Starting force: one infantry squad. Recruit troops and facilities through later rewards."
+    "en": "Start with one infantry squad. Earn troops and buildings after battle."
   },
   "expedition.passed_en_route_to_the_first_battle_no_separate": {
     "zh": "随首段行军经过 · 不单独选牌",

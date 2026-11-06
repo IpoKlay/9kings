@@ -1,0 +1,16 @@
+# Native editor/build caches and local machine files
+.godot/
+.DS_Store
+__pycache__/
+*.pyc
+*.import
+*.app/
+*.avi
+# Screenshots and recordings produced beside test scripts
+**/tests/*.png
+**/tests/*.jpg
+**/tests/*.wav
+**/tests/*.mp4
+**/tests/*.log
+**/test-settings.cfg
+**/menu-test-run.cfg*

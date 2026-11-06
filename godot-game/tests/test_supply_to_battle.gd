@@ -50,7 +50,7 @@ func run():
 			for first_card in ['legion','medic','shieldDrill','shield']:
 				app.return_to_menu()
 				app.starting_theaters.assign([act])
-				await press(app.menu_view.get_node('StartGame'))
+				await press(app.menu_view.get_node('%StartGame'))
 				check(app.expedition_map.visible and not app.battle_screen.visible,'Start Game first opens the map')
 				check(app.card_hand==null and app.campaign.g.offered.is_empty(),'No cards drawn or shown before destination')
 				check(app.campaign.g.phase=='prepare' and app.expedition.stage_order[0]==act,'Random start retained')

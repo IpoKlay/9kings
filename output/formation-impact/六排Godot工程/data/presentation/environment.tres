@@ -1,0 +1,30 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1_v62wt"]
+
+[resource]
+script = ExtResource("1_v62wt")
+display_name = "environment"
+description = "现有表现参数，默认值逐项保留。单位与修改约束见 DATA_GUIDE.md。"
+values = {
+"amplitude": [3.6, 4.8],
+"backgrounds": ["environments/iberia-grass", "environments/africa-sand", "environments/east-coastal"],
+"ground_overlays": ["", "", ""],
+"bend_exponent": 1.5,
+"detail_motion_weight": 0.22,
+"detail_speed": [1.05, 1.55],
+"drift_count": 15,
+"drift_speeds": [11, 17, 11],
+"flag_roots": [Vector2(370, 205), Vector2(1720, 800)],
+"gust_speed": [0.13, 0.29],
+"main_motion_weight": 0.78,
+"pixel_step": 2.0,
+"ripple_strengths": [0.1, 0.12, 0.16],
+"root_fraction": 0.75,
+"tree_layouts": [[Vector3(310, 170, 168), Vector3(650, 145, 155), Vector3(1135, 165, 160), Vector3(1510, 155, 150), Vector3(125, 340, 162), Vector3(280, 565, 180), Vector3(1795, 395, 160), Vector3(1790, 670, 180), Vector3(1810, 860, 170), Vector3(1570, 1030, 195), Vector3(1350, 1060, 180), Vector3(740, 1065, 175)], [Vector3(355, 165, 155), Vector3(655, 150, 145), Vector3(1155, 155, 160), Vector3(1510, 175, 165), Vector3(135, 340, 155), Vector3(220, 575, 165), Vector3(1780, 390, 150), Vector3(1760, 665, 170), Vector3(1800, 865, 175), Vector3(1570, 1040, 180), Vector3(1130, 1070, 165), Vector3(730, 1060, 155)], [Vector3(335, 170, 180), Vector3(465, 145, 160), Vector3(1135, 175, 185), Vector3(1400, 165, 165), Vector3(125, 350, 170), Vector3(275, 585, 175), Vector3(1795, 430, 175), Vector3(1790, 655, 185), Vector3(1790, 865, 190), Vector3(1575, 1040, 200), Vector3(1220, 1065, 170), Vector3(800, 1070, 185)]],
+"tree_strips": 24,
+"water_polygons": [[Vector2(0, 734), Vector2(55, 748), Vector2(145, 726), Vector2(186, 741), Vector2(205, 756), Vector2(269, 779), Vector2(318, 795), Vector2(295, 814), Vector2(260, 834), Vector2(259, 872), Vector2(312, 919), Vector2(338, 936), Vector2(290, 954), Vector2(206, 985), Vector2(121, 979), Vector2(0, 965)], [Vector2(0, 703), Vector2(70, 758), Vector2(175, 760), Vector2(250, 799), Vector2(295, 834), Vector2(405, 860), Vector2(420, 907), Vector2(365, 950), Vector2(308, 980), Vector2(300, 1080), Vector2(0, 1080)], [Vector2(0, 650), Vector2(78, 700), Vector2(140, 709), Vector2(185, 749), Vector2(293, 790), Vector2(365, 826), Vector2(375, 882), Vector2(347, 936), Vector2(338, 996), Vector2(450, 1055), Vector2(476, 1080), Vector2(0, 1080)]],
+"water_speeds": [0.55, 0.8, 1.15],
+"wind_seed": 84173,
+"wind_speed": [0.48, 0.88]
+}

@@ -24,6 +24,11 @@ func matchup(r, angle: float, offset: float, sector: String):
 	shield.heading=heading
 	shield.order='hold'
 	r.start()
+	# Isolate the existing angular damage matrix at the instant of an earned impact.
+	# The separate mounted-run tests acquire this state by actual travel.
+	riders.charge=true
+	riders.charge_target=shield.id
+	riders.moving=true
 	var hp: float=shield.hp
 	var initial_morale: float=shield.get('morale',0)
 	r.step(1./60)
@@ -61,18 +66,19 @@ func snap(name: String):
 func visual(t):
 	var r=t.rules
 	r.units.clear()
-	var center=Vector2(840,870)
+	var center=Vector2(2260,700)
 	r.spawn('guard','enemy',center)
-	r.spawn('cavalry','ally',center-Vector2(400,0))
+	r.spawn('cavalry','ally',center-Vector2(730,0))
 	var enemy=r.units[0]
 	var rider=r.units[1]
 	enemy.order='hold'
 	enemy.heading=Vector2.RIGHT
+	t.set_camera(r.projection*center-Vector2(1180,495))
 	t.refresh()
 	click(t.start_button.get_global_rect().get_center())
 	t.paused=true
-	click(t.field.project(rider.pos)-Vector2(0,35))
-	var goal=t.field.project(center+Vector2(95,0))
+	click(t.field.project(rider.pos)-t.camera_offset-Vector2(0,35))
+	var goal=t.field.project(center+Vector2(95,0))-t.camera_offset
 	root.warp_mouse(goal)
 	await snap('before-charge')
 	check(t.selected=='route','Select cavalry through field input')
@@ -89,12 +95,12 @@ func visual(t):
 	t.paused=true
 	await snap('rear-impact')
 	# Retreat on a real move order, then charge the same holding shield again.
-	r.march_route(rider.id,t.draft_waypoints,center-Vector2(560,0))
+	r.march_route(rider.id,t.draft_waypoints,center-Vector2(730,0))
 	t.paused=false
 	for i in 500:
 		await process_frame
-		if rider.charge:break
-	check(rider.charge,'Cavalry rearms after withdrawing into open ground')
+		if rider.order=='hold':break
+	check(rider.order=='hold' and not rider.charge,'Withdrawing creates space for another approach')
 	r.command([rider.id],'attack',enemy.pos,enemy.id)
 	var second_charge=false
 	for i in 600:
@@ -117,7 +123,7 @@ func run():
 	root.add_child(main)
 	await process_frame
 	main.language='zh'
-	click(main.menu_view.get_node('TacticalTrial').get_global_rect().get_center())
+	click(main.menu_view.get_node('%TacticalTrial').get_global_rect().get_center())
 	await process_frame
 	var t=root.get_child(-1)
 	await visual(t)

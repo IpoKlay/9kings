@@ -25,7 +25,7 @@ func check_menu_layout():
 		if control is Button or control is Label:
 			check(is_equal_approx(control.get_global_rect().get_center().x,app.menu_view.preset.menu_center_x),'Menu text/button shares the right-hand menu axis: '+control.name)
 			var center=float(app.menu_view.preset.menu_center_x)
-			check(control.position.x>=center-285 and control.get_rect().end.x<=center+285,'Menu fits its shaded UI panel: '+control.name)
+			check(control.get_global_rect().position.x>=center-285 and control.get_global_rect().end.x<=center+285,'Menu fits its shaded UI panel: '+control.name)
 			check(control.get_global_rect().end.y<1080,'Menu control fits vertically: '+control.name)
 		if control is Label:
 			for reveal in ['岩丘','北非','港口','ROCKY','SANDSTONE','HARBOR','三图','starting maps']:
@@ -51,6 +51,7 @@ func run():
 	app.language='zh'
 	app.sound.enabled=false
 	app.render_ui()
+	await process_frame # Let the authored VBoxContainer finish its first layout.
 	check(app.main_menu and app.menu_view.visible and not app.ui.visible,'Boot enters main menu')
 	check(app.world.menu_mode,'Menu omits live units and buildings')
 	check(not app.battle_screen.visible and not app.expedition_map.visible,'Both battlefield and expedition map are hidden at boot')

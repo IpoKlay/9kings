@@ -1,0 +1,12 @@
+m5x7 by Daniel Linssen (managore)
+Official source: https://managore.itch.io/m5x7
+License: Creative Commons Zero v1.0 Universal (CC0).
+License reference: https://creativecommons.org/publicdomain/zero/1.0/
+The official asset page identifies CC0 and welcomes attribution (checked 2026-10-24).
+
+User-supplied source: /Users/ip/Desktop/9king/字体/m5x7.ttf
+m5x7.ttf is an unmodified copy.
+m5x7-eagle.ttf is a CC0 derivative named m5x7 Eagle: em size adjusted from
+1024 to 640 and family names updated. Original glyph outlines, advances
+and vertical metrics remain in their source units.
+Rebuild: python tools/prepare_pixel_font.py --m5x7 (requires fontTools).

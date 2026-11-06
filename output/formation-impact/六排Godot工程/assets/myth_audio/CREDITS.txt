@@ -1,0 +1,9 @@
+Myth skill audio — 2026-11-01
+28 short cast/impact cues, derived from the project's existing CC0 recordings, plus original procedural noise, resonances and bubbles. No third-party voice model or new recording download.
+See ../AUDIO-CREDITS.txt, ../selected_audio/CREDITS.txt and ../combat_audio/CREDITS.txt for full source URLs and attribution.
+Contributors used: Ben Jaszczak & Brian Nelson (metal); Vehicle (equipment/cloth); artisticdude (bow/swish); Kenney (wood/body impacts); HaelDB (vocal effort); StarNinjas (weapon clashes); mieki256 (stone); jasinski / qubodup (sea); AntumDeluge (fire).
+CC0 1.0 https://creativecommons.org/publicdomain/zero/1.0/
+Original synthesis: thunder, band-limited air, short resonances and bubbles.
+Poseidon uses sea/water layers only, not the earthquake recording.
+Edits: mono downmix, pitch/tempo edits, spectral filtering, short layered foley, deterministic envelopes, DC removal, level matching and fades. File/source hashes are in manifest.json.
+Rebuild: tools/build_myth_audio.py (numpy).

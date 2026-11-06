@@ -1,0 +1,119 @@
+{
+  "246369": {
+    "merge": "266090",
+    "choices": {
+      "266021": {
+        "zh": "沿岸推进",
+        "en": "Coastal approach"
+      },
+      "265883": {
+        "zh": "渡海攻岛",
+        "en": "Island assault"
+      }
+    }
+  },
+  "265849": {
+    "merge": "265765",
+    "choices": {
+      "265823": {
+        "zh": "内陆迂回",
+        "en": "Inland approach"
+      },
+      "265762": {
+        "zh": "海岸攻坚",
+        "en": "Coastal assault"
+      }
+    }
+  },
+  "256063": {
+    "merge": "256210",
+    "choices": {
+      "256128": {
+        "zh": "河谷进军",
+        "en": "River-valley march"
+      },
+      "255996": {
+        "zh": "腹地攻坚",
+        "en": "Interior assault"
+      }
+    }
+  },
+  "315248": {
+    "merge": "324835",
+    "choices": {
+      "324716": {
+        "zh": "沿岸推进",
+        "en": "Coastal approach"
+      },
+      "324827": {
+        "zh": "港城攻坚",
+        "en": "Port assault"
+      }
+    }
+  },
+  "344282": {
+    "merge": "344448",
+    "choices": {
+      "344456": {
+        "zh": "沿岸推进",
+        "en": "Coastal approach"
+      },
+      "344456_inland": {
+        "zh": "内陆迂回",
+        "en": "Inland approach"
+      }
+    }
+  },
+  "373757": {
+    "merge": "373879",
+    "choices": {
+      "373736": {
+        "zh": "沿海进军",
+        "en": "Coastal march"
+      },
+      "373750": {
+        "zh": "高地攻坚",
+        "en": "Highland assault"
+      }
+    }
+  },
+  "481728": {
+    "merge": "579885",
+    "choices": {
+      "491741": {
+        "zh": "港城进军",
+        "en": "Port approach"
+      },
+      "491687": {
+        "zh": "内陆攻坚",
+        "en": "Inland assault"
+      }
+    }
+  },
+  "590030": {
+    "merge": "648789",
+    "choices": {
+      "639042": {
+        "zh": "近岸登陆",
+        "en": "Near-coast landing"
+      },
+      "639051": {
+        "zh": "远岸登陆",
+        "en": "Far-coast landing"
+      }
+    }
+  },
+  "678437": {
+    "merge": "687902",
+    "choices": {
+      "678010": {
+        "zh": "沿岸推进",
+        "en": "Coastal approach"
+      },
+      "678121": {
+        "zh": "南下攻坚",
+        "en": "Southern assault"
+      }
+    }
+  }
+}

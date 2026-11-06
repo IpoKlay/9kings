@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-27",
+  "baseline_files": 631,
+  "changed": [],
+  "missing": [],
+  "new_outside_docs": [],
+  "scope_exclusions": [
+    ".godot",
+    "docs",
+    ".uid",
+    ".import"
+  ],
+  "unchanged": true
+}

@@ -1,0 +1,251 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="script"]
+[ext_resource type="Theme" path="res://assets/fonts/game_pixel_theme.tres" id="theme"]
+[ext_resource type="Texture2D" path="res://assets/menu/forum-original.jpg" id="forum"]
+[ext_resource type="Texture2D" path="res://assets/menu/cursor.png" id="cursor"]
+[ext_resource type="Texture2D" path="res://assets/ui_roman/banner.png" id="banner"]
+[ext_resource type="Shader" path="res://shaders/roman_ui.gdshader" id="palette"]
+[sub_resource type="ShaderMaterial" id="banner_palette"]
+shader = ExtResource("palette")
+[sub_resource type="StyleBoxEmpty" id="text_only"]
+[sub_resource type="StyleBoxFlat" id="outline"]
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.541,0.459,0.318,1)
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+z_index = 50
+texture_filter = 1
+theme = ExtResource("theme")
+script = ExtResource("script")
+
+[node name="Matte" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.188,0.157,0.122,1)
+
+[node name="RomanForum" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture_filter = 2
+texture = ExtResource("forum")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MenuShade" type="ColorRect" parent="."]
+offset_left = 1173.0
+offset_top = 80.0
+offset_right = 1743.0
+offset_bottom = 1000.0
+mouse_filter = 2
+color = Color(0.12,0.095,0.075,0.84)
+
+[node name="Frame" type="Panel" parent="."]
+offset_left = 1185.0
+offset_top = 92.0
+offset_right = 1731.0
+offset_bottom = 988.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("outline")
+
+[node name="RuleLeft" type="ColorRect" parent="."]
+offset_left = 1278.0
+offset_top = 454.0
+offset_right = 1426.0
+offset_bottom = 456.0
+mouse_filter = 2
+color = Color(0.60,0.50,0.34,1)
+
+[node name="RuleRight" type="ColorRect" parent="."]
+offset_left = 1490.0
+offset_top = 454.0
+offset_right = 1638.0
+offset_bottom = 456.0
+mouse_filter = 2
+color = Color(0.60,0.50,0.34,1)
+
+[node name="RuleCenter" type="ColorRect" parent="."]
+offset_left = 1452.0
+offset_top = 449.0
+offset_right = 1464.0
+offset_bottom = 461.0
+mouse_filter = 2
+color = Color(0.77,0.68,0.46,1)
+
+[node name="EagleBanner" type="TextureRect" parent="."]
+offset_left = 1410.0
+offset_top = 118.0
+offset_right = 1506.0
+offset_bottom = 214.0
+texture = ExtResource("banner")
+expand_mode = 1
+stretch_mode = 5
+material = SubResource("banner_palette")
+mouse_filter = 2
+
+[node name="Inscription" type="Label" parent="."]
+offset_left = 1228.0
+offset_top = 228.0
+offset_right = 1688.0
+offset_bottom = 266.0
+mouse_filter = 2
+vertical_alignment = 1
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_colors/font_shadow_color = Color(0.043,0.106,0.137,1)
+theme_override_colors/font_color = Color(0.769,0.678,0.463,1)
+theme_override_font_sizes/font_size = 23
+text = "S P Q R"
+
+[node name="Title" type="Label" parent="."]
+offset_left = 1198.0
+offset_top = 282.0
+offset_right = 1718.0
+offset_bottom = 386.0
+mouse_filter = 2
+vertical_alignment = 1
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_colors/font_shadow_color = Color(0.043,0.106,0.137,1)
+theme_override_colors/font_color = Color(0.949,0.871,0.682,1)
+theme_override_font_sizes/font_size = 80
+text = "鹰旗之下"
+
+[node name="Subtitle" type="Label" parent="."]
+offset_left = 1198.0
+offset_top = 394.0
+offset_right = 1718.0
+offset_bottom = 434.0
+mouse_filter = 2
+vertical_alignment = 1
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_colors/font_shadow_color = Color(0.043,0.106,0.137,1)
+theme_override_colors/font_color = Color(0.859,0.788,0.651,1)
+theme_override_font_sizes/font_size = 25
+text = "地 中 海 远 征"
+
+[node name="MenuOptions" type="VBoxContainer" parent="."]
+offset_left = 1218.0
+offset_top = 480.0
+offset_right = 1698.0
+offset_bottom = 480.0
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="TacticalTrial" type="Button" parent="MenuOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0,74)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("text_only")
+theme_override_styles/hover = SubResource("text_only")
+theme_override_styles/pressed = SubResource("text_only")
+theme_override_styles/focus = SubResource("text_only")
+theme_override_styles/disabled = SubResource("text_only")
+theme_override_colors/font_color = Color(1,0.945,0.773,1)
+text = "军团会战 · RTS"
+
+[node name="ResumeGame" type="Button" parent="MenuOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0,74)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("text_only")
+theme_override_styles/hover = SubResource("text_only")
+theme_override_styles/pressed = SubResource("text_only")
+theme_override_styles/focus = SubResource("text_only")
+theme_override_styles/disabled = SubResource("text_only")
+theme_override_colors/font_color = Color(0.624,0.58,0.51,1)
+text = "继续远征"
+
+[node name="StartGame" type="Button" parent="MenuOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0,74)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("text_only")
+theme_override_styles/hover = SubResource("text_only")
+theme_override_styles/pressed = SubResource("text_only")
+theme_override_styles/focus = SubResource("text_only")
+theme_override_styles/disabled = SubResource("text_only")
+theme_override_colors/font_color = Color(0.878,0.824,0.69,1)
+text = "新远征"
+
+[node name="MenuSettings" type="Button" parent="MenuOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0,74)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("text_only")
+theme_override_styles/hover = SubResource("text_only")
+theme_override_styles/pressed = SubResource("text_only")
+theme_override_styles/focus = SubResource("text_only")
+theme_override_styles/disabled = SubResource("text_only")
+theme_override_colors/font_color = Color(0.878,0.824,0.69,1)
+text = "设置"
+
+[node name="QuitGame" type="Button" parent="MenuOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0,74)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 40
+theme_override_styles/normal = SubResource("text_only")
+theme_override_styles/hover = SubResource("text_only")
+theme_override_styles/pressed = SubResource("text_only")
+theme_override_styles/focus = SubResource("text_only")
+theme_override_styles/disabled = SubResource("text_only")
+theme_override_colors/font_color = Color(0.878,0.824,0.69,1)
+text = "退出"
+
+[node name="SelectionHint" type="Label" parent="."]
+offset_left = 1198.0
+offset_top = 978.0
+offset_right = 1718.0
+offset_bottom = 1002.0
+mouse_filter = 2
+vertical_alignment = 1
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_colors/font_shadow_color = Color(0.043,0.106,0.137,1)
+theme_override_colors/font_color = Color(0.859,0.788,0.651,1)
+theme_override_font_sizes/font_size = 18
+text = ""
+
+[node name="CursorAnchor" type="Control" parent="."]
+offset_left = 1260.0
+offset_top = 493.0
+offset_right = 1260.0
+offset_bottom = 493.0
+mouse_filter = 2
+
+[node name="SelectionCursor" type="TextureRect" parent="CursorAnchor"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 48.0
+offset_bottom = 48.0
+texture = ExtResource("cursor")
+mouse_filter = 2
+expand_mode = 1

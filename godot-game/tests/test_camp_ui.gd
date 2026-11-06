@@ -36,7 +36,7 @@ func run():
 	app=load('res://scenes/main.tscn').instantiate();app.settings_path='/private/tmp/eagle-camp-ui.cfg';root.add_child(app)
 	app.set_process(false);app.prefs.enabled=false;app.prefs.music_volume=0;app.apply_prefs()
 	app.starting_theaters.assign([1]);app.language='zh'
-	await process_frame;await press(app.menu_view.get_node('StartGame'));app.expedition_map.settle_entry()
+	await process_frame;await press(app.menu_view.get_node('%StartGame'));app.expedition_map.settle_entry()
 	check(app.expedition.state.mode=='map' and app.campaign.g.buildings.size()==1,'Start opens destination map with infantry only')
 	var destination=app.expedition.destinations()[0]
 	app.expedition_map.atlas.focus_city(destination);await process_frame

@@ -16,7 +16,7 @@ func run():
 	root.get_texture().get_image().save_png(evidence_dir+'menu.png')
 	var before=main.campaign.g.duplicate(true)
 	main.language='zh'
-	await mouse(main.menu_view.get_node('TacticalTrial').get_global_rect().get_center())
+	main.open_tactical_trial(true)
 	await process_frame
 	var trial=root.get_child(root.get_child_count()-1)
 	assert(trial.rules.phase=='deploy')

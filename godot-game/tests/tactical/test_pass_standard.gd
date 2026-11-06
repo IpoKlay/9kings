@@ -137,7 +137,7 @@ func run():
 	root.add_child(main)
 	await process_frame
 	main.language='zh'
-	click(main.menu_view.get_node('TacticalTrial').get_global_rect().get_center())
+	click(main.menu_view.get_node('%TacticalTrial').get_global_rect().get_center())
 	await process_frame
 	t=root.get_child(-1)
 	click(t.defender_button.get_global_rect().get_center())

@@ -249,16 +249,19 @@ func place(cell: int) -> bool:
 	g.phase = 'prepare'
 	return true
 
+func starting_shield(b: Dictionary) -> float:
+	var drill=rank('shieldDrill')*effects.shieldDrill.per_rank if types[b.type].role=='front' else 0
+	return effects.shield.amount*order_rank('shield')+drill+(effects.guard.base_shield if b.type=='guard' else 0)
+
 func muster(wave_override: Dictionary = {}) -> Array:
 	var units: Array = []
 	var allies=g.buildings.filter(func(b):return types[b.type].has('role'))
 	allies.sort_custom(func(a,b):return a.cell<b.cell)
 	for b in allies:
 		var s=stats(b)
-		var role=types[b.type].role
 		var col=int(b.cell)%int(camp.columns)
 		var row=int(b.cell)/int(camp.columns)
-		var shield=effects.shield.amount*order_rank('shield')+(rank('shieldDrill')*effects.shieldDrill.per_rank if role=='front' else 0)+(effects.guard.base_shield if b.type=='guard' else 0)
+		var shield=starting_shield(b)
 		var origin=Formation.battle_position(int(b.cell))
 		var destination=Vector2(combat.ally_spawn.start_x+col*combat.deployment_column_spacing,(row-(camp.rows-1)*.5)*combat.deployment_row_spacing)
 		units.append({'id':units.size(),'buildingId':b.id,'cell':b.cell,'level':int(b.level),'soldierCount':Formation.count(b.type,int(b.level)),
@@ -284,13 +287,17 @@ func muster(wave_override: Dictionary = {}) -> Array:
 				'moving':false,'flash':0.0,'charged':false})
 	return units
 
-func start() -> bool:
+func start(external_battle: bool=false) -> bool:
 	if g.phase != 'prepare': return false
-	var units = muster()
+	var units = [] if external_battle else muster()
 	g.battle = {'time':0.0,'units':units,'projectiles':[],'events':[],'serial':0,'report':null,
 		'deploy_elapsed':0.0,
 		'initialAllies':units.filter(func(u):return u.side=='ally').size(),
 		'initialEnemies':units.filter(func(u):return u.side=='enemy').size()}
+	if external_battle:
+		g.battle.external_battle=true
+		g.phase='battle'
+		return true
 	var waves = current_encounter().get('waves',[])
 	if not waves.is_empty():
 		g.battle.merge({'waves':waves.duplicate(true),'wave_index':0,'waves_cleared':0,
@@ -351,7 +358,7 @@ func hurt(damage: Dictionary,id: int,amount: float):
 	damage[id] = damage.get(id,0.0)+amount
 
 func step(delta: float):
-	if g.phase != 'battle' or delta <= 0: return
+	if g.phase != 'battle' or delta <= 0 or g.battle.get('external_battle',false): return
 	var dt = minf(delta,float(contracts.maximum_delta_seconds))
 	var b = g.battle
 	b.time += dt
@@ -500,7 +507,7 @@ func step(delta: float):
 		if not has_enemies and not b.projectiles.any(func(p):return p.side=='enemy'): finish(true)
 		elif (not has_allies and not b.projectiles.any(func(p):return p.side=='ally')) or b.time>=combat.wave_timeout_seconds: finish(false)
 
-func finish(won: bool):
+func finish(won: bool, report_counts: Dictionary={}):
 	var b = g.battle
 	if b.report != null: return
 	var surviving = b.units.filter(func(u):return u.hp>0 and u.side=='ally').size()
@@ -508,6 +515,7 @@ func finish(won: bool):
 	var loss = 0 if won else int(camp.loss_lives)
 	g.defense = maxi(0,g.defense-loss)
 	b.report = {'won':won,'surviving':surviving,'deployed':b.initialAllies,'enemyLosses':b.initialEnemies-remaining,'enemyCount':b.initialEnemies,'defenseLost':loss}
+	b.report.merge(report_counts,true)
 	if b.has('waves'):
 		b.report.merge({'wavesCleared':b.waves_cleared,'waveCount':b.waves.size()})
 	g.history.append({'round':g.round,'defense':g.defense,'report':b.report.duplicate(),'card':g.chosen,'duration':b.time})

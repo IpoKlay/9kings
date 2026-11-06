@@ -1,0 +1,101 @@
+{
+  "legion": {
+    "name": "Legionaries",
+    "unit": "Legionary",
+    "role": "front",
+    "hp": 150,
+    "attack": 14,
+    "range": 72,
+    "speed": 65,
+    "interval": 1,
+    "formation_counts": [
+      6,
+      9,
+      12
+    ]
+  },
+  "spear": {
+    "name": "Spearmen",
+    "unit": "Spearman",
+    "role": "front",
+    "hp": 125,
+    "attack": 12,
+    "range": 110,
+    "speed": 60,
+    "interval": 1.1,
+    "formation_counts": [
+      6,
+      9,
+      12
+    ]
+  },
+  "guard": {
+    "name": "Shield Guards",
+    "unit": "Shield Guard",
+    "role": "front",
+    "hp": 230,
+    "attack": 8,
+    "range": 72,
+    "speed": 45,
+    "interval": 1.3,
+    "formation_counts": [
+      6,
+      9,
+      12
+    ]
+  },
+  "cavalry": {
+    "name": "Cavalry",
+    "unit": "Cavalry",
+    "role": "front",
+    "hp": 120,
+    "attack": 18,
+    "range": 80,
+    "speed": 100,
+    "interval": 1.4,
+    "formation_counts": [
+      4,
+      6,
+      8
+    ]
+  },
+  "archer": {
+    "name": "Archers",
+    "unit": "Auxiliary Archer",
+    "role": "middle",
+    "hp": 65,
+    "attack": 10,
+    "range": 320,
+    "speed": 52,
+    "interval": 1.2,
+    "formation_counts": [
+      6,
+      9,
+      12
+    ]
+  },
+  "medic": {
+    "name": "Field Hospital",
+    "unit": "Field Medic",
+    "role": "middle",
+    "hp": 80,
+    "attack": 0,
+    "heal": 12,
+    "range": 280,
+    "speed": 60,
+    "interval": 1.5
+  },
+  "siege": {
+    "name": "Siege Camp",
+    "unit": "Catapult",
+    "role": "rear",
+    "hp": 100,
+    "attack": 30,
+    "range": 510,
+    "speed": 30,
+    "interval": 3.2
+  },
+  "training": {
+    "name": "Drill Yard"
+  }
+}

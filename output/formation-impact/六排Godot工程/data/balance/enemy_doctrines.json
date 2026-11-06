@@ -1,0 +1,123 @@
+{
+  "intro_stage": 1,
+  "intro_last_step": 3,
+  "profiles": {
+    "bowline": {
+      "roster": [
+        "enemy",
+        "archer",
+        "archer",
+        "enemy",
+        "archer",
+        "guard"
+      ],
+      "relief": [
+        "enemy",
+        "guard"
+      ],
+      "answers": [
+        "guard",
+        "shieldDrill",
+        "medic",
+        "testudo"
+      ]
+    },
+    "bulwark": {
+      "roster": [
+        "enemy",
+        "guard",
+        "guard",
+        "archer",
+        "guard",
+        "enemy"
+      ],
+      "relief": [
+        "enemy",
+        "archer"
+      ],
+      "answers": [
+        "archer",
+        "fireArrows",
+        "crossfire",
+        "medic"
+      ]
+    },
+    "raiders": {
+      "roster": [
+        "enemy",
+        "cavalry",
+        "cavalry",
+        "enemy",
+        "archer",
+        "cavalry"
+      ],
+      "relief": [
+        "enemy",
+        "archer"
+      ],
+      "answers": [
+        "spear",
+        "pinning",
+        "guard",
+        "shield"
+      ]
+    },
+    "battery": {
+      "roster": [
+        "guard",
+        "siege",
+        "enemy",
+        "archer",
+        "enemy",
+        "siege"
+      ],
+      "relief": [
+        "enemy",
+        "archer"
+      ],
+      "answers": [
+        "cavalry",
+        "charge",
+        "siege",
+        "siegeTrain"
+      ]
+    }
+  },
+  "theaters": {
+    "1": [
+      "bowline",
+      "raiders",
+      "bulwark"
+    ],
+    "2": [
+      "raiders",
+      "bulwark",
+      "battery"
+    ],
+    "3": [
+      "bowline",
+      "battery",
+      "bulwark"
+    ]
+  },
+  "sites": {
+    "266021": "bowline",
+    "265883": "bulwark",
+    "265823": "raiders",
+    "265762": "battery",
+    "256128": "bowline",
+    "255996": "bulwark",
+    "324716": "raiders",
+    "324827": "bulwark",
+    "344456": "bowline",
+    "344456_inland": "raiders",
+    "373736": "bowline",
+    "373750": "battery",
+    "491741": "bowline",
+    "491687": "bulwark",
+    "639042": "raiders",
+    "639051": "battery",
+    "678010": "bulwark",
+    "678121": "bowline"
+  }
+}

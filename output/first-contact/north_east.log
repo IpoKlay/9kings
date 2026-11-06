@@ -1,0 +1,17 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+Movie Maker mode enabled, recording movie in 1280×720 @ 60 FPS...
+CONTACT north_east display frame 203 { "rider": 7, "soldier": 50, "p": [1111.0, 435.0], "fraction": 0.23999523437499, "speed": 252.979888916016, "charge_id": 1, "attacker": 7, "target": 6, "dir": [-0.02177174016833, -0.99976295232773], "rider_bearing": 3, "defender_bearing": 6, "rider_cell": 8, "defender_cell": 0, "damage": 71.4, "time": 3.38733325390624, "audio": 1 }
+First contact failures: 0
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
+--------------------------------------------------------------------------------
+Done recording movie at path: /Users/ip/Documents/ChatGPT/9kings/godot-game/../output/first-contact/north_east.avi
+450 frames at 60 FPS (movie length: 00:00:07:30), recorded in 00:00:05 (140% of real-time speed).
+CPU render time: 0.10 seconds (average: 0.22 ms/frame)
+GPU render time: 0.00 seconds (average: 0.00 ms/frame)
+Encoding time: 2.07 seconds (average: 4.61 ms/frame)
+--------------------------------------------------------------------------------

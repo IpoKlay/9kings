@@ -1,13 +1,13 @@
-[gd_resource type="SpriteFrames" load_steps=89 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://c4u1euynj7vqq"]
 
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_East_SailsRed.png" id="1_p80ws"]
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_North_SailsRed.png" id="2_4qbnj"]
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_NorthEast_SailsRed.png" id="3_4madn"]
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_NorthWest_SailsRed.png" id="4_871gs"]
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_South_SailsRed.png" id="5_p7wub"]
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_SouthEast_SailsRed.png" id="6_hfbqh"]
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_SouthWest_SailsRed.png" id="7_ehxoi"]
-[ext_resource type="Texture2D" path="res://assets/expedition/sea_life/Ship_West_SailsRed.png" id="8_x7b7k"]
+[ext_resource type="Texture2D" uid="uid://b83djpw22i518" path="res://assets/expedition/sea_life/Ship_East_SailsRed.png" id="1_p80ws"]
+[ext_resource type="Texture2D" uid="uid://dyasq6u803p4t" path="res://assets/expedition/sea_life/Ship_North_SailsRed.png" id="2_4qbnj"]
+[ext_resource type="Texture2D" uid="uid://1r2kq7snecqq" path="res://assets/expedition/sea_life/Ship_NorthEast_SailsRed.png" id="3_4madn"]
+[ext_resource type="Texture2D" uid="uid://cwnb5bcxas3p3" path="res://assets/expedition/sea_life/Ship_NorthWest_SailsRed.png" id="4_871gs"]
+[ext_resource type="Texture2D" uid="uid://fc4torbdvjkk" path="res://assets/expedition/sea_life/Ship_South_SailsRed.png" id="5_p7wub"]
+[ext_resource type="Texture2D" uid="uid://dxvh16twhvqba" path="res://assets/expedition/sea_life/Ship_SouthEast_SailsRed.png" id="6_hfbqh"]
+[ext_resource type="Texture2D" uid="uid://b2j5jvjjoynpk" path="res://assets/expedition/sea_life/Ship_SouthWest_SailsRed.png" id="7_ehxoi"]
+[ext_resource type="Texture2D" uid="uid://cloww77kcagwo" path="res://assets/expedition/sea_life/Ship_West_SailsRed.png" id="8_x7b7k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q8t3c"]
 atlas = ExtResource("1_p80ws")
@@ -362,7 +362,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_igwu3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"East",
 "speed": 5.0
 }, {
@@ -397,7 +397,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vresx")
 }],
-"loop": true,
+"loop": 1,
 "name": &"North",
 "speed": 5.0
 }, {
@@ -432,7 +432,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_o58un")
 }],
-"loop": true,
+"loop": 1,
 "name": &"NorthEast",
 "speed": 5.0
 }, {
@@ -467,7 +467,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_puf4q")
 }],
-"loop": true,
+"loop": 1,
 "name": &"NorthWest",
 "speed": 5.0
 }, {
@@ -502,7 +502,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fnks8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"South",
 "speed": 5.0
 }, {
@@ -537,7 +537,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i7o4s")
 }],
-"loop": true,
+"loop": 1,
 "name": &"SouthEast",
 "speed": 5.0
 }, {
@@ -572,7 +572,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xqca1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"SouthWest",
 "speed": 5.0
 }, {
@@ -607,7 +607,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4rv2v")
 }],
-"loop": true,
+"loop": 1,
 "name": &"West",
 "speed": 5.0
 }]

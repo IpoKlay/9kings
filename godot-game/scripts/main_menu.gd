@@ -4,21 +4,19 @@ var preset: Dictionary=Catalog.presentation('ui')
 ## A separate, opaque title screen: never preview a rolled or current theater.
 var app
 var cloth: ImageTexture
-var background: Texture2D = load(preset.menu_background)
+@onready var background: Texture2D=$RomanForum.texture
 var options: Array[Button] = []
 var actions: Array[Callable] = []
 var selected = 0
-var cursor: TextureRect
-var selection_hint: Label
+@onready var cursor: TextureRect=$CursorAnchor/SelectionCursor
+@onready var selection_hint: Label=$SelectionHint
 var cursor_y = 0.0
 var cursor_clock = 0.0
-var cursor_texture: Texture2D = load('res://assets/menu/cursor.png')
+@export var cursor_gap := 16.0
+@export var english_title_size := 52
+@onready var title_size: int=$Title.get_theme_font_size("font_size")
 
 func _ready():
-	z_index=50
-	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	mouse_filter=Control.MOUSE_FILTER_STOP
-	texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR
 	# The old cloth remains the map-unroll backing; only the menu uses the artwork.
 	# Local, fixed seed keeps the title screen independent of card/map rolls.
 	var grain=RandomNumberGenerator.new()
@@ -33,62 +31,26 @@ func _ready():
 			image.set_pixel(x,y,Color(color.r+light,color.g+light,color.b+light,1))
 	cloth=ImageTexture.create_from_image(image)
 
-func _draw():
-	draw_rect(Rect2(0,0,1920,1080),Color('#30281f'))
-	if background!=null:
-		var artwork_size=background.get_size()
-		var fitted=artwork_size*minf(1920.0/artwork_size.x,1080.0/artwork_size.y)
-		draw_texture_rect(background,Rect2((Vector2(1920,1080)-fitted)/2,fitted),false)
-	# A UI surface over the untouched painting keeps faces and columns out of the text.
-	var center=float(preset.menu_center_x)
-	draw_rect(Rect2(center-285,80,570,920),Color(0.12,0.095,0.075,0.84))
-	draw_rect(Rect2(center-273,92,546,896),Color('#8a7551'),false,2)
-	draw_rect(Rect2(center-180,454,148,2),Color('#998057'))
-	draw_rect(Rect2(center+32,454,148,2),Color('#998057'))
-	draw_rect(Rect2(center-6,449,12,12),Color('#c4ad76'))
-
-func centered_text(value: String,y: float,width: float,height: float,font_size: int,color: Color) -> Label:
-	var text=app.label(self,value,Vector2(preset.menu_center_x-width/2,y),Vector2(width,height),font_size,color)
-	text.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
-	text.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
-	text.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
-	text.add_theme_color_override('font_shadow_color',Color('#0b1b23'))
-	text.add_theme_constant_override('shadow_offset_y',3)
-	return text
+	if app==null:return
+	var handlers={'TacticalTrial':app.open_tactical_trial,'ResumeGame':app.resume_game,'StartGame':app.request_new_game,
+		'MenuSettings':func():app.open_dialog('settings'),'QuitGame':func():get_tree().quit()}
+	for button: Button in $MenuOptions.get_children():
+		var index=options.size()
+		options.append(button)
+		actions.append(handlers[button.name])
+		button.mouse_entered.connect(func():
+			if can_interact():set_selected(index))
+		button.pressed.connect(func():
+			if can_interact():
+				set_selected(index,false)
+				activate_selected())
+	$MenuOptions.sort_children.connect(snap_cursor)
 
 func can_interact() -> bool:
-	return visible and app.main_menu and app.dialog_kind=='' and not app.input_locked
+	return app!=null and visible and app.main_menu and app.dialog_kind=='' and not app.input_locked
 
 func option_available(index: int) -> bool:
 	return options[index].name!='ResumeGame' or app.has_run
-
-func menu_button(id: String,value: String,y: float,action: Callable):
-	var index=options.size()
-	var control=Button.new()
-	control.name=id
-	control.text=value
-	control.position=Vector2(preset.menu_button_left,y)
-	control.size=preset.menu_button_size
-	control.alignment=HORIZONTAL_ALIGNMENT_CENTER
-	control.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
-	# Selection is shared by mouse and keyboard; native focus must not move twice.
-	control.focus_mode=Control.FOCUS_NONE
-	control.mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND
-	control.add_theme_font_size_override('font_size',int(preset.menu_option_font_size))
-	var empty=StyleBoxEmpty.new()
-	for state in ['normal','hover','pressed','focus','disabled']:
-		control.add_theme_stylebox_override(state,empty)
-	control.mouse_entered.connect(func():
-		if can_interact(): set_selected(index))
-	control.pressed.connect(func():
-		if can_interact():
-			set_selected(index,false)
-			activate_selected())
-	if id=='ResumeGame' and not app.has_run:
-		control.tooltip_text=app.loc('main_menu.no_run')
-	add_child(control)
-	options.append(control)
-	actions.append(action)
 
 func set_selected(index: int,play_sound: bool=true):
 	var next=clampi(index,0,options.size()-1)
@@ -108,7 +70,7 @@ func activate_selected():
 		app.sound.play('bad',.3)
 		return
 	app.sound.play('click')
-	# The action may rebuild/free the controls (settings, start and continue).
+
 	var action=actions[selected]
 	action.call()
 
@@ -125,47 +87,40 @@ func handle_key(event: InputEventKey) -> bool:
 		return false
 	return true
 
+func option_origin(button: Button) -> Vector2:
+	return get_global_transform().affine_inverse()*button.global_position
+
+func snap_cursor():
+	if options.is_empty():return
+	var button:=options[selected]
+	cursor_y=option_origin(button).y+(button.size.y-cursor.size.y)/2
+	position_cursor()
+
 func position_cursor():
-	# Keep the label centered; the arrow sits outside its independently shaped text.
-	var button=options[selected]
-	var text_width=button.get_theme_font('font').get_string_size(button.text,HORIZONTAL_ALIGNMENT_LEFT,-1,button.get_theme_font_size('font_size')).x
-	var x=button.position.x+(button.size.x-text_width)/2-preset.menu_cursor_size.x-preset.menu_cursor_gap
+	var button:=options[selected]
+	var width:=button.get_theme_font('font').get_string_size(button.text,HORIZONTAL_ALIGNMENT_LEFT,-1,button.get_theme_font_size('font_size')).x
+	var x:=option_origin(button).x+(button.size.x-width)/2-cursor.size.x-cursor_gap
 	x+=sin(cursor_clock*TAU/preset.menu_cursor_period)*preset.menu_cursor_bob
-	# Keep the original 16px arrow crisp: move on the same grid as its 3x pixels.
-	cursor.position=Vector2(snappedf(x,preset.menu_cursor_grid),snappedf(cursor_y,preset.menu_cursor_grid))
+	$CursorAnchor.position=Vector2(snappedf(x,preset.menu_cursor_grid),snappedf(cursor_y,preset.menu_cursor_grid))
 
 func _process(delta: float):
-	if not can_interact() or not is_instance_valid(cursor) or options.is_empty(): return
+	if not can_interact() or options.is_empty():return
 	cursor_clock+=delta
-	var target=options[selected].position.y+(options[selected].size.y-preset.menu_cursor_size.y)/2
-	cursor_y=lerpf(cursor_y,target,1.0-exp(-preset.menu_cursor_follow_speed*delta))
+	var button:=options[selected]
+	var target:=option_origin(button).y+(button.size.y-cursor.size.y)/2
+	cursor_y=lerpf(cursor_y,target,1.-exp(-preset.menu_cursor_follow_speed*delta))
 	position_cursor()
 
 func render():
-	app.remove_children(self)
-	options.clear()
-	actions.clear()
-	app.RomanUI.icon(self,'banner',Vector2(preset.menu_center_x-48,118),Vector2(96,96))
-	centered_text('S P Q R',228,460,38,23,Color('#c4ad76'))
-	centered_text(app.loc('main_menu.under_the_eagle'),282,520,104,80 if app.language=='zh' else 52,Color('#f2deae'))
-	centered_text(app.loc('main_menu.the_mediterranean_campaign'),394,520,40,25,Color('#dbc9a6'))
-	menu_button('TacticalTrial',app.tx('军团会战 · RTS','Legion Battle · RTS'),480,app.open_tactical_trial)
-	menu_button('ResumeGame',app.tx('继续远征','Continue Expedition'),560,app.resume_game)
-	menu_button('StartGame',app.tx('新远征','New Expedition'),640,app.request_new_game)
-	menu_button('MenuSettings',app.loc('main_menu.settings'),720,func():app.open_dialog('settings'))
-	menu_button('QuitGame',app.loc('main_menu.quit'),800,func():get_tree().quit())
-	selection_hint=centered_text('',978,520,24,18,Color('#dbc9a6'))
-	selection_hint.name='SelectionHint'
-	cursor=TextureRect.new()
-	cursor.name='SelectionCursor'
-	cursor.texture=cursor_texture
-	cursor.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
-	cursor.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
-	cursor.size=preset.menu_cursor_size
-	cursor.mouse_filter=Control.MOUSE_FILTER_IGNORE
-	add_child(cursor)
+	$Title.text=app.loc('main_menu.under_the_eagle')
+	$Title.add_theme_font_size_override('font_size',title_size if app.language=='zh' else english_title_size)
+	$Subtitle.text=app.loc('main_menu.the_mediterranean_campaign')
+	%TacticalTrial.text=app.tx('军团会战 · RTS','Legion Battle · RTS')
+	%ResumeGame.text=app.tx('继续远征','Continue Expedition')
+	%ResumeGame.tooltip_text='' if app.has_run else app.loc('main_menu.no_run')
+	%StartGame.text=app.tx('新远征','New Expedition')
+	%MenuSettings.text=app.loc('main_menu.settings')
+	%QuitGame.text=app.loc('main_menu.quit')
 	set_selected(selected,false)
 	cursor_clock=0
-	cursor_y=options[selected].position.y+(options[selected].size.y-preset.menu_cursor_size.y)/2
-	position_cursor()
-	queue_redraw()
+	snap_cursor()

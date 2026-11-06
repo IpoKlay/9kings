@@ -1,0 +1,47 @@
+{
+  "round": 1,
+  "defense": 3,
+  "phase": "prepare",
+  "buildings": [
+    {
+      "id": 1,
+      "type": "legion",
+      "cell": 12,
+      "level": 1
+    }
+  ],
+  "nextId": 2,
+  "boosts": {
+    "legion": 0,
+    "archer": 0,
+    "siege": 0
+  },
+  "upgrades": {},
+  "orders": {},
+  "rng": 0,
+  "offered": [],
+  "offerYear": 0,
+  "armyShield": false,
+  "armyTestudo": false,
+  "pending": null,
+  "chosen": null,
+  "history": [],
+  "battle": null,
+  "unlocked_cells": [
+    6,
+    7,
+    8,
+    11,
+    12,
+    13,
+    16,
+    17,
+    18
+  ],
+  "expansion_credits": 0,
+  "cities_captured": 0,
+  "reward_context": "",
+  "reward_rerolls": 0,
+  "recovery_used": [],
+  "temporary_orders": {}
+}

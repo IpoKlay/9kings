@@ -1,0 +1,48 @@
+{
+  "enemy": {
+    "name": "Infantry",
+    "hp": 105,
+    "attack": 11,
+    "range": 72,
+    "speed": 57,
+    "interval": 1.1,
+    "role": "front"
+  },
+  "archer": {
+    "name": "Archers",
+    "hp": 60,
+    "attack": 8,
+    "range": 320,
+    "speed": 46,
+    "interval": 1.5,
+    "role": "middle"
+  },
+  "guard": {
+    "name": "Shield Guards",
+    "hp": 160,
+    "attack": 8,
+    "range": 72,
+    "speed": 42,
+    "interval": 1.5,
+    "shield": 30,
+    "role": "front"
+  },
+  "cavalry": {
+    "name": "Cavalry",
+    "hp": 100,
+    "attack": 14,
+    "range": 80,
+    "speed": 90,
+    "interval": 1.5,
+    "role": "front"
+  },
+  "siege": {
+    "name": "Catapults",
+    "hp": 85,
+    "attack": 22,
+    "range": 480,
+    "speed": 25,
+    "interval": 4,
+    "role": "rear"
+  }
+}

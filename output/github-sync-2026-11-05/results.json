@@ -1,0 +1,60 @@
+[
+  {
+    "test": "tools/validate_data.gd",
+    "exit": 0,
+    "passed": true,
+    "summary": [
+      "3227 data validation checks, 0 failures"
+    ]
+  },
+  {
+    "test": "tests/test_editable_scenes.gd",
+    "exit": 0,
+    "passed": true,
+    "summary": [
+      "51 editable-scene checks, 0 failures"
+    ]
+  },
+  {
+    "test": "tests/test_menu_keyboard.gd",
+    "exit": 0,
+    "passed": true,
+    "summary": [
+      "94 menu/input checks, 0 failures"
+    ]
+  },
+  {
+    "test": "tests/test_run_ui.gd",
+    "exit": 0,
+    "passed": true,
+    "summary": [
+      "15 native save/recovery checks, 0 failures"
+    ]
+  },
+  {
+    "test": "tests/tactical/test_pass_battle.gd",
+    "exit": 0,
+    "passed": true,
+    "summary": [
+      "PASS BATTLE native input and complete combat: 0 failures"
+    ]
+  },
+  {
+    "test": "tests/tactical/test_single_rank.gd",
+    "exit": 0,
+    "passed": true,
+    "summary": [
+      "Single rank failures: 0",
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "test": "tests/tactical/test_formation_passage.gd",
+    "exit": 0,
+    "passed": true,
+    "summary": [
+      "Formation passage regressions: 0 failures"
+    ]
+  }
+]

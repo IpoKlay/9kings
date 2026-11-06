@@ -1,0 +1,16 @@
+{
+  "columns": 5,
+  "rows": 5,
+  "max_buildings": 25,
+  "max_building_level": 3,
+  "max_lives": 3,
+  "reward_choices": 3,
+  "level_growth": 0.5,
+  "training_adjacency_per_level": 0.25,
+  "training_boost_per_rank": 0.25,
+  "history_limit": 100,
+  "loss_lives": 1,
+  "expansion_every_victories": 3,
+  "medic_adjacency_health_per_level": 0.15,
+  "guaranteed_troop_until": 3
+}

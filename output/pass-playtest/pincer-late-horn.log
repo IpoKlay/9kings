@@ -1,0 +1,30 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+FIRST 1 12.3333333333335 front charge
+REAR 1 at 19.0000000000002 flanking_charge by 17 target 12 damage 83.3
+REAR 1 at 20.6666666666668 hit by 17 target 12 damage 17.0
+REAR 1 at 22.3333333333333 hit by 17 target 12 damage 17.0
+REAR 1 at 23.9999999999999 hit by 17 target 12 damage 17.0
+REAR 1 at 25.6666666666665 hit by 17 target 12 damage 17.0
+PROBE 1 enemy_routed 142.616666666672 rear 5 flank 1 focus 19.0000000000002 first 8.4
+FIRST 2 12.3333333333335 front charge
+REAR 2 at 23.0 flanking_charge by 17 target 12 damage 83.3
+REAR 2 at 24.6666666666665 hit by 17 target 12 damage 17.0
+REAR 2 at 26.3333333333331 hit by 17 target 12 damage 17.0
+PROBE 2 enemy_routed 146.033333333342 rear 3 flank 1 focus 23.0 first 8.4
+FIRST 3 12.3333333333335 front charge
+PROBE 3 enemy_routed 164.400000000023 rear 0 flank 1 focus 26.9999999999997 first 8.4
+FIRST 4 12.3333333333335 front charge
+PROBE 4 enemy_routed 148.033333333343 rear 0 flank 1 focus 30.9999999999995 first 8.4
+FIRST 5 12.3333333333335 front charge
+PROBE 5 enemy_routed 153.350000000014 rear 0 flank 0 focus 36.0499999999992 first 8.4
+FIRST 6 12.3333333333335 front charge
+PROBE 6 enemy_routed 154.716666666682 rear 0 flank 0 focus 39.2999999999991 first 8.4
+FIRST 7 12.3333333333335 front charge
+PROBE 7 enemy_routed 155.216666666682 rear 0 flank 0 focus 43.2999999999988 first 8.4
+FIRST 9 12.3333333333335 front charge
+REAR 9 at 19.0000000000002 flanking_charge by 17 target 12 damage 83.3
+PROBE 9 enemy_routed 142.783333333339 rear 1 flank 1 focus 19.0000000000002 first 8.4
+FIRST 10 12.3333333333335 front charge
+REAR 10 at 23.0 flanking_charge by 17 target 12 damage 83.3
+PROBE 10 enemy_routed 146.000000000008 rear 1 flank 1 focus 23.0 first 8.4

@@ -1,0 +1,55 @@
+{
+  "combinedArms": {
+    "per_type_per_rank": 0.05,
+    "max_types": 7
+  },
+  "rally": {
+    "attack_bonus": 0.25
+  },
+  "fieldMedicine": {
+    "heal_bonus_per_rank": 0.5
+  },
+  "volley": {
+    "attack_rate_multiplier": 1.4
+  },
+  "shield": {
+    "amount": 40
+  },
+  "shieldDrill": {
+    "per_rank": 20
+  },
+  "guard": {
+    "base_shield": 30
+  },
+  "testudo": {
+    "speed_multiplier": 0.75,
+    "damage_multiplier": 0.6
+  },
+  "pinning": {
+    "damage_bonus_per_rank": 0.3
+  },
+  "oilShots": {
+    "damage_bonus_per_rank": 0.5
+  },
+  "crossfire": {
+    "damage_bonus_per_rank": 0.25,
+    "engagement_margin": 10
+  },
+  "burn": {
+    "damage_per_second": 3,
+    "duration": 3
+  },
+  "slow": {
+    "speed_multiplier": 0.75,
+    "duration": 2
+  },
+  "haste": {
+    "attack_rate_multiplier": 1.3,
+    "duration": 3,
+    "radius": 240
+  },
+  "charge": {
+    "base_multiplier": 1.6,
+    "bonus_per_rank": 0.6
+  }
+}

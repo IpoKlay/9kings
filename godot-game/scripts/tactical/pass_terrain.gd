@@ -1,32 +1,36 @@
 extends RefCounted
 
 # Projected ground pixels, the same plane in which the ranks are drawn.
-const ROCKS=[Rect2(980,292,82,146),Rect2(980,767,86,58),Rect2(980,955,86,177)]
-const SIDE_GATE=Rect2(980,825,86,130)
+var ROCKS: Array
+var SIDE_GATE: Rect2
+var main_pass: Rect2
 var basis: Transform2D
 var inverse: Transform2D
 var bounds: Rect2
 var clearances={}
 var extents={}
 
+# Single rank. Spread the old staggered frontage across the remaining files.
 static func layout(kind: String) -> Vector3:
 	match kind:
-		'cavalry':return Vector3(33,24,1.83)
-		'siege':return Vector3(88,39,2.0)
-		'medic':return Vector3(25,15,1.23)
-		'spear':return Vector3(26,16,1.86)
-		_:return Vector3(26,16,1.23)
+		'cavalry':return Vector3(246.0/7,0,1.83)
+		'siege':return Vector3(90.5,0,2.0)
+		'medic':return Vector3(27,0,1.23)
+		'spear':return Vector3(259.0/9,0,1.86)
+		_:return Vector3(259.0/9,0,1.23)
 
-func _init(projection: Transform2D, area: Rect2, types: Dictionary):
+func _init(projection: Transform2D, area: Rect2, types: Dictionary, authored: Dictionary):
+	ROCKS=authored.rocks
+	SIDE_GATE=authored.SidePass
+	main_pass=authored.MainPass
 	basis=projection
 	inverse=basis.affine_inverse()
 	bounds=area
 	for kind in types:
 		var slots=layout(kind)
 		var files=int(types[kind].files)
-		var rows=ceili(float(types[kind].soldiers)/files)
 		# Boots and mounts occupy the ground; helmets and raised spears overhang it.
-		var half=Vector2((files-1)*slots.x+(rows-1)*5,(rows-1)*slots.y)*.5+Vector2(9,5)*slots.z
+		var half=Vector2((files-1)*slots.x*.5,0)+Vector2(9,5)*slots.z
 		extents[kind]=half
 		var walls: Array[Rect2]=[]
 		for rock in ROCKS:walls.append(Rect2(rock.position-half,rock.size+half*2))

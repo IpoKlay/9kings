@@ -1,0 +1,127 @@
+{
+  "legion": {
+    "kind": "Troop",
+    "max": 3
+  },
+  "spear": {
+    "kind": "Troop",
+    "max": 3
+  },
+  "guard": {
+    "kind": "Troop",
+    "max": 3
+  },
+  "cavalry": {
+    "kind": "Troop",
+    "max": 3
+  },
+  "archer": {
+    "kind": "Troop",
+    "max": 3
+  },
+  "medic": {
+    "kind": "Building",
+    "max": 3
+  },
+  "siege": {
+    "kind": "Building",
+    "max": 3
+  },
+  "training": {
+    "kind": "Building",
+    "max": 3
+  },
+  "legionTrain": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "legion"
+    ]
+  },
+  "archerTrain": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "archer"
+    ]
+  },
+  "siegeTrain": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "siege"
+    ]
+  },
+  "shieldDrill": {
+    "kind": "Permanent",
+    "max": 3
+  },
+  "crossfire": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "archer"
+    ]
+  },
+  "fireArrows": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "archer"
+    ]
+  },
+  "oilShots": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "siege",
+      "archer"
+    ],
+    "needs": "fireArrows"
+  },
+  "charge": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "cavalry"
+    ]
+  },
+  "fieldMedicine": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "medic"
+    ]
+  },
+  "warhorn": {
+    "kind": "Permanent",
+    "max": 3
+  },
+  "combinedArms": {
+    "kind": "Permanent",
+    "max": 3
+  },
+  "pinning": {
+    "kind": "Permanent",
+    "max": 3,
+    "requires": [
+      "spear"
+    ]
+  },
+  "shield": {
+    "kind": "Battle order",
+    "max": 3
+  },
+  "testudo": {
+    "kind": "Battle order",
+    "max": 3
+  },
+  "rally": {
+    "kind": "Battle order",
+    "max": 3
+  },
+  "volley": {
+    "kind": "Battle order",
+    "max": 3
+  }
+}

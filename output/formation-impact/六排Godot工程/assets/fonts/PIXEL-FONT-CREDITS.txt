@@ -1,0 +1,38 @@
+Unified game typography — 2026-10-24
+
+Latin, numerals and supported symbols:
+m5x7 by Daniel Linssen (managore), CC0.
+User-supplied source: /Users/ip/Desktop/9king/字体/m5x7.ttf
+Official source: https://managore.itch.io/m5x7
+Credits and license: M5X7-CREDITS.txt
+m5x7.ttf is an unmodified source copy.
+m5x7-eagle.ttf is a CC0 derivative named m5x7 Eagle.
+Only em size (1024 -> 640) and family
+names were adjusted to align its rendered size with the Chinese companion;
+glyph shapes, advances and vertical metrics remain in their source units.
+Reproducible build: tools/prepare_pixel_font.py --m5x7 (offline, requires fontTools).
+The previous Monogram italic font remains available but is not selected.
+
+Chinese and missing symbols:
+Fusion Pixel Font, 12px proportional Simplified Chinese, TakWolf, SIL OFL 1.1.
+Official source: https://github.com/TakWolf/fusion-pixel-font
+Pinned release: 2026.10.16
+Archive: fusion-pixel-font-12px-proportional-ttf-v2026.10.16.zip
+fusion-pixel-12px-proportional-zh_hans.ttf is copied without modification.
+The complete upstream and component licenses are preserved in
+fusion-pixel-licenses/ and in FUSION-PIXEL-LICENSES.txt for exported builds.
+
+Additional symbol fallback:
+Monogram Extended by Vinícius Menézio (@vmenezio), CC0.
+Official source: https://datagoblin.itch.io/monogram
+Attribution: MONOGRAM-CREDITS.txt
+monogram-eagle.ttf supplies characters absent from both m5x7 and Fusion Pixel,
+including the minus sign and check mark. Its glyphs are unchanged, with em
+1024 -> 640 and family names adjusted; rebuild with tools/prepare_pixel_font.py.
+
+Runtime:
+game_pixel_font.tres combines the fonts into a single shared Godot font.
+game_pixel_theme.tres supplies menus, cards, maps, dialogs and tooltips.
+Battlefield draw calls use the same font resource. Pixel font imports disable
+antialiasing, hinting and system fallback; rendering has no external font or
+network dependency. The old Noto Serif resource is retained but not used.

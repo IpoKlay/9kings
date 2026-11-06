@@ -1,0 +1,486 @@
+{
+  "source": "https://github.com/patch-gg/pixelfx",
+  "revision": "a84159688af3ca37a4be05a0d422b94451b2e24e",
+  "status_note": "14角色均为玩家可点选释放的实战技能；默认无限施法测试，英雄与怪物仍不是独立常驻单位。新技能数值为初始测试值。",
+  "characters": [
+    {
+      "id": "zeus",
+      "name": "宙斯",
+      "category": "神明",
+      "power": "雷击破阵",
+      "effects": [
+        "lightning/lightning-strike",
+        "lightning/chain-lightning"
+      ],
+      "adaptation": "已接入战斗伤害；无限释放测试。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/zeus.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Zeus",
+      "power_en": "Thunder",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "lightning-strike",
+          "delay": 0,
+          "speed": 1,
+          "start": 0.7666666666666667,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "雷击伤敌 · 打断敌军",
+      "summary_en": "Lightning damage & interrupt",
+      "description": "已接入战斗伤害；无限释放测试。",
+      "description_en": "Lightning damage & interrupt"
+    },
+    {
+      "id": "poseidon",
+      "name": "波塞冬",
+      "category": "神明",
+      "power": "海潮冲击",
+      "effects": [
+        "water/wave-crash"
+      ],
+      "adaptation": "海浪沿箭头推进，敌军受伤并被推开；不再使用地裂、碎石或地震音效。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/poseidon.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Poseidon",
+      "power_en": "Sea surge",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "wave-crash",
+          "delay": 0,
+          "speed": 1,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "海潮伤敌 · 推开敌军",
+      "summary_en": "Sea damage & knockback",
+      "description": "海浪沿箭头推进，敌军受伤并被推开；不再使用地裂、碎石或地震音效。",
+      "description_en": "Sea damage & knockback"
+    },
+    {
+      "id": "athena",
+      "name": "雅典娜",
+      "category": "神明",
+      "power": "范围神盾",
+      "effects": [
+        "holy/divine-shield",
+        "impacts/shield-block"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/athena.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Athena",
+      "power_en": "Divine shield",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "divine-shield",
+          "delay": 0.33,
+          "speed": 1,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "友军减伤{reduction_percent}% · {duration}秒",
+      "summary_en": "Allies: {reduction_percent}% protection · {duration}s",
+      "description": "落点{radius}范围内友军受到的伤害减少{reduction_percent}%，持续{duration}秒。重放刷新时长，不叠加减伤。",
+      "description_en": "Protect allies within {radius} for {duration}s. Recasting refreshes duration; protection does not stack."
+    },
+    {
+      "id": "artemis",
+      "name": "阿尔忒弥斯",
+      "category": "神明",
+      "power": "狩猎标记",
+      "effects": [
+        "holy/halo",
+        "moves/arrow-shot"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/artemis.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Artemis",
+      "power_en": "Hunting volley",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "arrow-shot",
+          "delay": 0,
+          "speed": 1,
+          "start": 0,
+          "x": -360,
+          "y": 0
+        }
+      ],
+      "summary": "标记强敌 · 弓兵集火",
+      "summary_en": "Mark a foe · Archer focus",
+      "description": "标记落点附近最强敌军{duration}秒；附近弓兵优先射击，箭伤提高{bonus_percent}%。新标记替换旧标记。",
+      "description_en": "Mark the toughest nearby foe for {duration}s. Nearby archers focus it with +{bonus_percent}% arrow damage. One mark at a time."
+    },
+    {
+      "id": "hephaestus",
+      "name": "赫菲斯托斯",
+      "category": "神明",
+      "power": "熔炉喷发",
+      "effects": [
+        "fire/flame-pillar",
+        "fire/fire-ring"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/hephaestus.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Hephaestus",
+      "power_en": "Forge eruption",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "flame-pillar",
+          "delay": 0,
+          "speed": 1,
+          "start": 0.05,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "灼烧区域 · 阻滞敌军",
+      "summary_en": "Burning ground · Slow enemies",
+      "description": "喷发{damage}伤害，留下{duration}秒火场，每秒{dps}伤害并减速{slow_percent}%。再次施放移动火场。",
+      "description_en": "{damage} eruption damage, then {dps} damage/s and {slow_percent}% slow for {duration}s. Recasting relocates the fire zone."
+    },
+    {
+      "id": "demeter",
+      "name": "得墨忒耳",
+      "category": "神明",
+      "power": "根须束缚",
+      "effects": [
+        "nature/root-snare",
+        "nature/thorns"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/demeter.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Demeter",
+      "power_en": "Root snare",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "root-snare",
+          "delay": 0.33,
+          "speed": 1,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "根须定身 · {duration}秒",
+      "summary_en": "Root enemies · {duration}s",
+      "description": "落点{radius}范围内敌军无法移动{duration}秒，但仍能攻击。",
+      "description_en": "Root enemies within {radius} for {duration}s. Rooted troops can still attack."
+    },
+    {
+      "id": "achilles",
+      "name": "阿喀琉斯",
+      "category": "英雄",
+      "power": "冲锋突刺",
+      "effects": [
+        "melee/thrust",
+        "status/haste"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/achilles.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Achilles",
+      "power_en": "Spear rush",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "thrust",
+          "delay": 0.33,
+          "speed": 1,
+          "start": 0,
+          "x": -60,
+          "y": 0
+        }
+      ],
+      "summary": "直线突刺 · 穿透敌阵",
+      "summary_en": "Piercing spear charge",
+      "description": "沿箭头冲刺{length}距离，对路径上的每队敌军造成{damage}伤害，短暂打断并推开。每次冲刺只命中一次。",
+      "description_en": "Charge along the {length} lane for {damage} damage, interrupt and knockback. Each squad is hit once per cast."
+    },
+    {
+      "id": "odysseus",
+      "name": "奥德修斯",
+      "category": "英雄",
+      "power": "诱敌幻军",
+      "effects": [
+        "status/haste",
+        "shadow/hex-sigil"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/odysseus.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Odysseus",
+      "power_en": "Phantom host",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "hex-sigil",
+          "delay": 0.1,
+          "speed": 2,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "幻军诱敌 · {duration}秒",
+      "summary_en": "Decoy troops · {duration}s",
+      "description": "生成{count}队不造成伤害的幻军，吸引{radius}范围内敌军，{duration}秒后或被击破后消失。新施放替换旧幻军。",
+      "description_en": "Summon {count} harmless decoys that draw enemies within {radius}. Last {duration}s or until destroyed; recasting replaces them."
+    },
+    {
+      "id": "heracles",
+      "name": "赫拉克勒斯",
+      "category": "英雄",
+      "power": "巨棒破阵",
+      "effects": [
+        "melee/hammer-smash",
+        "impacts/ground-slam"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/heracles.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Heracles",
+      "power_en": "Heavy smash",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "hammer-smash",
+          "delay": 0.33,
+          "speed": 1,
+          "start": 0,
+          "x": -70,
+          "y": 0
+        },
+        {
+          "id": "ground-slam",
+          "delay": 0.5,
+          "speed": 1.6,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "重砸伤害 · 范围击退",
+      "summary_en": "Heavy smash · Knockback",
+      "description": "对{radius}范围内敌军造成{damage}伤害，击退并打断{stun}秒。",
+      "description_en": "{damage} damage within {radius}; knock enemies away and interrupt for {stun}s."
+    },
+    {
+      "id": "minotaur",
+      "name": "米诺陶洛斯",
+      "category": "怪物",
+      "power": "蓄力冲撞",
+      "effects": [
+        "impacts/heavy-landing",
+        "impacts/blunt-hit"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/minotaur.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Minotaur",
+      "power_en": "Bull charge",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "heavy-landing",
+          "delay": 0.33,
+          "speed": 1,
+          "start": 0,
+          "x": -80,
+          "y": 0
+        },
+        {
+          "id": "blunt-hit",
+          "delay": 0.55,
+          "speed": 1,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "冲撞破阵 · 击退",
+      "summary_en": "Charging bull · Knockback",
+      "description": "沿{length}距离冲撞路径对敌军造成{damage}伤害并大幅推开，每队每次只受击一次。",
+      "description_en": "Charge along {length} for {damage} damage and heavy knockback. Each squad is hit once per cast."
+    },
+    {
+      "id": "medusa",
+      "name": "美杜莎",
+      "category": "怪物",
+      "power": "扇形石化",
+      "effects": [
+        "status/petrified"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/medusa.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Medusa",
+      "power_en": "Petrifying gaze",
+      "preview_only": false,
+      "cast_fx": [],
+      "summary": "扇形石化 · 停手{duration}秒",
+      "summary_en": "Petrifying cone · {duration}s",
+      "description": "箭头前方扇形内敌军石化{duration}秒，不能移动或攻击，结束后自动恢复。",
+      "description_en": "Enemies in the cone cannot move or attack for {duration}s, then recover automatically."
+    },
+    {
+      "id": "cyclops",
+      "name": "独眼巨人",
+      "category": "怪物",
+      "power": "投石轰击",
+      "effects": [
+        "nature/boulder",
+        "explosions/dirt-explosion"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/cyclops.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Cyclops",
+      "power_en": "Boulder throw",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "boulder",
+          "delay": 0.1,
+          "speed": 1,
+          "start": 0,
+          "x": -223,
+          "y": 0
+        },
+        {
+          "id": "dirt-explosion",
+          "delay": 0.579,
+          "speed": 1,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "投石轰击 · 范围打断",
+      "summary_en": "Boulder impact · Interrupt",
+      "description": "飞石落地对{radius}范围内敌军造成{damage}伤害，打断{stun}秒并轻推。",
+      "description_en": "The boulder hits enemies within {radius} for {damage} damage, {stun}s interruption and knockback."
+    },
+    {
+      "id": "hydra",
+      "name": "九头蛇许德拉",
+      "category": "怪物",
+      "power": "毒液与再生",
+      "effects": [
+        "nature/acid-splash",
+        "nature/poison-cloud",
+        "holy/heal"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/hydra.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Hydra",
+      "power_en": "Venom & Regrowth",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "acid-splash",
+          "delay": 0.33,
+          "speed": 1,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "poison-cloud",
+          "delay": 0.5,
+          "speed": 2,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "毒液侵蚀 · 友军再生",
+      "summary_en": "Venom · Allied regeneration",
+      "description": "最多{max_targets}队敌军受到{damage}伤害并中毒{duration}秒，每秒{dps}伤害；落点{regen_radius}范围内存活友军每秒恢复{regen_per_second}生命，持续{duration}秒。重复刷新，不复活。",
+      "description_en": "Hit up to {max_targets} foes for {damage} plus {dps} poison damage/s for {duration}s. Living allies within {regen_radius} regenerate {regen_per_second} HP/s for {duration}s; no revival."
+    },
+    {
+      "id": "harpy",
+      "name": "鹰身女妖",
+      "category": "怪物",
+      "power": "俯冲后排",
+      "effects": [
+        "holy/feather-burst",
+        "nature/leaf-storm",
+        "impacts/heavy-landing"
+      ],
+      "adaptation": "已接入玩家点选技能，实际规则见description；保持六帧角色动画和PixelFX。",
+      "art": {
+        "sprite_frames": "res://assets/mythology/animated_oblique/harpy.tres",
+        "status": "playable_six_frame_cast"
+      },
+      "name_en": "Harpy",
+      "power_en": "Diving wings",
+      "preview_only": false,
+      "cast_fx": [
+        {
+          "id": "feather-burst",
+          "delay": 0.33,
+          "speed": 1,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "leaf-storm",
+          "delay": 0.5,
+          "speed": 2,
+          "start": 0,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "summary": "俯冲敌军 · 打断后排",
+      "summary_en": "Dive strike · Disrupt back line",
+      "description": "俯冲选定落点，对{radius}范围内敌军造成{damage}伤害，打断{stun}秒。",
+      "description_en": "Dive onto the target area: {damage} damage within {radius} and {stun}s interruption."
+    }
+  ]
+}

@@ -15,7 +15,7 @@ func run():
 	var before=main.campaign.g.duplicate(true)
 	var prefs=main.prefs.duplicate(true)
 	main.prefs.enabled=true;main.prefs.volume=.7
-	main.open_tactical_trial();await process_frame
+	main.open_tactical_trial(true);await process_frame
 	var trial=root.get_child(root.get_child_count()-1)
 	trial.myth_audio.cue_played.connect(func(id,stage):cues.append(id+'_'+stage))
 	var bus=AudioServer.get_bus_index('EagleMythFX')

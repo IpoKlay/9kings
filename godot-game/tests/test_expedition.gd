@@ -72,7 +72,13 @@ func _init():
 		var before_build=c.g.buildings.duplicate(true)
 		var before_upgrades=c.g.upgrades.duplicate(true)
 		check(not e.travel(id),'Cannot replay a node or start twice')
-		if c.g.phase=='battle':
+		if e.is_pass(id):
+			# The native tactical battle and its result adapter run in test_expedition_pass.
+			check(c.g.battle.get('external_battle',false),'Saguntum delegates to tactical scene')
+			c.finish(true)
+			settlement_fixtures+=1
+			check(e.settle() and not e.settle(),'Tactical settlement advances exactly once')
+		elif c.g.phase=='battle':
 			var predicted=e.encounter(id)
 			var enemy_units=c.g.battle.units.filter(func(u):return u.side=='enemy')
 			check(enemy_units.size()==predicted.roster.size(),'Intel equals actual enemy count')

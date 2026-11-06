@@ -1,5 +1,46 @@
 # 《鹰旗之下》数据与调参指南
 
+## 会战与菜单的编辑器布局（2026-11-05）
+
+固定布局现在由下面三个场景管理。保存后，停止游戏并从主菜单重新运行即可读取新布局。
+
+### 会战 HUD
+
+- 打开 `scenes/ui/battle_hud.tscn`，选择 `BattleActions/StartButton`，在 2D 画布或 Inspector 的 Layout / Transform 中调整位置与尺寸。`StatusGroup`、`TopActions`、`ReserveActions`、`DeploymentActions`、`BattleActions`、`HelpGroup`、`Results` 是可整体移动的分组。
+- 部队纸签一排由 `RegimentRoster` 管理，移动这个 HBoxContainer 调整整排位置，修改 Theme Overrides / Constants / Separation 调整间距。`RegimentButton` 是运行时按当前部队数量复制的实际控件模板，预览时可临时显示它。
+- 纸签、字体、墨色、悬停和选中颜色来自 `assets/ui_rpg/battle_hud/battle_hud_theme.tres`。纸签纹理使用现有远征 UI 图集同一区域的最近邻裁片 `toolbar.png`。在 Inspector 中修改 Theme 的 Button、HudSelected、PaperLabel 等类型即可。
+- 点击行为在 `scripts/tactical/trial.gd` 的 `_ready()` 信号绑定与 `start_or_hold()`，阶段文字、数量、冷却和可用状态在 `refresh()`。固定控件位置保存在场景中。`HelpGroup` 与 `Results` 内的内容按原有阶段显示，可在编辑器临时显示对应子节点进行排版。
+
+### 山口关卡
+
+打开 `scenes/battlefields/roman_pass.tscn`。
+
+| 要调整的内容 | 选择的节点 |
+|---|---|
+| 底图与原有像素比例 | `Landscape` |
+| 树木根部位置与大小 | `Decoration/Trees/Oak01` 等 Sprite2D |
+| 装饰旗 | `Decoration/Flags/WestPennant`、`EastPennant` |
+| 会战鹰旗与占领中心 | `Gameplay/EagleStandard` |
+| 实际阻挡岩壁的位置与矩形范围 | `Gameplay/RockWalls/NorthRidge`、`MiddleRidge`、`SouthRidge` |
+| 通道名称与敌军行军通道参照 | `Gameplay/MainPass`、`SidePass`，通行宽度同时受相邻岩壁限制 |
+| 战场、部署和油桶允许区域 | `Gameplay/Areas` 中对应的 Line2D 轮廓 |
+| 初始敌军、标准布阵、七兵种布阵、山口守阵 | `Spawns/InitialEnemy`、`Vanguard`、`CombinedAllies` / `CombinedEnemies`、`PassAllies` / `PassEnemies` 中的 Marker2D |
+| 油桶初始位置与随征队位置 | `Spawns/OilBarrels`、`Spawns/CampEscort` |
+
+坐标分三层。底图原图像素由 `Landscape` 的纹理、位置与缩放管理。关卡节点在投影后的战场平面上摆放，岩壁矩形直接交给原有 `pass_terrain.gd` 寻路与部署验证。部队、出生点、鹰旗与允许区域由 `roman_pass.gd.settings()` 用 `trial_rules.gd.projection` 的逆变换转换为地面逻辑坐标。相机平移、缩放和 960×540 战场绘制由 `trial.gd` 与 `trial_field.gd` 管理。
+
+参照点的投影坐标为鹰旗 `(355.2, 492.7)`、中央岩壁矩形 `(980, 767, 86, 58)`、主通道矩形 `(980, 438, 86, 329)`、侧道矩形 `(980, 825, 86, 130)`。岩壁通过移动和调整矩形大小编辑。部署区域轮廓应保持地面矩形投影后的平行四边形，规则沿用地面 Rect2 范围。关卡根节点保持原有变换，常用调整直接选中上述子节点。
+
+运行时的树冠风动读取 Sprite2D 根部位置与宽度，原有逐段像素风动继续绘制。出生标记和区域轮廓用于编辑预览，油桶搬动、布阵、点火和镜头属于本局状态。重试从同一场景重建初始规则，无窗口测试也实例化同一布局取得默认值。
+
+### 主菜单
+
+- 打开 `scenes/ui/main_menu.tscn`，通过 `MenuOptions` 的位置移动整列选项，通过 Theme Overrides / Constants / Separation 修改行距，当前为 6 像素。每行的 Custom Minimum Size / Y 当前为 74 像素。菜单按钮在 VBoxContainer 内排版。
+- `CursorAnchor/SelectionCursor` 的局部偏移控制箭头相对跟随点的位置，根节点的 `Cursor Gap` 当前为 16 像素。运行时 `CursorAnchor` 根据当前选项跟随，光标子节点的局部偏移保留。
+- 标题、提示与背景分别在 `Title`、`Subtitle`、`SelectionHint`、`RomanForum`。语言内容由 `main_menu.gd.render()` 更新现有节点，按钮回调按节点名称绑定。原画为 `assets/menu/forum-original.jpg`，采用完整等比显示。光标运动参数继续来自 `data/presentation/ui.tres`，其中旧菜单坐标字段已由场景布局接替。
+
+验证证据在 `../output/editable-scenes/`。`tests/test_editable_scenes.gd` 检查位置与间距保持、透明点击区、信号数量、阶段复用、墙体与出生点的坐标转换。菜单键盘、存档恢复、七兵种会战、神力、途经点与山口原有测试继续运行。
+
 本次是原生 Godot 工程的数据整理。保留整理前的数值、随机顺序、玩法流程、像素画面和素材。运行入口仍是 `project.godot`；没有网站、WebView 或额外网络依赖。
 
 ## 试战神话技能（2026-11-01）
@@ -103,7 +144,7 @@
 ## 先记住三条规则
 
 1. 玩法数值只在 `data/balance/` 修改；同一个效果的中英文说明与数字徽标从这里取值。
-2. 表现参数只在对应的 `data/presentation/*.tres` 修改。它们是 Godot 原生 Resource，可在检查器里展开 `values`；字段名称保持固定，类型与单位见下文。
+2. 表现参数在对应的 `data/presentation/*.tres` 修改。它们是 Godot 原生 Resource，可在检查器里展开 `values`。会战 HUD、山口和主菜单的固定布局按本页顶部说明在对应场景中编辑。
 3. 配置是只读定义；每局状态是独立副本；玩家设置单独保存。不要把战斗中的生命、已选卡牌、鼠标位置写回配置文件。
 
 修改配置后停止并重新运行游戏。当前实现不热加载数值，避免一局中途出现新旧配置混用。

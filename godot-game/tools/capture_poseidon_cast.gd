@@ -10,7 +10,7 @@ func run():
 	root.add_child(main)
 	await process_frame
 	main.language='zh'
-	main.open_tactical_trial()
+	main.open_tactical_trial(true)
 	await process_frame
 	var trial=root.get_child(root.get_child_count()-1)
 	trial.set_process(false)

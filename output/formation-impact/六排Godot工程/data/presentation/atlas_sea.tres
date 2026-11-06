@@ -1,0 +1,22 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1_hp2pn"]
+
+[resource]
+script = ExtResource("1_hp2pn")
+display_name = "atlas_sea"
+description = "现有表现参数，默认值逐项保留。单位与修改约束见 DATA_GUIDE.md。"
+values = {
+"animation_fps": 12.0,
+"drag_per_second": 0.34,
+"fade_start_seconds": 0.22,
+"gust_interval_seconds": 0.24,
+"gust_spacing": 200.0,
+"lifetime_seconds": 2.8,
+"max_water_speed": 28.0,
+"pointer_break_distance": 1000.0,
+"pointer_break_seconds": 0.3,
+"pointer_gain": 0.16,
+"radius": Vector2(200, 140),
+"radius_variation": Vector2(32, 24)
+}

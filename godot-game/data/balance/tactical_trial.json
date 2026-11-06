@@ -1,12 +1,24 @@
 {
   "duration": 180.0,
   "pass_standard": {
-    "center": [340, 780],
     "radius": 115,
     "capture_seconds": 12
   },
+  "pass_assault": {
+    "signal_at": 14,
+    "warning_seconds": 6,
+    "archer_trail": 175
+  },
   "testing": {
     "unlimited_powers": true
+  },
+  "regiment_impact": {
+    "turn_rate": 5.8, "ride_start_seconds": 0.36, "sprint_seconds": 0.52,
+    "top_speed": 1.82, "minimum_impact_speed": 1.55, "recovery_seconds": 1.1,
+    "alignment_degrees": 16, "approach_degrees": 24, "bearing_hysteresis_degrees": 6,
+    "lane_half_width": 29, "flank_spread": 26,
+    "front_spread": 16, "braced_spread": 4, "flank_depth": 114,
+    "front_depth": 22, "braced_depth": 7, "gap_hold": 1.0
   },
   "directional_combat": {
     "shield_front": 0.72,
@@ -109,38 +121,6 @@
       "flight": 0.57
     }
   },
-  "enemies": [
-    [
-      "legion",
-      1160,
-      365
-    ],
-    [
-      "legion",
-      1160,
-      545
-    ],
-    [
-      "legion",
-      1160,
-      725
-    ],
-    [
-      "archer",
-      1430,
-      400
-    ],
-    [
-      "archer",
-      1430,
-      660
-    ],
-    [
-      "cavalry",
-      1680,
-      850
-    ]
-  ],
   "sea_wave": {
     "charges": 2,
     "length": 680.0,
@@ -150,121 +130,5 @@
     "stun": 3.0,
     "cooldown": 22.0,
     "push": 90.0
-  },
-  "battlefield": {
-    "bounds": [
-      210,
-      290,
-      2860,
-      1060
-    ],
-    "deployment": [
-      350,
-      300,
-      350,
-      890
-    ],
-    "vanguard": [
-      [
-        "legion",
-        630,
-        485
-      ],
-      [
-        "legion",
-        630,
-        705
-      ],
-      [
-        "archer",
-        385,
-        595
-      ],
-      [
-        "cavalry",
-        540,
-        940
-      ]
-    ],
-    "combined": [
-      [
-        "guard",
-        527,
-        335
-      ],
-      [
-        "legion",
-        778,
-        615
-      ],
-      [
-        "spear",
-        1029,
-        896
-      ],
-      [
-        "cavalry",
-        1267,
-        1188
-      ],
-      [
-        "archer",
-        340,
-        623
-      ],
-      [
-        "medic",
-        783,
-        1099
-      ],
-      [
-        "siege",
-        374,
-        995
-      ]
-    ],
-    "combined_enemy": [
-      [
-        "guard",
-        1110,
-        354
-      ],
-      [
-        "legion",
-        1366,
-        641
-      ],
-      [
-        "spear",
-        1626,
-        930
-      ],
-      [
-        "cavalry",
-        1631,
-        377
-      ],
-      [
-        "archer",
-        1839,
-        699
-      ],
-      [
-        "medic",
-        2067,
-        983
-      ],
-      [
-        "siege",
-        2158,
-        584
-      ]
-    ],
-    "combined_deployment": [
-      210,
-      290,
-      1070,
-      1060
-    ]
   }
 }

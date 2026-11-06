@@ -27,7 +27,7 @@ func run():
 	await process_frame
 	var before=main.campaign.g.duplicate(true)
 	main.language='zh'
-	main.open_tactical_trial()
+	main.open_tactical_trial(true)
 	await process_frame
 	var trial=root.get_child(root.get_child_count()-1)
 	for row in trial.rules.characters:

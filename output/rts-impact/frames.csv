@@ -1,0 +1,7 @@
+version,case,outline_frame,first_damage_frame,delay_frames,first_halt,follow_through_end,projected_follow_px
+before,shield,222,608,386,608,608,0.0
+before,flank,141,240,99,240,240,0.0
+before,pikes,87,216,129,216,216,0.0
+after,shield,222,224,2,224,224,0.0
+after,flank,149,152,3,152,180,32.0
+after,pikes,100,102,2,102,102,0.0

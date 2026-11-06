@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+FIRST 1 12.3333333333335 front charge
+REAR 1 at 19.0000000000002 flanking_charge by 17 target 12 damage 83.3
+REAR 1 at 20.6666666666668 hit by 17 target 12 damage 17.0
+PROBE 1 enemy_routed 138.500000000002 rear 2 flank 1 focus 19.0000000000002 first 8.4

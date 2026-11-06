@@ -1,0 +1,348 @@
+{
+  "legion": {
+    "en": {
+      "name": "Legionaries",
+      "text": "Durable sword infantry. Holds the front line.",
+      "detail": "Durable sword infantry. Holds the front line. Deploy on an empty tile or upgrade a matching legion to III. 6 / 9 / 12 troops; soldier size stays fixed. Marches from its own tile at battle start.",
+      "impact": "6 / 9 / 12",
+      "tag": "LEGIONARY"
+    },
+    "zh": {
+      "name": "军团步兵",
+      "text": "耐战的持剑步兵，守住军团前线。",
+      "detail": "耐战的持剑步兵，守住军团前线。 空格部署，拖到同兵种格升级，最高III级。6 / 9 / 12人，单兵大小不变，开战从原格出阵。",
+      "impact": "6 / 9 / 12"
+    }
+  },
+  "spear": {
+    "en": {
+      "name": "Spearmen",
+      "text": "Long reach. Hits slow enemies {slow_pct}% for {slow_seconds}s.",
+      "detail": "Long reach. Hits slow enemies {slow_pct}% for {slow_seconds}s. Deploy on an empty tile or upgrade a matching legion to III. 6 / 9 / 12 troops; soldier size stays fixed. Marches from its own tile at battle start.",
+      "impact": "6 / 9 / 12",
+      "tag": "SPEARMAN"
+    },
+    "zh": {
+      "name": "长矛兵",
+      "text": "长距离近战；命中使敌军减速{slow_pct}%，持续{slow_seconds}秒。",
+      "detail": "长距离近战；命中使敌军减速{slow_pct}%，持续{slow_seconds}秒。 空格部署，拖到同兵种格升级，最高III级。6 / 9 / 12人，单兵大小不变，开战从原格出阵。",
+      "impact": "6 / 9 / 12"
+    }
+  },
+  "guard": {
+    "en": {
+      "name": "Shield Guards",
+      "text": "Heavy infantry. Starts each battle with {guard_shield} shield.",
+      "detail": "Heavy infantry. Starts each battle with {guard_shield} shield. Deploy on an empty tile or upgrade a matching legion to III. 6 / 9 / 12 troops; soldier size stays fixed. Marches from its own tile at battle start.",
+      "impact": "6 / 9 / 12",
+      "tag": "SHIELD GUARD"
+    },
+    "zh": {
+      "name": "盾卫",
+      "text": "重装步兵；每场战斗获得{guard_shield}点护盾。",
+      "detail": "重装步兵；每场战斗获得{guard_shield}点护盾。 空格部署，拖到同兵种格升级，最高III级。6 / 9 / 12人，单兵大小不变，开战从原格出阵。",
+      "impact": "6 / 9 / 12"
+    }
+  },
+  "cavalry": {
+    "en": {
+      "name": "Cavalry",
+      "text": "Fast cavalry. First strike deals {charge_pct}% extra damage.",
+      "detail": "Fast cavalry. First strike deals {charge_pct}% extra damage. Deploy on an empty tile or upgrade a matching legion to III. 4 / 6 / 8 troops; soldier size stays fixed. Marches from its own tile at battle start.",
+      "impact": "4 / 6 / 8",
+      "tag": "CAVALRY"
+    },
+    "zh": {
+      "name": "骑兵",
+      "text": "快速冲锋；首次攻击额外造成{charge_pct}%伤害。",
+      "detail": "快速冲锋；首次攻击额外造成{charge_pct}%伤害。 空格部署，拖到同兵种格升级，最高III级。4 / 6 / 8人，单兵大小不变，开战从原格出阵。",
+      "impact": "4 / 6 / 8"
+    }
+  },
+  "archer": {
+    "en": {
+      "name": "Archers",
+      "text": "Ranged support behind the front line.",
+      "detail": "Ranged support behind the front line. Deploy on an empty tile or upgrade a matching legion to III. 6 / 9 / 12 troops; soldier size stays fixed. Marches from its own tile at battle start.",
+      "impact": "6 / 9 / 12",
+      "tag": "AUXILIARY ARCHER"
+    },
+    "zh": {
+      "name": "弓箭手",
+      "text": "在步兵后方提供远程火力。",
+      "detail": "在步兵后方提供远程火力。 空格部署，拖到同兵种格升级，最高III级。6 / 9 / 12人，单兵大小不变，开战从原格出阵。",
+      "impact": "6 / 9 / 12"
+    }
+  },
+  "medic": {
+    "en": {
+      "name": "Field Hospital",
+      "text": "Heals in battle; adjacent troops gain {hospital_pct}% max health per level.",
+      "detail": "Orthogonal neighboring troops gain {hospital_pct}% max health per hospital level; strongest hospital only. The medic still heals nearby wounded allies during battle.",
+      "impact": "I / II / III",
+      "tag": "FIELD MEDIC"
+    },
+    "zh": {
+      "name": "野战医院",
+      "text": "战中治疗；相邻军团每级增加{hospital_pct}%生命上限。",
+      "detail": "上下左右相邻军团每级获得{hospital_pct}%生命上限，多个医疗营取最高加成；军医仍在战场治疗范围内的受伤友军。",
+      "impact": "I / II / III"
+    }
+  },
+  "siege": {
+    "en": {
+      "name": "Siege Camp",
+      "text": "Upgrade the workshop for more health and firepower.",
+      "detail": "Lean-to → workshop → engineers camp. Upgrades health and firepower. Place on an empty tile or upgrade a matching facility to III.",
+      "impact": "I / II / III",
+      "tag": "CATAPULT"
+    },
+    "zh": {
+      "name": "攻城营",
+      "text": "升级装配工棚，提高投石火力与生命。",
+      "detail": "简易装配棚 → 攻城工坊 → 工程营；升级提高火力和生命。空格建造，同建筑格升级，最高III级。",
+      "impact": "I / II / III"
+    }
+  },
+  "training": {
+    "en": {
+      "name": "Drill Yard",
+      "text": "Adjacent camps gain {yard_pct}% attack per yard level.",
+      "detail": "Orthogonal neighbors gain {yard_pct}% attack per level. Multiple drill yards use the strongest bonus. Build on an empty tile or upgrade to III.",
+      "impact": "+{yard_pct}%",
+      "tag": "ADJACENT ATTACK"
+    },
+    "zh": {
+      "name": "训练场",
+      "text": "每级使上下左右相邻兵营攻击提高{yard_pct}%。",
+      "detail": "每级使上下左右相邻军团或攻城营攻击提高{yard_pct}%；多个训练场取最高加成，不叠加。空格建造，同类格升级至III级。",
+      "impact": "+{yard_pct}%"
+    }
+  },
+  "legionTrain": {
+    "en": {
+      "name": "Sword Drill",
+      "text": "Legionaries gain {training_pct}% attack.",
+      "detail": "Legionaries gain {training_pct}% attack.",
+      "impact": "+{training_pct}%",
+      "tag": "LEGION ATTACK"
+    },
+    "zh": {
+      "name": "剑术训练",
+      "text": "军团步兵攻击提高{training_pct}%。",
+      "detail": "军团步兵攻击提高{training_pct}%。"
+    }
+  },
+  "archerTrain": {
+    "en": {
+      "name": "Bow Drill",
+      "text": "Archers gain {training_pct}% attack.",
+      "detail": "Archers gain {training_pct}% attack.",
+      "impact": "+{training_pct}%",
+      "tag": "ARCHER ATTACK"
+    },
+    "zh": {
+      "name": "弓术训练",
+      "text": "弓兵攻击提高{training_pct}%。",
+      "detail": "弓兵攻击提高{training_pct}%。"
+    }
+  },
+  "siegeTrain": {
+    "en": {
+      "name": "Siege Drill",
+      "text": "Catapults gain {training_pct}% attack.",
+      "detail": "Catapults gain {training_pct}% attack.",
+      "impact": "+{training_pct}%",
+      "tag": "SIEGE ATTACK"
+    },
+    "zh": {
+      "name": "攻城训练",
+      "text": "投石机攻击提高{training_pct}%。",
+      "detail": "投石机攻击提高{training_pct}%。"
+    }
+  },
+  "shieldDrill": {
+    "en": {
+      "name": "Iron Wall",
+      "text": "All melee squads start with +{shield_rank} shield.",
+      "detail": "All melee squads start with +{shield_rank} shield.",
+      "impact": "+{shield_rank}",
+      "tag": "FRONTLINE SHIELD"
+    },
+    "zh": {
+      "name": "钢铁壁垒",
+      "text": "所有近战小队开战时获得{shield_rank}点护盾。",
+      "detail": "所有近战小队开战时获得{shield_rank}点护盾。"
+    }
+  },
+  "crossfire": {
+    "en": {
+      "name": "Crossfire",
+      "text": "Archers deal +{crossfire_pct}% damage to foes engaged by your melee.",
+      "detail": "Archers deal +{crossfire_pct}% damage to foes engaged by your melee.",
+      "impact": "+{crossfire_pct}%",
+      "tag": "ENGAGED TARGETS"
+    },
+    "zh": {
+      "name": "交叉火力",
+      "text": "弓兵对正与我方近战交锋的敌军增伤{crossfire_pct}%。",
+      "detail": "弓兵对正与我方近战交锋的敌军增伤{crossfire_pct}%。"
+    }
+  },
+  "fireArrows": {
+    "en": {
+      "name": "Fire Arrows",
+      "text": "Arrows burn targets for {burn_damage} damage/sec for {burn_seconds}s. Refreshes on hit.",
+      "detail": "Arrows burn targets for {burn_damage} damage/sec for {burn_seconds}s. Refreshes on hit.",
+      "impact": "{burn_damage} / SEC",
+      "tag": "BURNING ARROWS"
+    },
+    "zh": {
+      "name": "火焰箭",
+      "text": "箭矢点燃目标，每秒{burn_damage}点伤害，持续{burn_seconds}秒；再次命中刷新。",
+      "detail": "箭矢点燃目标，每秒{burn_damage}点伤害，持续{burn_seconds}秒；再次命中刷新。",
+      "impact": "{burn_damage} / 秒"
+    }
+  },
+  "oilShots": {
+    "en": {
+      "name": "Pitch Stones",
+      "text": "Catapults deal +{oil_pct}% damage to burning enemies.",
+      "detail": "Catapults deal +{oil_pct}% damage to burning enemies.",
+      "impact": "+{oil_pct}%",
+      "tag": "BURNING TARGETS"
+    },
+    "zh": {
+      "name": "燃油投石",
+      "text": "投石机对燃烧中的敌军增伤{oil_pct}%。",
+      "detail": "投石机对燃烧中的敌军增伤{oil_pct}%。"
+    }
+  },
+  "charge": {
+    "en": {
+      "name": "Shock Charge",
+      "text": "Cavalry first-strike bonus rises from +{charge_pct}% to +{charge_upgraded_pct}%.",
+      "detail": "Cavalry first-strike bonus rises from +{charge_pct}% to +{charge_upgraded_pct}%.",
+      "impact": "+{charge_upgraded_pct}%",
+      "tag": "FIRST STRIKE"
+    },
+    "zh": {
+      "name": "破阵冲锋",
+      "text": "骑兵首次攻击的额外伤害由{charge_pct}%提高至{charge_upgraded_pct}%。",
+      "detail": "骑兵首次攻击的额外伤害由{charge_pct}%提高至{charge_upgraded_pct}%。"
+    }
+  },
+  "fieldMedicine": {
+    "en": {
+      "name": "Field Medicine",
+      "text": "Medics heal {healing_pct}% more.",
+      "detail": "Medics heal {healing_pct}% more.",
+      "impact": "+{healing_pct}%",
+      "tag": "HEALING"
+    },
+    "zh": {
+      "name": "战地医疗",
+      "text": "军医治疗量提高{healing_pct}%。",
+      "detail": "军医治疗量提高{healing_pct}%。"
+    }
+  },
+  "warhorn": {
+    "en": {
+      "name": "Blood & Glory",
+      "text": "Enemy defeats give nearby allies {haste_pct}% faster attacks for {haste_seconds}s.",
+      "detail": "Enemy defeats give nearby allies {haste_pct}% faster attacks for {haste_seconds}s.",
+      "impact": "+{haste_pct}%",
+      "tag": "KILL HASTE"
+    },
+    "zh": {
+      "name": "浴血战吼",
+      "text": "击溃敌军后，附近我军攻击速度提高{haste_pct}%，持续{haste_seconds}秒。",
+      "detail": "击溃敌军后，附近我军攻击速度提高{haste_pct}%，持续{haste_seconds}秒。"
+    }
+  },
+  "combinedArms": {
+    "en": {
+      "name": "United Legion",
+      "text": "All squads gain +{diversity_pct}% attack per different troop type (max {diversity_max_pct}%).",
+      "detail": "All squads gain +{diversity_pct}% attack per different troop type (max {diversity_max_pct}%).",
+      "impact": "+{diversity_pct}% / TYPE",
+      "tag": "ARMY ATTACK"
+    },
+    "zh": {
+      "name": "联合军团",
+      "text": "每拥有一种不同兵种，全军攻击提高{diversity_pct}%，上限{diversity_max_pct}%。",
+      "detail": "每拥有一种不同兵种，全军攻击提高{diversity_pct}%，上限{diversity_max_pct}%。",
+      "impact": "+{diversity_pct}% / 兵种"
+    }
+  },
+  "pinning": {
+    "en": {
+      "name": "Pin & Pierce",
+      "text": "Archers and catapults deal +{pinning_pct}% damage to slowed enemies.",
+      "detail": "Archers and catapults deal +{pinning_pct}% damage to slowed enemies.",
+      "impact": "+{pinning_pct}%",
+      "tag": "SLOWED TARGETS"
+    },
+    "zh": {
+      "name": "牵制穿射",
+      "text": "弓兵与投石机对被减速的敌军增伤{pinning_pct}%。",
+      "detail": "弓兵与投石机对被减速的敌军增伤{pinning_pct}%。"
+    }
+  },
+  "shield": {
+    "en": {
+      "name": "Hold Fast",
+      "text": "Every allied squad gains {army_shield} shield for the next battle.",
+      "detail": "Every allied squad gains {army_shield} shield for the next battle.",
+      "impact": "+{army_shield}",
+      "tag": "ARMY SHIELD"
+    },
+    "zh": {
+      "name": "坚守阵线",
+      "text": "下一场战斗，所有我军小队获得{army_shield}点护盾。",
+      "detail": "下一场战斗，所有我军小队获得{army_shield}点护盾。"
+    }
+  },
+  "testudo": {
+    "en": {
+      "name": "Testudo",
+      "text": "Legionaries take {testudo_damage_pct}% less damage, but move {testudo_speed_pct}% slower.",
+      "detail": "Legionaries take {testudo_damage_pct}% less damage, but move {testudo_speed_pct}% slower.",
+      "impact": "−{testudo_damage_pct}%",
+      "tag": "DAMAGE TAKEN"
+    },
+    "zh": {
+      "name": "龟甲阵",
+      "text": "下一场战斗，军团步兵减伤{testudo_damage_pct}%，移动速度降低{testudo_speed_pct}%。",
+      "detail": "下一场战斗，军团步兵减伤{testudo_damage_pct}%，移动速度降低{testudo_speed_pct}%。"
+    }
+  },
+  "rally": {
+    "en": {
+      "name": "War Standard",
+      "text": "All squads gain {rally_pct}% attack for the next battle.",
+      "detail": "All squads gain {rally_pct}% attack for the next battle.",
+      "impact": "+{rally_pct}%",
+      "tag": "ARMY ATTACK"
+    },
+    "zh": {
+      "name": "军团战旗",
+      "text": "下一场战斗，全军攻击提高{rally_pct}%。",
+      "detail": "下一场战斗，全军攻击提高{rally_pct}%。"
+    }
+  },
+  "volley": {
+    "en": {
+      "name": "Rapid Volley",
+      "text": "Archers and catapults attack {volley_pct}% faster next battle.",
+      "detail": "Archers and catapults attack {volley_pct}% faster next battle.",
+      "impact": "+{volley_pct}%",
+      "tag": "RANGED ATTACK RATE"
+    },
+    "zh": {
+      "name": "急速齐射",
+      "text": "下一场战斗，弓兵和投石机攻击速度提高{volley_pct}%。",
+      "detail": "下一场战斗，弓兵和投石机攻击速度提高{volley_pct}%。"
+    }
+  }
+}

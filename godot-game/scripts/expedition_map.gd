@@ -363,14 +363,20 @@ func render_info():
 	close.pressed.connect(func():app.sound.play('cancel');close_info())
 	info.add_child(close)
 	var wave = exp.encounter(selected) if known else {}
-	info.show_stats=not wave.is_empty()
+	var pilot=known and exp.is_pass(selected)
+	info.show_stats=not pilot and not wave.is_empty()
 	var intel_heading=app.loc('expedition_map.enemy_forces') if wave.is_empty() else exp.doctrine_text(selected,'name')+' · '+app.loc('expedition_map.first_wave_d_waves_total')%wave.waves.size()
+	if pilot:intel_heading=app.tx('山口守卫战 · 守旗三分钟或击溃敌军','Hold the Pass · Hold 3 min or rout the enemy')
 	var heading_size=18
 	while heading_size>14 and app.font.get_string_size(intel_heading,HORIZONTAL_ALIGNMENT_LEFT,-1,heading_size).x>382:heading_size-=1
 	var heading=text(info,intel_heading,Vector2(24,148),Vector2(382,26),heading_size,CityIntel.RED)
 	heading.name='IntelHeading'
 	heading.tooltip_text=exp.doctrine_text(selected,'threat')+'\n'+exp.doctrine_text(selected,'advice') if known else ''
-	if not wave.is_empty():
+	if pilot:
+		heading.tooltip_text=app.tx('敌军独占旗区 12 秒即失守','Lose if the enemy holds the flag alone for 12 seconds')
+		var detail=app.tx('驻军：步、矛、重盾、弓、骑\n预备：骑兵、军医、投石机\n随征：%s（军营最高级一队）','Line: infantry, spears, guards, bows, horse\nReserve: horse, medic, onager\nTop camp escort: %s')%exp.escort_text()
+		text(info,detail,Vector2(24,179),Vector2(382,112),18,CityIntel.INK).name='PassBrief'
+	elif not wave.is_empty():
 		var counts = {}
 		for type in wave.roster: counts[type]=counts.get(type,0)+1
 		var index=0
@@ -390,6 +396,9 @@ func render_info():
 		reward=reward.trim_prefix(recovery)
 	if known and n.kind not in ['home','final'] and not (exp.state.opening=='destination' and selected==exp.departure_port()):
 		reward=app.loc('routeintel.elite_detail' if n.kind=='elite' else 'routeintel.reward_detail')
+	if pilot:
+		reward_heading=app.tx('战果','Stakes')
+		reward=app.tx('胜：占城，三选一。败：失去 1 命，整备重试。','Win: take city, choose 1 of 3. Loss: lose 1 life and retry.') if app.campaign.g.defense>1 else app.tx('胜：占城，三选一。败：最后一命耗尽，远征结束。','Win: take city, choose 1 of 3. Loss: last life, expedition ends.')
 	text(info,reward_heading,Vector2(24,306),Vector2(382,28),20,CityIntel.RED).name='RewardHeading'
 	text(info,reward,Vector2(24,338),Vector2(382,56),18,CityIntel.INK).name='RewardText'
 	var history_button=btn(info,app.loc('expedition_map.history').strip_edges(),Vector2(24,398),Vector2(186,48),func():app.documents.open_archive(selected))

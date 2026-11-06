@@ -1,0 +1,19 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1_lj7r5"]
+
+[resource]
+script = ExtResource("1_lj7r5")
+display_name = "field"
+description = "战场投影、营地布局与人物显示比例。单位与修改约束见 DATA_GUIDE.md。"
+values = {
+"troop_scale": 2.0,
+"camp_half_size": Vector2(57, 60),
+"camp_hit_origin": Vector2(242, 139),
+"camp_origin": Vector2(302, 202),
+"camp_spacing": Vector2(120, 126),
+"projection_x": [0.76, -0.68],
+"projection_y": [0.27, 0.4],
+"screen_origin": Vector2(940, 510),
+"world_origin": Vector2(800, 450)
+}

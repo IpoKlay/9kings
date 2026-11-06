@@ -1,0 +1,49 @@
+{
+  "wave_rest_seconds": 3.0,
+  "wave_timeout_seconds": 75,
+  "survivor_heal_fraction": 0.5,
+  "reinforcement_fraction": 0.7,
+  "shield_recovery_fraction": 0.5,
+  "blast_radius": 125,
+  "blast_edge_falloff": 0.5,
+  "arrow_flight_seconds": 0.24,
+  "siege_flight_seconds": 0.7,
+  "heal_flash_seconds": 0.45,
+  "hit_flash_seconds": 0.13,
+  "hit_event_threshold": 0.5,
+  "ally_spawn": {
+    "start_x": 40.0,
+    "rows": 4,
+    "column_spacing": 75,
+    "row_spacing": 120,
+    "cooldown": 0.3,
+    "cooldown_per_column": 0.1
+  },
+  "enemy_spawn": {
+    "start_x": {
+      "front": 820,
+      "middle": 950,
+      "rear": 1035
+    },
+    "rows": 5,
+    "column_spacing": 55.0,
+    "row_spacing": 105,
+    "cooldown": 0.4,
+    "cooldown_per_column": 0.1
+  },
+  "separation_radius": 75,
+  "separation_fraction": 0.5,
+  "separation_speed": 24,
+  "separation_epsilon": 0.01,
+  "bounds_x": [
+    0,
+    1050
+  ],
+  "bounds_y": [
+    -290,
+    290
+  ],
+  "deployment_seconds": 3.2,
+  "deployment_column_spacing": 85,
+  "deployment_row_spacing": 110
+}

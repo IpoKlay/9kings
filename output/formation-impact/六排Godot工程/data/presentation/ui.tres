@@ -1,0 +1,68 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1_6kuwm"]
+
+[resource]
+script = ExtResource("1_6kuwm")
+display_name = "ui"
+description = "现有表现参数，默认值逐项保留。单位与修改约束见 DATA_GUIDE.md。"
+values = {
+"book_turn_fps": 12.5,
+"map_pins": {
+"drop_seconds": 0.11,
+"stagger_seconds": 0.04,
+"impact_seconds": 0.05,
+"drop_height": 42.0,
+"fps": 24.0,
+"pixel_step": 3.0,
+"inset": 30.0,
+"shadow": Color(0.13, 0.15, 0.12, 0.6),
+"palette": [Color(0,0,0,0), Color(0.20,0.23,0.20,1), Color(0.36,0.36,0.26,1), Color(0.51,0.50,0.35,1), Color(0.70,0.66,0.46,1), Color(0.86,0.81,0.61,1)]
+},
+"paper_motion_pixel_step": 4.0,
+"rpg_sheet": "res://assets/ui_rpg/ui.png",
+"rpg_regions": {
+"scroll": Rect2(254, 69, 104, 145),
+"paper": Rect2(396, 31, 86, 99),
+"strip": Rect2(632, 204, 128, 36),
+"button": Rect2(636, 246, 67, 37),
+"book": Rect2(125, 332, 266, 152),
+"arrow_left": Rect2(808, 592, 32, 16),
+"arrow_right": Rect2(856, 592, 32, 16)
+},
+"rpg_scales": {"scroll": 3, "paper": 3, "strip": 3, "button": 3, "book": 4, "arrow_left": 2, "arrow_right": 2},
+"rpg_margins": {"scroll": Vector4(26, 18, 22, 16), "paper": Vector4(14, 14, 14, 14), "strip": Vector4(10, 5, 10, 5), "button": Vector4(8, 6, 8, 6)},
+"rpg_tints": {"paper": Color(0.92, 0.84, 0.69, 1), "hover": Color(1, 0.93, 0.78, 1), "selected": Color(0.68, 0.40, 0.28, 1), "pressed": Color(0.18, 0.30, 0.33, 1), "disabled": Color(0.60, 0.59, 0.48, 1)},
+"rpg_ink": Color(0.18, 0.22, 0.19, 1),
+"rpg_secondary_ink": Color(0.34, 0.29, 0.21, 1),
+"icon_margin_left": 18.0,
+"icon_margin_right": 12.0,
+"icon_side": 48.0,
+"icon_text_left": 8.0,
+"menu_background": "res://assets/menu/forum-original.jpg",
+"menu_button_left": 1218.0,
+"menu_button_size": Vector2(480, 74),
+"menu_button_spacing": 94.0,
+"menu_center_x": 1458.0,
+"menu_cursor_bob": 6.0,
+"menu_cursor_follow_speed": 14.0,
+"menu_cursor_gap": 16.0,
+"menu_cursor_grid": 3.0,
+"menu_cursor_period": 4.0,
+"menu_cursor_size": Vector2(48, 48),
+"menu_option_font_size": 40,
+"menu_grain_seed": 753,
+"menu_secondary_y": 614.0,
+"menu_start_y": 520.0,
+"menu_texture_size": Vector2i(480, 270),
+"panel_content_margin": 14.0,
+"panel_texture_margin": 8.0,
+"roman_icons": {
+"banner": "res://assets/ui_roman/banner.png",
+"gear": "res://assets/ui_roman/gear.png",
+"helmet": "res://assets/ui_roman/helmet.png",
+"laurels": "res://assets/ui_roman/laurels.png",
+"legion_flag": "res://assets/ui_roman/legion_flag.png",
+"scroll": "res://assets/ui_roman/scroll.png"
+}
+}
