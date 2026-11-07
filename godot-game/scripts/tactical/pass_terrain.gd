@@ -1,4 +1,5 @@
 extends RefCounted
+const VIEW=preload('res://data/presentation/rts_view.tres').values
 
 # Projected ground pixels, the same plane in which the ranks are drawn.
 var ROCKS: Array
@@ -9,17 +10,21 @@ var inverse: Transform2D
 var bounds: Rect2
 var clearances={}
 var extents={}
+var turning_rows=false
 
 # Single rank. Spread the old staggered frontage across the remaining files.
-static func layout(kind: String) -> Vector3:
+static func layout(kind: String,high_view: bool=false) -> Vector3:
+	var result: Vector3
 	match kind:
-		'cavalry':return Vector3(246.0/7,0,1.83)
-		'siege':return Vector3(90.5,0,2.0)
-		'medic':return Vector3(27,0,1.23)
-		'spear':return Vector3(259.0/9,0,1.86)
-		_:return Vector3(259.0/9,0,1.23)
+		'cavalry':result=Vector3(246.0/7,0,1.83)
+		'siege':result=Vector3(90.5,0,2.0)
+		'medic':result=Vector3(27,0,1.23)
+		'spear':result=Vector3(259.0/9,0,1.86)
+		_:result=Vector3(259.0/9,0,1.23)
+	return result*Vector3(VIEW.frontage_scale,1,VIEW.figure_scale) if high_view else result
 
-func _init(projection: Transform2D, area: Rect2, types: Dictionary, authored: Dictionary):
+func _init(projection: Transform2D, area: Rect2, types: Dictionary, authored: Dictionary, high_view: bool=false):
+	turning_rows=high_view
 	ROCKS=authored.rocks
 	SIDE_GATE=authored.SidePass
 	main_pass=authored.MainPass
@@ -27,10 +32,12 @@ func _init(projection: Transform2D, area: Rect2, types: Dictionary, authored: Di
 	inverse=basis.affine_inverse()
 	bounds=area
 	for kind in types:
-		var slots=layout(kind)
+		var slots=layout(kind,high_view)
 		var files=int(types[kind].files)
 		# Boots and mounts occupy the ground; helmets and raised spears overhang it.
-		var half=Vector2((files-1)*slots.x*.5,0)+Vector2(9,5)*slots.z
+		# Reserve the full turning envelope, so planned corners are safe at every bearing.
+		var aspect=Vector2(basis.x.y,basis.y.y).length()/Vector2(basis.x.x,basis.y.x).length()
+		var half=Vector2(1,aspect)*(files-1)*slots.x*.5+Vector2(9,5)*slots.z
 		extents[kind]=half
 		var walls: Array[Rect2]=[]
 		for rock in ROCKS:walls.append(Rect2(rock.position-half,rock.size+half*2))
@@ -41,9 +48,18 @@ func crosses(wall: Rect2, a: Vector2, b: Vector2) -> bool:
 	var normal=(b-a).orthogonal()
 	return wall.intersects(segment_box,true) and absf(normal.dot(a-wall.get_center()))<=normal.abs().dot(wall.size*.5)
 
+func replace_rocks(obstacles: Array):
+	ROCKS=obstacles
+	for kind in extents:
+		var half: Vector2=extents[kind]
+		var walls: Array[Rect2]=[]
+		for rock: Rect2 in ROCKS:walls.append(Rect2(rock.position-half,rock.size+half*2))
+		clearances[kind]=walls
+
 func clear_segment(kind: String, start: Vector2, finish: Vector2) -> bool:
 	var a=basis*start
 	var b=basis*finish
+	if turning_rows and not (basis*bounds).encloses(Rect2(b-extents[kind],extents[kind]*2)):return false
 	for wall: Rect2 in clearances[kind]:
 		if crosses(wall,a,b):return false
 	return true

@@ -1,0 +1,140 @@
+{
+  "status": "Progress,1000-person real-time performance gate FAILED; full original combat objective remains active",
+  "fixture": {
+    "people_per_side": 500,
+    "unit_mix": "80%legion/20%archer",
+    "formations_per_side": 50,
+    "field": "Existing square battle2100x2100, original own sprites, overviewzoom0.55",
+    "commands": "Native main-menu entry; dense custom setup, Begin, own auto-attack and existing enemy director",
+    "scope": "Load fixture rather than original500-man siege implementation; no gate/ladder/newest siegeAI validation"
+  },
+  "changes": [
+    "Early return when targetID/slot absent",
+    "Decision-pass-only unitID lookup;live HP/escaped/death eligibility retained",
+    "Per-unit bounds reject unreachable targets without changing enemy/slot order or exact scoring",
+    "Cache cleared before physics; regroup snap invalidates its unit bounds immediately",
+    "Pair repulsion rejects distances outside maximum1.6radius before reading detailed states"
+  ],
+  "regression": {
+    "suites": 48,
+    "explicit_checks": 2192,
+    "failures": 0,
+    "new_target_tests": 250,
+    "results": "regression/results.json",
+    "known_legacy_failures": "Three unrelated legacy suites remain as documented in siege-walls/regression/baseline.json; excluded here",
+    "exit_warnings": "Some UI tests retain ObjectDB/resource reference warnings"
+  },
+  "fixed_rendered_pairs": [
+    {
+      "label": "quiet-before-1",
+      "exit": 0,
+      "simulation": {
+        "mean_ms": 88.003125,
+        "p95_ms": 115.626,
+        "samples": 120
+      },
+      "wall_clock": {
+        "mean_ms": 129.361433333333,
+        "p95_ms": 172.015,
+        "samples": 120
+      }
+    },
+    {
+      "label": "quiet-after-1",
+      "exit": 0,
+      "simulation": {
+        "mean_ms": 71.6271,
+        "p95_ms": 94.444,
+        "samples": 120
+      },
+      "wall_clock": {
+        "mean_ms": 114.231283333333,
+        "p95_ms": 136.461,
+        "samples": 120
+      }
+    },
+    {
+      "label": "quiet-before-2",
+      "exit": 0,
+      "simulation": {
+        "mean_ms": 88.0270833333333,
+        "p95_ms": 117.883,
+        "samples": 120
+      },
+      "wall_clock": {
+        "mean_ms": 129.987166666667,
+        "p95_ms": 161.788,
+        "samples": 120
+      }
+    },
+    {
+      "label": "quiet-after-2",
+      "exit": 0,
+      "simulation": {
+        "mean_ms": 71.2387416666667,
+        "p95_ms": 93.189,
+        "samples": 120
+      },
+      "wall_clock": {
+        "mean_ms": 112.976066666667,
+        "p95_ms": 136.35,
+        "samples": 120
+      }
+    }
+  ],
+  "fixed_state_comparison": {
+    "identical": true,
+    "people": 1000,
+    "simulation_steps": 120,
+    "compared_fields": "unitID,slot,hp,cooldown,targetID,targetSlot,ground position,personal order",
+    "precision": "Godot JSON Vector2 string precision for positions; this is not a bit-exact whole-engine trace",
+    "no_claim": "Does not prove long-running1000-person outcome/RNG equivalence or latest original performance"
+  },
+  "real_runtime": {
+    "before": {
+      "frames": 19,
+      "mean_frame_ms": 544.161052631579,
+      "p95_frame_ms": 617.647,
+      "mean_observed_fps": 1.8376901743349,
+      "real_seconds": 10.339066,
+      "simulation_seconds": 1.9
+    },
+    "after": {
+      "frames": 22,
+      "mean_frame_ms": 469.438318181818,
+      "p95_frame_ms": 512.993,
+      "mean_observed_fps": 2.13020283888259,
+      "real_seconds": 10.327655,
+      "simulation_seconds": 2.2
+    },
+    "method": "Actual engine-driven delta; retained existing fixed60Hz accumulator and0.1s delta clamp; no movie maker, no fixed FPS. Compared runtime performance, not outcomes at differing simulation time.",
+    "gate_passed": false
+  },
+  "full_normal_battle": {
+    "result": "37.933333s victory,17allies remaining",
+    "same_across_render_rates": [
+      30,
+      60,
+      120
+    ],
+    "path": "../individual-full-battle.json"
+  },
+  "images": [
+    "quiet-after-2-500-119.png",
+    "live-after.png"
+  ],
+  "source_access": "../latest-access/status.json",
+  "limits": [
+    "Latest Steam build could not be downloaded anonymously:No subscription",
+    "Gates,ladders,layered traversal and latest five-race/cannon rules not runtime verified",
+    "At1000people large frame stalls and simulation falls behind wall clock;not playable at required speed",
+    "Overview flags/bars stack heavily in this dense fixture",
+    "No GPU-only timing or full1000-person siege-to-result test",
+    "No new standalone final-playable export or GitHub sync"
+  ],
+  "files": {
+    "trial_rules.gd": "3a71bc65e32eecf97b2ea95822f4ff4f89968f6b9ebd4bf8d87283ebed474571",
+    "soldier_physics.gd": "ecd94e0766e7e8fd352a96933116c730275a2b3ae74fc7938d744eedb9d55a1a",
+    "regiment_soldiers.gd": "d9bedf54d21b9432cb223c6b9f87bb62c34f7c2c4e2eef91a4cdf2e75e3b6750"
+  }
+}

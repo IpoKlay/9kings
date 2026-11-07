@@ -1,0 +1,44 @@
+{
+  "source": "Public20260409 battle_ai_director, ai_squad, unit_roles and command behavior; independent implementation uses project soldier dictionaries and existing terrain/command APIs",
+  "implemented": {
+    "activation_first_review": 0.5,
+    "review_interval": 1.5,
+    "order_cooldown": 3.0,
+    "primary_role_precedence": [
+      "ranged4",
+      "mobile16",
+      "shock2",
+      "shieldwall1",
+      "screen32",
+      "melee128"
+    ],
+    "cohorts": "Unassigned living individuals grouped by primary role on each review; reinforcements create new cohorts",
+    "aggression": "clamp(personality+clamp((enemy/ally-1)*.25,-.15,.25)+clamp((kills-losses)*.05,-.1,.15)-clamp(losses/initialEnemy*.4,0,.3),0,1)",
+    "tasks": [
+      "front attack-move to living player centroid with offset cap120",
+      "support180behind front; within100of support goal focus ranged+200, distance*.1 penalty and wounds*50",
+      "flank500perpendicular, sign by cohort index parity",
+      "shock mountedC within760 and aggression>.5; foot attack-move",
+      "intercept one eligible front/idle cohort with anti-cavalry when mounted player within400of support",
+      "cautious front->wall if aggression<.25 and all shield capable;28spacing nearest free slot assignment; under fire in last3seconds and no engagement advances60",
+      "persistent global retreat below30percent remaining to initial enemy zone; ordinary movement, not instant escape"
+    ],
+    "default_personality": 0.5,
+    "actual_game_entry": "Main menu native TacticalTrial uses SquareBattle and automatically starts director; enemy hold fixtures remain manually controlled",
+    "command_reuse": "Existing Soldiers.command and Charges.issue accept internal side argument with ally default; player command authorization is unchanged",
+    "standalone_morale": "Disable inherited regiment-wide health-loss morale rout in independent battle; live survivors remain targets and count toward director force. Campaign pass retains morale.",
+    "wall_attack_state": "Holding/F swings do not count as pursuing ATTACKING state when deciding under-fire advance."
+  },
+  "project_extensions_and_differences": [
+    "Authored expedition pass still uses flag/lane/horn objective plan instead of reference director; explicitly preserved campaign extension.",
+    "Medic has no matching mapped reference role; remains existing project support and is excluded from director combatant counts.",
+    "Campaign morale remains in authored pass only; standalone no longer excludes surviving regiments due to accumulated health-loss morale. Explicit external routing/escaped states remain project extensions.",
+    "Editable terrain path rejection and ground boundary clamping retained; not original native navigation grid.",
+    "AI commands enter the same fixed simulation loop after time advances; exact original node processing order has not been runtime-matched.",
+    "Recent fire uses simulated hit_age rather than original wall-clock last_damage_time; pause/half-speed remain internally consistent.",
+    "Current six mapped reference combat types exercise these tasks; full43types and abilities remain incomplete.",
+    "No original controlled strategicAI runtime comparison this turn; these tests demonstrate implementation of inspected rules, not total equivalence."
+  ],
+  "original_source_or_assets_copied_to_project": false,
+  "goal_complete": false
+}

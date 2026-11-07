@@ -1,0 +1,107 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Cannot open file 'res://.godot/imported/m5x7-eagle.ttf-bf5a24a2b87d348449466f3731b147fa.fontdata'.
+   at: load (core/io/resource_format_binary.cpp:1156)
+ERROR: Failed loading resource: res://.godot/imported/m5x7-eagle.ttf-bf5a24a2b87d348449466f3731b147fa.fontdata.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Failed loading resource: res://assets/fonts/m5x7-eagle.ttf.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Cannot open file 'res://.godot/imported/fusion-pixel-12px-proportional-zh_hans.ttf-66f66ea67972b4eabc57d162381e3e87.fontdata'.
+   at: load (core/io/resource_format_binary.cpp:1156)
+ERROR: Failed loading resource: res://.godot/imported/fusion-pixel-12px-proportional-zh_hans.ttf-66f66ea67972b4eabc57d162381e3e87.fontdata.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Failed loading resource: res://assets/fonts/fusion-pixel-12px-proportional-zh_hans.ttf.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Cannot open file 'res://.godot/imported/monogram-eagle.ttf-630b096bc1036775571db47c5d18dac5.fontdata'.
+   at: load (core/io/resource_format_binary.cpp:1156)
+ERROR: Failed loading resource: res://.godot/imported/monogram-eagle.ttf-630b096bc1036775571db47c5d18dac5.fontdata.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Failed loading resource: res://assets/fonts/monogram-eagle.ttf.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: res://assets/fonts/game_pixel_font.tres:8 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/m5x7-eagle.ttf.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://assets/fonts/game_pixel_font.tres:8 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/m5x7-eagle.ttf.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: Failed loading resource: res://assets/fonts/game_pixel_font.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: res://assets/fonts/game_pixel_theme.tres:6 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/game_pixel_font.tres.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://assets/fonts/game_pixel_theme.tres:6 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/fonts/game_pixel_font.tres.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: Failed loading resource: res://assets/fonts/game_pixel_theme.tres.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Error loading custom project theme 'res://assets/fonts/game_pixel_theme.tres'
+   at: initialize_theme (scene/theme/theme_db.cpp:74)
+ERROR: Unable to open file: res://.godot/imported/iberia-rts.png-2c868e7e912546787a318ef224e75c5b.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:45)
+ERROR: Failed loading resource: res://.godot/imported/iberia-rts.png-2c868e7e912546787a318ef224e75c5b.ctex.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Failed loading resource: res://assets/environments/iberia-rts.png.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Unable to open file: res://.godot/imported/oak.png-9070405efd5cf8c75b9c047db1a0795d.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:45)
+ERROR: Failed loading resource: res://.godot/imported/oak.png-9070405efd5cf8c75b9c047db1a0795d.ctex.
+   at: _load (core/io/resource_loader.cpp:317)
+ERROR: Failed loading resource: res://assets/environments/oak.png.
+   at: _load (core/io/resource_loader.cpp:317)
+SCRIPT ERROR: Parse Error: Could not preload resource file "res://assets/environments/iberia-rts.png".
+          at: GDScript::reload (res://scenes/battlefields/pass_rock.gd:4)
+ERROR: Failed to load script "res://scenes/battlefields/pass_rock.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: res://scenes/battlefields/roman_pass.tscn:20 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/iberia-rts.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:30 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:37 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:44 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:51 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:58 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:65 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:72 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:79 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:86 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:93 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:100 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:107 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:114 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:121 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:128 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:135 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:142 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: res://scenes/battlefields/roman_pass.tscn:149 - Parse Error: [ext_resource] referenced non-existent resource at: res://assets/environments/oak.png.
+   at: _printerr (scene/resources/resource_format_text.cpp:41)
+ERROR: Lethal frame still releases the due25 damage melee, both visitation orders
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_terminal_attacks.gd:7)
+       [1] run (res://tests/tactical/test_terminal_attacks.gd:33)
+ERROR: Terminal melee awards exactly one hit
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_terminal_attacks.gd:7)
+       [1] run (res://tests/tactical/test_terminal_attacks.gd:34)
+ERROR: Archer killed before own visit still releases a due arrow
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_terminal_attacks.gd:7)
+       [1] run (res://tests/tactical/test_terminal_attacks.gd:43)
+SCRIPT ERROR: Invalid access of index '0' on a base object of type: 'Array'.
+          at: run (res://tests/tactical/test_terminal_attacks.gd:44)
+          GDScript backtrace (most recent call first):
+              [0] run (res://tests/tactical/test_terminal_attacks.gd:44)

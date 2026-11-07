@@ -1,0 +1,214 @@
+{
+	"contacts": [
+		{
+			"attacker_slot": 2,
+			"damage": 75.0,
+			"frame": 124,
+			"speed_fraction": 1.0,
+			"target_slot": 0
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 75.0,
+			"frame": 132,
+			"speed_fraction": 1.0,
+			"target_slot": 1
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 46.2000026702881,
+			"frame": 138,
+			"speed_fraction": 0.88000005086263,
+			"target_slot": 2
+		},
+		{
+			"attacker_slot": 1,
+			"damage": 25.0,
+			"frame": 139,
+			"speed_fraction": 0.999999936421712,
+			"target_slot": 1
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 25.0,
+			"frame": 140,
+			"speed_fraction": 1.0,
+			"target_slot": 0
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 27.9299990653992,
+			"frame": 147,
+			"speed_fraction": 0.759999974568685,
+			"target_slot": 3
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 46.199999332428,
+			"frame": 152,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 3
+		},
+		{
+			"attacker_slot": 1,
+			"damage": 46.199999332428,
+			"frame": 156,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 2
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 27.9299990653991,
+			"frame": 156,
+			"speed_fraction": 0.759999974568685,
+			"target_slot": 4
+		},
+		{
+			"attacker_slot": 2,
+			"damage": 46.199999332428,
+			"frame": 162,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 4
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 16.4639990186691,
+			"frame": 162,
+			"speed_fraction": 0.639999961853027,
+			"target_slot": 5
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 75.0,
+			"frame": 171,
+			"speed_fraction": 1.0,
+			"target_slot": 6
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 46.199999332428,
+			"frame": 174,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 7
+		},
+		{
+			"attacker_slot": 2,
+			"damage": 25.0,
+			"frame": 175,
+			"speed_fraction": 0.759999974568685,
+			"target_slot": 6
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 7.59999799728394,
+			"frame": 178,
+			"speed_fraction": 0.51999994913737,
+			"target_slot": 2
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 27.9299967288971,
+			"frame": 181,
+			"speed_fraction": 0.759999910990397,
+			"target_slot": 8
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 16.4639990186691,
+			"frame": 187,
+			"speed_fraction": 0.639999961853027,
+			"target_slot": 5
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 16.4640006542205,
+			"frame": 189,
+			"speed_fraction": 0.640000025431315,
+			"target_slot": 9
+		},
+		{
+			"attacker_slot": 2,
+			"damage": 16.4640006542206,
+			"frame": 194,
+			"speed_fraction": 0.640000025431315,
+			"target_slot": 7
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 9.36389908409114,
+			"frame": 195,
+			"speed_fraction": 0.51999994913737,
+			"target_slot": 4
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 9.3638990840912,
+			"frame": 196,
+			"speed_fraction": 0.51999994913737,
+			"target_slot": 5
+		},
+		{
+			"attacker_slot": 2,
+			"damage": 9.3638990840912,
+			"frame": 210,
+			"speed_fraction": 0.51999994913737,
+			"target_slot": 3
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 5.04210040071007,
+			"frame": 229,
+			"speed_fraction": 0.400000031789144,
+			"target_slot": 7
+		}
+	],
+	"duration": 10.0,
+	"failures": 0,
+	"first_frame": 124,
+	"normal_speed": true,
+	"quiet": true,
+	"scenario": "side",
+	"stops": [
+		{
+			"position": "(982.1575, 744.2324)",
+			"reason": "goal",
+			"time": 3.21666666666666
+		},
+		{
+			"position": "(970.077, 777.2445)",
+			"reason": "goal",
+			"time": 3.44999999999999
+		},
+		{
+			"position": "(959.5926, 808.6546)",
+			"reason": "goal",
+			"time": 3.76666666666666
+		},
+		{
+			"position": "(954.7094, 842.1)",
+			"reason": "duration",
+			"time": 3.98333333333332
+		},
+		{
+			"position": "(939.7756, 880.4366)",
+			"reason": "duration",
+			"time": 3.98333333333332
+		},
+		{
+			"position": "(922.5823, 909.6152)",
+			"reason": "goal",
+			"time": 3.44999999999999
+		},
+		{
+			"position": "(910.0645, 942.3821)",
+			"reason": "goal",
+			"time": 3.21666666666666
+		},
+		{
+			"position": "(898.049, 975.4072)",
+			"reason": "goal",
+			"time": 3.21666666666666
+		}
+	],
+	"zoom": 1.0
+}

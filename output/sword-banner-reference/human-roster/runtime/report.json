@@ -1,0 +1,18 @@
+{
+  "arrows": 99,
+  "charge_contacts": 12,
+  "expected_movie_frames": 965,
+  "failures": 0,
+  "fixture": "Normal menu/loadout controls/deployment preview, then controlled six-variant mirror armies; enemy strategic AI active; actual All Attack and knight C inputs.",
+  "melee_strikes": {
+    "heavy": 49,
+    "knight": 48,
+    "noble_son": 10,
+    "peasant": 13,
+    "veteran_spearman": 40
+  },
+  "normal_speed": true,
+  "quiet": true,
+  "retry_clean": true,
+  "fixture_correction": "Source audit: all fixture units were assigned order=hold. Enemy director active flag was true, but prepare() only owns order=auto units; this capture does not prove strategic AI issuing orders. Local holding units still acquire/fire/retaliate. Full battle input tests use auto enemies separately."
+}

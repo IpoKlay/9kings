@@ -1,0 +1,234 @@
+{
+  "own_blender_source": true,
+  "pixel_grid": [
+    64,
+    64
+  ],
+  "directions": 8,
+  "frames_per_direction": 17,
+  "validation": "All six actors have non-static march and attack in every direction. Packing checked no solid sample crosses cell edge; hard palette/alpha and sheet sizes verified.",
+  "units": [
+    {
+      "name": "draugr",
+      "render_frames": 136,
+      "source_blend": "output/sword-banner-reference/undead-roster/art/draugr.blend",
+      "sheets": [
+        {
+          "team": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 14,
+          "hard_alpha_only": true,
+          "sha256": "4a077cafd575d3f05b26a2eee8ee17e8a586862300fdd45e38ef6980917cda33"
+        },
+        {
+          "team": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 14,
+          "hard_alpha_only": true,
+          "sha256": "6953b04e082c006ccaaa2593272174c263a38308c44269f39083b069e04d60e1"
+        },
+        {
+          "team": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "rgba_colors_including_transparent": 7,
+          "hard_alpha_only": true,
+          "sha256": "9ea5dfb1446506335119d5f6d24d30e9b455f109e55c9d3ce48b1e685ff222ed"
+        }
+      ]
+    },
+    {
+      "name": "skeleton_archer",
+      "render_frames": 136,
+      "source_blend": "output/sword-banner-reference/undead-roster/art/skeleton_archer.blend",
+      "sheets": [
+        {
+          "team": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 14,
+          "hard_alpha_only": true,
+          "sha256": "1a94d0242f2153300ddae995e092dc3028063fbded20bb40f480cdd627e6f438"
+        },
+        {
+          "team": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 14,
+          "hard_alpha_only": true,
+          "sha256": "8b56f32fafb1b388c19026e21e3db56019d47d14d19595558c77d1055ecc55b9"
+        },
+        {
+          "team": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "rgba_colors_including_transparent": 7,
+          "hard_alpha_only": true,
+          "sha256": "5e5477465586b9c8c60f9b12f961bb9c3d3de49d2ebb0176db42369c66aab76a"
+        }
+      ]
+    },
+    {
+      "name": "skeleton_spearman",
+      "render_frames": 136,
+      "source_blend": "output/sword-banner-reference/undead-roster/art/skeleton_spearman.blend",
+      "sheets": [
+        {
+          "team": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 12,
+          "hard_alpha_only": true,
+          "sha256": "14900460545e320cf2d2663926dc341861799a7e49f1af1d5729d3419e5bee1c"
+        },
+        {
+          "team": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 12,
+          "hard_alpha_only": true,
+          "sha256": "29f8e570cf5dca045b08c990b06f824a0d2bc998f97919f111ccf63fc6f1fb64"
+        },
+        {
+          "team": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "rgba_colors_including_transparent": 7,
+          "hard_alpha_only": true,
+          "sha256": "1e84e1a67c158478dbf4144c80e2ab09a77e9ed4352ddf305c234782b5ad4a2e"
+        }
+      ]
+    },
+    {
+      "name": "gravewalker",
+      "render_frames": 136,
+      "source_blend": "output/sword-banner-reference/undead-roster/art/gravewalker.blend",
+      "sheets": [
+        {
+          "team": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 12,
+          "hard_alpha_only": true,
+          "sha256": "4c9f49a9a7ae572cdc4f3324a23992f9ff1f1dfd18193e9d816108af813bb7a1"
+        },
+        {
+          "team": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 12,
+          "hard_alpha_only": true,
+          "sha256": "8cc6f4bdcb4121a2178ee0aba0cd509d7fedb3db25a8f0081d72ab9d38681947"
+        },
+        {
+          "team": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "rgba_colors_including_transparent": 7,
+          "hard_alpha_only": true,
+          "sha256": "fd74a2ca997b3ce4e61eee76595637eaaaf846f0d5943a644413531ccb57e0c0"
+        }
+      ]
+    },
+    {
+      "name": "death_rider",
+      "render_frames": 136,
+      "source_blend": "output/sword-banner-reference/undead-roster/art/death_rider.blend",
+      "sheets": [
+        {
+          "team": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 14,
+          "hard_alpha_only": true,
+          "sha256": "8cf5c2e7cd9e757ef2d6645dc7cddbe47083a91db8aa6554b1e4bc5b04017a96"
+        },
+        {
+          "team": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 14,
+          "hard_alpha_only": true,
+          "sha256": "b34ad1b3fca607b57ed4d847f72a785aa52b1fb7874dd421c2abb59b49f88af5"
+        },
+        {
+          "team": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "rgba_colors_including_transparent": 7,
+          "hard_alpha_only": true,
+          "sha256": "7b74febacfd61c4ae7f194c9fd617dc6291f21af84d6e18c514e207fe0e13519"
+        }
+      ]
+    },
+    {
+      "name": "fell_hound",
+      "render_frames": 136,
+      "source_blend": "output/sword-banner-reference/undead-roster/art/fell_hound.blend",
+      "sheets": [
+        {
+          "team": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 10,
+          "hard_alpha_only": true,
+          "sha256": "65b5277954ae47d2669183e5516235cefbe45f2e7d8841d059174a3999ac0b9f"
+        },
+        {
+          "team": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "rgba_colors_including_transparent": 10,
+          "hard_alpha_only": true,
+          "sha256": "2757a49dc931df7f24eaf691f3a059d953aa95c80754ba0b70ab76a157b91a06"
+        },
+        {
+          "team": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "rgba_colors_including_transparent": 6,
+          "hard_alpha_only": true,
+          "sha256": "644bda64af711343cf794cec3ef5fa416de2c15428e779c53742cf6bd9836b22"
+        }
+      ]
+    }
+  ]
+}

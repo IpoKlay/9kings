@@ -1,0 +1,61 @@
+{
+  "checkpoint": "combat-core-2026-11-07",
+  "status": "Core checkpoint verified; full replication remains incomplete; owner requested handoff and stop after sync",
+  "source_regression": {
+    "suites": 50,
+    "checks": 2489,
+    "passed": true,
+    "results": "checks/source/results.json",
+    "runner_correction": "Initial runner misparsed checks=29 failures=0 as 29 failures. Corrected regex and reran siege_walls; original first-run report preserved. No game assertion removed."
+  },
+  "deployment_mouse": {
+    "before": "6 failures (10 checks before conditional follow-up steps)",
+    "after": "16 checks,0 failures",
+    "fix": "Empty RegimentRoster was covering preset buttons; hide when empty/results and ignore transparent container area while preserving child buttons",
+    "logs": [
+      "checks/deployment-mouse-before.log",
+      "checks/deployment-mouse-final.log"
+    ],
+    "harness_correction": "First after-fix harness attempted roster[0] while process disabled before refresh; explicitly refreshed, then real input checks passed."
+  },
+  "packs": {
+    "mac": {
+      "checks": 78,
+      "failures": 0,
+      "normal_battle_seconds": 37.9333333333325,
+      "rendered": false,
+      "scope": "Exported PCK loaded by Godot 4.7.2 editor binary; real menu callbacks, natural seven-arm victory, pause/half speed, retry, explicit forced defeat fixture and siege bombardment. Not manual mouse testing or Windows runtime validation."
+    },
+    "windows": {
+      "checks": 78,
+      "failures": 0,
+      "normal_battle_seconds": 37.9333333333325,
+      "rendered": false,
+      "scope": "Exported PCK loaded by Godot 4.7.2 editor binary; real menu callbacks, natural seven-arm victory, pause/half speed, retry, explicit forced defeat fixture and siege bombardment. Not manual mouse testing or Windows runtime validation."
+    }
+  },
+  "standalone_mac": {
+    "actual_mouse_verified": [
+      "main menu RTS entry",
+      "seven-arm deployment",
+      "Begin",
+      "All attack",
+      "Pause",
+      "Return to menu"
+    ],
+    "screenshots": [
+      "checks/standalone-deployment.png",
+      "checks/standalone-battle-paused.png"
+    ],
+    "not_proven": "Full natural battle in exported executable was not manually played to end; that was covered by exported PCK loaded in Godot editor binary."
+  },
+  "limitations": [
+    "Windows executable not run on Windows; its PCK was tested in Mac Godot",
+    "Mac app ad-hoc signed, not notarized",
+    "Latest full original combat,1000-person performance and complete siege not done",
+    "Old three legacy test failures and some ObjectDB/resource exit warnings remain",
+    "Browser release workflow timed out; verified ZIPs shipped as Git-safe chunks under builds/ with reassembly script; no GitHub release claimed"
+  ],
+  "packages": "../../builds/combat-core-2026-11-07/manifest.json",
+  "base_commit": "6c088f51366eef6d1e042742326c4b1f1f3ca9f1"
+}

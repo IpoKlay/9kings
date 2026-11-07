@@ -1,0 +1,32 @@
+{
+  "source": "Observed public20260409 idle/holding/attack-moving/acquisition rules and original unit initialization, independently implemented",
+  "implemented": {
+    "initial_scan_phase_seconds": [
+      0,
+      0.2
+    ],
+    "interval_seconds": 0.1,
+    "reset_timer_seconds": [
+      -0.06,
+      0
+    ],
+    "automatic_acquisition_gate": "stable allocated soldier slot modulo6 equals simulation step modulo6",
+    "hold_scan_gate": "interval and cooldown, no six-slot gate",
+    "attack_move_command": "prime aggro timer to0.1",
+    "idle_melee": "acquire -> next step pursue -> in-range transition -> next step attack",
+    "player_ranged": "acquire in range -> attack phase -> next step windup",
+    "target_death": "clear target and consume transition step; attack-move retains route and primes next scan",
+    "manual_attack": "bypasses acquisition gate",
+    "attacking": "does not retarget before attack-leash exit"
+  },
+  "local_choices_or_gaps": [
+    "Random stream uses battle-owned fixed seed20260409 for reproducible runs; original uses global RNG and cannot have matching random sequence established.",
+    "Six-way phase follows simulation steps so pause/half-speed and30/60/120-render runs remain reproducible; original uses Engine physics frame phase, including nonbattle engine activity.",
+    "Allocated scan slots are stable and increasing; original dead-slot reuse is not yet implemented.",
+    "Retarget0.15 timer is still represented as next_scan deadline rather than full original per-state remaining timer.",
+    "Autonomous battlefield director, local paths and extended mechanics remain local; original strategic role AI and full43unit/ability set are incomplete.",
+    "No original controlled auto-acquisition timing capture this turn; functional tests verify independent implementation, not complete original equivalence."
+  ],
+  "original_code_or_assets_copied_into_project": false,
+  "goal_complete": false
+}

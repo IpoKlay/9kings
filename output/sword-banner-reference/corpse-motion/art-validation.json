@@ -1,0 +1,386 @@
+[
+  {
+    "kind": "archer",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "cavalry",
+    "parts": 17,
+    "visible_frames": 136,
+    "frames": 136,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "crossbow",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "death_rider",
+    "parts": 17,
+    "visible_frames": 136,
+    "frames": 136,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "dragon",
+    "parts": 1,
+    "visible_frames": 8,
+    "frames": 8,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "draugr",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "fell_hound",
+    "parts": 6,
+    "visible_frames": 48,
+    "frames": 48,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_archer",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_brat",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_runt",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_shaman",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_slinger",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_spiker",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_stabber",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_troll",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_wolf_rider",
+    "parts": 17,
+    "visible_frames": 136,
+    "frames": 136,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "goblin_wolf_skirmisher",
+    "parts": 16,
+    "visible_frames": 126,
+    "frames": 128,
+    "colors": 16,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "gravewalker",
+    "parts": 10,
+    "visible_frames": 80,
+    "frames": 80,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "guard",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "heavy",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "knight",
+    "parts": 17,
+    "visible_frames": 136,
+    "frames": 136,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "legion",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "medic",
+    "parts": 10,
+    "visible_frames": 80,
+    "frames": 80,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "mounted_archer",
+    "parts": 16,
+    "visible_frames": 128,
+    "frames": 128,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "noble_son",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "peasant",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "siege",
+    "parts": 1,
+    "visible_frames": 8,
+    "frames": 8,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "skeleton_archer",
+    "parts": 11,
+    "visible_frames": 88,
+    "frames": 88,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "skeleton_spearman",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "spear",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "veteran_spearman",
+    "parts": 12,
+    "visible_frames": 96,
+    "frames": 96,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  },
+  {
+    "kind": "wraith",
+    "parts": 1,
+    "visible_frames": 8,
+    "frames": 8,
+    "colors": 13,
+    "alpha": "0 or255",
+    "frame_size": [
+      128,
+      128
+    ]
+  }
+]

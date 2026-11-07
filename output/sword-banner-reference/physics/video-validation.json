@@ -1,0 +1,26 @@
+{
+  "side": {
+    "decoded_frames": 601,
+    "fps": 60,
+    "duration": 10.016666666666667,
+    "unique_frame_hashes": 416,
+    "sha256": "41bc337179727c50911a2b184208db29558f5f945d1a44d6b174ec59e59afe3a",
+    "errors": ""
+  },
+  "shield": {
+    "decoded_frames": 601,
+    "fps": 60,
+    "duration": 10.016666666666667,
+    "unique_frame_hashes": 485,
+    "sha256": "602e19a8d6ae8b558d4c027eb925248115f54d6f1d958d26b6aecfe426912151",
+    "errors": ""
+  },
+  "pikes": {
+    "decoded_frames": 601,
+    "fps": 60,
+    "duration": 10.016666666666667,
+    "unique_frame_hashes": 586,
+    "sha256": "d6ae8a62015bca79b6d688c1a3fa3478c5bbe881cb30a0152d494191073d1b2d",
+    "errors": ""
+  }
+}

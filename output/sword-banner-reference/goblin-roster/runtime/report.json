@@ -1,0 +1,31 @@
+{
+  "arrows": 618,
+  "charge_contacts": 12,
+  "expected_movie_frames": 2359,
+  "failures": 0,
+  "fixture": "Normal menu/loadout controls/deployment preview, then controlled ten-goblin mirror armies; enemy strategic AI active; actual All Attack and wolf rider C inputs. Fixture positions kept in source, all individual stats unmodified.",
+  "melee_strikes": {
+    "goblin_brat": 57,
+    "goblin_runt": 53,
+    "goblin_spiker": 50,
+    "goblin_stabber": 66,
+    "goblin_troll": 270,
+    "goblin_wolf_rider": 58
+  },
+  "normal_speed": true,
+  "outcome": {
+    "allies": 35.0,
+    "enemies": 0.0,
+    "phase": "victory",
+    "time": 36.2333333333326
+  },
+  "quiet": true,
+  "retry_clean": true,
+  "special_counts": {
+    "shaman_cast": 184,
+    "shaman_heal": 182,
+    "sling_stones": 205,
+    "troll_slam": 95
+  },
+  "fixture_correction": "Source audit: all fixture units were assigned order=hold. Enemy director active flag was true, but prepare() only owns order=auto units; this capture does not prove strategic AI issuing orders. Local holding units still acquire/fire/retaliate. Full battle input tests use auto enemies separately."
+}

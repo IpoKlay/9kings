@@ -1,0 +1,2246 @@
+{
+	"changes": [
+		{
+			"damage": 15.0,
+			"frame": 209,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"move",
+				"move",
+				"attack",
+				"move",
+				"move",
+				"move",
+				"move"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				8,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 7
+		},
+		{
+			"damage": 45.0,
+			"frame": 211,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"move",
+				"attack",
+				"move"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				-1,
+				8,
+				-1
+			],
+			"unit": 7
+		},
+		{
+			"damage": 45.0,
+			"frame": 211,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 30.0,
+			"frame": 212,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"move",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				-1,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 212,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 45.0,
+			"frame": 213,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 60.0,
+			"frame": 213,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 217,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 218,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 221,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 281,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 283,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 30.0,
+			"frame": 284,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 285,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 285,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 287,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 287,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 288,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 288,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 10.0,
+			"frame": 289,
+			"orders": [
+				"move",
+				"move",
+				"move",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 30.0,
+			"frame": 289,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 30.0,
+			"frame": 292,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 294,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 346,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 347,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 349,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 351,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 353,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 357,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 10.0,
+			"frame": 359,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 359,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 360,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 361,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 30.0,
+			"frame": 363,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 367,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 368,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 369,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 370,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 408,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 410,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 412,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 415,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 10.0,
+			"frame": 420,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 431,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 30.0,
+			"frame": 434,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 436,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 440,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 45.0,
+			"frame": 442,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 443,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 447,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 466,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 468,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				-1,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 469,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 471,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 480,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 483,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 484,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 488,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 10.0,
+			"frame": 491,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 505,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 507,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 508,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 30.0,
+			"frame": 508,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 509,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 510,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 510,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 517,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 520,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 30.0,
+			"frame": 533,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 541,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 30.0,
+			"frame": 543,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 25.0,
+			"frame": 548,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 571,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 574,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 10.0,
+			"frame": 576,
+			"orders": [
+				"idle",
+				"idle",
+				"idle",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack",
+				"attack"
+			],
+			"targets": [
+				10,
+				10,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8,
+				8
+			],
+			"unit": 7
+		},
+		{
+			"damage": 15.0,
+			"frame": 581,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		},
+		{
+			"damage": 15.0,
+			"frame": 582,
+			"orders": [
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold",
+				"hold"
+			],
+			"targets": [
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1,
+				-1
+			],
+			"unit": 9
+		}
+	],
+	"expected_movie_frames": 633,
+	"failures": 0,
+	"first_hit_frame": 209,
+	"fixture": "Left infantry: actual RMB move; right infantry: H. Two stationary archer squads shoot both. Normal menu entry, controlled starting positions/cooldowns.",
+	"holding_infantry_held": true,
+	"moving_infantry_chased": true,
+	"normal_speed": true,
+	"quiet": true,
+	"retry_clean": true
+}

@@ -1,0 +1,228 @@
+{
+  "checks": 314,
+  "suites": [
+    {
+      "suite": "attack_entry",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Attack entry: 12 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "attack_timing",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Attack timing: 22 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "integration_order",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Integration order: 14 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "personal_charge",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Personal charge: 37 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "personal_movement",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Personal movement: 17 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "soldier_physics",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Soldier physics: 16 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "shield_columns",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Shield columns: 24 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "ground_combat",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Ground combat: 18 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "target_selection",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Target selection: 21 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "battle_commands",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Battle commands: 25 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "move_batch",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Move batches: 20 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "individual_combat",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Individual combat: 18 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "individual_projectiles",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Individual projectiles: 13 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "personal_input",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\"",
+        "ERROR: 1 resources still in use at exit (run with --verbose for details)."
+      ],
+      "summary": [
+        "Personal input: 15 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": true,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "autonomous_soldiers",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Autonomous soldiers: 16 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "group_individual_pass",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\"",
+        "ERROR: 1 resources still in use at exit (run with --verbose for details)."
+      ],
+      "summary": [
+        "Individual group terrain failures=0 lead=(1524.535, 900.746) rear=(1212.499, 896.6069)"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": true,
+      "unexpected_errors": []
+    },
+    {
+      "suite": "individual_full_battle",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "summary": [
+        "Individual full battle: 26 checks, 0 failures"
+      ],
+      "known_environment_warning": true,
+      "exit_resource_warning": false,
+      "unexpected_errors": []
+    }
+  ]
+}

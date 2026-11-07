@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Rear reached exit
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_group_individual_pass.gd:5)
+       [1] run (res://tests/tactical/test_group_individual_pass.gd:37)
+ERROR: Lead reached exit
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_group_individual_pass.gd:5)
+       [1] run (res://tests/tactical/test_group_individual_pass.gd:38)
+ERROR: Every horse clears the rock and arrives
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_group_individual_pass.gd:5)
+       [1] route_cases (res://tests/tactical/test_group_individual_pass.gd:88)
+       [2] run (res://tests/tactical/test_group_individual_pass.gd:39)
+Individual group terrain failures=3 lead=(1487.756, 900.5094) rear=(1179.586, 889.3824)

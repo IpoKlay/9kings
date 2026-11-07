@@ -1,0 +1,9 @@
+{
+  "frames_captured": 120,
+  "first_wall_ms": 0,
+  "last_wall_ms": 8438,
+  "encode_exit": 0,
+  "decode_exit": 0,
+  "decode_errors": "",
+  "capture": "variable-rate browser screenshots; timestamps are wall clock, not simulation ticks; no audio captured"
+}

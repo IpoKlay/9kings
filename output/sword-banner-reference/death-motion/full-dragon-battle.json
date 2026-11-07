@@ -1,0 +1,23 @@
+[
+	{
+		"allies": 8.0,
+		"enemies": 0.0,
+		"fps": 30,
+		"phase": "victory",
+		"time": 29.9166666666662
+	},
+	{
+		"allies": 8.0,
+		"enemies": 0.0,
+		"fps": 60,
+		"phase": "victory",
+		"time": 29.9166666666662
+	},
+	{
+		"allies": 8.0,
+		"enemies": 0.0,
+		"fps": 120,
+		"phase": "victory",
+		"time": 29.9166666666662
+	}
+]

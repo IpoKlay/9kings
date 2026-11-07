@@ -1,0 +1,36 @@
+[
+  {
+    "video": "output/sword-banner-reference/wraith/side.mp4",
+    "decoded_frames": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "decode_errors": [],
+    "first_contact": 124,
+    "contacts": 23
+  },
+  {
+    "video": "output/sword-banner-reference/wraith/shield.mp4",
+    "decoded_frames": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "decode_errors": [],
+    "first_contact": 155,
+    "contacts": 22
+  },
+  {
+    "video": "output/sword-banner-reference/wraith/pikes.mp4",
+    "decoded_frames": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "decode_errors": [],
+    "first_contact": 155,
+    "contacts": 22
+  },
+  {
+    "video": "output/sword-banner-reference/wraith/runtime.mp4",
+    "decoded_frames": 844,
+    "fps": 60,
+    "seconds": 14.066666666666666,
+    "decode_errors": []
+  }
+]

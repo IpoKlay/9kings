@@ -1,0 +1,42 @@
+{
+  "source": "Official public 2026-04-09 build; ability definitions, selection range validation and volley projectile behavior read from temporary reference analysis. Independent implementation in project; original source/art not imported.",
+  "rules": {
+    "unit": "longbowman",
+    "hp_per_actor": 85,
+    "damage": 18,
+    "attack_interval": 1,
+    "normal_range": 550,
+    "aggro_range": 900,
+    "speed": 120,
+    "projectile_speed": 400,
+    "ability_cooldown": 15,
+    "advertised_range": 900,
+    "accepted_range": 1080,
+    "range_origin": "centroid of selected living capable ready actors",
+    "arrows_per_actor": 3,
+    "radius": "50 + 4 * sqrt(ready actor count)",
+    "scatter": "independent X and Y uniform within +/- radius * 0.4",
+    "launch_delay": "uniform 0..0.4 seconds",
+    "flight": "clamp(distance / 500, 0.6, 2.0)",
+    "height": "4 * clamp(distance * 0.2, 60, 200) * t * (1-t)",
+    "damage_source": "first ready actor attack damage, not unused damage_per_unit definition",
+    "landing": "nearest living enemy with distance strictly less than 21; one victim per arrow, no area damage, fixed ground target",
+    "shield": "no directional block: original ability passes a null attacker",
+    "sound_cues": "min(ready count,6), spaced .07 simulation seconds"
+  },
+  "implementation": {
+    "variant": "archer base kind retained for existing art, independent per-regiment combat and individual stats",
+    "entry": "normal main menu / legion battle / bow loadout button / deploy / select longbow / V or Volley button / click ground",
+    "layouts": "persistent buttons in editable battle_hud.tscn; runtime does not reposition them",
+    "ordinary_archers": "unchanged; cannot use volley",
+    "enemy_archers": "player loadout does not modify them"
+  },
+  "known_differences_or_unverified": [
+    "No new original-runtime same-condition volley capture this turn; parameters verified against public build analysis, not latest Steam Playtest.",
+    "Battle-owned deterministic random stream instead of original global random stream; exact scatter sequence is not identical.",
+    "Reuses current 64x64 archer art and local hit/corpse response, not unique original longbow art.",
+    "Uses project projection, terrain boundaries and existing sound samples; original voice line not added, actual audio mix not listened to this turn.",
+    "UI rejects out-of-battlefield targets and does not spend ability while paused; this project behavior is not proven identical to original pause/input behavior.",
+    "Full ability/units catalog, blink, flight, other traits and native grid/lifecycle differences remain outstanding."
+  ]
+}

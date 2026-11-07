@@ -1,0 +1,11 @@
+{
+  "source": "20260409 public old build battle_systems.gd",
+  "source_sha256": "8b95985c551403330107f53ab68827dbaf3532ac2bde9e6d03eff6b8985a2030",
+  "methods": [
+    "_sys_fire_check",
+    "_perform_attack"
+  ],
+  "extracted_methods_sha256": "3e293c0440443baec8b974956b41e4815bc26b6f2036d2472eb138f3b2c33baf",
+  "original_method_bodies_changed": false,
+  "scope": "Source-method replay with stub collaborators, NOT original full game/runtime equivalence"
+}

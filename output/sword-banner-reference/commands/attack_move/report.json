@@ -1,0 +1,10 @@
+{
+	"events": {
+		"arrived": 10.3166666666667,
+		"damage": 2.5,
+		"engaged": 2.5
+	},
+	"failures": 0,
+	"hp": 900.0,
+	"mode": "attack_move"
+}

@@ -1,0 +1,44 @@
+{
+	"ai_cohorts": 2,
+	"charge_contacts": [
+		{
+			"damage": 100.0,
+			"frame": 128,
+			"slot": 3,
+			"target": 8
+		},
+		{
+			"damage": 100.0,
+			"frame": 128,
+			"slot": 4,
+			"target": 8
+		},
+		{
+			"damage": 100.0,
+			"frame": 128,
+			"slot": 5,
+			"target": 8
+		},
+		{
+			"damage": 100.0,
+			"frame": 128,
+			"slot": 6,
+			"target": 8
+		}
+	],
+	"charge_order_frame": 60,
+	"enemy_arrows": 37,
+	"expected_movie_frames": 649,
+	"failures": 0,
+	"fixture": "Normal menu/config/deployment preview, then one800HP dragon vs ten swordsmen and ten archers. Only guard visual count/aggregate HP adjusted for one-person fixture; per-unit stats unchanged, enemy strategic AI active. Real All Attack and C.",
+	"normal_speed": true,
+	"outcome": {
+		"allies": 0.0,
+		"enemies": 15.0,
+		"phase": "defeat",
+		"time": 7.73333333333331
+	},
+	"quiet": true,
+	"retry_clean": true,
+	"strikes": 2
+}

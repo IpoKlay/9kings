@@ -1,0 +1,55 @@
+{
+  "total_checks": 1576,
+  "regression_suites": 43,
+  "new_checks": 47,
+  "unexpected_errors": 0,
+  "known_warnings": "Existing UI-exit ObjectDB/resource references remain.",
+  "rules": "../official-death-motion-rules.json",
+  "runtime": [
+    "before-runtime/report.json",
+    "runtime/report.json"
+  ],
+  "video": "video-validation.json",
+  "fps": "fps.json",
+  "full_battles": [
+    "default-full-battle.json",
+    "full-human-battle.json",
+    "full-undead-battle.json",
+    "full-goblin-battle.json",
+    "full-dragon-battle.json"
+  ],
+  "source_hashes": {
+    "scripts/tactical/regiment_soldiers.gd": "8f540cc01dade42cc7f26bec4c8bced00b77869db3e6536d016636194905d59c",
+    "scripts/tactical/soldier_physics.gd": "ecd94e0766e7e8fd352a96933116c730275a2b3ae74fc7938d744eedb9d55a1a",
+    "scripts/tactical/soldier_charge.gd": "ce9641b01b683fc5293a67e805d6fe8b9f62d7b87d14d48f04bfcf68feea3e99",
+    "scripts/tactical/trial_rules.gd": "c284ba2c879c6238116d15e1c5256607f8eec9010e7d32e851c090fd51dcb03c",
+    "scripts/tactical/trial_field.gd": "ce4dd6b77a5f9e4a89549dc3f39adda20b84e198bc6a71c6d23df29c8734b2ad",
+    "scripts/tactical/regiment_contact.gd": "f2339b0fcf8537f85a799189b2d55c7539b01f23d97b800fb195779060c1a3e5",
+    "scripts/tactical/square_battle.gd": "3728e56dd6e144742874d769c2c0a1f9e04a34aff3fb2588d4a77bde468dd0fa",
+    "scripts/tactical/pass_battle.gd": "6ce5fa4fbd9463dd8dcbd08059a3c4f7244284d6437a30f03f74b134e89907fe",
+    "scripts/tactical/myth_powers.gd": "e54c6c943f0969d97e1178896c6433d885d00758d6b70741df1563e758ee175d",
+    "tests/tactical/test_death_motion.gd": "a25e51eef763438f65d85ccf1b6b5dfad7ecee325486fc88d939de8e6532f0f3",
+    "tests/tactical/test_death_motion_input.gd": "260710557c032c5a6a89dabd06492f734f76955e0d72608e492c9f7f9769a53e",
+    "tests/tactical/capture_death_motion.gd": "44df80c59a771a5b658aa9f5797d68b89f5e57544d380c7ccca69f406c65276e",
+    "tests/tactical/capture_personal_charge.gd": "aa65138fb54b61c7aab609a9a2132012ba86a637e6df7bb1443ab0a7a990f545",
+    "tests/tactical/test_impact_upgrade.gd": "e43d867ad7de12470fee4842a8ab5a30e8acb1264af1fd3070d5217b609802c0"
+  },
+  "capture_correction": "Initial capture accidentally used Shift-click instead of double-click and selected only one rider. Its failed report/trace retained in invalid-single-rider-selection. Corrected capture uses actual double-click/C and verifies all8 charges.",
+  "performance_scope": "Headless process timing only, not rendered high-load before/after comparison.",
+  "original_full_equivalence": false,
+  "remaining_visual_difference": "Whole-sprite falling and12s lifetime retained; original3s constraint-based ragdoll/equipment scatter and after-result fade not yet implemented.",
+  "charge": {
+    "side": {
+      "first_frame": 124,
+      "contacts": 25
+    },
+    "shield": {
+      "first_frame": 155,
+      "contacts": 22
+    },
+    "pikes": {
+      "first_frame": 155,
+      "contacts": 22
+    }
+  }
+}

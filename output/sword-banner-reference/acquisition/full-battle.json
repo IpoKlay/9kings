@@ -1,0 +1,40 @@
+{
+	"checks": 26,
+	"failures": 0,
+	"results": [
+		{
+			"alive": {
+				"ally": 3.0,
+				"enemy": 0.0
+			},
+			"fps": 30,
+			"mean_process_ms": 4.98942238648363,
+			"p95_process_ms": 10.081,
+			"phase": "victory",
+			"seconds": 32.5499999999994
+		},
+		{
+			"alive": {
+				"ally": 3.0,
+				"enemy": 0.0
+			},
+			"fps": 60,
+			"mean_process_ms": 2.54854727945061,
+			"p95_process_ms": 5.771,
+			"phase": "victory",
+			"seconds": 32.5499999999994
+		},
+		{
+			"alive": {
+				"ally": 3.0,
+				"enemy": 0.0
+			},
+			"fps": 120,
+			"mean_process_ms": 1.31894241944004,
+			"p95_process_ms": 5.005,
+			"phase": "victory",
+			"seconds": 32.5499999999994
+		}
+	],
+	"timing_scope": "Headless full trial _process, including UI refresh; excludes GPU rendering. FPS runs perform different simulation steps per frame."
+}

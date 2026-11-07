@@ -1,0 +1,349 @@
+{
+  "independent_blender_models": true,
+  "pixel_cell": [
+    64,
+    64
+  ],
+  "directions": 8,
+  "poses_per_direction": 17,
+  "own_goblin_palette_additions": [
+    "293c2b",
+    "526844",
+    "869864"
+  ],
+  "hard_alpha_only": true,
+  "packing_no_solid_edge_crossing": true,
+  "iterations": "Shortened troll club to avoid attack pose clipping; replaced long horse neck/head with pointed-ear low-neck grey wolf geometry.",
+  "units": [
+    {
+      "name": "goblin_archer",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 13,
+          "sha256": "7d7f36a81b51561628a1db75eb12af7afd92326ec9c8a7973bc13adcef799b31"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 13,
+          "sha256": "4305e536df9863496efe2729b712c0b4887564ea6af843cde1d483a689e2abc6"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 6,
+          "sha256": "d542b12869f0030c3f36b4ecc387821fa4b65d7a7118f6098baf662f6447fa96"
+        }
+      ]
+    },
+    {
+      "name": "goblin_brat",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "ed24b56c11ee2e7dea52c2bb1f56c5e5f1fe3625a0a6669a975f6b08aae10c86"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "0525f1d294af576017069383a1d8deb995117723732d2e0cc843469121fa0b90"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 7,
+          "sha256": "d0c73c0e05312c6904b09c85bfa2871e80f5824eec5ac75e6ca525d3678be811"
+        }
+      ]
+    },
+    {
+      "name": "goblin_runt",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 13,
+          "sha256": "79f9a44e592a0f8548a73c8f2f806dfdaadb972a28c73037c535d3454faef26e"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 13,
+          "sha256": "bf0a94fb41a476b9ada83220c7788d7c686e0d8ec7b59598608149973592dd9e"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 6,
+          "sha256": "99c48661ffedf87c1caa903553d55d911dcf9068e617f8c4b5b36e7a4073566a"
+        }
+      ]
+    },
+    {
+      "name": "goblin_shaman",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 13,
+          "sha256": "9affd51b6491fdb7ec3670e348d5d11ae48ec0dc9420495560716cdf6da107e1"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 13,
+          "sha256": "7433a5060a1835c7d30920ed8e136be2e2a1f6d77854331d4bf3b83d5e7aef65"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 6,
+          "sha256": "3d3596bfd0e73bcbcc69c3f000fea7a6b6f1eb51ee9162d12c993c55bb570adf"
+        }
+      ]
+    },
+    {
+      "name": "goblin_slinger",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "747573dc937fa0e9f7b1b63bcac1cfd8f0d42202375c1fa50b8501d4008c39a4"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "7ebdaf61a149eebadde1ec82fb81a8423317318e7dcd36dd998b733d06664f78"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 7,
+          "sha256": "1b76406405a8dcc1a1dc232df1a980347c4c40b7e6ce5dc1ef9237b00480113e"
+        }
+      ]
+    },
+    {
+      "name": "goblin_spiker",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 14,
+          "sha256": "a3c252aaf4c72d2d1b7660c4b505160bbc56365e3fd252e79e9e8778dc1e0a98"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 14,
+          "sha256": "a4ff297336ab0c68a8272f91dbcc68f51f68bc41bd6b4e6cf40ea31d8e42f915"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 6,
+          "sha256": "05cb4ab72204dee3aa0667d660aaf51e3bd01d0cf425c6ff4c924d5d204eeba1"
+        }
+      ]
+    },
+    {
+      "name": "goblin_stabber",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "60012e7479de3eb9ebef5daf752fdaea30c098413f9d7412f158252d8bc75463"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "06b183f1f40c81aa57adaf227e4f4027678cbec09872b2eec6c138215215b0da"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 7,
+          "sha256": "b46675aa105d4efe49921944cd3f1e263246ae5ad54f3693a8a1a4130f2728e2"
+        }
+      ]
+    },
+    {
+      "name": "goblin_troll",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "5f2632f40082fc14ba5cfac42d8b0a4ad2ccdb4b0429a172fdf7d8ede636b3a8"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "0fb3f01e10669c7ae8d66c26e3e8872b85d37951060a9e8d5f728be7233e9955"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 7,
+          "sha256": "beb26e50752cfb8e6ef699ba3bf3b1115b03bd933ea92107df573aae3b72b136"
+        }
+      ]
+    },
+    {
+      "name": "goblin_wolf_rider",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "4facef03d08d28a7dcfbb2033741095cef17971a0b7b8e8d0e159571219558e5"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "ec3ce0a2b26b3c5b19594b1b8f369acab785b4df7825e536c5e3ab0ff26dd750"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 7,
+          "sha256": "c7cb889785f043d4eef66f8424b2865414f4edf8de27502b978f1464fbc3f094"
+        }
+      ]
+    },
+    {
+      "name": "goblin_wolf_skirmisher",
+      "source_frames": 136,
+      "sheets": [
+        {
+          "side": "ally",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "275dd5569f3756d1c168a959bdf7ec021f5eaf2f97bf4b4924cef6c2e7ffa06e"
+        },
+        {
+          "side": "enemy",
+          "size": [
+            1088,
+            512
+          ],
+          "colors_including_transparency": 16,
+          "sha256": "478916d4be68c38594f21621cdcdf4ab506992dc6763230462e383b8cca62603"
+        },
+        {
+          "side": "stone",
+          "size": [
+            64,
+            512
+          ],
+          "colors_including_transparency": 6,
+          "sha256": "6bd3f83d0030ee7fe7f351b23c8dbdddb9cf5821b5316e5fa103092ac8a7bb3a"
+        }
+      ]
+    }
+  ]
+}

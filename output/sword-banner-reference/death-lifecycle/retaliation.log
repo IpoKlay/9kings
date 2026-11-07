@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Retaliation: 29 checks, 1 failures
+ERROR: Projectile from a removed dead source does not retarget to a corpse
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_retaliation.gd:7)
+       [1] run (res://tests/tactical/test_retaliation.gd:48)

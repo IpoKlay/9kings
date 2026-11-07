@@ -1,0 +1,41 @@
+[
+  {
+    "path": "godot-game/assets/rts-armies/mounted_archer_ally.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "d2032e4ea4a78c912aed5cde7b006d7a0e3269d3ec9d85a8a2ad1f403bb974ab"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/mounted_archer_enemy.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "c52573dc562b19b0ba90dad813058219b3c0c120e4da9d408daa49cd058acca2"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/mounted_archer_stone.png",
+    "size": [
+      64,
+      512
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "ca6c1cae02bf932a3fc5e2c0da5a7e56e8b36093f0b1b92eb788c5ad2dd5b883"
+  }
+]

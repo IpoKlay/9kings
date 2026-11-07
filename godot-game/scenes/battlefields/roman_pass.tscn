@@ -186,7 +186,7 @@ script = ExtResource("rock")
 
 [node name="SouthRidge" type="ReferenceRect" parent="Gameplay/RockWalls"]
 offset_left = 980.000000
-offset_top = 955.000000
+offset_top = 975.000000
 offset_right = 1066.000000
 offset_bottom = 1132.000000
 mouse_filter = 2
@@ -207,7 +207,7 @@ border_width = 2.0
 offset_left = 980.000000
 offset_top = 825.000000
 offset_right = 1066.000000
-offset_bottom = 955.000000
+offset_bottom = 975.000000
 mouse_filter = 2
 border_color = Color(0.9,0.73,0.4,0.75)
 border_width = 2.0
@@ -391,7 +391,7 @@ metadata/kind = "siege"
 
 
 [node name="Guard01" type="Marker2D" parent="Spawns/PassAllies"]
-position = Vector2(1051.00000, 499.30000)
+position = Vector2(1051.00000, 509.30000)
 gizmo_extents = 7.0
 metadata/kind = "guard"
 

@@ -1,0 +1,58 @@
+{
+  "new_rules": 40,
+  "new_input_fps": 24,
+  "regression_checks": 1305,
+  "total_checks": 1369,
+  "unexpected_errors": 0,
+  "known_warnings": "Some UI exit tests retain existing ObjectDB/resource references.",
+  "dragon_mirror": [
+    {
+      "allies": 8.0,
+      "enemies": 0.0,
+      "fps": 30,
+      "phase": "victory",
+      "time": 29.9166666666662
+    },
+    {
+      "allies": 8.0,
+      "enemies": 0.0,
+      "fps": 60,
+      "phase": "victory",
+      "time": 29.9166666666662
+    },
+    {
+      "allies": 8.0,
+      "enemies": 0.0,
+      "fps": 120,
+      "phase": "victory",
+      "time": 29.9166666666662
+    }
+  ],
+  "fps_scope": "30/60/120 full trial updates, matching individual finalHP/positions/outcomes.",
+  "default_battle": "default-full-battle.json",
+  "human_battle": "full-human-battle.json",
+  "undead_battle": "full-undead-battle.json",
+  "goblin_battle": "full-goblin-battle.json",
+  "mountain": "group_individual_pass zero failures",
+  "captures": [
+    "runtime/report.json",
+    "rush/report.json"
+  ],
+  "video": "video-validation.json",
+  "art": "art-validation.json",
+  "charge_regression": {
+    "side": {
+      "first_contact": 124,
+      "contacts": 23
+    },
+    "shield": {
+      "first_contact": 155,
+      "contacts": 22
+    },
+    "pikes": {
+      "first_contact": 155,
+      "contacts": 22
+    }
+  },
+  "original_equivalence": false
+}

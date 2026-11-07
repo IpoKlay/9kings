@@ -1,0 +1,30 @@
+{
+  "source": "https://html-classic.itch.zone/html/17110357/index.html",
+  "setup": {
+    "player": "8 mounted archers",
+    "enemy": "10 veteran swordsmen",
+    "terrain": "Desert/Summer/None",
+    "river": false,
+    "coast": false,
+    "ai_personality": 0
+  },
+  "attempt_one": {
+    "video": "original/moving.mp4",
+    "first_recorded_selected_count": 7,
+    "last_selected_count": 5,
+    "limitation": "Earlier setup/selection delays allowed melee before capture, so not a fresh eight-unit trial."
+  },
+  "attempt_two": {
+    "video": "original-second/moving.mp4",
+    "capture_frames": 261,
+    "first_elapsed_ms": 103,
+    "last_elapsed_ms": 18038,
+    "command": "After Ready, immediately paused; resumed, box selected right-side mounted line, right-clicked lower-left ground (260,560).",
+    "start_selected_count": 8,
+    "end_selected_count": 8,
+    "observed": "Mounted line traverses right to lower left, maintains group movement and arrives; enemy swordsmen advance despite AI personality zero.",
+    "unverified": "Tiny overview arrows/individual shot timing not confidently identifiable; no inferred exact damage, kiting rate, or same-condition match."
+  },
+  "capture_timing": "Variable-rate screenshot capture encoded using measured wall-clock timestamp differences; this is not a 60 fps engine capture.",
+  "cleanup": "Returned reference browser to main menu and reset temporary viewport."
+}

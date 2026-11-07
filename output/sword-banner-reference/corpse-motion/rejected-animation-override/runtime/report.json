@@ -1,0 +1,105 @@
+{
+	"before": false,
+	"body_frames": {
+		"0": {
+			"foot": "(1157.354, 680.6694)",
+			"frame": 125,
+			"time": 2.1
+		},
+		"1": {
+			"foot": "(1141.983, 657.0165)",
+			"frame": 133,
+			"time": 2.23333333333333
+		},
+		"2": {
+			"foot": "(1109.063, 662.4061)",
+			"frame": 139,
+			"time": 2.33333333333333
+		},
+		"3": {
+			"foot": "(1076.01, 677.8448)",
+			"frame": 148,
+			"time": 2.48333333333333
+		},
+		"4": {
+			"foot": "(1053.471, 658.5992)",
+			"frame": 153,
+			"time": 2.56666666666666
+		},
+		"5": {
+			"foot": "(1022.095, 662.7854)",
+			"frame": 160,
+			"time": 2.68333333333333
+		},
+		"6": {
+			"foot": "(991.7451, 667.364)",
+			"frame": 168,
+			"time": 2.81666666666666
+		},
+		"7": {
+			"foot": "(976.8572, 657.0032)",
+			"frame": 175,
+			"time": 2.93333333333333
+		},
+		"8": {
+			"foot": "(940.7859, 660.4607)",
+			"frame": 180,
+			"time": 3.01666666666666
+		},
+		"9": {
+			"foot": "(908.9224, 664.3923)",
+			"frame": 188,
+			"time": 3.14999999999999
+		}
+	},
+	"contacts": 10,
+	"death_frames": {
+		"0": {
+			"frame": 124,
+			"point": "(1166.964, 677.5814)"
+		},
+		"1": {
+			"frame": 132,
+			"point": "(1145.518, 664.8686)"
+		},
+		"2": {
+			"frame": 138,
+			"point": "(1114.981, 668.1924)"
+		},
+		"3": {
+			"frame": 147,
+			"point": "(1084.233, 676.5646)"
+		},
+		"4": {
+			"frame": 152,
+			"point": "(1058.147, 666.1079)"
+		},
+		"5": {
+			"frame": 159,
+			"point": "(1028.305, 668.3975)"
+		},
+		"6": {
+			"frame": 167,
+			"point": "(998.7288, 670.8622)"
+		},
+		"7": {
+			"frame": 174,
+			"point": "(977.3566, 665.2822)"
+		},
+		"8": {
+			"frame": 179,
+			"point": "(944.6875, 667.1409)"
+		},
+		"9": {
+			"frame": 187,
+			"point": "(914.2418, 669.2661)"
+		}
+	},
+	"failures": 0,
+	"first_body_frame": 125,
+	"first_death_frame": 124,
+	"fixture": "Normal main-menu entry;10 infantry explicitly wounded to1HP to exercise lethal charge.8 cavalry use actual selection and C click, ordinary charge speed/damage, default zoom, muted, hidden bars/particles. Local before/after, not original-game footage.",
+	"max_post_lethal_shift": 10.0941734313965,
+	"retry_clean": true,
+	"zoom": 1.0
+}

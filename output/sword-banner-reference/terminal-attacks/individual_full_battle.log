@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+FULL BATTLE {"alive":{"ally":9.0,"enemy":0.0},"fps":30,"mean_process_ms":5.12907433881344,"p95_process_ms":11.702,"phase":"victory","seconds":47.6166666666652}
+FULL BATTLE {"alive":{"ally":9.0,"enemy":0.0},"fps":60,"mean_process_ms":3.00093993564533,"p95_process_ms":6.96,"phase":"victory","seconds":47.6166666666652}
+FULL BATTLE {"alive":{"ally":9.0,"enemy":0.0},"fps":120,"mean_process_ms":1.60651966392563,"p95_process_ms":6.121,"phase":"victory","seconds":47.6166666666652}
+Individual full battle: 26 checks, 0 failures
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

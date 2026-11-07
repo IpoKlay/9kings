@@ -1,0 +1,39 @@
+{
+  "source": "official public20260409 scripts, independently reimplemented; not latestSteam measurement",
+  "attack_duration_seconds": 0.8,
+  "fire_fraction_is_remaining_fraction": true,
+  "mapped_fire_fractions": {
+    "legion": 0.45,
+    "guard": 0.45,
+    "spear": 0.45,
+    "cavalry": 0.45,
+    "archer": 0.25,
+    "siege": 0.3
+  },
+  "windup_seconds": {
+    "melee": 0.44,
+    "archer": 0.6,
+    "siege": 0.56
+  },
+  "engaged_leash_multiplier": 1.3,
+  "normal_melee_max_speed_to_begin_exclusive": 5,
+  "deceleration_per_axis": 1200,
+  "hold_attack": "Base weapon radius nearest acquisition only when cooldown ready; current target survives pending windup. Holding does not require speed<5.",
+  "at_fire": "One fired flag; resolve current living target; source perform_attack does not repeat a range test.",
+  "player_ranged_leash": "Drop target and idle after engaged target leaves1.3 effective range.",
+  "implemented": [
+    "Delayed individual release and0.8 sprite animation",
+    "Normal melee brakes before starting; one existing attack stays engaged to1.3 range",
+    "Individual arrows/stones launch at release, removing old extra0.23/0.20 waits",
+    "Target death, move replacement, pause and one-fire recovery checks"
+  ],
+  "remaining_differences": [
+    "Local movement/state loop then all release checks, versus original per-slot state+fire then unified movement. Same-tick ordering still differs.",
+    "Original pursuing->attacking transition has a separate state tick; local starts as soon as braking permits.",
+    "Impulse and normal velocity still integrated separately; native grid/circular obstacle behavior incomplete.",
+    "Local H scan cadence and facing do not reproduce original random aggro scheduling.",
+    "Local medic, decoy, divine powers and campaign modifiers retained; decoy reaction remains immediate.",
+    "64x64 authored sprite poses retained; original procedural renderer not reproduced.",
+    "No original matched eight-cavalry held-wall runtime comparison; current exploratory browser run invalid for that purpose."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "new_rules": 50,
+  "new_input_fps": 17,
+  "regression_suites": 35,
+  "regression_checks": 1370,
+  "total_checks": 1437,
+  "unexpected_errors": 0,
+  "previous_failure": "ground_combat required foot-origin0.75 flight; corrected to compare identical unrecoiled/recoiled actual weapon anchors and actual initial distance/400. Separate metadata/target physical foot check retained. Old failed report preserved.",
+  "known_warnings": "Existing UI exit ObjectDB/resource references remain; not counted as unexpected script failures.",
+  "fps": "fps.json",
+  "full_battles": [
+    "default-full-battle.json",
+    "full-human-battle.json",
+    "full-undead-battle.json",
+    "full-goblin-battle.json",
+    "full-dragon-battle.json"
+  ],
+  "runtime": "runtime/report.json",
+  "video": "video-validation.json",
+  "original": "../original-projectiles/observations.json",
+  "performance_limit": "Headless process timings are not high-load GPU before/after benchmark; rendering is excluded.",
+  "source_hashes": {
+    "scripts/tactical/soldier_projectile.gd": "14db5561c7fd051a3e00fa2d7e639df37162f32bc062362a50c31447545d795d",
+    "scripts/tactical/trial_rules.gd": "683e6f4ebe6b1629672ea6a88321236fcbec1c722ded51c0879f48c9a9e7de23",
+    "scripts/tactical/regiment_soldiers.gd": "f2b224cabf9ea8495284105eaea00230edc08deac8139d7b2483eb1ee901cbea",
+    "scripts/tactical/trial_field.gd": "0bb4fed5e5ace5801be2ef50d42c42e5c00aec97fc9edfeccdb47e2ee6556b2a",
+    "scripts/tactical/trial.gd": "3ac6cc4c9de64993862307bedd7a7538d70186e48beb732a9ef724c4e98c7da1",
+    "data/presentation/projectile_anchors.json": "79a637dd1dd1d96d4b590da6b109c9f5d727911937a242ab99cd658d274af96e",
+    "tests/tactical/test_projectile_motion.gd": "13fccfb811a046688b5a06569c6d3fae013c2214ec4f1456913734555450db1b",
+    "tests/tactical/test_projectile_motion_input.gd": "7b91291897a4a1a90c521e52b269f56ae624c4eff71b1f870fb06561e1286bbc",
+    "tests/tactical/test_ground_combat.gd": "f9b220cb547a4632e94ea71a44ccf305f04308b65d4a18cb9514092831882ed0",
+    "tests/tactical/capture_projectile_motion.gd": "46bbf108d102183bec6ae4310ff375f4cf49e3866fe26b72285b423f7e45d67b"
+  },
+  "source_rules": "../official-projectile-motion-rules.json",
+  "original_full_equivalence": false,
+  "capture_corrections": "First capture typed-route argument failed; original retained under invalid-typed-route-fixture. Next valid recording clipped top/bottom lanes, retained edge-clipped-fixture. Final moved test lanes/camera center only; default zoom/real stats unchanged, four clips fully decoded. Input fixture direct position access was corrected to actual ground_position and rerun without script errors.",
+  "charge_comparison": {
+    "side": {
+      "first_frame": 124,
+      "contacts": 23
+    },
+    "shield": {
+      "first_frame": 155,
+      "contacts": 22
+    },
+    "pikes": {
+      "first_frame": 155,
+      "contacts": 22
+    }
+  }
+}

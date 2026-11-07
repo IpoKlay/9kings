@@ -1,0 +1,11 @@
+{
+	"arrow_impacts": 7,
+	"cancelled_after_other_hit": 1,
+	"dodger_hp": 120.0,
+	"expected_movie_frames": 664,
+	"failures": 0,
+	"fixture": "Normal menu/deployment preview then one-person controlled lanes: top moving cavalry target; middle wounded15HP target hit by near archer before far arrow; bottom cavalry leaves fixed stone landing. Scripted standard movement commands, enemy strategic AI disabled, per-person stats unchanged except middle wound. Normal speed, silent, default camera.",
+	"launched": 8,
+	"retry_clean": true,
+	"stone_impacts": 1
+}

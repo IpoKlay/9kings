@@ -1,0 +1,18 @@
+{
+  "path": "wall-march.mp4",
+  "decoded_frames": 1081,
+  "fps": 60,
+  "duration_seconds": 18.016667,
+  "full_decode_exit_code": 0,
+  "visually_inspected": [
+    "frame-0900.png"
+  ],
+  "native_report": {
+    "final_time": 18.0000000000003,
+    "first_lock": 10.5333333333334,
+    "free_wing": true,
+    "reached_wall": true,
+    "shields_preserved": true
+  },
+  "conditions": "Normal speed/default zoom/native1280x720; main menu, double-click selection, F drag, right-click wall march. Enemy fixture has3 high-HP defenders with60s attack cooldown to isolate column pressure."
+}

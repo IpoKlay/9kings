@@ -1,0 +1,7 @@
+{
+	"checks": 78,
+	"failures": 0,
+	"normal_battle_seconds": 37.9333333333325,
+	"rendered": true,
+	"scope": "Exported executable and packaged resources; real menu callbacks, natural seven-arm victory, pause/half speed, retry, explicit forced defeat fixture and siege bombardment. Not manual mouse testing or Windows runtime validation."
+}

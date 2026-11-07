@@ -1,0 +1,49 @@
+{
+  "source": "Official public 2026-04-09 legacy package; source/script/shader inspection, not current Steam or controlled original dragon runtime.",
+  "unit": {
+    "kind": "guard",
+    "name": "巨龙",
+    "name_en": "Dragon",
+    "name_short": "巨龙",
+    "name_short_en": "Dragon",
+    "hp": 8000.0,
+    "damage": 60.0,
+    "interval": 2.0,
+    "range": 220.0,
+    "speed": 300.0,
+    "visual_scale": 3.0,
+    "art": "dragon",
+    "individual": {
+      "reference_type": "dragon",
+      "hp": 800.0,
+      "damage": 60.0,
+      "interval": 2.0,
+      "range": 220.0,
+      "speed": 300.0,
+      "charge_cooldown": 15.0,
+      "can_charge": true,
+      "can_shield_wall": false,
+      "has_volley": false,
+      "projectile_speed": 400.0,
+      "aggro_range": 900.0,
+      "unit_size": 24.0,
+      "role_bits": 130,
+      "fire_fraction": 0.35,
+      "dragon": true
+    }
+  },
+  "attack": "Ordinary single-target60 damage, release .52 of .8 second animation. Not ranged; no projectile or new cone damage.",
+  "charge": "Non-mounted damage150 at full speed, minimum15; no mounted .7 decay, .12 penalty or x3 impulse. Public outer loop exempts dragon from first-hit return, but inner delivery exits charging to pursuit. Therefore all radius220 victims in first contacting step receive damage, then normal pursuit next step. Encounter order follows local list, not native hash order.",
+  "renderer": "Verified original shader MD5 39dc060c006a469d8205829ae2fcfa5d: visual fire present at attack age.12–.76, full.32–.64. Local implementation uses own finite pixel bands, no glow shader copied.",
+  "unused_design": "DRAGON_BREATH/DIVE constants have no calls in inspected combat script. toggle_flight changes speed/range but no caller found in inspected scripts; not exposed as an invented playable skill. Renderer defaults fly_height=1 independently.",
+  "geometry_fix": "Personal neighbour/pair physics and move-batch radius now read actual individual radius instead of base regiment kind. Navigation already used actual radius.",
+  "validation": "dragon/validation.json",
+  "art": "dragon/art-validation.json",
+  "limits": [
+    "Original dragon same-condition runtime and latest Steam not verified.",
+    "Own64x64 eight-direction sprite art/visual scale3 differs from original procedural256x256 renderer, autonomous wing/tail animation and fire shader.",
+    "Local damage/physics remains double precision with different hash/RNG traversal; exact outcomes not guaranteed.",
+    "Original charge sound/shake, death lifecycle, complete siege, navigation and projectile kinetics still incomplete.",
+    "Normal selection deploys a10-dragon regiment under current project grouping; controlled capture explicitly changes only count/aggregateHP to one dragon."
+  ]
+}

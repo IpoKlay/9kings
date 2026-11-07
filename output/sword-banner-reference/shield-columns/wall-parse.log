@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+ERROR: Every shield reaches its slot and keeps the wall normal
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_group_individual_orders.gd:7)
+       [1] run (res://tests/tactical/test_group_individual_orders.gd:50)
+ERROR: An out-of-bounds shield slot rejects F before changing any soldier
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_group_individual_orders.gd:7)
+       [1] run (res://tests/tactical/test_group_individual_orders.gd:52)
+Group individual orders: 17 checks, 2 failures

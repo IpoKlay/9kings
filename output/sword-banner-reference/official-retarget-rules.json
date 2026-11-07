@@ -1,0 +1,25 @@
+{
+  "source": "Public official 2026-04-09 build: pursuing state, retarget selection, slot initialization. Independent implementation; original code/art not imported.",
+  "rules": {
+    "initial_phase": "Uniform 0..0.15 per actor at spawn.",
+    "clock": "Subtract simulation dt only while pursuing; ordinary units return into attack before decrement inside effective attack range. Mounted ranged pursuit continues decrementing inside range.",
+    "scan_gate": "Timer <=0 AND cached pursuit-target squared distance >4*effective_range^2; strict boundary.",
+    "interval": 0.15,
+    "empty_scan": "Still resets to .15 when no better candidate exists.",
+    "radius": "8*own unit_size",
+    "cost": "Squared ground distance; ranged adds 1500 per current ranged claimant, including self on existing target.",
+    "replacement": "Strictly lower cost; equal cost keeps existing target. Explicit target orders are not immune.",
+    "navigation": "Target id may change during scan, but this movement step uses old cached target position and facing; next step uses new target. Mounted fire also cannot change the already cached navigation target in that step.",
+    "new_commands": "Do not reset retarget timer.",
+    "holding": "H, shield stance, attacks and ordinary moving do not run pursuit timer."
+  },
+  "validation": "retarget/validation.json",
+  "native_capture": "retarget/runtime/report.json",
+  "known_limits": [
+    "No new same-condition original runtime retarget footage this turn; facts read from public legacy build, not latest Steam.",
+    "Project dictionaries use normal GDScript numbers; original timer stored in packed Float32 arrays. Exact float rounding/physics schedule equivalence not established.",
+    "Project deterministic random stream now also consumes one retarget phase draw per actor; this changes aggro phases and battle outcomes, not matched to original global RNG sequence.",
+    "Search iteration uses current project actor order, not original spatial hash order; ties among equally good new alternatives can differ.",
+    "Project terrain navigation, input/group extensions and full archetype/ability catalog remain incomplete relative to whole goal."
+  ]
+}

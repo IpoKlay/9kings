@@ -1,0 +1,32 @@
+{
+  "source_build": "Public20260409; latest Steam not measured",
+  "evidence_scope": "Source/WASM inspection and independent native-Godot local before/after. No execution of original physics module or whole original matching battle claimed.",
+  "source_hashes": {
+    "battle_systems.gd": "8b95985c551403330107f53ab68827dbaf3532ac2bde9e6d03eff6b8985a2030",
+    "unit_data.gd": "7ec9348812a8a621df66c91e9f20e654464334bcb366fa399968689cd0a62835",
+    "battle_manager.gd": "fc1f1377ba8dce2eda8a2c8c1071aa0e0f5853ebfebcd67bf891d970f6d27027",
+    "ragdoll_effect.gd": "38daf354c604fca127e1ac8f4c638f71f44bf72e0e4328abf5dc3eb91b82b42b"
+  },
+  "module_sha256": "10f218f31a5faa26683021f50627d4fbc19c543dfed0bbcf992a4f119597a1c8",
+  "rules": {
+    "physical_registration": "battle_systems._physics_process iterates registered alive_list, gathers dead after each state/fire visit, then tick_velocity and repulsion, then _sys_death. WASM117/119/120 use alive-list cache161832; no cached health161796 read in those inspected physics functions.",
+    "lethal_impulse": "_deliver_charge_hit writes knockback after take_damage without a target-health gate. Local knock now accepts the still-registered lethal victim.",
+    "corpse": "_sys_death builds ragdoll at current ground pos, facing and normal velocity after integration/repulsion; gets last attacker only if its registration still exists. Deaths release slots sequentially.",
+    "late_death": "A hit after victim visit (including existing projectile after unit systems) leaves registration until next visit. Drawing remains until actual death collection; new-target search still excludes zeroHP.",
+    "elimination": "Original battle_manager polls remaining scene-group nodes, not zeroHP. Local elimination is now gated on pending death registrations; original polling cadence/grace and presentation delay remain different."
+  },
+  "local_changes": [
+    "HP0 registered rows integrate and repel through actual death pass.",
+    "Corpse record created once at registration release, with true physical foot/facing/velocity/last-attacker.",
+    "Dead-unit status timers still expire so project stun/petrification cannot deadlock collection.",
+    "Live drawing depends on registration; combat targeting still depends on positiveHP.",
+    "Legacy nonpersonal row art keeps its display offset; individual bodies use physical positions."
+  ],
+  "remaining": [
+    "Original ragdoll duration3seconds, fade-in0-.12s/full-alpha until1.35s/linear fade to3s; local still12seconds and whole-sprite fall. Ragdoll structure, equipment scatter and life clock (including after victory) need implementation.",
+    "Native velocity lacks the same frozen gate as state/repulsion. Local project stun/petrification still freeze physical movement; do not claim original frozen parity.",
+    "Raw negativeHP, repeated zeroHP hit/last-attacker semantics, slot reuse, grid/hash/RNG/Float32 remain unaligned.",
+    "Full siege, walls/gates/ladders, multilevel navigation, original same-condition comparisons, sound/art equivalence, rendered high-load/save/final export remain incomplete."
+  ],
+  "validation": "death-motion/validation.json"
+}

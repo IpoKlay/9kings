@@ -1,0 +1,15 @@
+[
+  {
+    "suite": "siege_walls",
+    "exit": 0,
+    "passed": true,
+    "errors": [],
+    "warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 1 resources still in use at exit (run with --verbose for details)."
+    ],
+    "summary": [
+      "Siege wall checks=29 failures=0 first_landing=1.5 breach=6.54999999999998"
+    ]
+  }
+]

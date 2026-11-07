@@ -1,0 +1,32 @@
+{
+  "source_build": "Public old build 20260409; latest Steam runtime not checked",
+  "status": "Original extracted source-method replay + independent local implementation/tests; not full original runtime equivalence",
+  "source_sha256": {
+    "battle_systems.gd": "8b95985c551403330107f53ab68827dbaf3532ac2bde9e6d03eff6b8985a2030",
+    "unit_shell.gd": "d82882d3415f3025093a7cffaa5a342f42c47295c052fd55cd6b9ca013aefda6",
+    "unit_data.gd": "7ec9348812a8a621df66c91e9f20e654464334bcb366fa399968689cd0a62835"
+  },
+  "rules": {
+    "source_lifetime": "_physics_process visits registered alive_list; state handler then _sys_fire_check then queues HP<=0 for death after physical passes. No source health gate in release or charge.",
+    "terminal_release": "Registered HP<=0 source releases only if its pending attack reaches the normal .8s animation release threshold; fired flag consumes it once; expired/not-yet-due release does not attack.",
+    "target_lifetime": "_perform_attack checks target registration and node validity, not target HP; attack/pursuit state may clear a dead target earlier. Holding only reacquires when its .1s scan and attack cooldown permit it, otherwise stored target remains.",
+    "retaliation": "take_damage sets last attacker and eligible idle/move/attack_move pursuit even after lethal damage; does not restore health.",
+    "final_charge": "Registered charging source receives its current state visit even if an earlier visited actor killed it; collection prevents another visit next step."
+  },
+  "source_probe": "terminal-attacks/source-probe/result.json",
+  "source_probe_limit": "Only unchanged _sys_fire_check/_perform_attack run in local4.7.2 with minimal data/node/audio collaborators. No original native physics, timer loop, input, graphics or complete battle are claimed.",
+  "native_inspection": {
+    "module_sha256": "10f218f31a5faa26683021f50627d4fbc19c543dfed0bbcf992a4f119597a1c8",
+    "velocity_function": 117,
+    "repulsion_function": 119,
+    "pair_function": 120,
+    "observed": "Velocity/repulsion read cached registered alive-list161832; inspected functions do not read cached health161796. Local physical passes still exclude zero-HP actors. This is the next implementation discrepancy, not fixed by terminal release."
+  },
+  "remaining": [
+    "Align registered zero-HP movement, repulsion and lethal-hit impulse, then emit/render corpse at death collection rather than first zeroHP.",
+    "Raw original HP can become negative; local individual/aggregate damage remains clamped. Repeated hits and last-attacker recording on zeroHP need follow-up.",
+    "Original object deletion is engine-frame deferred; local simulation-step boundary may differ under multiple physics steps per render.",
+    "Exact slot reuse, native hash/RNG/Float32, corpse ragdoll, full siege/gates/ladders and multilevel navigation, original same-condition comparisons, audio/art, high-load/save/final export remain unproved.",
+    "Holding retains the stored aim until a ready scan. Shield-wall movement and native timer/frozen semantics still need their own state-by-state audit; native velocity code does not show the same frozen gate as the state/repulsion loop."
+  ]
+}

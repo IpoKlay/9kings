@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[
+	{
+		"frame": 1,
+		"node": "system"
+	},
+	{
+		"frame": 1,
+		"node": "existing",
+		"source_queued": true,
+		"source_valid": true
+	},
+	{
+		"frame": 2,
+		"node": "system"
+	},
+	{
+		"frame": 2,
+		"node": "existing",
+		"source_queued": false,
+		"source_valid": false
+	},
+	{
+		"frame": 2,
+		"node": "new",
+		"source_queued": false,
+		"source_valid": false
+	},
+	{
+		"frame": 3,
+		"node": "system"
+	},
+	{
+		"frame": 3,
+		"node": "existing",
+		"source_queued": false,
+		"source_valid": false
+	},
+	{
+		"frame": 3,
+		"node": "new",
+		"source_queued": false,
+		"source_valid": false
+	}
+]

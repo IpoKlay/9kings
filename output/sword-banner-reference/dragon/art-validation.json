@@ -1,0 +1,43 @@
+{
+  "source": "Own authored winged four-legged Blender model, using existing pixel rig/palette; not original procedural renderer",
+  "frames": 136,
+  "cell": [
+    64,
+    64
+  ],
+  "directions": 8,
+  "poses_per_direction": 17,
+  "hard_alpha": true,
+  "nonstatic_walk_and_attack_every_direction": true,
+  "packing_edge_assertions": true,
+  "visual_scale": 3,
+  "sheets": [
+    {
+      "side": "ally",
+      "size": [
+        1088,
+        512
+      ],
+      "colors": 13,
+      "sha256": "3cbc5b61c45e1f24545c71147af71a38ebfe6470b7ce5c3f601625e1c8e502ca"
+    },
+    {
+      "side": "enemy",
+      "size": [
+        1088,
+        512
+      ],
+      "colors": 13,
+      "sha256": "62802fa12815c4995f3788b5f5d71e3d0025a5518552768a651d167193b259cb"
+    },
+    {
+      "side": "stone",
+      "size": [
+        64,
+        512
+      ],
+      "colors": 6,
+      "sha256": "94285ad8dd1ca0868a8c912f83cfd975e3917c0b2efd53641600049de3308950"
+    }
+  ]
+}

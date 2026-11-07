@@ -1,0 +1,20 @@
+{
+  "spear": {
+    "decode_exit_code": 0,
+    "decoded_frames": 481,
+    "distinct_frame_hashes": 456,
+    "fps": 60,
+    "duration": 8.016666666666667,
+    "sha256": "2e008eabd4b482c1d868213fdef41e9eebbe52a71d38556ed17b26682ac316d2",
+    "errors": ""
+  },
+  "archer": {
+    "decode_exit_code": 0,
+    "decoded_frames": 481,
+    "distinct_frame_hashes": 480,
+    "fps": 60,
+    "duration": 8.016666666666667,
+    "sha256": "c2a48af31d6017c14b15ca5f6365d9ec0ca968f2487a6f2d7d82c18074b40ab1",
+    "errors": ""
+  }
+}

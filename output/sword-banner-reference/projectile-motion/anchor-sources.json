@@ -1,0 +1,42 @@
+{
+  "archer": {
+    "source": "output/rts-armies/source/archer.blend",
+    "sha256": "3576ffe711442061ee8e62b1b81d4315082bbeb137e894666f21671ae701eaa3",
+    "anchor_node": "Bow grip"
+  },
+  "mounted_archer": {
+    "source": "output/sword-banner-reference/mounted-archer/art/mounted_archer.blend",
+    "sha256": "96aa620bfe646ad5a5656e30045409cf6333a23b22bae445459abb283a554369",
+    "anchor_node": "Bow grip"
+  },
+  "crossbow": {
+    "source": "output/sword-banner-reference/human-roster/art/crossbow.blend",
+    "sha256": "c1777543fbc5ee32754107b825a563a4fd676093dc9520f3d27a143f8cc13cfd",
+    "anchor_node": "Crossbow"
+  },
+  "skeleton_archer": {
+    "source": "output/sword-banner-reference/undead-roster/art/skeleton_archer.blend",
+    "sha256": "02e7a55e707d16361868a4252818fd2ff3eff06007aa01ea1d52876420f7a4ec",
+    "anchor_node": "Bow grip"
+  },
+  "goblin_archer": {
+    "source": "output/sword-banner-reference/goblin-roster/art/goblin_archer.blend",
+    "sha256": "e1dc50a9dae9ec770e70e7d8b0dcf2e8df2f32d5cd0add883411c0f77fe9a5f5",
+    "anchor_node": "Bow grip"
+  },
+  "goblin_slinger": {
+    "source": "output/sword-banner-reference/goblin-roster/art/goblin_slinger.blend",
+    "sha256": "4bb86ceb5f64d66aa6a7db16ea875b6d12413253156ccd0ad83f9915720adfea",
+    "anchor_node": "Sling stone"
+  },
+  "goblin_wolf_skirmisher": {
+    "source": "output/sword-banner-reference/goblin-roster/art/goblin_wolf_skirmisher.blend",
+    "sha256": "9310e822b6f42f350369873b07903c69730bfd3dda551e1e3a4e02cd29c5d07d",
+    "anchor_node": "Bow grip"
+  },
+  "siege": {
+    "source": "output/rts-armies/source/siege.blend",
+    "sha256": "7f98c74e86128baff242104135f23ec0481561546c03b4d6045aea8c111c6a14",
+    "anchor_node": "Shot"
+  }
+}

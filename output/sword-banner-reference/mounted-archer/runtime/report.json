@@ -1,0 +1,403 @@
+{
+	"expected_movie_frames": 664,
+	"failures": 0,
+	"final_enemy_hp": 824.0,
+	"fixture": "Normal menu/loadout/combined deployment; controlled eight mounted archers moving past ten stationary guards; enemy attacks disabled",
+	"impacts": [
+		{
+			"damage": 12.96,
+			"frame": 104
+		},
+		{
+			"damage": 12.96,
+			"frame": 105
+		},
+		{
+			"damage": 12.96,
+			"frame": 165
+		},
+		{
+			"damage": 12.9599999999998,
+			"frame": 168
+		},
+		{
+			"damage": 25.9200000000001,
+			"frame": 214
+		},
+		{
+			"damage": 12.96,
+			"frame": 222
+		},
+		{
+			"damage": 12.9599999999998,
+			"frame": 234
+		},
+		{
+			"damage": 18.0,
+			"frame": 248
+		},
+		{
+			"damage": 8.32000000000016,
+			"frame": 259
+		},
+		{
+			"damage": 18.0,
+			"frame": 363
+		},
+		{
+			"damage": 18.0,
+			"frame": 381
+		},
+		{
+			"damage": 54.0,
+			"frame": 383
+		},
+		{
+			"damage": 18.0,
+			"frame": 392
+		},
+		{
+			"damage": 18.0,
+			"frame": 407
+		},
+		{
+			"damage": 18.0,
+			"frame": 408
+		},
+		{
+			"damage": 18.0,
+			"frame": 435
+		},
+		{
+			"damage": 18.0,
+			"frame": 443
+		},
+		{
+			"damage": 18.0,
+			"frame": 455
+		},
+		{
+			"damage": 18.0,
+			"frame": 456
+		},
+		{
+			"damage": 18.0,
+			"frame": 461
+		},
+		{
+			"damage": 18.0,
+			"frame": 467
+		},
+		{
+			"damage": 4.0,
+			"frame": 480
+		},
+		{
+			"damage": 18.0,
+			"frame": 482
+		},
+		{
+			"damage": 18.0,
+			"frame": 496
+		},
+		{
+			"damage": 18.0,
+			"frame": 518
+		},
+		{
+			"damage": 18.0,
+			"frame": 535
+		},
+		{
+			"damage": 18.0,
+			"frame": 548
+		}
+	],
+	"moving_shots": 31,
+	"normal_speed": true,
+	"quiet": true,
+	"releases": [
+		{
+			"frame": 36,
+			"from": "(500.0, 1112.143)",
+			"order": "hold",
+			"slot": 6,
+			"speed": 0.0
+		},
+		{
+			"frame": 38,
+			"from": "(500.0, 1077.0)",
+			"order": "hold",
+			"slot": 7,
+			"speed": 0.0
+		},
+		{
+			"frame": 96,
+			"from": "(500.0, 1112.143)",
+			"order": "hold",
+			"slot": 6,
+			"speed": 0.0
+		},
+		{
+			"frame": 102,
+			"from": "(500.0, 1077.0)",
+			"order": "hold",
+			"slot": 7,
+			"speed": 0.0
+		},
+		{
+			"frame": 156,
+			"from": "(596.8635, 1115.411)",
+			"order": "move",
+			"slot": 6,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 162,
+			"from": "(615.0836, 1149.574)",
+			"order": "move",
+			"slot": 5,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 162,
+			"from": "(615.0131, 1082.336)",
+			"order": "move",
+			"slot": 7,
+			"speed": 181.999969482422
+		},
+		{
+			"frame": 173,
+			"from": "(648.4636, 1183.393)",
+			"order": "move",
+			"slot": 4,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 186,
+			"from": "(687.8961, 1216.371)",
+			"order": "move",
+			"slot": 3,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 201,
+			"from": "(733.3643, 1248.302)",
+			"order": "move",
+			"slot": 2,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 216,
+			"from": "(778.7825, 1120.853)",
+			"order": "move",
+			"slot": 6,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 222,
+			"from": "(796.9744, 1278.602)",
+			"order": "move",
+			"slot": 1,
+			"speed": 182.000015258789
+		},
+		{
+			"frame": 222,
+			"from": "(797.0538, 1152.841)",
+			"order": "move",
+			"slot": 5,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 222,
+			"from": "(796.8552, 1089.95)",
+			"order": "move",
+			"slot": 7,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 233,
+			"from": "(830.4595, 1184.481)",
+			"order": "move",
+			"slot": 4,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 246,
+			"from": "(869.8933, 1215.332)",
+			"order": "move",
+			"slot": 3,
+			"speed": 182.0
+		},
+		{
+			"frame": 252,
+			"from": "(887.7701, 1307.093)",
+			"order": "move",
+			"slot": 0,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 306,
+			"from": "(1051.914, 1214.859)",
+			"order": "move",
+			"slot": 3,
+			"speed": 182.0
+		},
+		{
+			"frame": 312,
+			"from": "(1069.515, 1304.255)",
+			"order": "move",
+			"slot": 0,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 321,
+			"from": "(1097.322, 1244.029)",
+			"order": "move",
+			"slot": 2,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 336,
+			"from": "(1142.568, 1126.741)",
+			"order": "move",
+			"slot": 6,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 342,
+			"from": "(1160.747, 1273.009)",
+			"order": "move",
+			"slot": 1,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 342,
+			"from": "(1161.027, 1156.599)",
+			"order": "move",
+			"slot": 5,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 342,
+			"from": "(1160.277, 1096.452)",
+			"order": "move",
+			"slot": 7,
+			"speed": 182.000015258789
+		},
+		{
+			"frame": 353,
+			"from": "(1194.528, 1185.834)",
+			"order": "move",
+			"slot": 4,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 366,
+			"from": "(1233.98, 1214.403)",
+			"order": "move",
+			"slot": 3,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 372,
+			"from": "(1250.958, 1301.476)",
+			"order": "move",
+			"slot": 0,
+			"speed": 182.0
+		},
+		{
+			"frame": 381,
+			"from": "(1279.33, 1242.389)",
+			"order": "move",
+			"slot": 2,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 396,
+			"from": "(1324.312, 1129.762)",
+			"order": "move",
+			"slot": 6,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 402,
+			"from": "(1342.445, 1269.73)",
+			"order": "move",
+			"slot": 1,
+			"speed": 182.000015258789
+		},
+		{
+			"frame": 402,
+			"from": "(1343.081, 1158.81)",
+			"order": "move",
+			"slot": 5,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 402,
+			"from": "(1341.238, 1100.271)",
+			"order": "move",
+			"slot": 7,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 413,
+			"from": "(1376.682, 1186.765)",
+			"order": "move",
+			"slot": 4,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 426,
+			"from": "(1416.119, 1213.246)",
+			"order": "move",
+			"slot": 3,
+			"speed": 181.999984741211
+		},
+		{
+			"frame": 441,
+			"from": "(1461.673, 1237.608)",
+			"order": "move",
+			"slot": 2,
+			"speed": 182.0
+		},
+		{
+			"frame": 456,
+			"from": "(1496.788, 1138.682)",
+			"order": "move",
+			"slot": 6,
+			"speed": 18.218505859375
+		},
+		{
+			"frame": 462,
+			"from": "(1495.087, 1163.474)",
+			"order": "move",
+			"slot": 5,
+			"speed": 0.0
+		},
+		{
+			"frame": 462,
+			"from": "(1494.436, 1108.543)",
+			"order": "move",
+			"slot": 7,
+			"speed": 0.0
+		},
+		{
+			"frame": 473,
+			"from": "(1491.373, 1188.763)",
+			"order": "move",
+			"slot": 4,
+			"speed": 0.0
+		},
+		{
+			"frame": 528,
+			"from": "(1500.6, 1131.736)",
+			"order": "idle",
+			"slot": 6,
+			"speed": 0.0
+		}
+	],
+	"retry_clean": true,
+	"zoom": 1.0
+}

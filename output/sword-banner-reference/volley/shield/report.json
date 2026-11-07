@@ -1,0 +1,207 @@
+{
+	"contacts": [
+		{
+			"attacker_slot": 0,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 9
+		},
+		{
+			"attacker_slot": 1,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 8
+		},
+		{
+			"attacker_slot": 2,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 6
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 5
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 4
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 3
+		},
+		{
+			"attacker_slot": 6,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 1
+		},
+		{
+			"attacker_slot": 7,
+			"damage": 30.0,
+			"frame": 155,
+			"speed_fraction": 1.0,
+			"target_slot": 0
+		},
+		{
+			"attacker_slot": 1,
+			"damage": 19.25,
+			"frame": 156,
+			"speed_fraction": 0.916666666666667,
+			"target_slot": 7
+		},
+		{
+			"attacker_slot": 2,
+			"damage": 19.25,
+			"frame": 156,
+			"speed_fraction": 0.916666666666667,
+			"target_slot": 7
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 19.25,
+			"frame": 156,
+			"speed_fraction": 0.916666666666667,
+			"target_slot": 2
+		},
+		{
+			"attacker_slot": 6,
+			"damage": 19.25,
+			"frame": 156,
+			"speed_fraction": 0.916666666666667,
+			"target_slot": 2
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 18.4799997329712,
+			"frame": 175,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 5
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 12.9359998130799,
+			"frame": 175,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 6
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 18.479999732971,
+			"frame": 176,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 3
+		},
+		{
+			"attacker_slot": 4,
+			"damage": 8.19769986915594,
+			"frame": 176,
+			"speed_fraction": 0.796666653951009,
+			"target_slot": 3
+		},
+		{
+			"attacker_slot": 0,
+			"damage": 18.4799997329712,
+			"frame": 177,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 8
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 11.1719996261597,
+			"frame": 178,
+			"speed_fraction": 0.759999974568685,
+			"target_slot": 4
+		},
+		{
+			"attacker_slot": 7,
+			"damage": 46.199999332428,
+			"frame": 180,
+			"speed_fraction": 0.879999987284342,
+			"target_slot": 1
+		},
+		{
+			"attacker_slot": 3,
+			"damage": 6.58559960746766,
+			"frame": 200,
+			"speed_fraction": 0.639999961853027,
+			"target_slot": 6
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 11.1719986915588,
+			"frame": 201,
+			"speed_fraction": 0.759999910990397,
+			"target_slot": 4
+		},
+		{
+			"attacker_slot": 5,
+			"damage": 6.58559960746766,
+			"frame": 205,
+			"speed_fraction": 0.639999961853027,
+			"target_slot": 5
+		}
+	],
+	"duration": 10.0,
+	"failures": 0,
+	"first_frame": 155,
+	"normal_speed": true,
+	"quiet": true,
+	"scenario": "shield",
+	"stops": [
+		{
+			"position": "(1172.638, 783.5262)",
+			"reason": "goal",
+			"time": 3.36666666666666
+		},
+		{
+			"position": "(1146.127, 781.5231)",
+			"reason": "goal",
+			"time": 3.53333333333333
+		},
+		{
+			"position": "(1100.76, 782.6306)",
+			"reason": "goal",
+			"time": 3.43333333333333
+		},
+		{
+			"position": "(1067.58, 784.6829)",
+			"reason": "goal",
+			"time": 3.44999999999999
+		},
+		{
+			"position": "(1032.809, 784.2458)",
+			"reason": "goal",
+			"time": 3.54999999999999
+		},
+		{
+			"position": "(1001.365, 784.5214)",
+			"reason": "goal",
+			"time": 3.46666666666666
+		},
+		{
+			"position": "(956.8245, 782.1323)",
+			"reason": "goal",
+			"time": 3.46666666666666
+		},
+		{
+			"position": "(927.1219, 784.9335)",
+			"reason": "goal",
+			"time": 3.34999999999999
+		}
+	],
+	"zoom": 1.0
+}

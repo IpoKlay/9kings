@@ -1,0 +1,1 @@
+Acquisition records included pre-command hold combat atframe0. Not valid as the automatic-acquisition timing capture. Final corrected fixture keeps all actors individually holding on cooldown untilframe60command.

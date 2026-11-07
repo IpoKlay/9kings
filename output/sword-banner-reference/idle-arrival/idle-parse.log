@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+ERROR: Selected person arrives at the clicked point
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_personal_movement.gd:7)
+       [1] run (res://tests/tactical/test_personal_movement.gd:23)
+ERROR: A full-group hold stops the detached soldier at its actual position
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_personal_movement.gd:7)
+       [1] run (res://tests/tactical/test_personal_movement.gd:36)
+ERROR: Hold never pulls a soldier back to its former slot
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_personal_movement.gd:7)
+       [1] run (res://tests/tactical/test_personal_movement.gd:38)
+ERROR: Actual foot follows the route around the rock and reaches its goal
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_personal_movement.gd:7)
+       [1] run (res://tests/tactical/test_personal_movement.gd:48)
+Personal movement: 17 checks, 4 failures

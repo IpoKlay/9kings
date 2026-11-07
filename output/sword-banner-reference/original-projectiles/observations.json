@@ -1,0 +1,32 @@
+{
+  "url": "https://html-classic.itch.zone/html/17110357/index.html",
+  "source": "Unmodified official browser sandbox, normal controls via UI",
+  "conditions": "Human light cavalry selected; one enemy archer; unrelated allied foot unit remains at far left. Grassland with river disabled. Random spawn and obstacles remain; not same map or exact conditions as local controlled lanes.",
+  "capture": "tracking.mp4",
+  "timing": "tracking/timing.json",
+  "validation": "video-validation.json",
+  "observed": [
+    "Light cavalry selection verified visibly before recording. Four right-click move commands recorded with wall times.",
+    "Cavalry approaches, turns upward, reverses downward, retreats left, and is eventually lost from selection after lethal hits.",
+    "At capture wall times about7.37–8.03s, a visible airborne arrow travels toward the moving cavalry and a hit flash occurs. This supports moving-target tracking qualitatively, not an exact numerical trajectory fit."
+  ],
+  "key_frames": {
+    "turn_and_arrow": [
+      "tracking/frame-0105.jpg",
+      "tracking/frame-0107.jpg",
+      "tracking/frame-0110.jpg",
+      "tracking/frame-0113.jpg"
+    ],
+    "montage": "tracking/turn-sequence.jpg"
+  },
+  "timing_limits": "First screenshot completion is0.516s after command-clock start; movie time = recorded wall time minus0.516. Screenshot start/end latency and rendering cadence are not simulation frames. No exact400 speed/impact delta is independently measured.",
+  "not_verified": [
+    "Dead target cancelling an already airborne arrow in original",
+    "Catapult fixed landing in original",
+    "Source death / same-frame deferred source lifetime",
+    "Original-to-local identical initial positions, orders, map, random seed or pixel trajectory"
+  ],
+  "preparation_errors": "Earlier590px attempts misread longbow/peasant/veteran-spear buttons, lacked continuous recording and are not valid cavalry evidence.1280x720 capture subsequently verified LIGHT CAVALRY x1. UI tool state reset before recording was recovered; no partial recording represented as successful.",
+  "viewport_restored": true,
+  "left_paused": true
+}

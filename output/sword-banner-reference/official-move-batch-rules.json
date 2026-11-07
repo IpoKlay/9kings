@@ -1,0 +1,53 @@
+{
+  "source": "https://html-classic.itch.zone/html/17110357/libunit_physics.web.template_release.wasm32.nothreads.wasm",
+  "basis": "Public WebAssembly bytecode function113 plus published20260409 scripts. Derived rules, not a direct original runtime side-by-side measurement.",
+  "input_correction": "selection_manager._compute_targets and _issue_move/_issue_attack_move handle normal input. formation_manager._issue_move has no caller in the recovered script and was previously over-weighted.",
+  "rules": {
+    "inside_box_targets": "For count>1, ring of radius9.5 around clicked ground point; comparison includes bounding edges",
+    "outside_box_targets": "Offsets about actual selected centroid, scaled down only if max spread exceeds19*sqrt(count)*1.5",
+    "batch_creation": "Both normal move and attack move always create a batch; mean collision radius*sqrt(count)*2.5 is gather radius",
+    "sibling_stop": "Mover inside its own batch gather radius; nearby living same-team same-batch unit in state0 or6; distance < ownRadius+otherRadius+0.6*max(radius); then stop to idle",
+    "arrival_priority": "Ordinary inner17 arrival still accumulates0.5s before sibling check; sibling can settle movers farther from their exact goal",
+    "H": "Retains move batch membership; F slot assignment clears it"
+  },
+  "implemented": [
+    "Shared serial and per-soldier batch data with no persistent global batch dictionary",
+    "Exact normal input target generation; typed authored intermediate waypoint routes retain their existing offset semantics",
+    "Native-derived same-batch stop predicate using actual feet and broadened spatial candidates",
+    "Invalid previews/commands do not allocate serials; retry clears batch state",
+    "Temporary local steering permits backward candidates to escape compact crowds at rock corners"
+  ],
+  "remaining": [
+    "Native velocity integration, repulsion and target scoring not yet reproduced; the public module is now available for analysis",
+    "No original runtime frame-for-frame batching comparison yet",
+    "Some selected medic/project-extension combinations retain legacy owner logic",
+    "RoleAI, Vvolley, all original unit abilities, multilevel navigation and latestSteam fidelity still incomplete"
+  ],
+  "validation": {
+    "move_batch_checks": 20,
+    "batch_input_checks": 12,
+    "batch_fps": [
+      30,
+      60,
+      120
+    ],
+    "batch_final_positions_identical": true,
+    "idle_checks": 12,
+    "battle_commands_checks": 25,
+    "shield_checks": 24,
+    "autonomy_checks": 17,
+    "charge_checks": 37,
+    "charge_input_checks": 16,
+    "mountain_failures": 0,
+    "full_battle_checks": 26,
+    "full_battle_fps": [
+      30,
+      60,
+      120
+    ],
+    "full_battle_result": "defeat",
+    "full_battle_sim_seconds": 32.6,
+    "full_final_state_identical": true,
+    "note": "Backstep steering changes this fixture from27.2833s defeat to32.6s defeat; no claim of unchanged balance or measured speed improvement."
+  }
+}

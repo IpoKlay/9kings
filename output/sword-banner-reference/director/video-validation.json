@@ -1,0 +1,51 @@
+[
+  {
+    "scenario": "full",
+    "frames": 2641,
+    "fps": 60,
+    "seconds": 44.016666666666666,
+    "expected_frames": 2641,
+    "frames_match": true,
+    "decode_exit": 0,
+    "decode_errors": ""
+  },
+  {
+    "scenario": "side",
+    "frames": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "expected_frames": 601,
+    "frames_match": true,
+    "decode_exit": 0,
+    "decode_errors": "",
+    "first_contact_frame": 124,
+    "contacts": 23,
+    "capture_failures": 0
+  },
+  {
+    "scenario": "shield",
+    "frames": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "expected_frames": 601,
+    "frames_match": true,
+    "decode_exit": 0,
+    "decode_errors": "",
+    "first_contact_frame": 155,
+    "contacts": 22,
+    "capture_failures": 0
+  },
+  {
+    "scenario": "pikes",
+    "frames": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "expected_frames": 601,
+    "frames_match": true,
+    "decode_exit": 0,
+    "decode_errors": "",
+    "first_contact_frame": 155,
+    "contacts": 22,
+    "capture_failures": 0
+  }
+]

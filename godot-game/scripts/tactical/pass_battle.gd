@@ -85,8 +85,8 @@ func reserve_squads(ids: Array):
 	var recalled=alive('ally').filter(func(u):return u.id in ids and not u.get('escort',false))
 	super(recalled.map(func(u):return u.id))
 
-func spawn(kind: String,side: String,pos: Vector2):
-	super(kind,side,pos)
+func spawn(kind: String,side: String,pos: Vector2,variant: String=''):
+	super(kind,side,pos,variant)
 	var u: Dictionary=units.back()
 	u.morale=100.0
 	u.routing=false
@@ -96,14 +96,14 @@ func spawn(kind: String,side: String,pos: Vector2):
 func alive(side: String) -> Array:
 	return units.filter(func(u):return u.side==side and u.hp>0 and not u.routing)
 
-func hurt(u: Dictionary, damage: float, source_kind: String='', morale_shock: float=0.0) -> float:
+func hurt(u: Dictionary, damage: float, source_kind: String='', morale_shock: float=0.0,slot: int=-1,attacker_id: int=-1,attacker_slot: int=-1) -> float:
 	if u.get('escort',false):
 		damage*=u.camp_damage_taken
 		var absorbed=minf(u.camp_shield,damage)
 		u.camp_shield-=absorbed
 		damage-=absorbed
-	var dealt=super(u,damage,source_kind)
-	if dealt>0 and u.has('morale') and not u.routing:
+	var dealt=super(u,damage,source_kind,0.,slot,attacker_id,attacker_slot)
+	if dealt>0 and not square_battle and u.has('morale') and not u.routing:
 		u.morale-=dealt/u.max_hp*(106 if u.general else 125)+morale_shock
 		if u.hp<=0 or u.morale<=0:
 			u.routing=true
@@ -116,8 +116,8 @@ func hurt(u: Dictionary, damage: float, source_kind: String='', morale_shock: fl
 			if alive(u.side).is_empty():record_event('last_regiment',{'side':u.side,'unit_id':u.id,'regiment':u.kind,'routed':u.hp>0})
 	return dealt
 
-func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Dictionary={}) -> Dictionary:
-	var hit=super.deal_blow(attacker,target,damage,contact)
+func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Dictionary={},strike: Dictionary={}) -> Dictionary:
+	var hit=super.deal_blow(attacker,target,damage,contact,strike)
 	if hit.is_empty():return hit
 	if attacker.side=='ally' and target.kind=='archer' and hit.kind=='flanking_charge' and hit.sector=='rear' and hit.damage>0:
 		record_event('rear_archers',{'damage':hit.damage,'attacker':attacker.id,'target':target.id})
@@ -146,6 +146,8 @@ func ignite(b: Dictionary) -> bool:
 			b.from=archer.pos
 			archer.attack_age=0
 			archer.heading=archer.pos.direction_to(b.pos)
+			for actor in archer.soldiers:
+				if actor.hp>0:actor.attack_age=0.;actor.heading=archer.heading;break
 			events.append({'kind':'arrow','pos':b.pos,'from':archer.pos})
 			return true
 	return false
@@ -172,9 +174,15 @@ func step(dt: float):
 		if u.routing and u.hp>0 and not u.escaped:
 			var sign_x=-1 if u.side=='ally' else 1
 			u.facing=sign_x
-			u.heading=Vector2(sign_x,0)
+			u.heading=Vector2(0,-sign_x) if square_battle else Vector2(sign_x,0)
 			var distance=float(config.types[u.kind].speed)*1.35*dt
 			var exit_point=Vector2(bounds.position.x+1 if sign_x<0 else bounds.end.x-1,u.pos.y)
+			if square_battle:
+				var margin=terrain.extents[u.kind].y/ground_basis.y.y+2
+				exit_point=Vector2(u.pos.x,bounds.end.y-margin if u.side=='ally' else bounds.position.y+margin)
+				if u.pos.distance_to(exit_point)<2:
+					u.escaped=Soldiers.personal_fled(self,u)
+					continue
 			var retreat=travel_target(u,exit_point)
 			var next: Vector2=u.pos.move_toward(retreat,distance)
 			if u.pos.distance_to(exit_point)<2:next=u.pos+Vector2(sign_x*distance,0)
@@ -183,7 +191,7 @@ func step(dt: float):
 			u.march_distance+=distance
 			u.moving=true
 			u.attack_age=10
-			if not bounds.has_point(u.pos):u.escaped=true
+			if not bounds.has_point(u.pos):u.escaped=Soldiers.personal_fled(self,u)
 	super(dt)
 
 func inside_flag(unit: Dictionary) -> bool:
@@ -264,7 +272,7 @@ func combat_target(u: Dictionary) -> Dictionary:
 	u.target_id=-1
 	var nearest=INF
 	var local: Dictionary={}
-	var melee: bool=u.kind in ['legion','guard','spear','cavalry']
+	var melee: bool=u.kind in ['legion','guard','spear','cavalry'] and not Soldiers.ranged(u)
 	for defender in alive('ally'):
 		var distance: float=u.pos.distance_to(defender.pos)
 		if distance>=nearest:continue
@@ -283,10 +291,10 @@ func advance_objective(u: Dictionary, target: Dictionary, dt: float) -> bool:
 	if not target.is_empty() and u.pos.distance_to(target.pos)<=attack_reach(u,target):return false
 	if u.rooted>0 or inside_flag(u):return true
 	var goal: Vector2
-	if u.kind=='cavalry':
+	if u.kind=='cavalry' and not Soldiers.ranged(u):
 		if flank_state in ['reserve','warning']:return true
 		goal=lane_goal(u,flank_state in ['crossing','through'])
-	elif u.kind in ['archer','siege']:
+	elif Soldiers.ranged(u):
 		goal=supporting_goal(u)
 	else:
 		goal=lane_goal(u,false)
@@ -294,7 +302,7 @@ func advance_objective(u: Dictionary, target: Dictionary, dt: float) -> bool:
 	var steer=travel_target(u,goal)
 	var speed: float=config.types[u.kind].speed*powers.speed_multiplier(u)
 	var approaching=terrain.crosses(terrain.SIDE_GATE,projection*u.pos,projection*goal)
-	if u.kind=='cavalry':
+	if u.kind=='cavalry' and not Soldiers.ranged(u):
 		ride(u,steer,speed,dt,{},approaching)
 		return true
 	var next: Vector2=u.pos.move_toward(steer,speed*dt)
@@ -302,6 +310,39 @@ func advance_objective(u: Dictionary, target: Dictionary, dt: float) -> bool:
 		u.pos=next
 		record_march(u,previous)
 	return true
+
+func autonomous_destination(u: Dictionary,actor: Dictionary) -> Vector2:
+	if square_battle or u.side!='enemy':return super.autonomous_destination(u,actor)
+	if u.rooted>0 or inside_flag(u):return actor.position
+	if u.kind=='cavalry' and not Soldiers.ranged(u):
+		if flank_state in ['reserve','warning']:return actor.position
+		return individual_lane_goal(u,actor,flank_state in ['crossing','through'])
+	if Soldiers.ranged(u):return supporting_goal(u)
+	return individual_lane_goal(u,actor,false)
+
+func individual_lane_goal(u: Dictionary,actor: Dictionary,side_lane: bool) -> Vector2:
+	var gate: Rect2=terrain.SIDE_GATE if side_lane else terrain.main_pass
+	var y=gate.get_center().y if side_lane else gate.position.y+gate.size.y*(92.+80.*(u.id%3))/329.
+	var entry=Vector2(gate.end.x+190,y);var exit_point=Vector2(gate.position.x-175,y)
+	var foot: Vector2=projection*actor.position
+	var lane='side' if side_lane else 'front'
+	if actor.get('lane','')!=lane:
+		actor.lane=lane;actor.lane_stage=0 if foot.x>entry.x else 1
+		if foot.x<=exit_point.x:actor.lane_stage=2
+	if actor.lane_stage==0:
+		if foot.distance_to(entry)>6:return terrain.inverse*entry
+		actor.lane_stage=1
+	if actor.lane_stage==1:
+		if foot.distance_to(exit_point)>6:return terrain.inverse*exit_point
+		actor.lane_stage=2
+		if side_lane and not u.get('cleared_side_gate',false):
+			u.cleared_side_gate=true;flank_state='through';record_event('flank_through',{'unit_id':u.id})
+	return flag_center
+
+func autonomous_engagement(u: Dictionary,_actor: Dictionary,target: Dictionary) -> bool:
+	if square_battle or u.side!='enemy' or target.unit.kind=='decoy':return true
+	# Pass attackers keep the authored lane/objective until a real soldier reaches weapon range.
+	return target.near.distance<=config.types[u.kind].range
 
 func resolve_battle(dt: float):
 	var attackers=alive('enemy')
@@ -326,7 +367,7 @@ func resolve_battle(dt: float):
 		if not flank_captor:
 			flank_captor=attackers.any(func(u):return u.get('cleared_side_gate',false) and inside_flag(u))
 	# Resolve once, after movement, damage and routs for this simulation step.
-	if attackers.is_empty():
+	if attackers.is_empty() and not Soldiers.pending_deaths(self,'enemy'):
 		outcome='enemy_routed'
 		phase='victory'
 	elif capture_time>=capture_seconds-1e-8:
@@ -334,7 +375,7 @@ func resolve_battle(dt: float):
 		record_event('captured',{'seconds':capture_time,'contested':capture_contested,'flank':flank_captor})
 		outcome='flag_lost'
 		phase='defeat'
-	elif defenders.is_empty() and not reserve.values().any(func(stock):return stock>0):
+	elif defenders.is_empty() and not Soldiers.pending_deaths(self,'ally') and not reserve.values().any(func(stock):return stock>0):
 		outcome='defenders_routed'
 		phase='defeat'
 	elif elapsed>=float(config.duration)-1e-8:
@@ -345,5 +386,5 @@ func resolve_battle(dt: float):
 
 func strength(side: String) -> float:
 	var value=0.0
-	for u in alive(side):value+=u.hp/u.max_hp*float(config.types[u.kind].soldiers)
+	for u in alive(side):value+=Contact.count(u,config.types[u.kind])
 	return value

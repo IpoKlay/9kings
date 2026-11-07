@@ -1,0 +1,16 @@
+{
+  "attempt": "Official SteamCMD anonymous public app download",
+  "appid": 4957080,
+  "buildid": "26442483",
+  "public_build_timestamp": 1793828972,
+  "result": "ERROR! Failed to install app 4957080 (No subscription)",
+  "app_info": "app-info.log",
+  "download_log": "download.log",
+  "no_login_or_license_bypass": true,
+  "latest_runtime_obtained": false,
+  "public_reference": "https://bitrotgames.itch.io/sword-banner",
+  "public_reference_version": "20260409; author labels outdated",
+  "steam_store": "https://store.steampowered.com/app/4574370/Sword__Banner/",
+  "remaining_reference_access": "An authorized Steam Playtest account/license is needed; anonymous download is insufficient. No user account credentials were accessed.",
+  "new_scope_evidence": "Current official storefront describes five races, including Elves and Dwarves, and cannons alongside catapults and ladders. Their current parameters/behaviors have not been runtime-verified locally."
+}

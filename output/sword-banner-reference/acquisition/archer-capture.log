@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+Movie Maker mode enabled, recording movie in 1280×720 @ 60 FPS...
+Target selection native capture {"acquired":[{"frame":61,"slot":1,"target":8,"target_slot":1},{"frame":66,"slot":0,"target":8,"target_slot":0},{"frame":74,"slot":2,"target":8,"target_slot":2},{"frame":75,"slot":3,"target":8,"target_slot":3},{"frame":87,"slot":9,"target":8,"target_slot":8},{"frame":110,"slot":8,"target":8,"target_slot":7},{"frame":127,"slot":7,"target":8,"target_slot":6},{"frame":168,"slot":6,"target":8,"target_slot":5},{"frame":184,"slot":4,"target":8,"target_slot":4},{"frame":191,"slot":5,"target":8,"target_slot":9}],"final_hp":[{"hp":800.0,"kind":"archer"},{"hp":311.8,"kind":"legion"}],"final_time":7.99999999999998,"first_targets":[[-1,-1],[8,1],[-1,-1],[-1,-1],[-1,-1],[-1,-1],[-1,-1],[-1,-1],[-1,-1],[-1,-1]],"mode":"archer"}

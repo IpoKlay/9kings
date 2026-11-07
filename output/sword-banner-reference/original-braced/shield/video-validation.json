@@ -1,0 +1,11 @@
+{
+  "fully_decoded": true,
+  "retimed": false,
+  "audio": false,
+  "source_samples": 142,
+  "first_sample_ms": 187,
+  "last_sample_ms": 10014,
+  "mp4_sha256": "6d413ed1526321c2176da66b0187bca6cd87b5f208fa01e7287f2bd41f21f5dd",
+  "timebase_note": "Video zero is first screenshot, not C click. ffconcat timestamp resolution quantizes to about40ms. Source samples retain request intervals.",
+  "decoded_frame_count": 143
+}

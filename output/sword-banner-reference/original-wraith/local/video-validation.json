@@ -1,0 +1,12 @@
+{
+  "frames": 663,
+  "fps": 60,
+  "seconds": 11.05,
+  "decode_errors": "",
+  "assertions": 10,
+  "failures": 0,
+  "script_errors": 0,
+  "video": "runtime.mp4",
+  "report": "capture-report.json",
+  "rejected_first_capture": "invalid-fixture/INVALID.txt"
+}

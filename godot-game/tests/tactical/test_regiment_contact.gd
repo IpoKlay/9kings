@@ -12,6 +12,8 @@ func run():
 	main.menu_view.get_node('%TacticalTrial').pressed.emit()
 	var t=main.active_trial
 	t.set_process(false)
+	t.defender_button.pressed.emit()
+	t.retry()
 	var r=t.rules
 	r.units.clear()
 	var goal=Vector2(1980,750)

@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+FULL BATTLE {"alive":{"ally":9.0,"enemy":6.0},"fps":30,"mean_process_ms":6.26887869822485,"p95_process_ms":11.802,"phase":"victory","seconds":23.5333333333333}
+FULL BATTLE {"alive":{"ally":9.0,"enemy":6.0},"fps":60,"mean_process_ms":3.17434467455621,"p95_process_ms":5.602,"phase":"victory","seconds":23.5333333333333}
+FULL BATTLE {"alive":{"ally":9.0,"enemy":6.0},"fps":120,"mean_process_ms":1.64121116863905,"p95_process_ms":4.976,"phase":"victory","seconds":23.5333333333333}
+Individual full battle: 26 checks, 0 failures

@@ -1,0 +1,1 @@
+Invalid first capture: test fixture changed legion files to 1 after contact profiles were cached for 10. Repeated present() index errors invalidate the capture even though 10 narrow assertions passed. Fix refreshes fixture contact profile, not production gameplay. Retained for diagnosis only.

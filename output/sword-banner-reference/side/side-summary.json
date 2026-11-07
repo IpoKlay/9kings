@@ -1,0 +1,19 @@
+{
+	"default_zoom": 1.0,
+	"failures": 0,
+	"hit": {
+		"damage": 71.4,
+		"frame": 284,
+		"morale": 88.817945945946,
+		"point": [
+			1183.0,
+			900.0
+		],
+		"sector": "side",
+		"speed": 252.981433868408,
+		"time": 4.74999999999999
+	},
+	"hits": 1,
+	"scenario": "side",
+	"simulation_seconds": 10.0000000000001
+}

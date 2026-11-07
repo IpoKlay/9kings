@@ -1,0 +1,199 @@
+{
+  "status": "Partial implementation; complete original combat goal remains active",
+  "native_entry": "主菜单 → 军团会战 · RTS → 攻城演练 → 开战 → 选择投石机 → 右键墙段",
+  "rules": {
+    "breach": 6.54999999999998,
+    "checks": 29,
+    "failures": 0,
+    "first_landing": 1.5,
+    "launches": 6
+  },
+  "orders": {
+    "checks": 15,
+    "failures": 0,
+    "log": "orders.log"
+  },
+  "regression": {
+    "suites": 47,
+    "explicit_checks": 1942,
+    "final_failures": 0,
+    "results": "full-regression/results.json",
+    "original_failure_history": "full-regression/before-deployment-test-fix.json"
+  },
+  "authoring": {
+    "default_checks": 4,
+    "moved_copy_checks": 10,
+    "failures": 0,
+    "editor_screenshot": "editor.png",
+    "moved_copy": "/private/tmp/eagle-siege-moved",
+    "method": "Move serialized Wall4 from projectedY675 to825 in isolated project copy. Actual rules geometry, picking and navigation read moved scene; primary scene unchanged. UI preview inspected, no drag-and-save UI test."
+  },
+  "fps": {
+    "modes": [
+      30,
+      60,
+      120
+    ],
+    "identical_final_states": true,
+    "breach_simulation_seconds": [
+      6.54999999999998,
+      6.54999999999998,
+      6.54999999999998
+    ],
+    "all_crossed_sample_seconds": [
+      17.7000000000003,
+      17.6833333333336,
+      17.6833333333336
+    ],
+    "sampling_limit": "Completion samples at render-step end differ by up to1/30s; actual wall last_hit/breach comes from60Hz simulation."
+  },
+  "videos": [
+    {
+      "file": "normal.mp4",
+      "frames": 1441,
+      "fps": 60,
+      "full_decode_exit": 0,
+      "sha256": "e0772e43d5abc3908f5301bb1d8f300bd7463d398e5d517c28e236846ad7f62d",
+      "controls": "normal speed"
+    },
+    {
+      "file": "runtime.mp4",
+      "frames": 1441,
+      "fps": 60,
+      "full_decode_exit": 0,
+      "sha256": "7ddde1036ed68ce909f60331f096f4bc4000db6b1e93901faf56597cb39d1978",
+      "controls": "includes actual pause and half-speed controls"
+    }
+  ],
+  "normal_runtime": {
+    "all_crossed": 17.6833333333336,
+    "breach": 6.54999999999998,
+    "changes": [
+      {
+        "frame": 149,
+        "hits": 1,
+        "impact_time": 1.5,
+        "sample_time": 1.5
+      },
+      {
+        "frame": 151,
+        "hits": 3,
+        "impact_time": 1.53333333333333,
+        "sample_time": 1.53333333333333
+      },
+      {
+        "frame": 450,
+        "hits": 4,
+        "impact_time": 6.51666666666665,
+        "sample_time": 6.51666666666665
+      },
+      {
+        "frame": 452,
+        "hits": 5,
+        "impact_time": 6.54999999999998,
+        "sample_time": 6.54999999999998
+      }
+    ],
+    "elapsed": 23.0,
+    "failures": 0,
+    "fps": 60,
+    "infantry_order": 7.56666666666665,
+    "snapshots": [
+      59,
+      120,
+      600,
+      1320
+    ],
+    "state": {
+      "breach": 6.54999999999998,
+      "engines": [
+        [
+          400.0,
+          "(1121.994, 1244.021)"
+        ],
+        [
+          400.0,
+          "(1049.973, 1280.9)"
+        ],
+        [
+          400.0,
+          "(944.9951, 1195.671)"
+        ]
+      ],
+      "hits": [
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0
+      ],
+      "infantry": [
+        [
+          100.0,
+          "(951.1306, 462.1579)"
+        ],
+        [
+          100.0,
+          "(966.6715, 507.9251)"
+        ],
+        [
+          0.0,
+          "(961.4398, 475.8292)"
+        ],
+        [
+          25.0,
+          "(930.9116, 467.9626)"
+        ],
+        [
+          40.0,
+          "(934.0437, 486.8391)"
+        ],
+        [
+          100.0,
+          "(954.6412, 482.9834)"
+        ],
+        [
+          0.0,
+          "(968.0616, 618.473)"
+        ],
+        [
+          0.0,
+          "(976.0947, 698.2621)"
+        ],
+        [
+          100.0,
+          "(935.6476, 507.8615)"
+        ],
+        [
+          0.0,
+          "(958.773, 784.1265)"
+        ]
+      ]
+    }
+  },
+  "known_preexisting_failures": {
+    "suites": [
+      "pass_terrain",
+      "square_battle",
+      "square_input"
+    ],
+    "baseline": "regression/baseline.json",
+    "current": "regression/results.json",
+    "explanation": "Each failed with same errors using pre-siege backed-up files in isolated baseline; not counted as passed. Legacy pass test also assumes rendered viewport while run headlessly."
+  },
+  "known_exit_warnings": "Some UI tests emit ObjectDB/resource reference exit warnings; logs retained.",
+  "limits": [
+    "Official five-hit rule implemented, not latest original siege measured equivalence",
+    "No siege audio listening comparison. Combat app sound disabled, but initial capture retained ambient/music audio. Delivered normal/runtime MP4 have audio tracks removed; original files retained as *-with-ambient-audio.mp4.",
+    "Wall rendering remains behind all unit sprites; battlement occlusion not implemented",
+    "Editor supports authored position and Footprint rectangle, not arbitrary rotated/scaled blocker polygons",
+    "Full high-load GPU/frametime profiling and final standalone playable package remain pending"
+  ],
+  "failure_evidence": [
+    "short-duration-check/",
+    "offscreen-camera-check/",
+    "full-regression/before-deployment-test-fix.json"
+  ]
+}

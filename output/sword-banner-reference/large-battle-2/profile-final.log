@@ -1,0 +1,3 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Large battle profile-final 500/side process={ "mean_ms": 58.1384083333333, "p95_ms": 67.838, "samples": 120 } wall={ "mean_ms": 81.0036416666667, "p95_ms": 91.011, "samples": 120 }

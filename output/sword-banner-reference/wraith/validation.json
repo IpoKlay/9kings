@@ -1,0 +1,36 @@
+{
+  "total_checks": 774,
+  "new_rules": 33,
+  "new_input_and_fps": 45,
+  "regression_checks": 696,
+  "regression_note": "Prior 690 plus 6 extra dynamic selector checks now traversing wraith option.",
+  "unexpected_errors": 0,
+  "known_warnings": "Existing macOS CA/editor-settings warnings; some UI suites retain 2–4 ObjectDB and 1–2 resource references at exit. Original logs retained.",
+  "regression": "regression.json",
+  "fps": "fps.json",
+  "verified_fps": {
+    "rates": [
+      30,
+      60,
+      120
+    ],
+    "simulation_seconds": 12.0,
+    "endpoints_individual_hp_positions_and_cooldown_equal": true,
+    "wraith_hp": 1110.0,
+    "near_enemy_hp": 0.0,
+    "phase": "battle; distant reserve intentionally keeps encounter open"
+  },
+  "default_full_battle": "30/60/120 FPS unchanged: victory at 47.6333333333319 s, ally 10 enemy 0",
+  "six_human_full_battle": "30/60/120 FPS unchanged: victory at 23.45 s, ally 24 enemy 0",
+  "mountain": "group_individual_pass zero failures",
+  "capture": "runtime/report.json",
+  "art": "art-validation.json",
+  "video": "video-validation.json",
+  "original_attempt": {
+    "url": "https://html-classic.itch.zone/html/17110357/index.html",
+    "screenshot": "original-attempt.png",
+    "setup": "Selected Undead, removed other allied types, one wraith against default 40 human enemies; auto-deployed and started battle.",
+    "result": "Defeat before locating/issuing B; does not verify original blink timing, distance, cooldown or cleave.",
+    "evidence_class": "incomplete original-runtime attempt, not a passed behavioral comparison"
+  }
+}

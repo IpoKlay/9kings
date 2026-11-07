@@ -1,0 +1,30 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "t" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://methods.gd:39)
+          GDScript backtrace (most recent call first):
+              [0] run (res://run.gd:4)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "tid" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://methods.gd:47)
+          GDScript backtrace (most recent call first):
+              [0] run (res://run.gd:4)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "ut" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://methods.gd:54)
+          GDScript backtrace (most recent call first):
+              [0] run (res://run.gd:4)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "is_ranged" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://methods.gd:55)
+          GDScript backtrace (most recent call first):
+              [0] run (res://run.gd:4)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "dmg" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://methods.gd:83)
+          GDScript backtrace (most recent call first):
+              [0] run (res://run.gd:4)
+ERROR: Failed to load script "res://methods.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] run (res://run.gd:4)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: run (res://run.gd:4)
+          GDScript backtrace (most recent call first):
+              [0] run (res://run.gd:4)

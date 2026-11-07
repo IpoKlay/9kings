@@ -1,0 +1,326 @@
+{
+  "objective": "完整复现Sword & Banner战斗系统，保留本项目原生工程与美术；本节点暂停交接，完整目标未完成",
+  "checkpoint": "combat-core-2026-11-07",
+  "tasks": [
+    {
+      "id": "R01",
+      "priority": "P0",
+      "title": "取得原作新版并建立差异清单",
+      "status": "open",
+      "current_status": "未完成",
+      "entry": "REFERENCES.md；latest-access/",
+      "requirements": "使用有资格账号取得可运行版本，记录build、哈希、所有种族/兵种/能力/模式/操作/胜负规则；与当前32配置逐项对照。先确认需要复现的确切版本，不拿公告补猜参数。",
+      "acceptance": "每个功能有原作可重复操作或明确未知；新版运行证据归档，原作与本机对应配置表完整。",
+      "depends_on": [],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R02",
+      "priority": "P0",
+      "title": "千人正常速度运行",
+      "status": "open",
+      "current_status": "失败，现2.71FPS",
+      "entry": "regiment_soldiers.gd、soldier_physics.gd、trial_field.gd；benchmark_large_*",
+      "requirements": "先复现500对500基准，再定位逐兵决策、参数重复读取、选敌、导航和绘制。可采用紧凑数据/原生扩展，但必须保留顺序碰撞、随机调用和精度；不得降低人数、模拟频率或只移动图像。",
+      "acceptance": "同一机器/兵力/镜头，记录平均/P95、现实与模拟时间；以60FPS为工程目标，最低30FPS及模拟跟上现实才可称“可玩”；目标不是原作实测数值。全战至终局，30/60/120输入结果一致；原精度前后状态对照。",
+      "depends_on": [],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R03",
+      "priority": "P0",
+      "title": "完成三类冲锋原作同条件实测",
+      "status": "open",
+      "current_status": "部分完成，F单排剑盾可越线已观察",
+      "entry": "capture_reference_brace.gd；original-braced/",
+      "requirements": "原作及本机固定8骑助跑、兵种、朝向、间距和命令，录侧击步兵、正冲盾墙、正冲坚守长矛。加入多排深度、转身中矛阵和非坚守矛阵。不要预设单排矛必须绝对拦停。",
+      "acceptance": "正常速度静音、隐藏血条/粒子，旁观者辨认撞入方向、破口、越线或拦停。列出首次接触、每骑停点、受影响宽度、缺口持续时长；超距停止单独标记。",
+      "depends_on": [
+        "R01"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R04",
+      "priority": "P1",
+      "title": "原生物理和随机精度对齐",
+      "status": "open",
+      "current_status": "部分实现，非逐位等价",
+      "entry": "soldier_physics.gd、soldier_charge.gd、trial_rules.gd",
+      "requirements": "核对C++槽位注册/复用、哈希和邻居遍历、速度积分、冻结/石化、零血仍登记、负HP/零血重复命中记录及随机数来源。当前冲锋散射使用确定式角度，原作随机；尸体使用独立随机流。",
+      "acceptance": "受控单对、多对、重叠、盾正反面、死亡边界和长时混战逐步对照；明确误差与版本。没有证据的部分维持unknown。",
+      "depends_on": [
+        "R01",
+        "R03"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R05",
+      "priority": "P1",
+      "title": "地面/城墙多层寻路",
+      "status": "open",
+      "current_status": "未实现原作层级",
+      "entry": "pass_terrain.gd、roman_pass.tscn、roman_siege.tscn",
+      "requirements": "核对作者16像素A*、LOS、清角/净空、地面与城墙层、楼梯/梯子链接。迁移需同一地形位置形状驱动图像、部署和通行；不能只挪图。保留投影、相机、比例和玩家途经点。",
+      "acceptance": "旗位置编辑保存一致；挪岩壁后新址阻挡旧址通行；梯子/楼梯可上下、无跨层穿墙；窄门、边界、动态破墙重寻路、30/60/120结果通过。",
+      "depends_on": [
+        "R01"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R06",
+      "priority": "P1",
+      "title": "城门和完整墙段状态",
+      "status": "open",
+      "current_status": "仅石墙五击破坏闭环",
+      "entry": "siege_structures.gd、siege_wall.gd、roman_siege.tscn",
+      "requirements": "按原作实现城门交互/耐久/通过权限、不同墙段与墙上战斗、初始/受损/坍塌状态；核对任意旋转缩放或明确编辑限制。保持石弹真正落地才破坏。",
+      "acceptance": "城门开闭/破坏影响真实路线；墙图与阻挡同源；飞行中改令/来源死/墙先毁/两台同时命中无重复伤害；重试恢复。",
+      "depends_on": [
+        "R01",
+        "R05"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R07",
+      "priority": "P1",
+      "title": "攻城梯子及攀爬",
+      "status": "open",
+      "current_status": "未实现",
+      "entry": "siege_battle.gd、层级导航、新增梯子场景",
+      "requirements": "调查原作搬运、放置、可用面、排队、攀爬、被毁/取消及到达城墙的条件，再接正式输入。",
+      "acceptance": "实际可下令运梯搭墙、逐人上下；堵塞、途中毁梯/死/改令不会瞬移、悬空或穿墙；可重试。",
+      "depends_on": [
+        "R01",
+        "R05",
+        "R06"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R08",
+      "priority": "P1",
+      "title": "器械配员、轮盾和持续损伤",
+      "status": "open",
+      "current_status": "未实现新版系统",
+      "entry": "siege_structures.gd、soldier_specials.gd、部署/库存状态",
+      "requirements": "实现原作空器械、指派/离开/补充操作员、轮盾和器械伤损跨波次保存；不要用本项目三人投石队直接冒充配员系统。",
+      "acceptance": "有人操作才按原作规则运行；配员死亡/离开/改令正确；新波次损伤保留、真正重试完全恢复。",
+      "depends_on": [
+        "R01",
+        "R06"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R09",
+      "priority": "P1",
+      "title": "攻城AI与双方500人波次",
+      "status": "open",
+      "current_status": "未实现",
+      "entry": "enemy_director.gd、siege_battle.gd、生成标记",
+      "requirements": "调查并实现原作攻守决策、梯子/城门/破口选择、援军波次与人数预算；与山口本项目敌军计划区分。",
+      "acceptance": "从正式菜单完整攻守各一局，AI实际发令而非hold夹具；全部500人/方按规则入场且能终局，不卡路/不提前胜负。",
+      "depends_on": [
+        "R02",
+        "R06",
+        "R07",
+        "R08"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R10",
+      "priority": "P1",
+      "title": "精灵、矮人、火炮与新版能力",
+      "status": "open",
+      "current_status": "未对齐",
+      "entry": "data/balance/tactical_trial.json、loadouts、soldier_*、自有Blender源",
+      "requirements": "先做新版完整名录/数值/能力/指令与旧版差异表；逐项实现并补自有八方向动作和敌我配色。火炮需独立弹道/击中规则实测。",
+      "acceptance": "每一配置可从正式入口部署、选择、下令、施放、死亡和重试；能力边界、费用/规模、克制及UI中英文正确。",
+      "depends_on": [
+        "R01"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R11",
+      "priority": "P1",
+      "title": "缺口、站稳、补位与战损的视觉清晰度",
+      "status": "open",
+      "current_status": "局部已实现，原作一致性不足",
+      "entry": "regiment_contact.gd、regiment_soldiers.gd、corpse_motion.gd、trial_field.gd",
+      "requirements": "逐人接触后失衡→横退/倒地→站稳→有路才归队。敌人占缺口不回填；远端保持动作。调查原作间隔/恢复，不能机械采用早期2–4秒/8–15秒建议，旧版尸体当前是3秒。",
+      "acceptance": "固定默认镜头静音三段可辨；两秒后仍能指出有效突破位置；岩石/窄门不弹穿；尸体只对应实际阵亡，轻击不凭空制造死亡。",
+      "depends_on": [
+        "R03",
+        "R04"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R12",
+      "priority": "P1",
+      "title": "盾墙错位接敌与深阵压力",
+      "status": "open",
+      "current_status": "部分实现，最终镜头未完整验收",
+      "entry": "shield_wall.gd、soldier_physics.gd、regiment_contact.gd",
+      "requirements": "错开半阵宽对推，接敌部分收步举盾，相邻补位，外翼继续前进。主工程单排保持；需要60人多排的对照必须作为独立场景/配置，不能悄悄恢复主工程六排。",
+      "acceptance": "稳定接触线可读，中心/外翼差异可见；盾兵不整队一起随机抖动；与原作多排实验对照，区别局部踉跄、后撤和溃逃。",
+      "depends_on": [
+        "R03",
+        "R04"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R13",
+      "priority": "P1",
+      "title": "声音、步态和像素特效最终对齐",
+      "status": "open",
+      "current_status": "本项目反馈可用，非原声音色一致",
+      "entry": "trial_field.gd、myth_audio.gd、声音控制、rts图集",
+      "requirements": "核验骑手冲刺姿态、单骑实际路径推进步态、接触收步。马蹄/首击/后续轻击三层限流；尘土留后、盾屑在接触；弓齐射落点/石弹落地音/军医治疗分别反馈。",
+      "acceptance": "正常速度声画同步；1队/3队首击清晰；静音关粒子仍看懂；音量/静音/暂停/半速保留。若加震屏单独强度控制，关闭也成立。",
+      "depends_on": [
+        "R03",
+        "R11"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R14",
+      "priority": "P1",
+      "title": "战斗结果与士气语义",
+      "status": "open",
+      "current_status": "部分是本项目扩展",
+      "entry": "trial_rules.gd、square_battle.gd、pass_battle.gd",
+      "requirements": "实测原作胜负轮询、宽限、最后死亡/投射物、撤退/士气是否存在及条件；当前山口夺旗/时限/军医/神力是本项目规则。避免同一次冲锋与视觉击退重复扣士气。",
+      "acceptance": "最后一人死亡/双方同时清空/逃跑/援军未入场正确结算；局部失衡、整队退、整队溃逃分开；扩展模式有明确边界。",
+      "depends_on": [
+        "R01",
+        "R04",
+        "R09"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R15",
+      "priority": "P1",
+      "title": "神力的逐兵命中范围",
+      "status": "open",
+      "current_status": "仍有整队扣血捷径",
+      "entry": "regiment_soldiers.gd:hurt、myth_powers.gd",
+      "requirements": "当前部分神力按整队比例扣血，存在shortcut。保持既有14神力交互，调查所需范围并用真实受影响脚点结算；本项目扩展不要声称原作功能。",
+      "acceptance": "可见覆盖、受击者、伤害目标一致；不会波及远端未覆盖者；无二次伤害/士气扣除，暂停瞄准和冷却正确。",
+      "depends_on": [],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R16",
+      "priority": "P1",
+      "title": "高密度画面可读性",
+      "status": "open",
+      "current_status": "未解决旗标/血条堆叠",
+      "entry": "trial_field.gd、battle_hud.tscn",
+      "requirements": "在保持单位大小、单排间距、默认阵宽及相机方式前提下处理远景标签聚合/遮挡和草地碎纹。不得为流畅或清晰暗中减兵。",
+      "acceptance": "默认镜头能读马头/盾线/缺口，近景保持细节；1000人总览标签不覆盖大半兵阵；选取与命令仍准确。",
+      "depends_on": [
+        "R02",
+        "R11"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R17",
+      "priority": "P1",
+      "title": "全面输入、山口、存档与重试回归",
+      "status": "open",
+      "current_status": "有旧回归，需当前全流程复测",
+      "entry": "trial.gd、main.gd、pass_battle.gd、test_*",
+      "requirements": "完整从菜单选队、途经点、侧冲、暂停改令恢复、回防、点火、夺旗、神力、帮助、语言切换、菜单返回；分别胜败重试。复核远征安全节点存档和旧存档，不假设已有“战中存档”。",
+      "acceptance": "重试没有残留冲锋ID、缺口、音效、尸体、路径、冷却、层级导航或镜头状态；按钮一次点击一次动作；鼠标空白可拖动/框选。",
+      "depends_on": [],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R18",
+      "priority": "P1",
+      "title": "修复旧测试与退出资源警告",
+      "status": "open",
+      "current_status": "明确已知问题",
+      "entry": "tests/tactical/test_pass_terrain.gd、test_square_battle.gd、test_square_input.gd及UI生命周期",
+      "requirements": "先运行修改前后基线，分清测试假设过时和真实回归；恢复有意义的默认入口/延后死亡/逐兵路点断言。定位ObjectDB泄漏和资源未释放。",
+      "acceptance": "旧三套有新有效通过证据，保留原失败日志；反复菜单/重试/退出无增长泄漏，不能以过滤全部ERROR使测试变绿。",
+      "depends_on": [],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R19",
+      "priority": "P1",
+      "title": "编辑器场景位置最终复核",
+      "status": "open",
+      "current_status": "旧验证存在，新攻城鼠标保存未完成",
+      "entry": "battle_hud.tscn、roman_pass.tscn、main_menu.tscn、roman_siege.tscn",
+      "requirements": "实际编辑器拖StartButton、旗、岩壁、菜单行距并保存后运行，再恢复正式布局；墙段也做鼠标保存测试。序列化临时改文件不能冒充手动操作。",
+      "acceptance": "编辑器与运行一致，旧岩壁位置可通行/新址阻挡；主题预览真实；不同阶段显示和透明区事件正确；有节点树截图。",
+      "depends_on": [],
+      "owner": null,
+      "completion_evidence": []
+    },
+    {
+      "id": "R20",
+      "priority": "P0-final",
+      "title": "最终同条件录像、跨平台包和完成审计",
+      "status": "open",
+      "current_status": "尚未完成整个目标",
+      "entry": "本目录VALIDATION.md、导出预设、全部证据",
+      "requirements": "整合上述任务后按原始目标逐条审计：已实现/已运行/只推断/未知。原作与本机三段并排、正常完整会战、性能长跑、平台启动、存档和重试，交付源文件与参数当前值。",
+      "acceptance": "每项有对应证据或明确未完成；原作版本固定，最新包与提交SHA一致；Windows/macOS实际试玩，不用本机脚本通过代替整体验收。",
+      "depends_on": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19"
+      ],
+      "owner": null,
+      "completion_evidence": []
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "checkpoint": "combat-core-2026-11-07",
+  "files": [
+    {
+      "name": "UnderTheEagle-macOS.zip",
+      "bytes": 234700690,
+      "sha256": "0e1b82bd50b930b405b129f8ffdbf943d822f3a05781a43fa8d0b1956ec8844a",
+      "parts": [
+        {
+          "name": "UnderTheEagle-macOS.zip.part00",
+          "bytes": 83886080,
+          "sha256": "652bba08f84c997e8fa8cddeb849e7e129c4f048bf8dd2ab27fd2265dd89fe3f"
+        },
+        {
+          "name": "UnderTheEagle-macOS.zip.part01",
+          "bytes": 83886080,
+          "sha256": "1c034b406fc7437a6e5ccbe7d53d004442dd3380f09dd86ad687d0e013b5ee3e"
+        },
+        {
+          "name": "UnderTheEagle-macOS.zip.part02",
+          "bytes": 66928530,
+          "sha256": "0eaa98a1867349b761d3298c559fccbe358b583b788a48c0754f07207112507d"
+        }
+      ]
+    },
+    {
+      "name": "UnderTheEagle-Windows.zip",
+      "bytes": 211967308,
+      "sha256": "8559ae511e24c800db39e53c2a9faeef5d5db90a1b7ca2c00175cf1f10192004",
+      "parts": [
+        {
+          "name": "UnderTheEagle-Windows.zip.part00",
+          "bytes": 83886080,
+          "sha256": "90272ccc8255d2c53db9aedf9fe27804e176150abef7acb5eb173ae14223283d"
+        },
+        {
+          "name": "UnderTheEagle-Windows.zip.part01",
+          "bytes": 83886080,
+          "sha256": "f64c7bcd04d3f6d4edbf550861d61a7defc47e0ccbe2a3324c6086959930699c"
+        },
+        {
+          "name": "UnderTheEagle-Windows.zip.part02",
+          "bytes": 44195148,
+          "sha256": "969278800e61da6ce16676d97b1b8d2ea5cfa2ca1b2d00950c92ce5f8c8ef9f4"
+        }
+      ]
+    }
+  ]
+}

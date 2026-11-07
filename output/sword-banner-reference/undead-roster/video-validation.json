@@ -1,0 +1,38 @@
+[
+  {
+    "file": "runtime.mp4",
+    "frames": 1865,
+    "expected": 1865,
+    "fps": 60,
+    "seconds": 31.083333333333332,
+    "decode_errors": "",
+    "capture_failures": 0
+  },
+  {
+    "file": "side.mp4",
+    "frames": 601,
+    "expected": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "decode_errors": "",
+    "capture_failures": 0
+  },
+  {
+    "file": "shield.mp4",
+    "frames": 601,
+    "expected": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "decode_errors": "",
+    "capture_failures": 0
+  },
+  {
+    "file": "pikes.mp4",
+    "frames": 601,
+    "expected": 601,
+    "fps": 60,
+    "seconds": 10.016666666666667,
+    "decode_errors": "",
+    "capture_failures": 0
+  }
+]

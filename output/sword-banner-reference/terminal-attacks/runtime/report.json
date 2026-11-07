@@ -1,0 +1,14 @@
+{
+	"before_version": false,
+	"expected_hp": 85.0,
+	"expected_movie_frames": 423,
+	"failures": 0,
+	"fixture": "Normal menu then controlled one-person fixture. Enemy legion is visited before1HP ally archer. Pending melee and bow windups are seeded to reach release on the same simulation step; all later cooldowns999 isolate this single event. Normal damage, speed, default zoom, muted. Original pre-change source suppresses bow; changed source emits once. This is instrumented local runtime, not original-game footage.",
+	"release_frame": 35,
+	"released": 1,
+	"retry_clean": true,
+	"shield_impact_frame": 95,
+	"shield_unblocked": true,
+	"source_death_frame": 35,
+	"target_hp": 85.0
+}

@@ -1,0 +1,53 @@
+{
+  "new_rules": 34,
+  "new_input_fps": 17,
+  "regression_checks": 1437,
+  "regression_suites": 37,
+  "total_checks": 1488,
+  "unexpected_errors": 0,
+  "known_warnings": "Existing some UI-exit ObjectDB/resource references remain.",
+  "engine_probe": "engine-order.json",
+  "fps": "fps.json",
+  "full_battles": [
+    "default-full-battle.json",
+    "full-human-battle.json",
+    "full-undead-battle.json",
+    "full-goblin-battle.json",
+    "full-dragon-battle.json"
+  ],
+  "performance_scope": "Headless trial process times only, not equivalent before/after GPU high-load comparison.",
+  "runtime": "runtime/report.json",
+  "video": "video-validation.json",
+  "source_hashes": {
+    "scripts/tactical/trial_rules.gd": "6a858fbe3eb3855ab2258425c73cf980be3cab39606c724bb23f82cec80e3d83",
+    "scripts/tactical/regiment_soldiers.gd": "e7e8796bc224063da0c217aa5d3faaf836aa5ecaa34418e91a7edbfb9044bfc9",
+    "scripts/tactical/soldier_projectile.gd": "dfc7993e59e518685b640e700a85b9f7f69ee200157de09abe361e54ced603e0",
+    "scripts/tactical/soldier_volley.gd": "da965a880804720ba362baff29177ab6ad2466259b9588faeb0c7b3ecdb97141",
+    "tests/tactical/test_death_lifecycle.gd": "009399446c93cce9caf3e2391f1056cfc3ea5862e5d784a2580e6e7f791ea5d9",
+    "tests/tactical/test_death_lifecycle_input.gd": "04ea6eaacccb921c0c16f88ae3cd8eaf88e77186a9fd755a7a7edbe6ca5f2998",
+    "tests/tactical/capture_death_lifecycle.gd": "4ebe059a884e5eb78af16ec71d5533cef164158adc93847f30672a6c3e62aaba",
+    "tests/tactical/test_retaliation.gd": "ec75a11838c2f9b1a499a872bdbf1039ccfcb720f33cdeffe27253f15a548114",
+    "tests/tactical/test_projectile_motion.gd": "f990cabb4f50c5a90736319ff83f72af475404ef1d3b916aea2a80850f353720",
+    "tests/tactical/capture_personal_charge.gd": "14d3db32bc20acd987fec2551919cc60bb015bc730d48ebd11e91814cd3854f5"
+  },
+  "fixture_corrections": [
+    "Previous dead-source fixture only setHP0 although its assertion said removed. It now explicitly marks source destroyed; new lifecycle tests independently cover HP0 registered and queued cases.",
+    "First capture stats lookup did not support default unmodified combat_stats fallback; archived invalid-fixture-stat-access.",
+    "Second capture counted launch from visual effects, but launch events are audio-only there. Counter now counts unique actual projectile serials; invalid-fixture-release-counter retained. Final capture0failures and full decoded424frames."
+  ],
+  "charge": {
+    "side": {
+      "first_frame": 124,
+      "contacts": 23
+    },
+    "shield": {
+      "first_frame": 155,
+      "contacts": 22
+    },
+    "pikes": {
+      "first_frame": 155,
+      "contacts": 22
+    }
+  },
+  "original_full_equivalence": false
+}

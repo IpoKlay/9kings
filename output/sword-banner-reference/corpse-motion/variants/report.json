@@ -1,0 +1,55 @@
+{
+	"entries": [
+		[
+			"legion",
+			""
+		],
+		[
+			"cavalry",
+			""
+		],
+		[
+			"archer",
+			"skeleton_archer"
+		],
+		[
+			"cavalry",
+			"death_rider"
+		],
+		[
+			"legion",
+			"fell_hound"
+		],
+		[
+			"legion",
+			"wraith"
+		],
+		[
+			"guard",
+			"dragon"
+		],
+		[
+			"siege",
+			""
+		],
+		[
+			"guard",
+			"goblin_troll"
+		]
+	],
+	"expired": true,
+	"failures": 0,
+	"fixture": "Normal menu; nine one-person reference types killed by controlled direct damage at1s, stationary, default zoom, normal speed. Art/lifecycle diagnostic, not a combat comparison.",
+	"retry_clean": true,
+	"seen": [
+		0,
+		1,
+		2,
+		3,
+		4,
+		5,
+		6,
+		7,
+		8
+	]
+}

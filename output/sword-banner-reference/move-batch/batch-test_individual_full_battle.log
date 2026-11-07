@@ -1,0 +1,6 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+FULL BATTLE {"alive":{"ally":4.0,"enemy":9.0},"fps":30,"mean_process_ms":7.18357794676806,"p95_process_ms":15.572,"phase":"defeat","seconds":27.2833333333331}
+FULL BATTLE {"alive":{"ally":4.0,"enemy":9.0},"fps":60,"mean_process_ms":3.35332974001268,"p95_process_ms":6.485,"phase":"defeat","seconds":27.2833333333331}
+FULL BATTLE {"alive":{"ally":4.0,"enemy":9.0},"fps":120,"mean_process_ms":1.75462840837032,"p95_process_ms":5.962,"phase":"defeat","seconds":27.2833333333331}
+Individual full battle: 26 checks, 0 failures

@@ -1,0 +1,47 @@
+{
+  "source_url": "https://html-classic.itch.zone/html/17110357/index.html",
+  "method": "Original public browser game UI. Custom Battle. Human8LightCavalry vs cautiousAI10defenders. C issued with HUD8/8 before contact. Capture uses screenshots with wall-clock timestamps, no audio. No game state introspection.",
+  "configuration": {
+    "biome": "Desert",
+    "season": "Summer",
+    "weather": "None",
+    "river": false,
+    "coast": false,
+    "ai_personality": 0.0
+  },
+  "swordsmen": {
+    "path": "original-charge/charge.mp4",
+    "initial_hud_count": 8,
+    "direction": "left to right, frontal through middle of stationary vertical rank",
+    "samples_ms": {
+      "1802": "Still approaching intact line",
+      "2205": "Visible white flash at central contact; not necessarily first simulation tick",
+      "2430": "Middle defenders displaced, far ends remain",
+      "3205": "Cavalry crossed original middle line; HUD8",
+      "7998": "Cavalry has turned into melee; HUD8"
+    },
+    "outcome": "Single stationary swordsman rank did not stop all8lightcavalry; middle opens and untouched ends remain initially"
+  },
+  "spearmen": {
+    "path": "original-pikes/charge.mp4",
+    "initial_hud_count": 8,
+    "direction": "right to left, frontal through middle of stationary vertical rank",
+    "samples_ms": {
+      "2225": "Approaching intact line",
+      "2435": "Middle defenders displaced around contact",
+      "2951": "Cavalry beyond original line, remote ends still intact; HUD8",
+      "8010": "Melee; HUD7"
+    },
+    "outcome": "Single stationary spearman rank also crossed; later cavalry casualty visible"
+  },
+  "limits": [
+    "AI F/shield/brace activation is not visible, so these are not proof of explicitly braced defenders.",
+    "Different generated maps, opposite approach directions and camera framing; not matched world positions.",
+    "Old public build is not latestSteam.",
+    "Variable-rate screenshots cannot identify exact first simulation-hit tick or damage timing.",
+    "Local footage uses Roman artwork, slanted projection, different cavalry layout and explicit Fflags in shield/pikes fixtures; do not claim equivalence from appearance.",
+    "Earlier original-runtime/exploration.mp4 is invalid as an8-rider charge; superseded by these recordings."
+  ],
+  "design_consequence": "Do not invent an unbreakable frontal wall to force old planned acceptance outcome; reproduce measured conditions first.",
+  "goal_complete": false
+}

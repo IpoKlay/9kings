@@ -1,0 +1,236 @@
+[
+  {
+    "path": "godot-game/assets/rts-armies/heavy_ally.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "51c919353857e447b47d7bc1a681913b71bee9a4797c7f590162af9b2af00720"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/heavy_enemy.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "311b3f71450503d1906d2db5804f983571eb2a1221b3cfb6ca77c3b55dc7ca1f"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/heavy_stone.png",
+    "size": [
+      64,
+      512
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "58a927a84f66ca46a406e0280cb1a1661b0fa7b5a5ffe4e6537ef0e71fcdc6b9"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/crossbow_ally.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "2fac42d69422cf13cded28896ac533db19687dbc75f412cf09fa3330da35fa80"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/crossbow_enemy.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "fd03823cd8d40a8beca8445ece8d7bdd9f775ba98014d86ea9840e7f1af5c70f"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/crossbow_stone.png",
+    "size": [
+      64,
+      512
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "862b212445decbff376a9308f10ceed5d2b2a0448907c9fb79e82d90ad7e8891"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/peasant_ally.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "5cadf1778ea2cf894e711a0948ce4ba230810a2cdf0fb955b7af6c0c9b9ebf87"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/peasant_enemy.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "e99e0534d10285a58fba841feee83cdd0e3d826604c01dc49bc3390ba98ae34b"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/peasant_stone.png",
+    "size": [
+      64,
+      512
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "b531cc985b00708d672e3b00ff983ccecbad0886b0078f55330d35ee57673243"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/veteran_spearman_ally.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "636ab55323ed7b23d3e7d6de7580297679f78b69c6edc6cf59a5a0614b5e7a29"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/veteran_spearman_enemy.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "3744fa322cb119c29ba498c24030e730e7f932e851b94f3e9fdcad7bd7f3797c"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/veteran_spearman_stone.png",
+    "size": [
+      64,
+      512
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "84ce01da65a5a11e3828db214690fbe7f9362c65ac0c3485525e8f4742703acf"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/knight_ally.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "e0261ef1e389cb3f65501a7855cf5629d59c9875cd85eddcce67b83454371552"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/knight_enemy.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "97baeef54c72a1e8323afe8e68fd11644440d70517763fc851c79860b59b944d"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/knight_stone.png",
+    "size": [
+      64,
+      512
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "eda003bb3040713cd6d321cee33159f1acc2a40b353ecc00311254d0ee57d26a"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/noble_son_ally.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "df6a6ab7dafa26479f1e9214cafc3f468cba13f921f3c062b8eb06c92d2ca052"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/noble_son_enemy.png",
+    "size": [
+      1088,
+      512
+    ],
+    "colors": 14,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "8dcfed63c8f088f316be235395a07afc7f4098134031cc0134e1a0ee75e1468f"
+  },
+  {
+    "path": "godot-game/assets/rts-armies/noble_son_stone.png",
+    "size": [
+      64,
+      512
+    ],
+    "colors": 7,
+    "alpha": [
+      0,
+      255
+    ],
+    "sha256": "437b9e014b49fac8ab77c3a399d8f6018e60b7dd73c07339efb2eb6cb60d7b79"
+  }
+]

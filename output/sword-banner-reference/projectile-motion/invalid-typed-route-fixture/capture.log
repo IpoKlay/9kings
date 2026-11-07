@@ -1,0 +1,8 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+Movie Maker mode enabled, recording movie in 1280×720 @ 60 FPS...
+SCRIPT ERROR: Invalid type in function 'command' in base 'GDScript'. The array of argument 7 (Array) does not have the same element type as the expected typed array argument.
+   at: run (res://tests/tactical/capture_projectile_motion.gd:33)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/tactical/capture_projectile_motion.gd:33)

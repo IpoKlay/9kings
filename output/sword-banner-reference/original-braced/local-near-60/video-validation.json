@@ -1,0 +1,8 @@
+{
+  "fully_decoded": true,
+  "expected_frames": 601,
+  "mp4_sha256": "9b6d9e89267e86d542cf6d59c8419d2290b6c4b5ff6409d5c8ce67fbe25e3d6e",
+  "source_avi_sha256": "10e67356921db2caacd0c6e7802825c1939fb8e1eba617e85f0211554e8faea1",
+  "raw_removed_after_full_decode": true,
+  "decoded_frame_count": 601
+}

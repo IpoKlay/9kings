@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+ERROR: zh skeleton_spearman reserve caption fits authored 148px width
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_undead_roster_input.gd:7)
+       [1] run (res://tests/tactical/test_undead_roster_input.gd:21)
+ERROR: zh skeleton_archer reserve caption fits authored 148px width
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_undead_roster_input.gd:7)
+       [1] run (res://tests/tactical/test_undead_roster_input.gd:21)
+ERROR: zh death_rider reserve caption fits authored 148px width
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_undead_roster_input.gd:7)
+       [1] run (res://tests/tactical/test_undead_roster_input.gd:21)
+ERROR: zh fell_hound reserve caption fits authored 148px width
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_undead_roster_input.gd:7)
+       [1] run (res://tests/tactical/test_undead_roster_input.gd:21)
+Undead roster input: 80 checks, 4 failures

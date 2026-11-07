@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+FULL BATTLE {"alive":{"ally":10.0,"enemy":0.0},"fps":30,"mean_process_ms":5.79359113652609,"p95_process_ms":12.606,"phase":"victory","seconds":47.6333333333319}
+FULL BATTLE {"alive":{"ally":10.0,"enemy":0.0},"fps":60,"mean_process_ms":2.97129699785561,"p95_process_ms":6.558,"phase":"victory","seconds":47.6333333333319}
+FULL BATTLE {"alive":{"ally":10.0,"enemy":0.0},"fps":120,"mean_process_ms":1.70710721944246,"p95_process_ms":6.011,"phase":"victory","seconds":47.6333333333319}
+Individual full battle: 26 checks, 0 failures
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

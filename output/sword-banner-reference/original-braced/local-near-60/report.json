@@ -1,0 +1,189 @@
+{
+	"charge_range": 760.0,
+	"contact_time_resolution": 0.0166666666666667,
+	"contacts": [
+		{
+			"attacker": 7,
+			"damage": 29.9999980926514,
+			"seconds": 1.91666666666666,
+			"target": 4
+		},
+		{
+			"attacker": 7,
+			"damage": 20.999998664856,
+			"seconds": 1.91666666666666,
+			"target": 5
+		},
+		{
+			"attacker": 7,
+			"damage": 13.4746336364746,
+			"seconds": 1.93333333333333,
+			"target": 6
+		},
+		{
+			"attacker": 7,
+			"damage": 7.71719186210635,
+			"seconds": 1.96666666666666,
+			"target": 3
+		},
+		{
+			"attacker": 7,
+			"damage": 3.7455596336365,
+			"seconds": 2.01666666666666,
+			"target": 7
+		},
+		{
+			"attacker": 5,
+			"damage": 29.9999980926514,
+			"seconds": 2.59999999999999,
+			"target": 8
+		},
+		{
+			"attacker": 5,
+			"damage": 20.999998664856,
+			"seconds": 2.59999999999999,
+			"target": 9
+		},
+		{
+			"attacker": 5,
+			"damage": 12.2497121429443,
+			"seconds": 2.63333333333332,
+			"target": 7
+		},
+		{
+			"attacker": 6,
+			"damage": 70.0000019073486,
+			"seconds": 2.68333333333332,
+			"target": 8
+		},
+		{
+			"attacker": 2,
+			"damage": 30.0,
+			"seconds": 2.78333333333332,
+			"target": 2
+		},
+		{
+			"attacker": 2,
+			"damage": 19.2497903823853,
+			"seconds": 2.79999999999999,
+			"target": 1
+		},
+		{
+			"attacker": 5,
+			"damage": 6.58559960746766,
+			"seconds": 2.81666666666666,
+			"target": 6
+		},
+		{
+			"attacker": 2,
+			"damage": 11.1720005607606,
+			"seconds": 2.88333333333332,
+			"target": 0
+		},
+		{
+			"attacker": 2,
+			"damage": 6.58559960746766,
+			"seconds": 2.94999999999999,
+			"target": 3
+		},
+		{
+			"attacker": 4,
+			"damage": 30.0,
+			"seconds": 2.99999999999999,
+			"target": 5
+		},
+		{
+			"attacker": 5,
+			"damage": 3.74556009159073,
+			"seconds": 2.99999999999999,
+			"target": 5
+		},
+		{
+			"attacker": 2,
+			"damage": 3.74555986261373,
+			"seconds": 3.03333333333332,
+			"target": 4
+		},
+		{
+			"attacker": 6,
+			"damage": 45.2544412435532,
+			"seconds": 3.09999999999999,
+			"target": 5
+		}
+	],
+	"ends": [
+		{
+			"position": "(1059.886, 940.6457)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		},
+		{
+			"position": "(1080.596, 910.5664)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		},
+		{
+			"position": "(1081.348, 938.5736)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		},
+		{
+			"position": "(1104.972, 892.5068)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		},
+		{
+			"position": "(1106.995, 862.7617)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		},
+		{
+			"position": "(1094.717, 835.1678)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		},
+		{
+			"position": "(1214.167, 905.5627)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		},
+		{
+			"position": "(1165.445, 882.0176)",
+			"reason": "duration",
+			"time": 6.18333333333332
+		}
+	],
+	"failures": 0,
+	"first_contact": 1.91666666666666,
+	"fps": 60,
+	"limits": [
+		"Screen-picked approximate feet, not original state extraction",
+		"Team colors reversed; own art/projection and open local terrain",
+		"Original variable-rate screenshot timing is not a simulation trace",
+		"Contact times sampled at render-step end;30fps may round a hit up by one60Hz simulation step"
+	],
+	"line": "(1050.0, 900.0)",
+	"max_approach": 721.161010742188,
+	"mode": "near",
+	"peak_slot_displacement": 114.535339355469,
+	"riders_crossed": [
+		7,
+		6,
+		5,
+		4,
+		3,
+		2,
+		1,
+		0
+	],
+	"start_feet": [
+		"(328.839, 931.2781)",
+		"(347.7613, 906.4713)",
+		"(373.3997, 924.2506)",
+		"(367.4123, 881.9102)",
+		"(376.5877, 852.0898)",
+		"(418.0, 834.0)",
+		"(514.0, 892.0)",
+		"(582.0, 892.0)"
+	]
+}

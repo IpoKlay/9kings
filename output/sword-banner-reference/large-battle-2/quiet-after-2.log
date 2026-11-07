@@ -1,0 +1,4 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+Large battle quiet-after-2 500/side process={ "mean_ms": 51.83935, "p95_ms": 61.231, "samples": 120 } wall={ "mean_ms": 92.9037333333333, "p95_ms": 103.285, "samples": 120 }

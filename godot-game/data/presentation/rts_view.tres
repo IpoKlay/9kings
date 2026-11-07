@@ -1,0 +1,15 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "rts_view"
+description = "会战斜俯视。地面纵深只改变投影；兵力与世界坐标不变。"
+values = {
+"ground_y": 0.75,
+"figure_scale": 1.0,
+"frontage_scale": 1.0,
+"default_zoom": 1.0,
+"formation_turn_rate": 3.2
+}

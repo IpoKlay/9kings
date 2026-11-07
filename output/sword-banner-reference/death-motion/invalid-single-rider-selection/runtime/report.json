@@ -1,0 +1,87 @@
+{
+	"before": false,
+	"body_frames": {
+		"2": {
+			"foot": "(1120.71, 656.9863)",
+			"frame": 142,
+			"time": 2.38333333333333
+		},
+		"3": {
+			"foot": "(1084.04, 660.6789)",
+			"frame": 147,
+			"time": 2.46666666666666
+		},
+		"4": {
+			"foot": "(1051.548, 665.2444)",
+			"frame": 154,
+			"time": 2.58333333333333
+		},
+		"5": {
+			"foot": "(1020.709, 673.4786)",
+			"frame": 164,
+			"time": 2.75
+		},
+		"6": {
+			"foot": "(994.163, 676.6589)",
+			"frame": 178,
+			"time": 2.98333333333333
+		},
+		"7": {
+			"foot": "(969.6517, 678.5114)",
+			"frame": 198,
+			"time": 3.31666666666666
+		},
+		"8": {
+			"foot": "(944.4601, 680.1769)",
+			"frame": 226,
+			"time": 3.78333333333332
+		},
+		"9": {
+			"foot": "(920.5, 675.0)",
+			"frame": 353,
+			"time": 5.89999999999998
+		}
+	},
+	"contacts": 7,
+	"death_frames": {
+		"2": {
+			"frame": 141,
+			"point": "(1121.277, 665.2628)"
+		},
+		"3": {
+			"frame": 146,
+			"point": "(1088.233, 667.2589)"
+		},
+		"4": {
+			"frame": 153,
+			"point": "(1057.448, 669.7267)"
+		},
+		"5": {
+			"frame": 163,
+			"point": "(1027.72, 674.1711)"
+		},
+		"6": {
+			"frame": 177,
+			"point": "(999.8199, 675.9033)"
+		},
+		"7": {
+			"frame": 197,
+			"point": "(973.5129, 676.8981)"
+		},
+		"8": {
+			"frame": 225,
+			"point": "(946.6736, 677.7983)"
+		},
+		"9": {
+			"frame": 352,
+			"point": "(920.5, 675.0)"
+		}
+	},
+	"failures": 1,
+	"first_body_frame": 142,
+	"first_death_frame": 141,
+	"fixture": "Normal main-menu entry;10 infantry explicitly wounded to1HP to exercise lethal charge.8 cavalry use actual selection and C click, ordinary charge speed/damage, default zoom, muted, hidden bars/particles. Local before/after, not original-game footage.",
+	"max_post_lethal_shift": 8.29596710205078,
+	"retry_clean": true,
+	"zoom": 1.0
+}

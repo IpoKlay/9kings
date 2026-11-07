@@ -1,0 +1,63 @@
+{
+  "total_checks": 1529,
+  "regression_suites": 41,
+  "new_checks_over_previous_pass": 41,
+  "unexpected_errors": 0,
+  "known_warnings": "Existing UI-exit ObjectDB/resource references; not hidden or claimed fixed.",
+  "rules": "../official-terminal-attacks-rules.json",
+  "source_method_probe": "source-probe/result.json",
+  "baseline": "baseline-final.log:22 checks,9 failures with unchanged pre-pass production scripts",
+  "input_fps": "fps.json",
+  "runtime": [
+    "before-runtime/report.json",
+    "runtime/report.json"
+  ],
+  "video": "video-validation.json",
+  "full_battles": [
+    "default-full-battle.json",
+    "full-human-battle.json",
+    "full-undead-battle.json",
+    "full-goblin-battle.json",
+    "full-dragon-battle.json"
+  ],
+  "source_hashes": {
+    "scripts/tactical/regiment_soldiers.gd": "4139f960f82242d483bd93cfb5316c0baa56bdbe508b544bddd3e11f2f7baf13",
+    "scripts/tactical/trial_rules.gd": "a2c77ddc163543930d19ae7bb68bdbffc25af5865cb6999c719932cfc0c4f7e4",
+    "tests/tactical/test_terminal_attacks.gd": "ca367a8b7e2b9aafc12a4c445060814d43371bd78c917d2563201a248ba1218a",
+    "tests/tactical/test_terminal_attacks_input.gd": "68bcf332a4ec3714acac46d44cbc48eb9f5e582ba5d5499e8a58174cdeaf3b46",
+    "tests/tactical/test_integration_order.gd": "60b750a5ae972e53b70f3b8bf37e4b7caa74b15c548cb3d237b2982b2e85b1df",
+    "tests/tactical/test_retaliation.gd": "e737c4c27b3c9dd8acbb58cc539a406f6f0ac35c2ff2301d4ed093108c0ef469",
+    "tests/tactical/test_attack_timing.gd": "a8554090c2f282c5d620678dc16832c41c6519395b1d361c8c26a67d5e72eabf",
+    "tests/tactical/test_wraith.gd": "e427b6d4df8c7655b96f3f2e95786bbb8289620bac4d19f2cf139303d491ea2f",
+    "tests/tactical/test_goblin_roster.gd": "8452ec37a4e066b98d17405643c17ee8258d2e6aac60f7c9edc6b2512084976b",
+    "tests/tactical/capture_terminal_attacks.gd": "d5543e5cefb9de8e2c5368eab59313714f1bb7bb531cc1b04c44d16a25466592",
+    "tests/tactical/capture_personal_charge.gd": "01ab3775ee89fc4632a38069892724752c3195d2b1fd42a53795de0d5146a14d"
+  },
+  "original_full_equivalence": false,
+  "performance_scope": "Headless process timing only; not before/after rendered high-load performance.",
+  "fixture_corrections": [
+    "Integration-order old no-terminal-charge assertion contradicted public state-before-death ordering; now checks one terminal charge.",
+    "Attack timing, wraith, shaman prior target-removal fixtures only setHP0; explicitly mark registration released and add separate registered-zeroHP assertions.",
+    "Lethal retaliation old assertion disallowed original callback; now checks pursuit update without healing."
+  ],
+  "capture_corrections": [
+    "Initial relative movie path failed: invalid-relative-movie-path.log.",
+    "Post-draw waiting produced duplicated recording frames and a90s timeout; process-frame stepping with explicit rendering fixes recording cadence. The timeout process is terminal, partial intermediate removed.",
+    "Changing wait hook removes one initial frame; final423-frame count derived from process waits and independently decoded.360 trace steps intact.",
+    "Initial source-method probe indentation/type stubs failed; corrected harness, extracted method bodies remain unchanged."
+  ],
+  "charge": {
+    "side": {
+      "first_frame": 124,
+      "contacts": 23
+    },
+    "shield": {
+      "first_frame": 155,
+      "contacts": 22
+    },
+    "pikes": {
+      "first_frame": 155,
+      "contacts": 22
+    }
+  }
+}

@@ -1,0 +1,221 @@
+{
+  "checks": 358,
+  "suites": [
+    {
+      "suite": "enemy_director",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Enemy director: 27 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "acquisition_states",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Acquisition states: 17 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "attack_entry",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Attack entry: 12 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "attack_timing",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Attack timing: 22 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "integration_order",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Integration order: 14 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "personal_charge",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Personal charge: 37 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "personal_movement",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Personal movement: 17 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "soldier_physics",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Soldier physics: 16 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "shield_columns",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Shield columns: 24 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "ground_combat",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Ground combat: 18 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "target_selection",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Target selection: 21 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "battle_commands",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\"",
+        "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Battle commands: 25 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "move_batch",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Move batches: 20 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "individual_combat",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Individual combat: 18 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "individual_projectiles",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Individual projectiles: 13 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "personal_input",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\"",
+        "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Personal input: 15 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "autonomous_soldiers",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\""
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Autonomous soldiers: 16 checks, 0 failures"
+      ]
+    },
+    {
+      "suite": "group_individual_pass",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\"",
+        "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "Individual group terrain failures=0 lead=(1524.535, 900.746) rear=(1212.499, 896.6069)"
+      ]
+    },
+    {
+      "suite": "individual_full_battle",
+      "exit_code": 0,
+      "errors": [
+        "ERROR: Condition \"ret != noErr\" is true. Returning: \"\"",
+        "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+      ],
+      "unexpected_errors": [],
+      "summary": [
+        "FULL BATTLE {\"alive\":{\"ally\":12.0,\"enemy\":0.0},\"fps\":30,\"mean_process_ms\":5.47495378927911,\"p95_process_ms\":10.322,\"phase\":\"victory\",\"seconds\":37.0666666666658}",
+        "FULL BATTLE {\"alive\":{\"ally\":12.0,\"enemy\":0.0},\"fps\":60,\"mean_process_ms\":2.78843900184843,\"p95_process_ms\":5.662,\"phase\":\"victory\",\"seconds\":37.0666666666658}",
+        "FULL BATTLE {\"alive\":{\"ally\":12.0,\"enemy\":0.0},\"fps\":120,\"mean_process_ms\":1.44380568391867,\"p95_process_ms\":5.126,\"phase\":\"victory\",\"seconds\":37.0666666666658}",
+        "Individual full battle: 26 checks, 0 failures"
+      ]
+    }
+  ]
+}

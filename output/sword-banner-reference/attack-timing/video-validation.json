@@ -1,0 +1,30 @@
+[
+  {
+    "clip": "attacks.mp4",
+    "decode_exit": 0,
+    "frames": 481,
+    "duration": "00:00:08.016667",
+    "error": ""
+  },
+  {
+    "clip": "side.mp4",
+    "decode_exit": 0,
+    "frames": 601,
+    "duration": "00:00:10.016667",
+    "error": ""
+  },
+  {
+    "clip": "shield.mp4",
+    "decode_exit": 0,
+    "frames": 601,
+    "duration": "00:00:10.016667",
+    "error": ""
+  },
+  {
+    "clip": "pikes.mp4",
+    "decode_exit": 0,
+    "frames": 601,
+    "duration": "00:00:10.016667",
+    "error": ""
+  }
+]

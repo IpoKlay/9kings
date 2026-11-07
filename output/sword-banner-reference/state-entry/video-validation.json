@@ -1,0 +1,44 @@
+[
+  {
+    "scenario": "side",
+    "encode_exit": 0,
+    "decode_exit": 0,
+    "decode_errors": "",
+    "metadata": [
+      "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuvj420p(pc, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], 937 kb/s, 60 fps, 60 tbr, 15360 tbn (default)",
+      "Stream #0:0(und): Video: wrapped_avframe, yuvj420p(pc, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 60 fps, 60 tbn (default)",
+      "frame=  601 fps=0.0 q=-0.0 Lsize=N/A time=00:00:10.01 bitrate=N/A speed= 107x elapsed=0:00:00.09"
+    ],
+    "first_contact_frame": 124,
+    "contacts": 23,
+    "capture_failures": 0
+  },
+  {
+    "scenario": "shield",
+    "encode_exit": 0,
+    "decode_exit": 0,
+    "decode_errors": "",
+    "metadata": [
+      "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuvj420p(pc, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], 1040 kb/s, 60 fps, 60 tbr, 15360 tbn (default)",
+      "Stream #0:0(und): Video: wrapped_avframe, yuvj420p(pc, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 60 fps, 60 tbn (default)",
+      "frame=  601 fps=0.0 q=-0.0 Lsize=N/A time=00:00:10.01 bitrate=N/A speed= 102x elapsed=0:00:00.09"
+    ],
+    "first_contact_frame": 155,
+    "contacts": 22,
+    "capture_failures": 0
+  },
+  {
+    "scenario": "pikes",
+    "encode_exit": 0,
+    "decode_exit": 0,
+    "decode_errors": "",
+    "metadata": [
+      "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuvj420p(pc, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], 989 kb/s, 60 fps, 60 tbr, 15360 tbn (default)",
+      "Stream #0:0(und): Video: wrapped_avframe, yuvj420p(pc, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 60 fps, 60 tbn (default)",
+      "frame=  601 fps=0.0 q=-0.0 Lsize=N/A time=00:00:10.01 bitrate=N/A speed= 106x elapsed=0:00:00.09"
+    ],
+    "first_contact_frame": 155,
+    "contacts": 22,
+    "capture_failures": 0
+  }
+]

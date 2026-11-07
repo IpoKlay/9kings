@@ -1,0 +1,1 @@
+Simulation completed37.65seconds with pause and retry, but movie writer reported1511frames=25.18seconds while loop advanced>2400steps. Do not use as normal-speed acceptance footage. Retained as first-attempt evidence. Corrected capture waits for frame_post_draw.

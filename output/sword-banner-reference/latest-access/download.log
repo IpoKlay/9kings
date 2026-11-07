@@ -1,0 +1,16 @@
+steamcmd.sh[60815]: Starting  /private/tmp/eagle-steamcmd/steamcmd
+Redirecting stderr to '/Users/ip/Library/Application Support/Steam/logs/stderr.txt'
+Logging directory: '/Users/ip/Library/Application Support/Steam/logs'
+[  0%] Checking for available updates...
+[----] Verifying installation...
+Steam Console Client (c) Valve Corporation - version 1792617903
+-- type 'quit' to exit --
+Loading Steam API...src/common/iopollinghelpers_osx.cpp (109) : Unexpected thread race for CIOPollingHelper construction
+OK
+"@sSteamCmdForcePlatformType" = "windows"
+
+Connecting anonymously to Steam Public...OK
+Waiting for client config...OK
+Waiting for user info...OK
+ERROR! Failed to install app '4957080' (No subscription)
+Unloading Steam API...OK

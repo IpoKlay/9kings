@@ -1,0 +1,68 @@
+{
+  "status": "Derived from public WebAssembly module and old public scripts; independent local implementation, no original-runtime equality claim",
+  "source_module": "https://html-classic.itch.zone/html/17110357/libunit_physics.web.template_release.wasm32.nothreads.wasm",
+  "module_sha256": "10f218f31a5faa26683021f50627d4fbc19c543dfed0bbcf992a4f119597a1c8",
+  "bindings": {
+    "velocity": {
+      "method_name_offset": 272,
+      "table_index": 62,
+      "function": 117
+    },
+    "repulsion": {
+      "method_name_offset": 13905,
+      "table_index": 54,
+      "function": 119,
+      "pair_function": 120
+    },
+    "random_seed_data_offset": 73336,
+    "random_seed_initial": 12345
+  },
+  "pair_response": {
+    "cadence": "Original runs on even physics frames with2*delta; local uses accumulated1/30s simulation time",
+    "friendly": {
+      "radius_multiplier": 1.2,
+      "strength": 120,
+      "maximum_displacement": 16
+    },
+    "enemy": {
+      "radius_multiplier": 1.1,
+      "strength": 60,
+      "maximum_displacement": 16
+    },
+    "shield_front": {
+      "radius_multiplier": 1.6,
+      "strength": 200,
+      "maximum_displacement": 32,
+      "condition": "opposing teams and enemy on forward half-plane of either shield normal"
+    },
+    "equation": "delta * dt * strength / combined_scaled_radius * (1 - distance_squared / radius_squared)",
+    "deep_compression": "Inside0.4 radius multiply by1+5*(1-distance_squared/(0.16*radius_squared))",
+    "same_team_formations": "skip pair if each has shield-wall or formation-moving flag, irrespective of wall identity",
+    "shield_anchor": "do not write pair displacement to the shield-bearing person; this does not cancel separate knockback",
+    "coincident_points": "At distance_squared<=0.01 use two sequential32-bit LCG samples with multiplier1103515245 increment12345, components in[-1,1], scale min(16,dt*strength*0.5)",
+    "frozen_or_deploy": "Pair excluded in native flags6; local excludes petrified/stunned and only runs during battle"
+  },
+  "velocity": {
+    "cap": "shield110; charging max(base_speed,240)+60; otherwise base_speed+60",
+    "position": "old_position+(capped_velocity+knockback)*delta",
+    "knockback_decay": "multiply each component by pow(0.85,delta*60); set component to0 when abs<0.5",
+    "bounds": "original clamps to symmetric map bounds; local authored terrain uses existing bounds and footprint checks"
+  },
+  "implemented": [
+    "Same-team/opponent/shield-front pair formulas, formation skip, shield anchoring, deep compression, per-pair caps and coincident-point RNG",
+    "Removed hard circle rejection and heuristic personal body-bypass steering; local visible-graph pathfinding remains",
+    "Ground physics reads actor.position rather than accumulating visible hit-shift into physical position",
+    "Replaced guessed knockback decay with native0.85-per60Hz and per-component cutoff",
+    "Normal velocity cap applied",
+    "Repulsion cadence and RNG reset with new battle; stop-decision position recorded separately from subsequent passive displacement"
+  ],
+  "remaining_differences": [
+    "Pair traversal uses local deterministic row/cell order, not native hash iteration and pooled slot order",
+    "Pair grid built after local movement, whereas original grid is built before state/velocity updates",
+    "Original native terrain-grid and circular obstacle response not reproduced; local authored rock footprints and axis slide retained",
+    "Knockback integrates before local actor decisions rather than same native velocity pass after all decisions; charge control and hard rock stopping remain separate",
+    "Native idle/hold/attack deceleration and attack-animation state timing still incomplete",
+    "Native charge applies raw knockback even to shield-wall targets; previous hard-circle stopping is not an equivalence requirement",
+    "Latest Steam and original runtime three-scenario equality not verified"
+  ]
+}

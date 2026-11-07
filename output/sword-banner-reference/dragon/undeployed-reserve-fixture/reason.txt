@@ -1,0 +1,1 @@
+Intentionally stopped after observing the only dragon dead while undeployed reserves kept battle phase alive. Fixture now zeroes reserve, allowing defeat settlement. Active enemy director cohorts were present. No completed-capture claim for this attempt.

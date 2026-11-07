@@ -1161,7 +1161,8 @@ func open_tactical_trial(test_powers: bool=false,pilot: bool=false):
 	if is_instance_valid(active_trial):return
 	var trial=load('res://scenes/tactical_trial.tscn').instantiate()
 	active_trial=trial
-	if test_powers:trial.rules=trial.PassBattle.new(true)
+	if not pilot:trial.rules=trial.SquareBattle.new(test_powers)
+	elif test_powers:trial.rules=trial.PassBattle.new(true)
 	trial.app=self
 	trial.pilot=pilot
 	if pilot:

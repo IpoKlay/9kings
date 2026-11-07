@@ -1,0 +1,18 @@
+{
+  "path": "move-batch/gather.mp4",
+  "source": "Native Godot main-menu entry,Ctrl-click selects20,real right-click within selection",
+  "fps": 60,
+  "decoded_frames": 601,
+  "duration_seconds": 10.016667,
+  "decode_exit_code": 0,
+  "capture_report": {
+    "selected": 20,
+    "settled": 20,
+    "sibling_stops": 16,
+    "time": 10.0000000000001
+  },
+  "visually_inspected": [
+    "frame-0540.png"
+  ],
+  "conditions": "Default zoom, normal speed, quiet; two allied rows and distant stationary enemy."
+}

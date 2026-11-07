@@ -13,6 +13,10 @@ enemy_pal = np.array([list(bytes.fromhex(c)) for c in enemy_colors])
 gray = np.array([list(bytes.fromhex(c)) for c in '333f3e 515d57 737e70 929b87 b2b8a0 d4d7ba'.split()])
 stone_pal = gray[np.minimum(5, (pal @ np.array([.2126,.7152,.0722])*6/256).astype(int))]
 for folder in sorted(p for p in source.iterdir() if p.is_dir() and (p/'pose-0001.png').exists()):
+    extra=['293c2b','526844','869864'] if folder.name.startswith('goblin_') or folder.name=='dragon' else []
+    pal=np.array([list(bytes.fromhex(c)) for c in colors+extra],dtype=np.int32)
+    enemy_pal=np.array([list(bytes.fromhex(c)) for c in enemy_colors+extra])
+    stone_pal=gray[np.minimum(5,(pal @ np.array([.2126,.7152,.0722])*6/256).astype(int))]
     frames = sorted(folder.glob('pose-*.png'))
     assert len(frames)==136,folder
     atlas = np.full((512,1088),len(pal),dtype=np.uint8)

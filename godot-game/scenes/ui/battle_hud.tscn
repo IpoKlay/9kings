@@ -55,6 +55,16 @@ vertical_alignment = 1
 layout_mode = 0
 mouse_filter = 2
 
+[node name="OverviewButton" type="Button" parent="TopActions"]
+visible = false
+layout_mode = 0
+offset_left = 542.0
+offset_top = 12.0
+offset_right = 722.0
+offset_bottom = 66.0
+focus_mode = 0
+text = "总览 Tab"
+
 [node name="StrengthBar" type="ColorRect" parent="TopActions" unique_id=1697238351]
 layout_mode = 0
 offset_left = 754.0
@@ -227,16 +237,30 @@ offset_bottom = 994.0
 focus_mode = 0
 text = "标准布阵"
 
-[node name="RegimentRoster" type="HBoxContainer" parent="." unique_id=2037673420]
+[node name="SiegeButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 462.0
+offset_top = 938.0
+offset_right = 642.0
+offset_bottom = 994.0
+focus_mode = 0
+text = "攻城演练"
+
+[node name="RegimentRoster" type="ScrollContainer" parent="." unique_id=2037673420]
 layout_mode = 0
 offset_left = 18.0
-offset_top = 938.0
-offset_right = 18.0
-offset_bottom = 994.0
+offset_top = 930.0
+offset_right = 1166.0
+offset_bottom = 1002.0
+mouse_filter = 2
+vertical_scroll_mode = 0
+
+[node name="RegimentRow" type="HBoxContainer" parent="RegimentRoster"]
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 4
 
-[node name="RegimentButton" type="Button" parent="RegimentRoster" unique_id=1860419735]
+[node name="RegimentButton" type="Button" parent="RegimentRoster/RegimentRow" unique_id=1860419735]
 visible = false
 custom_minimum_size = Vector2(111, 56)
 layout_mode = 2
@@ -356,3 +380,68 @@ theme_override_font_sizes/font_size = 26
 text = "战报"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ArcherVariantButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 1348.0
+offset_top = 938.0
+offset_right = 1725.0
+offset_bottom = 994.0
+focus_mode = 0
+text = "弓兵配置：普通弓兵"
+
+[node name="VolleyButton" type="Button" parent="BattleActions"]
+visible = false
+layout_mode = 0
+offset_left = 1097.0
+offset_top = 1006.0
+offset_right = 1334.0
+offset_bottom = 1062.0
+focus_mode = 0
+text = "V 齐射"
+
+[node name="CavalryVariantButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 938.0
+offset_right = 1335.0
+offset_bottom = 994.0
+focus_mode = 0
+text = "骑兵配置：近战骑兵"
+
+[node name="LegionVariantButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 874.0
+offset_right = 394.0
+offset_bottom = 930.0
+focus_mode = 0
+text = "步兵配置：步兵"
+
+[node name="GuardVariantButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 412.0
+offset_top = 874.0
+offset_right = 788.0
+offset_bottom = 930.0
+focus_mode = 0
+text = "重盾卫配置：重盾卫"
+
+[node name="SpearVariantButton" type="Button" parent="DeploymentActions"]
+layout_mode = 0
+offset_left = 806.0
+offset_top = 874.0
+offset_right = 1182.0
+offset_bottom = 930.0
+focus_mode = 0
+text = "长矛兵配置：长矛兵"
+
+[node name="BlinkButton" type="Button" parent="BattleActions"]
+visible = false
+layout_mode = 0
+offset_left = 1097.0
+offset_top = 1006.0
+offset_right = 1334.0
+offset_bottom = 1062.0
+focus_mode = 0
+text = "B 闪现"

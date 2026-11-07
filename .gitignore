@@ -14,3 +14,7 @@ __pycache__/
 **/tests/*.log
 **/test-settings.cfg
 **/menu-test-run.cfg*
+
+# Reassembled checkpoint downloads (verified parts are tracked)
+/builds/combat-core-2026-11-07/*.zip
+/builds/combat-core-2026-11-07/*.partial

@@ -81,7 +81,10 @@ func play(plan: String):
 	check(r.phase=='battle' and not r.unlimited_powers,'Official pass begins with limited powers')
 	var d=r.alive('ally')
 	var archers=r.alive('enemy').filter(func(u):return u.kind=='archer')
+	# The outer archer line is reachable without crossing the inner archer row.
+	if plan=='feint':archers.reverse()
 	var horse: Dictionary={}
+	var rear_route=false
 	var focus=false
 	var rear=false
 	var rescue=false
@@ -96,6 +99,14 @@ func play(plan: String):
 		for i in d.size():check(r.command([d[i].id],'move',Vector2(280+i%3*52,325+int(i/3)*45)),'Withdraw')
 	var ticks=0
 	while r.phase=='battle' and ticks<10802:
+		# After sealing the side lane, pull both intact cavalry squads back before
+		# the exhausted shield line gives way. Their actual march must reach the flag.
+		if plan=='shield' and ticks==5400:
+			check(r.march_route(d[6].id,direct,r.flag_center),'Home cavalry returns to standard')
+			log_event(r,plan,'home_cavalry_returns')
+		if plan=='shield' and ticks==6600 and not horse.is_empty() and not horse.routing:
+			check(r.march_route(horse.id,direct,r.flag_center+Vector2(-55,30)),'Side reserve returns to standard')
+			log_event(r,plan,'side_reserve_returns')
 		if plan=='feint' and ticks==120:
 			for i in 4:
 				var goal: Vector2=d[i].pos-Vector2(325,0)
@@ -112,7 +123,14 @@ func play(plan: String):
 			var via: Array[Vector2]=[Vector2(1430,291)]
 			check(r.march_route(horse.id,via,Vector2(2600,291)),'Northern turning route accepted')
 			log_event(r,plan,'reserve_northern_arc')
-		if plan=='feint' and not horse.is_empty() and not focus and (horse.order!='move' or horse.pos.x>maxf(archers[0].pos.x+520,1520)):
+		# The first cavalry pins the outer archers from below. Take the reserve around
+		# their actual facing, with room to align and accelerate after the turn.
+		if plan=='feint' and not horse.is_empty() and not rear_route and horse.pos.x>1650:
+			var rear_goal: Vector2=archers[0].pos-archers[0].heading.rotated(deg_to_rad(35))*380
+			check(r.march_route(horse.id,direct,rear_goal),'Reach the exposed rear of the outer archers')
+			rear_route=true
+			log_event(r,plan,'rear_approach',{'goal':[rear_goal.x,rear_goal.y],'target_heading':[archers[0].heading.x,archers[0].heading.y]})
+		if rear_route and not focus and horse.order=='hold':
 			check(r.command([horse.id],'attack',archers[0].pos,archers[0].id),'Focus enemy archers')
 			focus=true
 			log_event(r,plan,'focus_archers')

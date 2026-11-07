@@ -48,11 +48,11 @@ func _initialize():
 	check(not r.Contact.braced_pikes(spear,1.1) and r.Contact.braced_pikes(spear,1.3),'Recently moving pikes need time to brace')
 	for wall:Rect2 in r.terrain.ROCKS:
 		var foot=wall.position+Vector2(-9,8)
-		b.pos=r.projection.affine_inverse()*(foot-r.contact_profiles.legion.feet[0])
+		b.pos=r.projection.affine_inverse()*(foot-r.Contact.feet(r,b)[0])
 		var shift=r.Contact.clip_shift(r,b,0,Vector2(60,0))
 		check(shift.x>=0 and shift.x<9,'Displaced boot stays on approach side of rock')
 	var boundary=r.bounds.end-Vector2(1,1)
-	b.pos=boundary-r.ground_basis.affine_inverse().basis_xform(r.contact_profiles.legion.feet[0])
+	b.pos=boundary-r.ground_basis.affine_inverse().basis_xform(r.Contact.feet(r,b)[0])
 	var clipped=r.Contact.clip_shift(r,b,0,r.ground_basis.basis_xform(Vector2(150,50)))
 	check(r.bounds.has_point(boundary+r.ground_basis.affine_inverse().basis_xform(clipped)),'Boot stays inside battle bounds')
 	print('Formation passage regressions: ',failed,' failures')

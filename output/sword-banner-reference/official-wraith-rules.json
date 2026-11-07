@@ -1,0 +1,75 @@
+{
+  "source": "Public official 2026-04-09 legacy build. Independent implementation using behavior/constants; original code and art remain outside project.",
+  "references": {
+    "unit_shell.gd": "ability definitions / blink execution / no wraith footstep sound",
+    "selection_manager.gd": "ability-ready subset, centroid 1.2 range acceptance, B targeting",
+    "battle_systems.gd": "wraith-specific attack dispatch and scythe cleave",
+    "unit_roles.gd": "wraith melee/undead traits, shock role, remaining attack fraction .4",
+    "unit_stats": "wraith resource numerical record in official-unit-parameters.json"
+  },
+  "blink": {
+    "key": "B",
+    "hint_radius": 250.0,
+    "command_centroid_gate": 300.0,
+    "personal_max_displacement": 200.0,
+    "cooldown": 8.0,
+    "selection": "Only ready, alive, friendly casters participate. Mixed selections may use B on eligible subset; HUD button visible only if all selected living actors have blink.",
+    "landing": "Each origin aims toward the same target, independently limited to 200; no formation-preserving offset. Zero distance is allowed and spends cooldown.",
+    "state": "Clear current target and return to idle; existing velocity/attack timer remain. Local route and focus bookkeeping cleared. No instant walking distance is generated.",
+    "terrain": "Blink execution does not pathfind or check obstacle clearance. Ordinary movement after it still uses terrain and actual body radius.",
+    "pause": "Local UI prevents casting while paused; cooldown freezes with simulation. Same-condition original pause interaction has not been independently recorded."
+  },
+  "cleave": {
+    "fire_time": 0.48,
+    "main_damage": 55.0,
+    "splash_multiplier": 0.6,
+    "radius": 50.0,
+    "angle_degrees": 90.0,
+    "selection": "Primary hit occurs first and is excluded from splash; splash only opposing living actors relative to current facing; dead primary cancels the entire action.",
+    "damage": "Every victim uses normal per-soldier frontal F protection and attacker identity/retaliation. Ordinary H does not reduce damage in Square."
+  },
+  "stats": {
+    "kind": "legion",
+    "name": "怨灵",
+    "name_en": "Wraiths",
+    "hp": 1500.0,
+    "damage": 55.0,
+    "interval": 0.8,
+    "range": 30.0,
+    "speed": 100.0,
+    "individual": {
+      "reference_type": "wraith",
+      "hp": 150.0,
+      "damage": 55.0,
+      "interval": 0.8,
+      "range": 30.0,
+      "speed": 100.0,
+      "charge_cooldown": 10.0,
+      "can_charge": false,
+      "can_shield_wall": false,
+      "has_volley": false,
+      "projectile_speed": 400.0,
+      "aggro_range": 600.0,
+      "unit_size": 11.0,
+      "role_bits": 130,
+      "fire_fraction": 0.4,
+      "has_blink": true,
+      "scythe_cleave": true
+    },
+    "art": "wraith",
+    "name_short": "怨灵",
+    "name_short_en": "Wraiths"
+  },
+  "art": "Own Blender hood/robe/scythe, 64x64 eight-direction palette sprites; team stripes, pixel blink bursts and scythe arc. No original procedural mesh/shader/audio copied.",
+  "known_limits": [
+    "Official legacy browser sandbox now confirms clamped blink travel, mixed-selection eligible subset and blocked/ready cooldown samples. Exact 8 simulation seconds, cleave metrics and latest Steam remain unverified by original runtime.",
+    "Exact spatial-hash radius boundary and candidate order are not independently measured; current local tests cover radius 50 and immediately inside/outside the angle.",
+    "General cooldown storage/RNG/physics ordering still differs from original packed Float32/native system; render-rate determinism alone is not equivalence proof.",
+    "Local corpse behavior and pixel sprite animation/trail differ from original wraith death burst/procedural renderer; audio uses local bank and capture is muted.",
+    "Ordinary post-blink behavior at an obstacle interior or outside map needs original-runtime comparison; local blink deliberately does not silently replace teleport with walking.",
+    "Full goblin/remaining undead/dragon, castle siege, navigation/death lifecycle, performance and end-to-end acceptance remain pending."
+  ],
+  "validation": "wraith/validation.json",
+  "capture": "wraith/runtime/report.json",
+  "original_runtime_observations": "original-wraith/observations.json"
+}

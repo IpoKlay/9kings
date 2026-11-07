@@ -7,9 +7,9 @@ static var masks={}
 
 # Coalesce identical opaque horizontal runs on consecutive atlas rows.
 # Transparent parts of the 64x64 canvas never become colliders.
-static func mask(kind: String,side: String,bearing: int,cell: int) -> Dictionary:
+static func mask(kind: String,side: String,bearing: int,cell: int,scale: float,upper_cell: int=-1) -> Dictionary:
 	var name=kind+'_'+side
-	var key='%s/%d/%d'%[name,bearing,cell]
+	var key='%s/%d/%d/%.4f/%d'%[name,bearing,cell,scale,upper_cell]
 	if masks.has(key):return masks[key]
 	if not sheets.has(name):
 		var texture: Texture2D=load('res://assets/rts-armies/'+name+'.png')
@@ -17,17 +17,17 @@ static func mask(kind: String,side: String,bearing: int,cell: int) -> Dictionary
 	var img: Image=sheets[name]
 	var rects: Array[Rect2]=[]
 	var previous={}
-	var scale=Terrain.layout(kind).z
 	for y in 64:
+		var source_cell=upper_cell if upper_cell>=0 and y<32 else cell
 		var current={}
 		var x=0
 		while x<64:
-			if img.get_pixel(cell*64+x,bearing*64+y).a<.5:
+			if img.get_pixel(source_cell*64+x,bearing*64+y).a<.5:
 				x+=1
 				continue
 			var start=x
 			x+=1
-			while x<64 and img.get_pixel(cell*64+x,bearing*64+y).a>=.5:x+=1
+			while x<64 and img.get_pixel(source_cell*64+x,bearing*64+y).a>=.5:x+=1
 			var span=Vector2i(start,x)
 			var index: int=previous.get(span,-1)
 			if index<0:
@@ -47,7 +47,8 @@ static func pose(r,u: Dictionary) -> Dictionary:
 	var bearing=Contact.bearing(u,angle,r.config.regiment_impact.bearing_hysteresis_degrees)
 	var action: bool=u.attack_age<.55 and u.hp>0 and (u.kind!='cavalry' or not u.moving or u.gait=='impact')
 	var frame=clampi(int(u.attack_age/.55*8),0,7) if action else floori(8*u.march_distance/r.config.types[u.kind].stride)
-	return {'bearing':bearing,'frame':frame,'action':action,'walk':u.moving,'pos':u.pos}
+	return {'bearing':bearing,'frame':frame,'action':action,'walk':u.moving,'pos':u.pos,'feet':Contact.feet(r,u),'formation_heading':u.get('formation_heading',u.heading),'slot_distances':u.get('slot_distances',{}).duplicate(),
+		'slot_speeds':u.get('slot_speeds',{}).duplicate(),'upper_cell':11 if u.kind=='cavalry' and u.gait=='sprint' else -1}
 
 # First overlap of translating opaque rectangles, by intersecting the X/Y time intervals.
 static func entering(a: Rect2,b: Rect2,v: Vector2,limit: float) -> float:
@@ -91,18 +92,25 @@ static func swept_bounds(rect: Rect2,delta: Vector2) -> Rect2:
 static func figures(r,u: Dictionary,pose_data: Dictionary,finish: Vector2,start_time: float,end_time: float) -> Array:
 	var stats: Dictionary=r.config.types[u.kind]
 	var count=Contact.count(u,stats)
-	var anchor=Vector2(32,54)*Terrain.layout(u.kind).z
+	var anchor=Vector2(32,54)*r.contact_profiles[u.kind].scale
 	var figures_out=[]
+	var old_feet: PackedVector2Array=pose_data.get('feet',Contact.feet(r,u,pose_data.formation_heading))
+	var new_feet=Contact.feet(r,u)
 	for slot in int(stats.files):
 		if not Contact.present(u,slot,count):continue
-		var feet: Vector2=r.contact_profiles[u.kind].feet[slot]
+		var feet: Vector2=old_feet[slot]
 		var old_shift=Contact.body_shift(u,slot,start_time)
 		var new_shift=Contact.body_shift(u,slot,end_time)
 		var origin: Vector2=(r.projection*pose_data.pos+feet+old_shift-anchor).round()
-		var dest: Vector2=(r.projection*finish+feet+new_shift-anchor).round()
+		var dest: Vector2=(r.projection*finish+new_feet[slot]+new_shift-anchor).round()
 		var phase=(slot%int(stats.files)+3*(slot/int(stats.files)))%4
-		var cell=Contact.cell_index(pose_data.action,pose_data.walk,pose_data.frame,phase)
-		var shape=mask(u.kind,'stone' if u.petrified>0 else u.side,pose_data.bearing,cell)
+		var stride=pose_data.frame
+		var walk=pose_data.walk
+		if not pose_data.action and pose_data.slot_distances.has(slot):
+			stride=floori(8*pose_data.slot_distances[slot]/float(stats.stride))
+			walk=pose_data.slot_speeds.get(slot,0.)>.2
+		var cell=Contact.cell_index(pose_data.action,walk,stride,phase)
+		var shape=mask(u.kind,'stone' if u.petrified>0 else u.side,pose_data.bearing,cell,r.contact_profiles[u.kind].scale,pose_data.upper_cell)
 		var box: Rect2=shape.bounds
 		box.position+=origin
 		var delta=dest-origin
@@ -137,5 +145,5 @@ static func earliest(r,a: Dictionary,b: Dictionary,pa: Dictionary,pb: Dictionary
 							limit=toi
 							result={'fraction':toi,'pos':r.projection.affine_inverse()*pixel,'rider_slot':rider.slot,'defender_slot':soldier.slot,
 								'rider':rider.feet,'entry':soldier.feet,'rider_cell':rider.cell,'defender_cell':soldier.cell,
-								'rider_bearing':pa.bearing,'defender_bearing':pb.bearing}
+								'rider_bearing':pa.bearing,'defender_bearing':pb.bearing,'rider_upper_cell':pa.upper_cell}
 	return result

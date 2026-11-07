@@ -1,0 +1,51 @@
+{
+  "source": "Official public20260409 build, formation_manager.gd, unit_shell.gd, battle_systems.gd; independently implemented from rule facts, original source remains temporary",
+  "facts": {
+    "slot_pitch": "2*largest selected collision radius-5",
+    "columns": "max(1,round(drag_length/pitch)); rows ceil(count/columns); last partial row centered",
+    "assignment": "Nearest remaining person per generated slot",
+    "wall_march": "Exact remaining wall selection keeps slots/normal, translates targets by destination minus original target centroid",
+    "block": "Enemy in28 radius and dot(normal,relative_position)>=-5",
+    "column_spread": "Adjacent progress limit first living body diameter*0.25; two directional passes",
+    "settle": "Formation inside3 units for1 second before holding",
+    "return": "Held shield more than17 away from held slot waits0.5s before returning",
+    "hold": "H keeps shield flag, removes hold-slot flag"
+  },
+  "implemented": [
+    "F grid and nearest-person assignment",
+    "Preserved wall right-click march and independent column locks/release",
+    "Contact geometry uses actual detached enemy positions, not transient rendered hit offsets",
+    "Source settlement/return delay; H keeps shields without forced slot return",
+    "Empty walls discarded and retry creates fresh wall list/serial"
+  ],
+  "differences": [
+    "Native repulsion is unavailable: same-wall personal clearance uses pitch-1 (12 for9-radius infantry) as a local approximation. Obstacle clearance remains full body radius.",
+    "Original script can produce more columns than members; local controller only visits occupied columns to avoid invalid empty front indexing.",
+    "Default map/figure scale and64x64 sprite art retained; compact wall is visually dense at default camera.",
+    "Ordinary movement idle/settling, inside-selection batches, strategic role AI and remaining units/abilities still incomplete; latest Steam build not verified."
+  ],
+  "validation": {
+    "shield_checks": 24,
+    "shield_failures": 0,
+    "rotations_degrees": [
+      0,
+      90,
+      45
+    ],
+    "battle_input_checks": 25,
+    "battle_input_failures": 0,
+    "group_orders_checks": 17,
+    "group_orders_failures": 0,
+    "personal_charge_checks": 37,
+    "charge_input_checks": 16,
+    "mountain_person_clearance_failures": 0,
+    "full_battle_checks": 26,
+    "full_battle_fps": [
+      30,
+      60,
+      120
+    ],
+    "full_battle_victory_sim_seconds": 23.533333
+  },
+  "native_video": "shield-columns/wall-march.mp4"
+}

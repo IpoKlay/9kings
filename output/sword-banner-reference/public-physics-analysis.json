@@ -1,0 +1,74 @@
+{
+  "page": "https://bitrotgames.itch.io/sword-banner",
+  "manifest": "https://html-classic.itch.zone/html/17110357/index.html",
+  "module": "https://html-classic.itch.zone/html/17110357/libunit_physics.web.template_release.wasm32.nothreads.wasm",
+  "module_bytes": 1099366,
+  "module_sha256": "10f218f31a5faa26683021f50627d4fbc19c543dfed0bbcf992a4f119597a1c8",
+  "analysis_tool": {
+    "source": "https://github.com/WebAssembly/wabt/releases/tag/1.0.42",
+    "archive_sha256": "3f654779b436c628db3ca4323c51538815f5fbc887a6d5f3bb1c18d36281e240",
+    "tools": [
+      "wasm2wat",
+      "wasm2c"
+    ],
+    "note": "Parsed only; original physics module not executed or imported into local game."
+  },
+  "analysis_paths": {
+    "module": "/private/tmp/sword-banner-reference/unit-physics.wasm",
+    "wat": "/private/tmp/sword-banner-reference/unit-physics.wat",
+    "c_translation": "/private/tmp/sword-banner-reference/unit-physics.c",
+    "sibling_predicate": "/private/tmp/sword-banner-reference/sibling-function.wat",
+    "cache_mapping": "/private/tmp/sword-banner-reference/grid-cache.wat",
+    "data": "/private/tmp/sword-banner-reference/physics-data.bin"
+  },
+  "evidence": {
+    "function": 113,
+    "binding_table_index": 59,
+    "method_name_data_offset": 21679,
+    "batch_dictionary_data_offset": 12192,
+    "settle_radius_data_offset": 4891,
+    "team_name_data_offset": 14895,
+    "cached_batch_pointer_offset": 161852,
+    "cached_team_pointer_offset": 161836,
+    "cached_state_pointer_offset": 161844,
+    "source_states": {
+      "idle": 0,
+      "holding": 6
+    }
+  },
+  "discovered_package_limit": "Mac publicPCK declares unit_physics only for Windows/Web and Mac archive contains no UnitPhysics library; original engine binary did not expose that class. Web module is the stronger source for this rule.",
+  "target_selection_evidence": {
+    "method_name": "find_best_enemy",
+    "method_name_data_offset": 535,
+    "table_index": 57,
+    "function": 111,
+    "cached_arrays": {
+      "position_x": 161788,
+      "position_y": 161792,
+      "health": 161796,
+      "max_health": 161800,
+      "flags": 161820,
+      "unit_type": 161824,
+      "ranged_target_count": 161828,
+      "team": 161836,
+      "alive": 161840,
+      "role_table": 161872
+    },
+    "local_rules": "official-target-selection-rules.json"
+  },
+  "motion_evidence": {
+    "velocity": {
+      "method_name_offset": 272,
+      "table_index": 62,
+      "function": 117
+    },
+    "repulsion": {
+      "method_name_offset": 13905,
+      "table_index": 54,
+      "function": 119,
+      "pair_function": 120
+    },
+    "random_seed_data_offset": 73336,
+    "random_seed_initial": 12345
+  }
+}

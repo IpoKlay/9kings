@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Condition "ret != noErr" is true. Returning: ""
+   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
+ERROR: Uncontacted flank neither attacks nor spends cooldown
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_individual_combat.gd:7)
+       [1] run (res://tests/tactical/test_individual_combat.gd:24)
+ERROR: One ready soldier can strike while a neighbour is recovering
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_individual_combat.gd:7)
+       [1] run (res://tests/tactical/test_individual_combat.gd:52)
+Individual combat: 17 checks, 2 failures

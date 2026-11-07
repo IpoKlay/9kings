@@ -1,0 +1,21 @@
+{
+  "source": "https://html-classic.itch.zone/html/17110357/index.html",
+  "viewport": [
+    1280,
+    720
+  ],
+  "configured": {
+    "light_cavalry": 8,
+    "enemy_swordsman": 10
+  },
+  "map": "random forest terrain, AI0.5, no river/coast",
+  "validity": "exploratory only, not matched charge trial",
+  "observed": "Enemy swordsmen pursued and scattered. Before C was issued the selected force had already fallen to one Light Cavalry. Remaining cavalry then died; defeat screen recorded.",
+  "limits": [
+    "No original eight-horse charge captured",
+    "No held shield/pike line comparison",
+    "No time-to-contact or penetration equivalence can be inferred",
+    "Screenshot sampling wall-clock timestamps, not engine simulation frames"
+  ],
+  "screenshot_count": 171
+}

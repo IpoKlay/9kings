@@ -84,9 +84,8 @@ func resolve(r, cast_data: Dictionary):
 
 func advance(r, dt: float):
 	for u in r.units:
-		if u.hp<=0:continue
-		if u.poison>0:r.hurt(u,float(config.hydra.dps)*minf(dt,u.poison))
-		if u.hp>0 and u.regen>0:u.hp=minf(u.max_hp,u.hp+float(config.hydra.regen_per_second)*minf(dt,u.regen))
+		if u.hp>0 and u.poison>0:r.hurt(u,float(config.hydra.dps)*minf(dt,u.poison))
+		if u.hp>0 and u.regen>0:r.heal(u,float(config.hydra.regen_per_second)*minf(dt,u.regen))
 		for status in ['shield','rooted','petrified','marked','poison','regen']:u[status]=maxf(0,u[status]-dt)
 	for d in decoys:
 		d.remaining-=dt

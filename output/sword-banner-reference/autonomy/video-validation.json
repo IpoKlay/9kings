@@ -1,0 +1,21 @@
+{
+  "method": "Full ffmpeg decode to null, exit code 0; native Godot capture, H.264 encoding",
+  "videos": [
+    {
+      "path": "split.mp4",
+      "decoded_frames": 601,
+      "fps": 60,
+      "duration_seconds": 10.016667,
+      "decode_errors": 0
+    },
+    {
+      "path": "full.mp4",
+      "decoded_frames": 2063,
+      "fps": 60,
+      "duration_seconds": 34.383333,
+      "decode_errors": 0
+    }
+  ],
+  "visual_inspection": "Full battle frame-0900 shows actual living individual positions and battle casualties; split frame-0180 shows separate pursuit groups.",
+  "goal_complete": false
+}

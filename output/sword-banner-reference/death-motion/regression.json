@@ -1,0 +1,431 @@
+[
+  {
+    "suite": "mounted_archer",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Mounted archer: 28 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "mounted_archer_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Mounted archer input: 19 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "longbow_volley",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Longbow volley: 26 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "volley_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Volley input: 20 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "enemy_director",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Enemy director: 27 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "acquisition_states",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Acquisition states: 17 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "attack_entry",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Attack entry: 12 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "attack_timing",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Attack timing: 22 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "integration_order",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Integration order: 14 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "personal_charge",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Personal charge: 37 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "personal_movement",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Personal movement: 17 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "soldier_physics",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Soldier physics: 16 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "shield_columns",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Shield columns: 24 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "ground_combat",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Ground combat: 19 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "target_selection",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Target selection: 21 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "battle_commands",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Battle commands: 25 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 1 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "move_batch",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Move batches: 20 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "individual_combat",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Individual combat: 18 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "individual_projectiles",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Individual projectiles: 13 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "personal_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Personal input: 15 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "autonomous_soldiers",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Autonomous soldiers: 16 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "group_individual_pass",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Individual group terrain failures=0 lead=(1524.535, 900.746) rear=(1212.499, 896.6069)"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "individual_full_battle",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Individual full battle: 26 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 1 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "retaliation",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Retaliation: 29 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "pursuit_retarget",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Pursuit retarget: 26 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "human_roster",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Human roster: 69 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "human_roster_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Human roster input: 223 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "wraith",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Wraith rules: 37 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "wraith_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Wraith input: 45 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "undead_roster",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Undead roster: 74 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "undead_roster_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Undead roster input: 80 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "goblin_roster",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Goblin roster: 141 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "goblin_roster_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Goblin roster input: 132 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "dragon",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Dragon: 40 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "dragon_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Dragon input: 24 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "projectile_motion",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Projectile motion: 50 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "projectile_motion_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Projectile input: 17 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "death_lifecycle",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Death lifecycle: 34 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "death_lifecycle_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Death lifecycle input: 17 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "terminal_attacks",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Terminal attacks: 22 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "terminal_attacks_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Terminal input: 17 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  },
+  {
+    "suite": "death_motion",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Death motion: 27 checks, 0 failures"
+    ],
+    "known_exit_warnings": []
+  },
+  {
+    "suite": "death_motion_input",
+    "exit_code": 0,
+    "unexpected_errors": [],
+    "summary": [
+      "Death motion input: 20 checks, 0 failures"
+    ],
+    "known_exit_warnings": [
+      "WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).",
+      "ERROR: 2 resources still in use at exit (run with --verbose for details)."
+    ]
+  }
+]

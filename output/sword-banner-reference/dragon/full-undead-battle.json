@@ -1,0 +1,23 @@
+[
+	{
+		"alive_ally": 30.0,
+		"alive_enemy": 0.0,
+		"fps": 30,
+		"phase": "victory",
+		"time": 28.033333333333
+	},
+	{
+		"alive_ally": 30.0,
+		"alive_enemy": 0.0,
+		"fps": 60,
+		"phase": "victory",
+		"time": 28.033333333333
+	},
+	{
+		"alive_ally": 30.0,
+		"alive_enemy": 0.0,
+		"fps": 120,
+		"phase": "victory",
+		"time": 28.033333333333
+	}
+]
