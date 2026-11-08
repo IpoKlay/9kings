@@ -21,6 +21,7 @@ static func slam(r,u: Dictionary,slot: int):
 	r.events.append({'kind':'troll_slam','pos':origin,'radius':SLAM_RADIUS,'attacker':u.id,'attacker_slot':slot})
 
 static func heal_nearby(r,u: Dictionary,slot: int):
+	r.powers.invalidate_target_batch()
 	var origin: Vector2=r.Soldiers.ground_position(r,u,slot)
 	for ally in r.alive(u.side):
 		for i in ally.soldiers.size():

@@ -1,0 +1,74 @@
+[
+  {
+    "suite": "personal_charge",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Personal charge: 37 checks, 0 failures"
+    ]
+  },
+  {
+    "suite": "soldier_physics",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Soldier physics: 16 checks, 0 failures"
+    ]
+  },
+  {
+    "suite": "integration_order",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Integration order: 14 checks, 0 failures"
+    ]
+  },
+  {
+    "suite": "shield_columns",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Shield columns: 24 checks, 0 failures"
+    ]
+  },
+  {
+    "suite": "ground_combat",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Ground combat: 19 checks, 0 failures"
+    ]
+  },
+  {
+    "suite": "death_lifecycle",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Death lifecycle: 34 checks, 0 failures"
+    ]
+  },
+  {
+    "suite": "terminal_attacks",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Terminal attacks: 22 checks, 0 failures"
+    ]
+  },
+  {
+    "suite": "siege_orders",
+    "passed": true,
+    "exit": 0,
+    "errors": [],
+    "summary": [
+      "Siege orders: 15 checks, 0 failures"
+    ]
+  }
+]

@@ -1,0 +1,423 @@
+{
+  "status": "isolated_prototype_only",
+  "production_integration": false,
+  "rebuilt_this_iteration": false,
+  "platform_tested": "macOS arm64",
+  "windows_tested": false,
+  "godot_runtime": "4.7.2.stable.official.ed1daf0bf",
+  "godot_cpp_commit": "27d9dd23c83871e0619fca5dc2cddfbfd69e926a",
+  "precision": "single",
+  "strict_fp_flags": [
+    "-fno-fast-math",
+    "-ffp-contract=off"
+  ],
+  "original_equivalence": "unknown; latest executable original unavailable",
+  "R02_complete": false,
+  "v1": {
+    "fixed_step_pairs": [
+      {
+        "baseline": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 10.582059,
+          "elapsed_simulation": 2.0,
+          "label": "native-baseline",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 61.3095083333333,
+            "p95_ms": 90.992,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 88.1760833333333,
+            "p95_ms": 122.505,
+            "samples": 120
+          }
+        },
+        "candidate": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 9.779505,
+          "elapsed_simulation": 2.0,
+          "label": "native-candidate",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 56.5111,
+            "p95_ms": 81.136,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 81.4862416666667,
+            "p95_ms": 110.211,
+            "samples": 120
+          }
+        },
+        "exact_final_state": {
+          "baseline": "native-baseline-500.state",
+          "candidate": "native-candidate-500.state",
+          "equal": true,
+          "baseline_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab",
+          "candidate_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab"
+        }
+      },
+      {
+        "baseline": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 9.438584,
+          "elapsed_simulation": 2.0,
+          "label": "native-baseline-2",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 54.7931333333333,
+            "p95_ms": 66.059,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 78.6456666666667,
+            "p95_ms": 91.112,
+            "samples": 120
+          }
+        },
+        "candidate": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 9.388876,
+          "elapsed_simulation": 2.0,
+          "label": "native-candidate-2",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 54.5193583333333,
+            "p95_ms": 64.507,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 78.23095,
+            "p95_ms": 88.591,
+            "samples": 120
+          }
+        },
+        "exact_final_state": {
+          "baseline": "native-baseline-2-500.state",
+          "candidate": "native-candidate-2-500.state",
+          "equal": true,
+          "baseline_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab",
+          "candidate_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab"
+        }
+      }
+    ],
+    "live_pairs": [
+      {
+        "baseline": {
+          "frames": 29,
+          "label": "native-live-before",
+          "live_production_process": true,
+          "mean_frame_ms": 352.364827586207,
+          "mean_observed_fps": 2.83796548016223,
+          "p95_frame_ms": 393.024,
+          "people_per_side": 500,
+          "real_seconds": 10.218588,
+          "rendered": true,
+          "scope": "Actual engine-driven trial._process(delta), unmodified accumulator and0.1s delta cap; no fixed-fps or movie recording. Ten wall-clock seconds. Outcomes differ with elapsed simulation; use fixed-step benchmark for correctness equivalence.",
+          "simulation_seconds": 2.89999999999999
+        },
+        "candidate": {
+          "frames": 29,
+          "label": "native-live-after",
+          "live_production_process": true,
+          "mean_frame_ms": 356.595275862069,
+          "mean_observed_fps": 2.80429827367398,
+          "p95_frame_ms": 410.009,
+          "people_per_side": 500,
+          "real_seconds": 10.341268,
+          "rendered": true,
+          "scope": "Actual engine-driven trial._process(delta), unmodified accumulator and0.1s delta cap; no fixed-fps or movie recording. Ten wall-clock seconds. Outcomes differ with elapsed simulation; use fixed-step benchmark for correctness equivalence.",
+          "simulation_seconds": 2.89999999999999
+        }
+      }
+    ]
+  },
+  "v2": {
+    "fixed_step_pairs": [
+      {
+        "baseline": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 9.051497,
+          "elapsed_simulation": 2.0,
+          "label": "native-v2-base",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 52.33825,
+            "p95_ms": 61.829,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 75.4208166666667,
+            "p95_ms": 85.266,
+            "samples": 120
+          }
+        },
+        "candidate": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 8.762937,
+          "elapsed_simulation": 2.0,
+          "label": "native-v2-test",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 49.4871583333333,
+            "p95_ms": 54.917,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 73.01665,
+            "p95_ms": 78.401,
+            "samples": 120
+          }
+        },
+        "exact_final_state": {
+          "baseline": "native-v2-base-500.state",
+          "candidate": "native-v2-test-500.state",
+          "equal": true,
+          "baseline_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab",
+          "candidate_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab"
+        }
+      },
+      {
+        "baseline": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 9.371951,
+          "elapsed_simulation": 2.0,
+          "label": "native-v2-base-repeat",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 54.4289083333333,
+            "p95_ms": 63.392,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 78.0908416666667,
+            "p95_ms": 87.09,
+            "samples": 120
+          }
+        },
+        "candidate": {
+          "alive": {
+            "ally": 492.0,
+            "enemy": 481.0
+          },
+          "elapsed_real": 8.870586,
+          "elapsed_simulation": 2.0,
+          "label": "native-v2-test-repeat",
+          "people_per_side": 500,
+          "phase": "battle",
+          "rendered": false,
+          "samples": 120,
+          "simulation": {
+            "mean_ms": 50.3661833333333,
+            "p95_ms": 56.478,
+            "samples": 120
+          },
+          "timing_scope": "Fixed60Hz combat input. Process timing includes rules/UI; wall-clock includes await render and OS scheduling, not an isolated GPU measure. Setup is20%archers/80%infantry, custom dense1000-person fixture, not source siegeAI.",
+          "wall_clock": {
+            "mean_ms": 73.9125166666667,
+            "p95_ms": 80.225,
+            "samples": 120
+          }
+        },
+        "exact_final_state": {
+          "baseline": "native-v2-base-repeat-500.state",
+          "candidate": "native-v2-test-repeat-500.state",
+          "equal": true,
+          "baseline_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab",
+          "candidate_sha256": "39fc040eec58af5c5d853738d968a01ace0182cb8ffca99765ce68c841c103ab"
+        }
+      }
+    ],
+    "live_pairs": [
+      {
+        "baseline": {
+          "frames": 29,
+          "label": "native-v2-live-base",
+          "live_production_process": true,
+          "mean_frame_ms": 347.299862068966,
+          "mean_observed_fps": 2.87935445270323,
+          "p95_frame_ms": 385.779,
+          "people_per_side": 500,
+          "real_seconds": 10.071702,
+          "rendered": true,
+          "scope": "Actual engine-driven trial._process(delta), unmodified accumulator and0.1s delta cap; no fixed-fps or movie recording. Ten wall-clock seconds. Outcomes differ with elapsed simulation; use fixed-step benchmark for correctness equivalence.",
+          "simulation_seconds": 2.89999999999999
+        },
+        "candidate": {
+          "frames": 31,
+          "label": "native-v2-live-test",
+          "live_production_process": true,
+          "mean_frame_ms": 327.122483870968,
+          "mean_observed_fps": 3.05695712657075,
+          "p95_frame_ms": 362.975,
+          "people_per_side": 500,
+          "real_seconds": 10.140803,
+          "rendered": true,
+          "scope": "Actual engine-driven trial._process(delta), unmodified accumulator and0.1s delta cap; no fixed-fps or movie recording. Ten wall-clock seconds. Outcomes differ with elapsed simulation; use fixed-step benchmark for correctness equivalence.",
+          "simulation_seconds": 3.09999999999999
+        }
+      },
+      {
+        "baseline": {
+          "frames": 29,
+          "label": "native-v2-live-base-repeat",
+          "live_production_process": true,
+          "mean_frame_ms": 354.632310344827,
+          "mean_observed_fps": 2.81981873621753,
+          "p95_frame_ms": 453.683,
+          "people_per_side": 500,
+          "real_seconds": 10.284349,
+          "rendered": true,
+          "scope": "Actual engine-driven trial._process(delta), unmodified accumulator and0.1s delta cap; no fixed-fps or movie recording. Ten wall-clock seconds. Outcomes differ with elapsed simulation; use fixed-step benchmark for correctness equivalence.",
+          "simulation_seconds": 2.89999999999999
+        },
+        "candidate": {
+          "frames": 30,
+          "label": "native-v2-live-test-repeat",
+          "live_production_process": true,
+          "mean_frame_ms": 337.572933333333,
+          "mean_observed_fps": 2.96232017605661,
+          "p95_frame_ms": 368.898,
+          "people_per_side": 500,
+          "real_seconds": 10.127197,
+          "rendered": true,
+          "scope": "Actual engine-driven trial._process(delta), unmodified accumulator and0.1s delta cap; no fixed-fps or movie recording. Ten wall-clock seconds. Outcomes differ with elapsed simulation; use fixed-step benchmark for correctness equivalence.",
+          "simulation_seconds": 2.99999999999999
+        }
+      }
+    ],
+    "parity_checks": 41,
+    "boundary_checks": 7,
+    "additional_regression": [
+      {
+        "suite": "personal_charge",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Personal charge: 37 checks, 0 failures"
+        ]
+      },
+      {
+        "suite": "soldier_physics",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Soldier physics: 16 checks, 0 failures"
+        ]
+      },
+      {
+        "suite": "integration_order",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Integration order: 14 checks, 0 failures"
+        ]
+      },
+      {
+        "suite": "shield_columns",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Shield columns: 24 checks, 0 failures"
+        ]
+      },
+      {
+        "suite": "ground_combat",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Ground combat: 19 checks, 0 failures"
+        ]
+      },
+      {
+        "suite": "death_lifecycle",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Death lifecycle: 34 checks, 0 failures"
+        ]
+      },
+      {
+        "suite": "terminal_attacks",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Terminal attacks: 22 checks, 0 failures"
+        ]
+      },
+      {
+        "suite": "siege_orders",
+        "passed": true,
+        "exit": 0,
+        "errors": [],
+        "summary": [
+          "Siege orders: 15 checks, 0 failures"
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "Historical final .state files contain units, repulsion_seed, repulsion_time, elapsed and phase only, not every tick/global stream.",
+    "No full-battle terminal or 30/60/120 input acceptance.",
+    "Live measurements are short engine-driven ten-second fixtures, not full battles.",
+    "V1 repeat fixed-step gain is negligible and live FPS declined. V2 shows modest repeated gain but remains far below 30 FPS and real-time simulation.",
+    "No latest-original executable side-by-side evidence."
+  ]
+}

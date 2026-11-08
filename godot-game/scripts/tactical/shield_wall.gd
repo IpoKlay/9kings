@@ -41,15 +41,17 @@ static func layout(r,ids: Array,start: Vector2,finish: Vector2) -> Dictionary:
 
 static func place(r,plan: Dictionary):
 	var id: int=r.wall_serial;r.wall_serial+=1
-	var wall={'id':id,'members':plan.keys(),'slots':{},'targets':{},'front_keys':{},'locks':{},'columns':0,'normal':Vector2.ZERO,'marching':false}
+	var wall={'id':id,'members':plan.keys(),'original_count':plan.size(),'cells':[],'slots':{},'targets':{},'front_keys':{},'locks':{},'columns':0,'normal':Vector2.ZERO,'marching':false}
 	for row in r.Soldiers.members(r,plan.keys()):
 		var key=Vector2i(row.unit.id,row.slot);var slot=plan[key]
 		r.Soldiers.command(r,[key],'hold',Vector2.ZERO)
 		row.actor.wall_id=id;row.actor.wall_column=slot.column;row.actor.wall_rank=slot.rank
 		row.actor.wall_spacing=slot.spacing;row.actor.shield_wall=true;row.actor.wall_heading=slot.heading;row.actor.heading=slot.heading
 		wall.slots[key]=slot.goal;wall.targets[key]=slot.goal;wall.columns=slot.columns;wall.normal=slot.heading
+		wall.cells.append({'member':key,'goal':slot.goal,'column':slot.column,'rank':slot.rank})
 		if slot.rank==0:wall.front_keys[slot.column]=key
 		assign(row.actor,slot.goal,slot.path)
+	wall.cells.sort_custom(func(a,b):return a.rank<b.rank or a.rank==b.rank and a.column<b.column)
 	r.shield_walls.append(wall)
 
 static func assign(actor: Dictionary,goal: Vector2,path: Array):
@@ -64,8 +66,8 @@ static func march(r,ids: Array,destination: Vector2,commit: bool) -> Dictionary:
 		if people.is_empty() or people.size()!=ids.size():continue
 		if not people.all(func(row):return Vector2i(row.unit.id,row.slot) in ids):continue
 		var center=Vector2.ZERO
-		for goal in wall.targets.values():center+=goal
-		center/=wall.targets.size()
+		for cell in wall.cells:center+=cell.goal
+		center/=wall.cells.size()
 		var delta=destination-center;var planned={}
 		for row in people:
 			var key=Vector2i(row.unit.id,row.slot);var goal: Vector2=wall.targets[key]+delta
@@ -74,6 +76,7 @@ static func march(r,ids: Array,destination: Vector2,commit: bool) -> Dictionary:
 			planned[key]={'goal':goal,'path':path}
 		if commit:
 			for key in wall.targets:wall.targets[key]+=delta
+			for cell in wall.cells:cell.goal+=delta
 			wall.locks.clear();wall.marching=true
 			for row in people:
 				var key=Vector2i(row.unit.id,row.slot)
@@ -82,10 +85,46 @@ static func march(r,ids: Array,destination: Vector2,commit: bool) -> Dictionary:
 		return {'accepted':true}
 	return {}
 
+static func maintain(r,wall: Dictionary,people: Array) -> bool:
+	# The public build releases the wall at half its original membership.
+	if people.size()*2<=wall.original_count:
+		for row in people:
+			r.Soldiers.command(r,[Vector2i(row.unit.id,row.slot)],'hold',Vector2.ZERO)
+			row.actor.shield_wall=false;row.actor.erase('wall_id');row.actor.erase('wall_slot')
+			row.actor.personal_order='idle';row.actor.velocity=Vector2.ZERO
+			if not row.unit.soldiers.any(func(s):return s.hp>0 and s.get('shield_wall',false)):
+				row.unit.erase('shield_wall');row.unit.erase('wall_heading')
+		return false
+	var available={}
+	for row in people:available[Vector2i(row.unit.id,row.slot)]=row
+	for cell in wall.cells:
+		if not available.has(cell.member):cell.member=Vector2i(-1,-1)
+	for cell in wall.cells:
+		if available.has(cell.member):continue
+		var nearest={};var distance=INF;var path: Array=[]
+		for rear in wall.cells:
+			if rear.rank<=cell.rank or not available.has(rear.member):continue
+			var row: Dictionary=available[rear.member]
+			var squared: float=row.actor.position.distance_squared_to(cell.goal)
+			if squared>=distance:continue
+			var leg=r.terrain.leg(r.Soldiers.navigator(r,row.unit.kind,row.unit),row.actor.position,cell.goal)
+			if leg.is_empty():continue
+			nearest=rear;distance=squared;path=leg
+		if nearest.is_empty():continue
+		var key: Vector2i=nearest.member;var actor: Dictionary=available[key].actor
+		cell.member=key;nearest.member=Vector2i(-1,-1)
+		actor.wall_rank=cell.rank;actor.wall_column=cell.column
+		wall.slots[key]=cell.goal;wall.targets[key]=cell.goal
+		assign(actor,cell.goal,path)
+	wall.front_keys.clear()
+	for cell in wall.cells:
+		if available.has(cell.member) and not wall.front_keys.has(cell.column):wall.front_keys[cell.column]=cell.member
+	return true
+
 static func advance(r):
 	for wall in r.shield_walls:
 		var people=living(r,wall)
-		if people.is_empty():continue
+		if not maintain(r,wall,people):continue
 		if not wall.marching:continue
 		var fronts={};var advances={};var goals={};var allowance=0.
 		for row in people:

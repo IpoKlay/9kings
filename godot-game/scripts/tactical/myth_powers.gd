@@ -6,6 +6,7 @@ var pending: Array=[]
 var charges: Array=[]
 var zones: Array=[]
 var decoys: Array=[]
+var _target_batch=preload("res://scripts/tactical/target_decision_batch.gd").new()
 
 func area(id: String, pos: Vector2) -> Dictionary:
 	var c: Dictionary=config[id]
@@ -36,6 +37,7 @@ func hit(r, u: Dictionary, c: Dictionary, origin: Vector2, direction: Vector2=Ve
 		u.push=(u.push+direction*force).limit_length(240)
 
 func resolve(r, cast_data: Dictionary):
+	invalidate_target_batch()
 	var id: String=cast_data.character
 	var c: Dictionary=config[id]
 	var pos: Vector2=cast_data.pos
@@ -83,6 +85,7 @@ func resolve(r, cast_data: Dictionary):
 	r.events.append({'kind':'power_contact','power':id,'pos':pos})
 
 func advance(r, dt: float):
+	invalidate_target_batch()
 	for u in r.units:
 		if u.hp>0 and u.poison>0:r.hurt(u,float(config.hydra.dps)*minf(dt,u.poison))
 		if u.hp>0 and u.regen>0:r.heal(u,float(config.hydra.regen_per_second)*minf(dt,u.regen))
@@ -124,7 +127,24 @@ func speed_multiplier(u: Dictionary) -> float:
 		if u.pos.distance_to(zone.pos)<=config.hephaestus.radius:return config.hephaestus.slow
 	return 1.0
 
+func begin_target_batch():
+	_target_batch.begin()
+
+func end_target_batch():
+	_target_batch.end()
+
+func invalidate_target_batch():
+	if _target_batch.active:_target_batch.invalidate()
+
 func select_target(r, u: Dictionary) -> Dictionary:
+	# Hold reach depends on live individual feet/charge state, not just regiment scores.
+	if not _target_batch.active or u.get('order','auto')=='hold':return _select_target_live(r,u)
+	if _target_batch.matches(u):return {} if _target_batch.target.is_empty() else _target_batch.target
+	var target=_select_target_live(r,u)
+	_target_batch.remember(u,target)
+	return target
+
+func _select_target_live(r, u: Dictionary) -> Dictionary:
 	var candidates: Array=r.alive('enemy' if u.side=='ally' else 'ally')
 	if u.side=='enemy':
 		for d in decoys:
@@ -144,6 +164,7 @@ func select_target(r, u: Dictionary) -> Dictionary:
 	return target
 
 func clear(r):
+	end_target_batch()
 	pending.clear()
 	charges.clear()
 	zones.clear()

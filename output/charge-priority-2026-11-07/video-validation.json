@@ -1,0 +1,23 @@
+[
+  {
+    "file": "side.mp4",
+    "frames": 481,
+    "fps": 60,
+    "normal_simulation_speed": true,
+    "decode_errors": ""
+  },
+  {
+    "file": "shield.mp4",
+    "frames": 481,
+    "fps": 60,
+    "normal_simulation_speed": true,
+    "decode_errors": ""
+  },
+  {
+    "file": "pikes.mp4",
+    "frames": 481,
+    "fps": 60,
+    "normal_simulation_speed": true,
+    "decode_errors": ""
+  }
+]

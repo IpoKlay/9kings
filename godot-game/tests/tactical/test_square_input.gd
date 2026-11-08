@@ -16,6 +16,8 @@ func run():
 	main.menu_view.get_node('%TacticalTrial').pressed.emit()
 	var t=main.active_trial
 	t.set_process(false)
+	# Legacy authored-map fixture; default menu coverage lives in test_whiteboard_battle.gd.
+	t.rules=t.SquareBattle.new();t.field.load_battlefield();t.reset_camera()
 	t.combined_button.pressed.emit()
 	t.start_button.pressed.emit()
 	t.paused=true
@@ -42,9 +44,10 @@ func run():
 	var reached=false
 	for i in 650:
 		t._process(1./60)
-		if u.pos.distance_to(first)<.01:reached=true
-		if u.order=='hold':break
-	check(reached and u.pos.distance_to(end)<.01,'Horse crosses neutral waypoint and reaches endpoint')
+		if u.soldiers.all(func(s):return s.get('route_progress',0)>=1):reached=true
+		if u.order in ['hold','idle']:break
+	# Individual movement keeps intermediate stops exact and settles the final goal within 17 units.
+	check(reached and u.soldiers.all(func(s):return s.position.distance_to(s.move_goal)<17. and s.path.is_empty()),'Every horse crosses its neutral waypoint and settles at its endpoint')
 	click(screen(t,u.pos),false,MOUSE_BUTTON_LEFT,true)
 	var enemy=r.alive('enemy')[0]
 	click(screen(t,enemy.pos),false,MOUSE_BUTTON_RIGHT)

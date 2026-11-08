@@ -85,6 +85,7 @@ func _init(use_testing_rules: bool=true):
 	for row in pass_layout_data.InitialEnemy: spawn(row[0], 'enemy', row[1])
 
 func spawn(kind: String, side: String, pos: Vector2,variant: String=''):
+	powers.invalidate_target_batch()
 	var stats: Dictionary = config.types[kind].duplicate(true)
 	if config.get('unit_variants',{}).get(variant,{}).get('kind','')==kind:
 		stats.merge(config.unit_variants[variant],true)
@@ -261,6 +262,7 @@ func advance_waves(dt: float):
 	waves=waves.filter(func(wave):return wave.age<float(q.travel_seconds))
 
 func hurt(u: Dictionary, damage: float, source_kind: String='', _morale_shock: float=0.0,slot: int=-1,attacker_id: int=-1,attacker_slot: int=-1) -> float:
+	powers.invalidate_target_batch()
 	if u.hp<=0:return 0.0
 	if u.get('shield',0)>0:damage*=1.0-float(powers.config.athena.reduction)
 	if source_kind=='archer' and u.get('marked',0)>0:damage*=float(powers.config.artemis.archer_bonus)
@@ -272,6 +274,7 @@ func hurt(u: Dictionary, damage: float, source_kind: String='', _morale_shock: f
 	return dealt
 
 func heal(u: Dictionary,amount: float) -> float:
+	powers.invalidate_target_batch()
 	return Soldiers.heal(u,amount)
 
 func command(ids: Array, order: String, destination: Vector2, target_id: int=-1) -> bool:

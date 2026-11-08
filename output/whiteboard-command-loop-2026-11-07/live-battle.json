@@ -1,0 +1,20 @@
+{
+	"average_render_fps": 107.061908665405,
+	"initial": {
+		"ally": 57.0,
+		"enemy": 57.0,
+		"regiments": 14,
+		"zoom": 1.0
+	},
+	"normal_process": true,
+	"p95_frame_ms": 12.5,
+	"phase": "victory",
+	"remaining": {
+		"ally": 15.0,
+		"enemy": 0.0
+	},
+	"scope": "Unmodified main-loop timing in visible editor-launched game; includes screenshot readback and tool input. Not a thousand-unit benchmark.",
+	"simulation_seconds": 40.699999999999,
+	"slow": false,
+	"wall_seconds": 40.69608
+}

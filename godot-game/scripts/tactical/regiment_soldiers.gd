@@ -4,7 +4,8 @@ const ATTACK_DURATION=.8
 ## Group orders coexist with individual orders and physical soldier positions.
 
 static func individual(r,u: Dictionary) -> Dictionary:
-	return u.get('individual_stats',r.config.types.get(u.kind,{}).get('individual',{}))
+	if u.has('individual_stats'):return u.individual_stats
+	return r.config.types.get(u.kind,{}).get('individual',{})
 
 static func ranged(u: Dictionary) -> bool:
 	return bool(int(u.get('individual_stats',{}).get('role_bits',0))&4) or u.kind in ['archer','siege']
@@ -154,7 +155,7 @@ static func approach(r,a: Dictionary,b: Dictionary) -> Vector2:
 
 static func attack(r,a: Dictionary,b: Dictionary,only_slot: int=-1,target_slot: int=-1):
 	var stats: Dictionary=individual(r,a)
-	var combat: Dictionary=a.get('combat_stats',r.config.types[a.kind])
+	var combat: Dictionary=(a.combat_stats if a.has('combat_stats') else r.config.types[a.kind])
 	for i in a.soldiers.size():
 		if only_slot>=0 and i!=only_slot:continue
 		var actor: Dictionary=a.soldiers[i]
@@ -200,7 +201,7 @@ static func fire_actor(r,a: Dictionary,i: int):
 	var selected=identified_target(r,a,i,actor.target_id,actor.target_slot,false)
 	if selected.is_empty():return
 	var b: Dictionary=selected.unit;var target: Dictionary=selected.near
-	var damage: float=a.get('combat_stats',r.config.types[a.kind]).damage
+	var damage: float=(a.combat_stats if a.has('combat_stats') else r.config.types[a.kind]).damage
 	if stats.get('special_attack','')=='troll':
 		r.Specials.slam(r,a,i);return
 	if stats.get('special_attack','')=='shaman':
@@ -222,7 +223,7 @@ static func fire_actor(r,a: Dictionary,i: int):
 
 static func start_mounted_shot(r,u: Dictionary,actor: Dictionary,target: Dictionary,counts: Dictionary):
 	remember_target(u,actor,target,counts)
-	actor.cooldown=u.get('combat_stats',r.config.types[u.kind]).interval
+	actor.cooldown=(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).interval
 	actor.attack_age=0.;u.attack_age=0.
 	actor.attack_pending=true
 	actor.erase('attack_engaged')
@@ -376,6 +377,7 @@ static func independent(u: Dictionary) -> bool:
 	return u.soldiers.all(func(actor):return actor.hp<=0 or actor.has('personal_order') and actor.personal_order!='regroup')
 
 static func update_center(r,u: Dictionary,dt: float):
+	r.powers.invalidate_target_batch()
 	if not independent(u):return
 	var center=Vector2.ZERO;var heading=Vector2.ZERO;var count=0;var moving=false
 	for actor in u.soldiers:
@@ -523,7 +525,7 @@ static func retarget_pursuit(r,u: Dictionary,slot: int,actor: Dictionary,navigat
 	return best
 
 static func begin_target_lookup(r):
-	# Positions remain fixed during actor decisions; discard before physics moves them.
+	# Regroup can settle feet during decisions; it erases that unit's bounds below.
 	r.personal_unit_lookup.clear();r.personal_target_bounds.clear()
 	for unit in r.units:
 		r.personal_unit_lookup[unit.id]=unit
@@ -533,14 +535,16 @@ static func begin_target_lookup(r):
 		r.personal_target_bounds[unit.id]=area
 
 static func advance_personal(r,dt: float):
+	r.powers.end_target_batch()
 	var registered=[]
 	for unit in r.units:
 		if unit.get('escaped',false):continue
+		var radius: float=float(individual(r,unit).get('unit_size',9.))
 		for slot in unit.soldiers.size():
 			var actor: Dictionary=unit.soldiers[slot]
 			if actor.get('death_state',0)!=0:continue
 			actor.source_point=ground_position(r,unit,slot)
-			registered.append({'unit':unit,'slot':slot,'radius':float(individual(r,unit).get('unit_size',9.)),'point':actor.source_point})
+			registered.append({'unit':unit,'slot':slot,'radius':radius,'point':actor.source_point})
 	if not r.units.any(func(u):return u.get('personalized',false)):
 		fire_attacks(r)
 		for row in registered:
@@ -555,11 +559,13 @@ static func advance_personal(r,dt: float):
 	var target_counts=ranged_target_counts(r)
 	r.target_reservations=target_counts
 	var dead=[]
+	r.powers.begin_target_batch()
 	for row in registered:
 		if row.unit.stun>0 or row.unit.petrified>0:continue
 		step_personal(r,row,occupied,target_counts,dt)
 		fire_actor(r,row.unit,row.slot)
 		if row.unit.soldiers[row.slot].hp<=0:dead.append(row)
+	r.powers.end_target_batch()
 	r.target_reservations={}
 	r.personal_unit_lookup.clear();r.personal_target_bounds.clear()
 	Physics.integrate(r,occupied,dt)
@@ -676,7 +682,7 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 				if holding and not scan:return
 				if target.unit.kind=='decoy':
 					if actor.cooldown<=0:
-						var combat: Dictionary=u.get('combat_stats',r.config.types[u.kind])
+						var combat: Dictionary=(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind])
 						actor.cooldown=combat.interval;actor.attack_age=0.;actor.heading=target.near.heading
 						var dealt=r.hurt(target.unit,combat.damage,u.kind)
 						r.events.append({'kind':'hit','attacker':u.id,'attacker_slot':slot,'target':target.unit.id,'damage':dealt,'pos':target.unit.pos,'from':actor.position})
@@ -740,7 +746,7 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 		if path.is_empty():return
 		goal=path[0]
 	else:actor.erase('steer_path')
-	var speed: float=u.get('combat_stats',r.config.types[u.kind]).speed*r.powers.speed_multiplier(u)
+	var speed: float=(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed*r.powers.speed_multiplier(u)
 	if not mobile and not target.is_empty() and target.near.distance>effective_range(r,u,target.unit):
 		var reach: float=effective_range(r,u,target.unit)
 		if target.near.distance<reach*1.2:speed*=clampf((target.near.distance-reach*.9)/(reach*.3),.35,1.)
@@ -751,7 +757,7 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 	var direction=actor.position.direction_to(goal)
 	var wanted=direction*speed
 	var velocity=Vector2(move_toward(previous_velocity.x,wanted.x,1200.*dt),move_toward(previous_velocity.y,wanted.y,1200.*dt))
-	velocity=velocity.limit_length(110. if actor.get('shield_wall',false) else u.get('combat_stats',r.config.types[u.kind]).speed+60.)
+	velocity=velocity.limit_length(110. if actor.get('shield_wall',false) else (u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed+60.)
 	var step=minf(velocity.length()*dt,actor.position.distance_to(goal))
 	if not velocity.is_zero_approx():direction=velocity.normalized()
 	actor.heading=actor.wall_heading if actor.get('shield_wall',false) else direction
@@ -761,7 +767,7 @@ static func prepare_neighbours(r,occupied: Array,dt: float):
 	# Broad phase only. Exact collision still reads the live point of every nearby person.
 	var cells={};var widest=0.;var fastest: float=r.config.individual_charge.speed*2.
 	for u in r.units:
-		fastest=maxf(fastest,u.get('combat_stats',r.config.types[u.kind]).speed*r.powers.speed_multiplier(u)*1.35)
+		fastest=maxf(fastest,(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed*r.powers.speed_multiplier(u)*1.35)
 	for row in occupied:
 		var cell=Vector2i((row.point/64.).floor())
 		if not cells.has(cell):cells[cell]=[]

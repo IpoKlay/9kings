@@ -1,6 +1,7 @@
 extends Node2D
 const PassBattle=preload('res://scripts/tactical/pass_battle.gd')
 const SquareBattle=preload('res://scripts/tactical/square_battle.gd')
+const WhiteboardBattle=preload('res://scripts/tactical/whiteboard_battle.gd')
 const Scenery = preload('res://scripts/battle_environment.gd')
 const PixelFX = preload('res://scripts/tactical/pixelfx_atlas.gd')
 var pixelfx = PixelFX.new()
@@ -60,13 +61,14 @@ func _ready():
 		regiments[kind]=art
 
 func load_battlefield():
+	environment=null
 	if has_node('RomanSiege'):
 		var old=get_node('RomanSiege');remove_child(old);old.queue_free()
 	if is_instance_valid(pass_layout):
 		remove_child(pass_layout)
 		pass_layout.queue_free()
 	if trial.rules is SquareBattle:
-		pass_layout=preload('res://scripts/tactical/square_field.gd').new()
+		pass_layout=(preload('res://scenes/battlefields/whiteboard_battlefield.tscn') if trial.rules is WhiteboardBattle else preload('res://scenes/battlefields/square_battlefield.tscn')).instantiate()
 		pass_layout.trial=trial
 		pass_layout.z_index=-2
 		add_child(pass_layout)
@@ -112,12 +114,12 @@ func _draw():
 	var rules=trial.rules
 	if rules.terrain and not rules is SquareBattle:draw_pass_ground()
 	draw_set_transform_matrix(ground_transform())
-	draw_rect(rules.bounds,Color('#bea36c99'),false,3)
+	if not rules is WhiteboardBattle:draw_rect(rules.bounds,Color('#bea36c99'),false,3)
 	if rules is PassBattle and not rules is SquareBattle:
 		var tint=flag_color(rules)
 		draw_circle(rules.flag_center,rules.flag_radius,Color(tint,.16))
 		draw_arc(rules.flag_center,rules.flag_radius,0,TAU,48,tint,4)
-	if rules.phase=='deploy' or (rules.phase=='battle' and rules.reserve.has(trial.selected)):
+	if not rules is WhiteboardBattle and (rules.phase=='deploy' or (rules.phase=='battle' and rules.reserve.has(trial.selected))):
 		var zone: Rect2=rules.deployment
 		draw_rect(zone,Color('#dbc17e14'))
 		var corners=[zone.position,Vector2(zone.end.x,zone.position.y),zone.end,Vector2(zone.position.x,zone.end.y)]
@@ -359,9 +361,21 @@ func _draw():
 				var origin=Vector2.ZERO
 				for row in people:origin+=rules.Soldiers.ground_position(rules,row.unit,row.slot)
 				origin/=people.size()
+				var pixel=1./trial.zoom
 				for point in trial.draft_waypoints:
-					draw_dashed_line(origin,point,Color('#f4da94'),2,10);draw_circle(point,5,Color('#ffe39d'));origin=point
-				draw_dashed_line(origin,p,Color('#f4da94'),2,10);draw_arc(p,12,0,TAU,20,Color('#ffe39d'),2)
+					draw_dashed_line(origin,point,Color('#382f25'),5*pixel,10*pixel)
+					draw_dashed_line(origin,point,Color('#f4da94'),2*pixel,10*pixel);draw_circle(point,5*pixel,Color('#ffe39d'));origin=point
+				var valid=trial.personal_route_valid(trial.pointer)
+				var tint=Color('#f4da94') if valid else Color('#ff8467')
+				draw_dashed_line(origin,p,Color('#382f25'),5*pixel,10*pixel)
+				draw_dashed_line(origin,p,tint,2*pixel,10*pixel)
+				if valid:draw_arc(p,12*pixel,0,TAU,20,tint,2*pixel)
+				else:
+					var mark=10.*pixel
+					draw_line(p-Vector2(mark,mark),p+Vector2(mark,mark),tint,3*pixel)
+					draw_line(p+Vector2(-mark,mark),p+Vector2(mark,-mark),tint,3*pixel)
+					draw_set_transform(project(p)+Vector2(15,-7)*pixel,0,Vector2.ONE*pixel)
+					terrain_sign(Vector2.ZERO,trial.words('此处不可达','Unreachable'))
 			draw_set_transform(Vector2.ZERO);return
 		if trial.selected=='route' and rules.phase=='battle':
 			draw_set_transform(Vector2.ZERO)

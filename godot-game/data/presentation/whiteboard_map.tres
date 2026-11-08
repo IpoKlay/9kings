@@ -1,0 +1,13 @@
+[gd_resource type="Resource" format=3]
+
+[ext_resource type="Script" path="res://scripts/data/presentation_preset.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "whiteboard_map"
+description = "旧公开版默认边长 3200；本项目坐标平移至 0..3200。部署采用上下近距布局，非原作四边随机布局。地面与显示均不压缩。"
+values = {
+"bounds": Rect2(0, 0, 3200, 3200),
+"neutral_width": 600.0,
+"camera_margin": 200.0
+}

@@ -1,0 +1,1746 @@
+[gd_scene format=3 uid="uid://c8wf0nxfb0h7b"]
+
+[ext_resource type="Script" uid="uid://bgm7ed7b7hhd5" path="res://scenes/battlefields/square_flag.gd" id="flag"]
+[ext_resource type="Texture2D" uid="uid://d2ly261n5vym1" path="res://assets/environments/iberia-rts.png" id="grass"]
+[ext_resource type="Texture2D" uid="uid://dftqd21h85pv1" path="res://assets/facilities/medic_2.png" id="medic"]
+[ext_resource type="Script" uid="uid://puy7o87vpoat" path="res://scripts/tactical/square_field.gd" id="root"]
+[ext_resource type="Texture2D" uid="uid://xluj2yg885o7" path="res://assets/facilities/siege_1.png" id="siege"]
+[ext_resource type="Texture2D" uid="uid://pk44js1an0s4" path="res://assets/environments/iberia.png" id="soil"]
+[ext_resource type="Script" uid="uid://biivpqcqcrd8" path="res://scenes/battlefields/square_tree.gd" id="tree"]
+
+[ext_resource type="Texture2D" path="res://assets/facilities/medic_1.png" id="hospital"]
+[ext_resource type="Texture2D" path="res://assets/facilities/siege_2.png" id="workshop"]
+[ext_resource type="Texture2D" path="res://assets/facilities/medic_3.png" id="command"]
+
+[node name="SquareBattlefield" type="Node2D" unique_id=1963667240]
+texture_filter = 1
+script = ExtResource("root")
+
+[node name="Ground" type="Node2D" parent="." unique_id=576645211]
+
+[node name="GrassTiles" type="Node2D" parent="Ground" unique_id=758643203]
+
+[node name="Tile_0_0" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1006898454]
+position = Vector2(-1280, -960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 1360, 420, 1360, 420, 400, 1700, 400)
+
+[node name="Tile_0_1" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1279696850]
+position = Vector2(0, -960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 1360, 1700, 1360, 1700, 400, 420, 400)
+
+[node name="Tile_0_2" type="Polygon2D" parent="Ground/GrassTiles" unique_id=177516500]
+position = Vector2(1280, -960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 1360, 420, 1360, 420, 400, 1700, 400)
+
+[node name="Tile_0_3" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1780020475]
+position = Vector2(2560, -960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 1360, 1700, 1360, 1700, 400, 420, 400)
+
+[node name="Tile_1_0" type="Polygon2D" parent="Ground/GrassTiles" unique_id=642536357]
+position = Vector2(-1280, 0)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 400, 420, 400, 420, 1360, 1700, 1360)
+
+[node name="Tile_1_1" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1845163712]
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 400, 1700, 400, 1700, 1360, 420, 1360)
+
+[node name="Tile_1_2" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1574589489]
+position = Vector2(1280, 0)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 400, 420, 400, 420, 1360, 1700, 1360)
+
+[node name="Tile_1_3" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1238002107]
+position = Vector2(2560, 0)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 400, 1700, 400, 1700, 1360, 420, 1360)
+
+[node name="Tile_2_0" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1746192849]
+position = Vector2(-1280, 960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 1360, 420, 1360, 420, 400, 1700, 400)
+
+[node name="Tile_2_1" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1066037442]
+position = Vector2(0, 960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 1360, 1700, 1360, 1700, 400, 420, 400)
+
+[node name="Tile_2_2" type="Polygon2D" parent="Ground/GrassTiles" unique_id=657914990]
+position = Vector2(1280, 960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 1360, 420, 1360, 420, 400, 1700, 400)
+
+[node name="Tile_2_3" type="Polygon2D" parent="Ground/GrassTiles" unique_id=913331494]
+position = Vector2(2560, 960)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 1360, 1700, 1360, 1700, 400, 420, 400)
+
+[node name="Tile_3_0" type="Polygon2D" parent="Ground/GrassTiles" unique_id=1860058469]
+position = Vector2(-1280, 1920)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 400, 420, 400, 420, 1360, 1700, 1360)
+
+[node name="Tile_3_1" type="Polygon2D" parent="Ground/GrassTiles" unique_id=443392110]
+position = Vector2(0, 1920)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 400, 1700, 400, 1700, 1360, 420, 1360)
+
+[node name="Tile_3_2" type="Polygon2D" parent="Ground/GrassTiles" unique_id=915286612]
+position = Vector2(1280, 1920)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(1700, 400, 420, 400, 420, 1360, 1700, 1360)
+
+[node name="Tile_3_3" type="Polygon2D" parent="Ground/GrassTiles" unique_id=624380478]
+position = Vector2(2560, 1920)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 960, 0, 960)
+uv = PackedVector2Array(420, 400, 1700, 400, 1700, 1360, 420, 1360)
+
+[node name="BackdropTint" type="Polygon2D" parent="Ground" unique_id=1204806736]
+position = Vector2(-1280, -960)
+color = Color(0.14509805, 0.22352941, 0.1372549, 0.4)
+polygon = PackedVector2Array(0, 0, 5120, 0, 5120, 3840, 0, 3840)
+
+[node name="PlayableTint" type="Polygon2D" parent="Ground" unique_id=592373254]
+polygon = PackedVector2Array(0,0,2100,0,2100,1575,0,1575,100,85,2000,85,2000,1490,100,1490)
+vertex_colors = PackedColorArray(0.49,0.56,0.36,0, 0.49,0.56,0.36,0, 0.49,0.56,0.36,0, 0.49,0.56,0.36,0, 0.49,0.56,0.36,0.31, 0.49,0.56,0.36,0.31, 0.49,0.56,0.36,0.31, 0.49,0.56,0.36,0.31)
+polygons = [PackedInt32Array(0,1,5,4), PackedInt32Array(1,2,6,5), PackedInt32Array(2,3,7,6), PackedInt32Array(3,0,4,7), PackedInt32Array(4,5,6,7)]
+
+[node name="Roads" type="Node2D" parent="." unique_id=75602712]
+
+[node name="WornEdge" type="Polygon2D" parent="Roads" unique_id=2028656974]
+position = Vector2(885, -240)
+color = Color(1, 1, 1, 0.32)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(30, 0, 50, 290, 35, 540, 105, 805, 75, 1065, 0, 1350, 55, 1600, 120, 1870, 105, 2085, 305, 2085, 330, 1870, 295, 1600, 230, 1350, 355, 1065, 345, 805, 215, 540, 260, 290, 220, 0)
+uv = PackedVector2Array(582.5352, 280, 624.22534, 346.7626, 592.95776, 404.31656, 738.8732, 465.32373, 676.338, 525.1799, 520, 590.7914, 634.6479, 648.34534, 770.14087, 710.5036, 738.8732, 760, 1155.7747, 760, 1207.8873, 710.5036, 1134.9296, 648.34534, 999.43665, 590.7914, 1260, 525.1799, 1239.1549, 465.32373, 968.169, 404.31656, 1061.9718, 346.7626, 978.59155, 280)
+
+[node name="Track" type="Polygon2D" parent="Roads" unique_id=115585377]
+position = Vector2(922.95, -240)
+color = Color(1, 1, 1, 0.24)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(23.4, 0, 46.7, 290, 26.75, 540, 106.65, 805, 83.25, 1065, 0, 1350, 56.65, 1600, 116.7, 1870, 100.05, 2085, 234.05, 2085, 257.4, 1870, 217.45, 1600, 154.1, 1350, 270.85, 1065, 267.45, 805, 147.35, 540, 187.4, 290, 150.7, 0)
+uv = PackedVector2Array(583.93207, 280, 647.59094, 346.7626, 593.0847, 404.31656, 811.3827, 465.32373, 747.4506, 525.1799, 520, 590.7914, 674.7757, 648.34534, 838.8407, 710.5036, 793.3506, 760, 1159.4573, 760, 1223.2527, 710.5036, 1114.1038, 648.34534, 941.0227, 590.7914, 1260, 525.1799, 1250.7107, 465.32373, 922.58075, 404.31656, 1032.003, 346.7626, 931.73346, 280)
+
+[node name="CentralWear" type="Polygon2D" parent="Roads" unique_id=244885932]
+position = Vector2(540, 845)
+color = Color(1, 1, 1, 0.18)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(0, 65, 140, 0, 390, 5, 560, 80, 520, 165, 260, 190, 70, 155)
+uv = PackedVector2Array(520, 444.21054, 705, 280, 1035.357, 292.6316, 1260, 482.10526, 1207.143, 696.8421, 863.5714, 760, 612.5, 671.579)
+
+[node name="SouthWear" type="Polygon2D" parent="Roads" unique_id=999706864]
+position = Vector2(1115, 1245)
+color = Color(1, 1, 1, 0.2)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(5, 15, 215, 0, 385, 65, 320, 155, 105, 145, 0, 95)
+uv = PackedVector2Array(529.6104, 326.4516, 933.24677, 280, 1260, 481.2903, 1135.065, 760, 721.8182, 729.0323, 520, 574.19354)
+
+[node name="Ruts" type="Node2D" parent="Roads" unique_id=1087449369]
+
+[node name="North_0_1020" type="Line2D" parent="Roads/Ruts" unique_id=836275288]
+points = PackedVector2Array(1020, 70, 1022, 82)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_0_1050" type="Line2D" parent="Roads/Ruts" unique_id=1127387770]
+points = PackedVector2Array(1050, 70, 1052, 82)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_1_1020" type="Line2D" parent="Roads/Ruts" unique_id=358389031]
+points = PackedVector2Array(1020, 92, 1022, 104)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_1_1050" type="Line2D" parent="Roads/Ruts" unique_id=1683866349]
+points = PackedVector2Array(1050, 92, 1052, 104)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_2_1020" type="Line2D" parent="Roads/Ruts" unique_id=338718379]
+points = PackedVector2Array(1020, 114, 1022, 126)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_2_1050" type="Line2D" parent="Roads/Ruts" unique_id=1265715365]
+points = PackedVector2Array(1050, 114, 1052, 126)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_3_1020" type="Line2D" parent="Roads/Ruts" unique_id=1578850247]
+points = PackedVector2Array(1020, 136, 1022, 148)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_3_1050" type="Line2D" parent="Roads/Ruts" unique_id=965477300]
+points = PackedVector2Array(1050, 136, 1052, 148)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_4_1020" type="Line2D" parent="Roads/Ruts" unique_id=1775237774]
+points = PackedVector2Array(1020, 158, 1022, 170)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_4_1050" type="Line2D" parent="Roads/Ruts" unique_id=193630378]
+points = PackedVector2Array(1050, 158, 1052, 170)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_5_1020" type="Line2D" parent="Roads/Ruts" unique_id=1720460081]
+points = PackedVector2Array(1020, 180, 1022, 192)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_5_1050" type="Line2D" parent="Roads/Ruts" unique_id=813021740]
+points = PackedVector2Array(1050, 180, 1052, 192)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_6_1020" type="Line2D" parent="Roads/Ruts" unique_id=755601515]
+points = PackedVector2Array(1020, 202, 1022, 214)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_6_1050" type="Line2D" parent="Roads/Ruts" unique_id=1763727200]
+points = PackedVector2Array(1050, 202, 1052, 214)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_7_1020" type="Line2D" parent="Roads/Ruts" unique_id=1195623650]
+points = PackedVector2Array(1020, 224, 1022, 236)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_7_1050" type="Line2D" parent="Roads/Ruts" unique_id=1905319065]
+points = PackedVector2Array(1050, 224, 1052, 236)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_8_1020" type="Line2D" parent="Roads/Ruts" unique_id=1667161188]
+points = PackedVector2Array(1020, 246, 1022, 258)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_8_1050" type="Line2D" parent="Roads/Ruts" unique_id=5196930]
+points = PackedVector2Array(1050, 246, 1052, 258)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_9_1020" type="Line2D" parent="Roads/Ruts" unique_id=678018004]
+points = PackedVector2Array(1020, 268, 1022, 280)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_9_1050" type="Line2D" parent="Roads/Ruts" unique_id=1278754068]
+points = PackedVector2Array(1050, 268, 1052, 280)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_10_1020" type="Line2D" parent="Roads/Ruts" unique_id=62964286]
+points = PackedVector2Array(1020, 290, 1022, 302)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_10_1050" type="Line2D" parent="Roads/Ruts" unique_id=148209907]
+points = PackedVector2Array(1050, 290, 1052, 302)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_11_1020" type="Line2D" parent="Roads/Ruts" unique_id=1589714791]
+points = PackedVector2Array(1020, 312, 1022, 324)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="North_11_1050" type="Line2D" parent="Roads/Ruts" unique_id=1398446609]
+points = PackedVector2Array(1050, 312, 1052, 324)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_0_1064" type="Line2D" parent="Roads/Ruts" unique_id=323975209]
+points = PackedVector2Array(1064, 1315, 1066, 1327)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_0_1094" type="Line2D" parent="Roads/Ruts" unique_id=1925499706]
+points = PackedVector2Array(1094, 1315, 1096, 1327)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_1_1064" type="Line2D" parent="Roads/Ruts" unique_id=1417422704]
+points = PackedVector2Array(1064, 1337, 1066, 1349)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_1_1094" type="Line2D" parent="Roads/Ruts" unique_id=1029064781]
+points = PackedVector2Array(1094, 1337, 1096, 1349)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_2_1064" type="Line2D" parent="Roads/Ruts" unique_id=457371265]
+points = PackedVector2Array(1064, 1359, 1066, 1371)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_2_1094" type="Line2D" parent="Roads/Ruts" unique_id=98056650]
+points = PackedVector2Array(1094, 1359, 1096, 1371)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_3_1064" type="Line2D" parent="Roads/Ruts" unique_id=696623816]
+points = PackedVector2Array(1064, 1381, 1066, 1393)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_3_1094" type="Line2D" parent="Roads/Ruts" unique_id=1638057155]
+points = PackedVector2Array(1094, 1381, 1096, 1393)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_4_1064" type="Line2D" parent="Roads/Ruts" unique_id=509082647]
+points = PackedVector2Array(1064, 1403, 1066, 1415)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_4_1094" type="Line2D" parent="Roads/Ruts" unique_id=126115152]
+points = PackedVector2Array(1094, 1403, 1096, 1415)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_5_1064" type="Line2D" parent="Roads/Ruts" unique_id=491359303]
+points = PackedVector2Array(1064, 1425, 1066, 1437)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_5_1094" type="Line2D" parent="Roads/Ruts" unique_id=660787703]
+points = PackedVector2Array(1094, 1425, 1096, 1437)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_6_1064" type="Line2D" parent="Roads/Ruts" unique_id=208665259]
+points = PackedVector2Array(1064, 1447, 1066, 1459)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_6_1094" type="Line2D" parent="Roads/Ruts" unique_id=1976182144]
+points = PackedVector2Array(1094, 1447, 1096, 1459)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_7_1064" type="Line2D" parent="Roads/Ruts" unique_id=600209264]
+points = PackedVector2Array(1064, 1469, 1066, 1481)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_7_1094" type="Line2D" parent="Roads/Ruts" unique_id=1071945955]
+points = PackedVector2Array(1094, 1469, 1096, 1481)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_8_1064" type="Line2D" parent="Roads/Ruts" unique_id=291280605]
+points = PackedVector2Array(1064, 1491, 1066, 1503)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_8_1094" type="Line2D" parent="Roads/Ruts" unique_id=515710244]
+points = PackedVector2Array(1094, 1491, 1096, 1503)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_9_1064" type="Line2D" parent="Roads/Ruts" unique_id=1685092424]
+points = PackedVector2Array(1064, 1513, 1066, 1525)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_9_1094" type="Line2D" parent="Roads/Ruts" unique_id=1461336649]
+points = PackedVector2Array(1094, 1513, 1096, 1525)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_10_1064" type="Line2D" parent="Roads/Ruts" unique_id=1269492073]
+points = PackedVector2Array(1064, 1535, 1066, 1547)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_10_1094" type="Line2D" parent="Roads/Ruts" unique_id=1585452995]
+points = PackedVector2Array(1094, 1535, 1096, 1547)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_11_1064" type="Line2D" parent="Roads/Ruts" unique_id=1526653490]
+points = PackedVector2Array(1064, 1557, 1066, 1569)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="South_11_1094" type="Line2D" parent="Roads/Ruts" unique_id=855186389]
+points = PackedVector2Array(1094, 1557, 1096, 1569)
+width = 2.0
+default_color = Color(0.42352942, 0.40392157, 0.2745098, 0.26666668)
+
+[node name="GroundDetails" type="Node2D" parent="." unique_id=343764952]
+
+[node name="Stone00" type="Polygon2D" parent="GroundDetails" unique_id=1460697634]
+position = Vector2(48, 42)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Shadow00" type="Polygon2D" parent="GroundDetails" unique_id=1879734586]
+position = Vector2(55, 45)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone01" type="Polygon2D" parent="GroundDetails" unique_id=2146608898]
+position = Vector2(445, 311)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone02" type="Polygon2D" parent="GroundDetails" unique_id=15935055]
+position = Vector2(842, 580)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone03" type="Polygon2D" parent="GroundDetails" unique_id=189458290]
+position = Vector2(1239, 849)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone04" type="Polygon2D" parent="GroundDetails" unique_id=2066341599]
+position = Vector2(1636, 1118)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Shadow04" type="Polygon2D" parent="GroundDetails" unique_id=826791678]
+position = Vector2(1643, 1121)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone05" type="Polygon2D" parent="GroundDetails" unique_id=481670012]
+position = Vector2(2033, 1387)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone06" type="Polygon2D" parent="GroundDetails" unique_id=813457327]
+position = Vector2(430, 166)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone07" type="Polygon2D" parent="GroundDetails" unique_id=713731989]
+position = Vector2(827, 435)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone08" type="Polygon2D" parent="GroundDetails" unique_id=1592929234]
+position = Vector2(1224, 704)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Shadow08" type="Polygon2D" parent="GroundDetails" unique_id=1148590043]
+position = Vector2(1231, 707)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone09" type="Polygon2D" parent="GroundDetails" unique_id=2006676243]
+position = Vector2(1621, 973)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone10" type="Polygon2D" parent="GroundDetails" unique_id=1953553426]
+position = Vector2(2018, 1242)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone11" type="Polygon2D" parent="GroundDetails" unique_id=1874460313]
+position = Vector2(415, 1511)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone12" type="Polygon2D" parent="GroundDetails" unique_id=1260965385]
+position = Vector2(812, 290)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Shadow12" type="Polygon2D" parent="GroundDetails" unique_id=95444829]
+position = Vector2(819, 293)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone13" type="Polygon2D" parent="GroundDetails" unique_id=1334352206]
+position = Vector2(1209, 559)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone14" type="Polygon2D" parent="GroundDetails" unique_id=409037498]
+position = Vector2(1606, 828)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone15" type="Polygon2D" parent="GroundDetails" unique_id=1242982945]
+position = Vector2(2003, 1097)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone16" type="Polygon2D" parent="GroundDetails" unique_id=1589795328]
+position = Vector2(400, 1366)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Shadow16" type="Polygon2D" parent="GroundDetails" unique_id=1741900850]
+position = Vector2(407, 1369)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone17" type="Polygon2D" parent="GroundDetails" unique_id=1684840309]
+position = Vector2(797, 145)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone18" type="Polygon2D" parent="GroundDetails" unique_id=92429289]
+position = Vector2(1194, 414)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone19" type="Polygon2D" parent="GroundDetails" unique_id=320642292]
+position = Vector2(1591, 683)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone20" type="Polygon2D" parent="GroundDetails" unique_id=348202955]
+position = Vector2(1988, 952)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Shadow20" type="Polygon2D" parent="GroundDetails" unique_id=1395348819]
+position = Vector2(1995, 955)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone21" type="Polygon2D" parent="GroundDetails" unique_id=442901130]
+position = Vector2(385, 1221)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone22" type="Polygon2D" parent="GroundDetails" unique_id=1834221803]
+position = Vector2(782, 1490)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone23" type="Polygon2D" parent="GroundDetails" unique_id=549648746]
+position = Vector2(1179, 269)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone24" type="Polygon2D" parent="GroundDetails" unique_id=1820129106]
+position = Vector2(1576, 538)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Shadow24" type="Polygon2D" parent="GroundDetails" unique_id=1490942380]
+position = Vector2(1583, 541)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone25" type="Polygon2D" parent="GroundDetails" unique_id=171912579]
+position = Vector2(1973, 807)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone26" type="Polygon2D" parent="GroundDetails" unique_id=930969862]
+position = Vector2(370, 1076)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone27" type="Polygon2D" parent="GroundDetails" unique_id=1464631083]
+position = Vector2(767, 1345)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone28" type="Polygon2D" parent="GroundDetails" unique_id=1534985296]
+position = Vector2(1164, 124)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Shadow28" type="Polygon2D" parent="GroundDetails" unique_id=2018075648]
+position = Vector2(1171, 127)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone29" type="Polygon2D" parent="GroundDetails" unique_id=811722710]
+position = Vector2(1561, 393)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone30" type="Polygon2D" parent="GroundDetails" unique_id=1934307950]
+position = Vector2(1958, 662)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone31" type="Polygon2D" parent="GroundDetails" unique_id=882239083]
+position = Vector2(355, 931)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone32" type="Polygon2D" parent="GroundDetails" unique_id=1549122947]
+position = Vector2(752, 1200)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Shadow32" type="Polygon2D" parent="GroundDetails" unique_id=43305308]
+position = Vector2(759, 1203)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone33" type="Polygon2D" parent="GroundDetails" unique_id=932712845]
+position = Vector2(1149, 1469)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone34" type="Polygon2D" parent="GroundDetails" unique_id=895795127]
+position = Vector2(1546, 248)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone35" type="Polygon2D" parent="GroundDetails" unique_id=925917966]
+position = Vector2(1943, 517)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone36" type="Polygon2D" parent="GroundDetails" unique_id=1336462910]
+position = Vector2(340, 786)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Shadow36" type="Polygon2D" parent="GroundDetails" unique_id=1141702623]
+position = Vector2(347, 789)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone37" type="Polygon2D" parent="GroundDetails" unique_id=1479060372]
+position = Vector2(737, 1055)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone38" type="Polygon2D" parent="GroundDetails" unique_id=276937574]
+position = Vector2(1134, 1324)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone39" type="Polygon2D" parent="GroundDetails" unique_id=312050267]
+position = Vector2(1531, 103)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone40" type="Polygon2D" parent="GroundDetails" unique_id=635568577]
+position = Vector2(1928, 372)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Shadow40" type="Polygon2D" parent="GroundDetails" unique_id=578123478]
+position = Vector2(1935, 375)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone41" type="Polygon2D" parent="GroundDetails" unique_id=1647073465]
+position = Vector2(325, 641)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone42" type="Polygon2D" parent="GroundDetails" unique_id=1991892898]
+position = Vector2(722, 910)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone43" type="Polygon2D" parent="GroundDetails" unique_id=2083425681]
+position = Vector2(1119, 1179)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone44" type="Polygon2D" parent="GroundDetails" unique_id=2013125980]
+position = Vector2(1516, 1448)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Shadow44" type="Polygon2D" parent="GroundDetails" unique_id=1156363430]
+position = Vector2(1523, 1451)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone45" type="Polygon2D" parent="GroundDetails" unique_id=1457700373]
+position = Vector2(1913, 227)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone46" type="Polygon2D" parent="GroundDetails" unique_id=964532226]
+position = Vector2(310, 496)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone47" type="Polygon2D" parent="GroundDetails" unique_id=1469322500]
+position = Vector2(707, 765)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone48" type="Polygon2D" parent="GroundDetails" unique_id=397367062]
+position = Vector2(1104, 1034)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Shadow48" type="Polygon2D" parent="GroundDetails" unique_id=1135121923]
+position = Vector2(1111, 1037)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone49" type="Polygon2D" parent="GroundDetails" unique_id=1844218966]
+position = Vector2(1501, 1303)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone50" type="Polygon2D" parent="GroundDetails" unique_id=497699349]
+position = Vector2(1898, 82)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone51" type="Polygon2D" parent="GroundDetails" unique_id=742102382]
+position = Vector2(295, 351)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone52" type="Polygon2D" parent="GroundDetails" unique_id=311333164]
+position = Vector2(692, 620)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Shadow52" type="Polygon2D" parent="GroundDetails" unique_id=356390090]
+position = Vector2(699, 623)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone53" type="Polygon2D" parent="GroundDetails" unique_id=1726039623]
+position = Vector2(1089, 889)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone54" type="Polygon2D" parent="GroundDetails" unique_id=1521808032]
+position = Vector2(1486, 1158)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone55" type="Polygon2D" parent="GroundDetails" unique_id=1258997873]
+position = Vector2(1883, 1427)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone56" type="Polygon2D" parent="GroundDetails" unique_id=1660510699]
+position = Vector2(280, 206)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Shadow56" type="Polygon2D" parent="GroundDetails" unique_id=1425762613]
+position = Vector2(287, 209)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone57" type="Polygon2D" parent="GroundDetails" unique_id=1898137541]
+position = Vector2(677, 475)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Stone58" type="Polygon2D" parent="GroundDetails" unique_id=1526214544]
+position = Vector2(1074, 744)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone59" type="Polygon2D" parent="GroundDetails" unique_id=6717516]
+position = Vector2(1471, 1013)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone60" type="Polygon2D" parent="GroundDetails" unique_id=222044101]
+position = Vector2(1868, 1282)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Shadow60" type="Polygon2D" parent="GroundDetails" unique_id=328507367]
+position = Vector2(1875, 1285)
+color = Color(0.30196077, 0.37254903, 0.25882354, 0.50196075)
+polygon = PackedVector2Array(0, 0, 3, 0, 3, 2, 0, 2)
+
+[node name="Stone61" type="Polygon2D" parent="GroundDetails" unique_id=1105243597]
+position = Vector2(265, 61)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 5, 0, 5, 2, 0, 2)
+
+[node name="Stone62" type="Polygon2D" parent="GroundDetails" unique_id=1571900501]
+position = Vector2(662, 330)
+color = Color(0.5176471, 0.5647059, 0.41568628, 0.46666667)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Stone63" type="Polygon2D" parent="GroundDetails" unique_id=1844464448]
+position = Vector2(1059, 599)
+color = Color(0.6784314, 0.6392157, 0.4745098, 0.4)
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 2, 0, 2)
+
+[node name="Borders" type="Node2D" parent="." unique_id=896058282]
+
+[node name="RockBanks" type="Node2D" parent="Borders" unique_id=1725031624]
+
+[node name="Bank01" type="Polygon2D" parent="Borders/RockBanks" unique_id=1436564421]
+position = Vector2(-280, 350)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(7, 49, 24, 26, 50, 17, 73, 25, 89, 51, 122, 54, 148, 35, 170, 18, 192, 14, 224, 30, 243, 36, 232, 58, 205, 69, 186, 88, 153, 97, 129, 101, 106, 99, 78, 87, 50, 83, 24, 71, 12, 68)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank02" type="Polygon2D" parent="Borders/RockBanks" unique_id=1788449371]
+position = Vector2(-260, 435)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(6, 39, 23, 20, 48, 13, 69, 19, 84, 40, 116, 43, 141, 28, 162, 14, 183, 11, 214, 24, 232, 29, 221, 46, 195, 54, 177, 70, 146, 77, 123, 80, 101, 78, 74, 69, 47, 66, 23, 56, 12, 53)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank03" type="Polygon2D" parent="Borders/RockBanks" unique_id=37717420]
+position = Vector2(-290, 1480)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(7, 50, 25, 26, 53, 17, 76, 25, 92, 52, 127, 55, 154, 36, 176, 18, 200, 14, 233, 31, 253, 37, 241, 59, 214, 70, 194, 90, 159, 99, 134, 103, 110, 101, 81, 89, 52, 85, 25, 72, 13, 69)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank04" type="Polygon2D" parent="Borders/RockBanks" unique_id=1431680100]
+position = Vector2(2120, 355)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(7, 45, 24, 24, 50, 15, 73, 23, 89, 47, 122, 50, 148, 33, 170, 16, 192, 13, 224, 28, 243, 34, 232, 54, 205, 64, 186, 82, 153, 90, 129, 94, 106, 92, 78, 81, 50, 77, 24, 65, 12, 63)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank05" type="Polygon2D" parent="Borders/RockBanks" unique_id=1192957452]
+position = Vector2(2215, 465)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(6, 39, 23, 20, 48, 13, 70, 19, 85, 40, 117, 43, 142, 28, 163, 14, 184, 11, 215, 24, 234, 29, 223, 46, 197, 54, 179, 70, 147, 77, 124, 80, 102, 78, 75, 69, 48, 66, 23, 56, 12, 53)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank06" type="Polygon2D" parent="Borders/RockBanks" unique_id=2104620855]
+position = Vector2(2120, 1435)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(7, 48, 26, 25, 55, 16, 79, 24, 96, 50, 131, 53, 160, 34, 183, 17, 207, 13, 242, 30, 263, 35, 250, 56, 222, 67, 201, 86, 165, 95, 139, 98, 114, 96, 84, 85, 54, 81, 26, 69, 13, 66)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank07" type="Polygon2D" parent="Borders/RockBanks" unique_id=2034072415]
+position = Vector2(40, -115)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(8, 45, 31, 24, 65, 15, 93, 23, 113, 47, 156, 50, 190, 33, 217, 16, 246, 13, 287, 28, 312, 34, 297, 54, 263, 64, 238, 82, 196, 90, 165, 94, 136, 92, 100, 81, 64, 77, 31, 65, 16, 63)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank08" type="Polygon2D" parent="Borders/RockBanks" unique_id=1452127912]
+position = Vector2(300, -93)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(7, 39, 26, 20, 55, 13, 79, 19, 96, 40, 131, 43, 160, 28, 183, 14, 207, 11, 242, 24, 263, 29, 250, 46, 222, 54, 201, 70, 165, 77, 139, 80, 114, 78, 84, 69, 54, 66, 26, 56, 13, 53)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank09" type="Polygon2D" parent="Borders/RockBanks" unique_id=1498647324]
+position = Vector2(1660, -112)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(9, 48, 32, 25, 67, 16, 96, 24, 117, 50, 161, 53, 196, 34, 224, 17, 254, 13, 296, 30, 321, 35, 306, 56, 271, 67, 246, 86, 202, 95, 170, 98, 140, 96, 103, 85, 66, 81, 32, 69, 16, 66)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank10" type="Polygon2D" parent="Borders/RockBanks" unique_id=1298189516]
+position = Vector2(105, 1635)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(8, 45, 31, 24, 65, 15, 93, 23, 113, 47, 156, 50, 190, 33, 217, 16, 246, 13, 287, 28, 312, 34, 297, 54, 263, 64, 238, 82, 196, 90, 165, 94, 136, 92, 100, 81, 64, 77, 31, 65, 16, 63)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank11" type="Polygon2D" parent="Borders/RockBanks" unique_id=285735635]
+position = Vector2(335, 1680)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(6, 41, 24, 21, 49, 14, 71, 20, 87, 43, 119, 45, 145, 29, 166, 15, 188, 11, 220, 25, 239, 30, 227, 48, 201, 57, 183, 74, 150, 81, 127, 84, 104, 83, 76, 73, 49, 70, 24, 59, 12, 56)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="Bank12" type="Polygon2D" parent="Borders/RockBanks" unique_id=649762285]
+position = Vector2(1710, 1630)
+texture = ExtResource("grass")
+polygon = PackedVector2Array(8, 50, 30, 26, 63, 17, 90, 25, 110, 52, 151, 55, 184, 36, 210, 18, 238, 14, 278, 31, 302, 37, 287, 59, 255, 70, 231, 90, 190, 99, 160, 103, 131, 101, 96, 89, 62, 85, 30, 72, 15, 69)
+uv = PackedVector2Array(1958, 295, 1979, 271, 2011, 262, 2038, 270, 2057, 297, 2097, 300, 2129, 281, 2155, 263, 2182, 259, 2221, 276, 2244, 282, 2230, 304, 2198, 315, 2175, 335, 2135, 344, 2106, 348, 2078, 346, 2044, 334, 2010, 330, 1979, 317, 1965, 314)
+
+[node name="EdgeStones" type="Node2D" parent="Borders" unique_id=941598073]
+
+[node name="Base_50_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=257006373]
+position = Vector2(50, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_50_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1486554377]
+position = Vector2(51, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_50_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1842361080]
+position = Vector2(50, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_50_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=2048074449]
+position = Vector2(51, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_190_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1333936358]
+position = Vector2(190, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_190_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=143907264]
+position = Vector2(191, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_190_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=608113726]
+position = Vector2(190, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_190_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=728223499]
+position = Vector2(191, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_330_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=2079777088]
+position = Vector2(330, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_330_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=910067963]
+position = Vector2(331, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_330_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=2111184590]
+position = Vector2(330, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_330_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=2048059801]
+position = Vector2(331, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_470_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=106725812]
+position = Vector2(470, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_470_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1466544889]
+position = Vector2(471, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_470_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=277742360]
+position = Vector2(470, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_470_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1307858792]
+position = Vector2(471, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_610_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1259346252]
+position = Vector2(610, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_610_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=308525099]
+position = Vector2(611, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_610_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1026317261]
+position = Vector2(610, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_610_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1412689710]
+position = Vector2(611, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_750_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1656752716]
+position = Vector2(750, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_750_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1925624937]
+position = Vector2(751, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_750_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=442540531]
+position = Vector2(750, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_750_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=109087377]
+position = Vector2(751, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1310_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1450608446]
+position = Vector2(1310, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1310_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=526924979]
+position = Vector2(1311, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1310_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1289043221]
+position = Vector2(1310, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1310_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1106367238]
+position = Vector2(1311, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1450_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=512425363]
+position = Vector2(1450, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1450_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1482867234]
+position = Vector2(1451, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1450_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1706952966]
+position = Vector2(1450, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1450_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1436275732]
+position = Vector2(1451, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1590_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=663053558]
+position = Vector2(1590, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1590_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=154812805]
+position = Vector2(1591, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1590_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1610270386]
+position = Vector2(1590, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1590_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=448256880]
+position = Vector2(1591, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1730_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=930626590]
+position = Vector2(1730, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1730_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1973049494]
+position = Vector2(1731, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1730_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=623795141]
+position = Vector2(1730, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1730_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1908601614]
+position = Vector2(1731, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1870_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1226079813]
+position = Vector2(1870, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1870_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1819473039]
+position = Vector2(1871, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_1870_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=34159093]
+position = Vector2(1870, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_1870_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=213610359]
+position = Vector2(1871, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_2010_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1541785794]
+position = Vector2(2010, -5)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_2010_-5" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1403344567]
+position = Vector2(2011, -5)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+[node name="Base_2010_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1890587711]
+position = Vector2(2010, 1580)
+color = Color(0.5058823, 0.49803922, 0.38431373, 1)
+polygon = PackedVector2Array(0, 0, 9, 0, 9, 4, 0, 4)
+
+[node name="Light_2010_1580" type="Polygon2D" parent="Borders/EdgeStones" unique_id=1498219480]
+position = Vector2(2011, 1580)
+color = Color(0.7176471, 0.69803923, 0.54901963, 1)
+polygon = PackedVector2Array(0, 0, 6, 0, 6, 2, 0, 2)
+
+
+[node name="Polish" type="Node2D" parent="."]
+
+
+[node name="Ground" type="Node2D" parent="Polish"]
+z_index = 0
+
+[node name="NorthCampYard" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.36)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(520.000, -150.000, 750.000, -190.000, 1420.000, -175.000, 1610.000, -95.000, 1510.000, 30.000, 1090.000, 50.000, 670.000, -5.000)
+uv = PackedVector2Array(520.000, 360.000, 676.147, 280.000, 1131.009, 310.000, 1260.000, 470.000, 1192.110, 720.000, 906.972, 760.000, 621.835, 650.000)
+
+[node name="SouthCampYard" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.36)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(520.000, 1633.000, 750.000, 1593.000, 1420.000, 1608.000, 1610.000, 1688.000, 1510.000, 1813.000, 1090.000, 1833.000, 670.000, 1778.000)
+uv = PackedVector2Array(520.000, 360.000, 676.147, 280.000, 1131.009, 310.000, 1260.000, 470.000, 1192.110, 720.000, 906.972, 760.000, 621.835, 650.000)
+
+[node name="WestPath" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.18)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(-260.000, 830.000, -210.000, 795.000, 220.000, 705.000, 575.000, 720.000, 1040.000, 785.000, 1090.000, 820.000, 555.000, 770.000, 215.000, 750.000)
+uv = PackedVector2Array(520.000, 760.000, 547.407, 625.600, 783.111, 280.000, 977.704, 337.600, 1232.593, 587.200, 1260.000, 721.600, 966.741, 529.600, 780.370, 452.800)
+
+[node name="EastPath" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.18)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(1080.000, 800.000, 1440.000, 880.000, 1830.000, 825.000, 2320.000, 915.000, 2310.000, 951.000, 1810.000, 866.000, 1440.000, 925.000, 1090.000, 841.000)
+uv = PackedVector2Array(520.000, 280.000, 734.839, 534.305, 967.581, 359.470, 1260.000, 645.563, 1254.032, 760.000, 955.645, 489.801, 734.839, 677.351, 525.968, 410.331)
+
+[node name="NorthApproach" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.18)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(770.000, -90.000, 830.000, -100.000, 1060.000, 100.000, 1030.000, 150.000)
+uv = PackedVector2Array(520.000, 299.200, 673.103, 280.000, 1260.000, 664.000, 1183.448, 760.000)
+
+[node name="SouthApproach" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.18)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(1090.000, 1490.000, 1130.000, 1470.000, 1420.000, 1690.000, 1370.000, 1720.000)
+uv = PackedVector2Array(520.000, 318.400, 609.697, 280.000, 1260.000, 702.400, 1147.879, 760.000)
+
+[node name="WornGrass0" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.08)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(180.000, 207.000, 264.000, 180.000, 404.000, 190.800, 460.000, 238.500, 362.000, 270.000, 224.800, 253.800)
+uv = PackedVector2Array(520.000, 424.000, 742.000, 280.000, 1112.000, 337.600, 1260.000, 592.000, 1001.000, 760.000, 638.400, 673.600)
+
+[node name="WornGrass1" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.08)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(1430.000, 279.000, 1520.000, 240.000, 1670.000, 255.600, 1730.000, 324.500, 1625.000, 370.000, 1478.000, 346.600)
+uv = PackedVector2Array(520.000, 424.000, 742.000, 280.000, 1112.000, 337.600, 1260.000, 592.000, 1001.000, 760.000, 638.400, 673.600)
+
+[node name="WornGrass2" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.08)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(140.000, 1186.000, 239.000, 1150.000, 404.000, 1164.400, 470.000, 1228.000, 354.500, 1270.000, 192.800, 1248.400)
+uv = PackedVector2Array(520.000, 424.000, 742.000, 280.000, 1112.000, 337.600, 1260.000, 592.000, 1001.000, 760.000, 638.400, 673.600)
+
+[node name="WornGrass3" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.08)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(1550.000, 1235.000, 1646.000, 1190.000, 1806.000, 1208.000, 1870.000, 1287.500, 1758.000, 1340.000, 1601.200, 1313.000)
+uv = PackedVector2Array(520.000, 424.000, 742.000, 280.000, 1112.000, 337.600, 1260.000, 592.000, 1001.000, 760.000, 638.400, 673.600)
+
+[node name="WornGrass4" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.08)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(420.000, 590.000, 504.000, 560.000, 644.000, 572.000, 700.000, 625.000, 602.000, 660.000, 464.800, 642.000)
+uv = PackedVector2Array(520.000, 424.000, 742.000, 280.000, 1112.000, 337.600, 1260.000, 592.000, 1001.000, 760.000, 638.400, 673.600)
+
+[node name="WornGrass5" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.08)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(1450.000, 639.000, 1552.000, 600.000, 1722.000, 615.600, 1790.000, 684.500, 1671.000, 730.000, 1504.400, 706.600)
+uv = PackedVector2Array(520.000, 424.000, 742.000, 280.000, 1112.000, 337.600, 1260.000, 592.000, 1001.000, 760.000, 638.400, 673.600)
+
+[node name="WornGrass6" type="Polygon2D" parent="Polish/Ground"]
+color = Color(1,1,1,0.08)
+texture = ExtResource("soil")
+polygon = PackedVector2Array(580.000, 1415.500, 646.000, 1390.000, 756.000, 1400.200, 800.000, 1445.250, 723.000, 1475.000, 615.200, 1459.700)
+uv = PackedVector2Array(520.000, 424.000, 742.000, 280.000, 1112.000, 337.600, 1260.000, 592.000, 1001.000, 760.000, 638.400, 673.600)
+
+[node name="CampDetails" type="Node2D" parent="Polish"]
+
+
+[node name="NorthHospital" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(555,-30)
+texture = ExtResource("hospital")
+offset = Vector2(0,-48)
+scale = Vector2(1.3958333333333333,1.3958333333333333)
+
+[node name="NorthCommand" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(1200,-50)
+texture = ExtResource("command")
+offset = Vector2(0,-48)
+scale = Vector2(1.7083333333333333,1.7083333333333333)
+
+[node name="NorthWorkshop" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(1580,-15)
+texture = ExtResource("workshop")
+offset = Vector2(0,-48)
+scale = Vector2(1.5625,1.5625)
+
+[node name="SouthHospital" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(565,1700)
+texture = ExtResource("hospital")
+offset = Vector2(0,-48)
+scale = Vector2(1.40625,1.40625)
+
+[node name="SouthCommand" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(1215,1790)
+texture = ExtResource("command")
+offset = Vector2(0,-48)
+scale = Vector2(1.7083333333333333,1.7083333333333333)
+
+[node name="SouthWorkshop" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(1580,1735)
+texture = ExtResource("workshop")
+offset = Vector2(0,-48)
+scale = Vector2(1.5625,1.5625)
+
+[node name="WestOutpost" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(-165,880)
+texture = ExtResource("hospital")
+offset = Vector2(0,-48)
+scale = Vector2(1.5625,1.5625)
+
+[node name="EastStores" type="Sprite2D" parent="Polish/CampDetails"]
+position = Vector2(2260,1040)
+texture = ExtResource("workshop")
+offset = Vector2(0,-48)
+scale = Vector2(1.71875,1.71875)
+
+[node name="Woodland" type="Node2D" parent="Polish"]
+
+
+[node name="Oak1" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-135,640)
+script = ExtResource("tree")
+canopy_size = 160
+wind_index = 42
+
+[node name="Oak2" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-290,710)
+script = ExtResource("tree")
+canopy_size = 205
+wind_index = 43
+
+[node name="Oak3" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-390,850)
+script = ExtResource("tree")
+canopy_size = 220
+wind_index = 44
+
+[node name="Oak4" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-115,1020)
+script = ExtResource("tree")
+canopy_size = 146
+wind_index = 45
+
+[node name="Oak5" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-260,1080)
+script = ExtResource("tree")
+canopy_size = 194
+wind_index = 46
+
+[node name="Oak6" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-360,1235)
+script = ExtResource("tree")
+canopy_size = 205
+wind_index = 47
+
+[node name="Oak7" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-90,1310)
+script = ExtResource("tree")
+canopy_size = 140
+wind_index = 48
+
+[node name="Oak8" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2210,710)
+script = ExtResource("tree")
+canopy_size = 168
+wind_index = 49
+
+[node name="Oak9" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2375,760)
+script = ExtResource("tree")
+canopy_size = 210
+wind_index = 50
+
+[node name="Oak10" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2485,900)
+script = ExtResource("tree")
+canopy_size = 200
+wind_index = 51
+
+[node name="Oak11" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2225,1160)
+script = ExtResource("tree")
+canopy_size = 180
+wind_index = 52
+
+[node name="Oak12" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2385,1220)
+script = ExtResource("tree")
+canopy_size = 215
+wind_index = 53
+
+[node name="Oak13" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2570,1345)
+script = ExtResource("tree")
+canopy_size = 220
+wind_index = 54
+
+[node name="Oak14" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(-440,1010)
+script = ExtResource("tree")
+canopy_size = 222
+wind_index = 55
+
+[node name="Oak15" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2400,1110)
+script = ExtResource("tree")
+canopy_size = 198
+wind_index = 56
+
+[node name="Oak16" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(80,-70)
+script = ExtResource("tree")
+canopy_size = 165
+wind_index = 57
+
+[node name="Oak17" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2040,-60)
+script = ExtResource("tree")
+canopy_size = 160
+wind_index = 58
+
+[node name="Oak18" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(35,1740)
+script = ExtResource("tree")
+canopy_size = 148
+wind_index = 59
+
+[node name="Oak19" type="Marker2D" parent="Polish/Woodland"]
+position = Vector2(2090,1760)
+script = ExtResource("tree")
+canopy_size = 160
+wind_index = 60
+
+[node name="Camps" type="Node2D" parent="." unique_id=1757194485]
+
+[node name="Enemy" type="Node2D" parent="Camps" unique_id=1763599665]
+
+[node name="MedicalTent" type="Sprite2D" parent="Camps/Enemy" unique_id=597731749]
+modulate = Color(0.72156864, 0.75686276, 0.69411767, 1)
+position = Vector2(760, -22)
+scale = Vector2(1.5208333, 1.5208333)
+texture = ExtResource("medic")
+offset = Vector2(0, -48)
+
+[node name="SiegeTent" type="Sprite2D" parent="Camps/Enemy" unique_id=139494068]
+modulate = Color(0.72156864, 0.75686276, 0.69411767, 1)
+position = Vector2(1390, -19)
+scale = Vector2(1.5625, 1.5625)
+texture = ExtResource("siege")
+offset = Vector2(0, -48)
+
+[node name="Flag1" type="Marker2D" parent="Camps/Enemy" unique_id=2071829693]
+position = Vector2(965, -12)
+script = ExtResource("flag")
+enemy = true
+phase = 965
+
+[node name="Flag2" type="Marker2D" parent="Camps/Enemy" unique_id=2139083848]
+position = Vector2(1170, -12)
+script = ExtResource("flag")
+enemy = true
+phase = 1170
+
+[node name="Ally" type="Node2D" parent="Camps" unique_id=1632870323]
+
+[node name="MedicalTent" type="Sprite2D" parent="Camps/Ally" unique_id=1141165704]
+position = Vector2(760, 1726)
+scale = Vector2(1.5208333, 1.5208333)
+texture = ExtResource("medic")
+offset = Vector2(0, -48)
+
+[node name="SiegeTent" type="Sprite2D" parent="Camps/Ally" unique_id=1942798017]
+position = Vector2(1390, 1729)
+scale = Vector2(1.5625, 1.5625)
+texture = ExtResource("siege")
+offset = Vector2(0, -48)
+
+[node name="Flag1" type="Marker2D" parent="Camps/Ally" unique_id=1476960401]
+position = Vector2(965, 1666)
+script = ExtResource("flag")
+phase = 965
+
+[node name="Flag2" type="Marker2D" parent="Camps/Ally" unique_id=2125734485]
+position = Vector2(1170, 1666)
+script = ExtResource("flag")
+phase = 1170
+
+[node name="Trees" type="Node2D" parent="." unique_id=323248393]
+
+[node name="Oak01" type="Marker2D" parent="Trees" unique_id=188527130]
+position = Vector2(-440, 110)
+script = ExtResource("tree")
+canopy_size = 214.0
+
+[node name="Oak02" type="Marker2D" parent="Trees" unique_id=1048956243]
+position = Vector2(-230, 165)
+script = ExtResource("tree")
+canopy_size = 190.0
+wind_index = 1
+
+[node name="Oak03" type="Marker2D" parent="Trees" unique_id=616476990]
+position = Vector2(-98, 220)
+script = ExtResource("tree")
+canopy_size = 140.0
+wind_index = 2
+
+[node name="Oak04" type="Marker2D" parent="Trees" unique_id=1976296177]
+position = Vector2(-365, 350)
+script = ExtResource("tree")
+canopy_size = 196.0
+wind_index = 3
+
+[node name="Oak05" type="Marker2D" parent="Trees" unique_id=376550362]
+position = Vector2(-175, 360)
+script = ExtResource("tree")
+canopy_size = 184.0
+wind_index = 4
+
+[node name="Oak06" type="Marker2D" parent="Trees" unique_id=732112391]
+position = Vector2(-94, 420)
+script = ExtResource("tree")
+canopy_size = 146.0
+wind_index = 5
+
+[node name="Oak07" type="Marker2D" parent="Trees" unique_id=1010067337]
+position = Vector2(-255, 510)
+script = ExtResource("tree")
+wind_index = 6
+
+[node name="Oak08" type="Marker2D" parent="Trees" unique_id=17499003]
+position = Vector2(-600, 310)
+script = ExtResource("tree")
+canopy_size = 220.0
+wind_index = 7
+
+[node name="Oak09" type="Marker2D" parent="Trees" unique_id=568617146]
+position = Vector2(-540, 560)
+script = ExtResource("tree")
+canopy_size = 202.0
+wind_index = 8
+
+[node name="Oak10" type="Marker2D" parent="Trees" unique_id=1329685538]
+position = Vector2(-390, 610)
+script = ExtResource("tree")
+canopy_size = 184.0
+wind_index = 9
+
+[node name="Oak11" type="Marker2D" parent="Trees" unique_id=330062580]
+position = Vector2(130, -25)
+script = ExtResource("tree")
+canopy_size = 170.0
+wind_index = 10
+
+[node name="Oak12" type="Marker2D" parent="Trees" unique_id=538595270]
+position = Vector2(270, -65)
+script = ExtResource("tree")
+canopy_size = 190.0
+wind_index = 11
+
+[node name="Oak13" type="Marker2D" parent="Trees" unique_id=721089746]
+position = Vector2(415, -30)
+script = ExtResource("tree")
+canopy_size = 152.0
+wind_index = 12
+
+[node name="Oak14" type="Marker2D" parent="Trees" unique_id=284866367]
+position = Vector2(2220, 95)
+script = ExtResource("tree")
+canopy_size = 182.0
+wind_index = 13
+
+[node name="Oak15" type="Marker2D" parent="Trees" unique_id=792310202]
+position = Vector2(2380, 160)
+script = ExtResource("tree")
+canopy_size = 204.0
+wind_index = 14
+
+[node name="Oak16" type="Marker2D" parent="Trees" unique_id=688558554]
+position = Vector2(2260, 330)
+script = ExtResource("tree")
+canopy_size = 190.0
+wind_index = 15
+
+[node name="Oak17" type="Marker2D" parent="Trees" unique_id=1128133016]
+position = Vector2(2188, 390)
+script = ExtResource("tree")
+canopy_size = 154.0
+wind_index = 16
+
+[node name="Oak18" type="Marker2D" parent="Trees" unique_id=295302618]
+position = Vector2(2420, 470)
+script = ExtResource("tree")
+canopy_size = 210.0
+wind_index = 17
+
+[node name="Oak19" type="Marker2D" parent="Trees" unique_id=945761483]
+position = Vector2(2300, 550)
+script = ExtResource("tree")
+canopy_size = 176.0
+wind_index = 18
+
+[node name="Oak20" type="Marker2D" parent="Trees" unique_id=357125138]
+position = Vector2(2630, 235)
+script = ExtResource("tree")
+canopy_size = 224.0
+wind_index = 19
+
+[node name="Oak21" type="Marker2D" parent="Trees" unique_id=933557341]
+position = Vector2(2585, 510)
+script = ExtResource("tree")
+canopy_size = 202.0
+wind_index = 20
+
+[node name="Oak22" type="Marker2D" parent="Trees" unique_id=220319157]
+position = Vector2(2765, 660)
+script = ExtResource("tree")
+canopy_size = 230.0
+wind_index = 21
+
+[node name="Oak23" type="Marker2D" parent="Trees" unique_id=259626857]
+position = Vector2(1770, -30)
+script = ExtResource("tree")
+wind_index = 22
+
+[node name="Oak24" type="Marker2D" parent="Trees" unique_id=1980562061]
+position = Vector2(1920, -55)
+script = ExtResource("tree")
+canopy_size = 168.0
+wind_index = 23
+
+[node name="Oak25" type="Marker2D" parent="Trees" unique_id=1099387334]
+position = Vector2(-460, 1400)
+script = ExtResource("tree")
+canopy_size = 202.0
+wind_index = 24
+
+[node name="Oak26" type="Marker2D" parent="Trees" unique_id=238087123]
+position = Vector2(-230, 1480)
+script = ExtResource("tree")
+canopy_size = 186.0
+wind_index = 25
+
+[node name="Oak27" type="Marker2D" parent="Trees" unique_id=1902544937]
+position = Vector2(-95, 1550)
+script = ExtResource("tree")
+canopy_size = 148.0
+wind_index = 26
+
+[node name="Oak28" type="Marker2D" parent="Trees" unique_id=1605904897]
+position = Vector2(-360, 1650)
+script = ExtResource("tree")
+canopy_size = 210.0
+wind_index = 27
+
+[node name="Oak29" type="Marker2D" parent="Trees" unique_id=1696062954]
+position = Vector2(-215, 1730)
+script = ExtResource("tree")
+canopy_size = 174.0
+wind_index = 28
+
+[node name="Oak30" type="Marker2D" parent="Trees" unique_id=1637959319]
+position = Vector2(-555, 1720)
+script = ExtResource("tree")
+canopy_size = 220.0
+wind_index = 29
+
+[node name="Oak31" type="Marker2D" parent="Trees" unique_id=1422104717]
+position = Vector2(120, 1790)
+script = ExtResource("tree")
+canopy_size = 174.0
+wind_index = 30
+
+[node name="Oak32" type="Marker2D" parent="Trees" unique_id=16956362]
+position = Vector2(290, 1780)
+script = ExtResource("tree")
+canopy_size = 164.0
+wind_index = 31
+
+[node name="Oak33" type="Marker2D" parent="Trees" unique_id=1561318493]
+position = Vector2(425, 1820)
+script = ExtResource("tree")
+canopy_size = 190.0
+wind_index = 32
+
+[node name="Oak34" type="Marker2D" parent="Trees" unique_id=964146913]
+position = Vector2(2230, 1320)
+script = ExtResource("tree")
+canopy_size = 186.0
+wind_index = 33
+
+[node name="Oak35" type="Marker2D" parent="Trees" unique_id=1860828030]
+position = Vector2(2390, 1410)
+script = ExtResource("tree")
+canopy_size = 204.0
+wind_index = 34
+
+[node name="Oak36" type="Marker2D" parent="Trees" unique_id=1741693086]
+position = Vector2(2200, 1510)
+script = ExtResource("tree")
+canopy_size = 166.0
+wind_index = 35
+
+[node name="Oak37" type="Marker2D" parent="Trees" unique_id=1883392350]
+position = Vector2(2335, 1640)
+script = ExtResource("tree")
+canopy_size = 190.0
+wind_index = 36
+
+[node name="Oak38" type="Marker2D" parent="Trees" unique_id=1308346174]
+position = Vector2(2550, 1650)
+script = ExtResource("tree")
+canopy_size = 216.0
+wind_index = 37
+
+[node name="Oak39" type="Marker2D" parent="Trees" unique_id=1614513758]
+position = Vector2(2690, 1530)
+script = ExtResource("tree")
+canopy_size = 202.0
+wind_index = 38
+
+[node name="Oak40" type="Marker2D" parent="Trees" unique_id=1288375247]
+position = Vector2(1770, 1800)
+script = ExtResource("tree")
+canopy_size = 178.0
+wind_index = 39
+
+[node name="Oak41" type="Marker2D" parent="Trees" unique_id=1113518463]
+position = Vector2(1910, 1780)
+script = ExtResource("tree")
+canopy_size = 170.0
+wind_index = 40
+
+[node name="Oak42" type="Marker2D" parent="Trees" unique_id=226092911]
+position = Vector2(2070, 1830)
+script = ExtResource("tree")
+canopy_size = 190.0
+wind_index = 41
+
+[node name="PlayableBoundary" type="Line2D" parent="." unique_id=504669716]
+points = PackedVector2Array(0, 0, 2100, 0, 2100, 1575, 0, 1575, 0, 0)
+width = 2.0
+default_color = Color(0.7529412, 0.72156864, 0.54509807, 0.12)
+
+[node name="DeploymentGuides" type="Node2D" parent="." unique_id=627584163]
+
+[node name="EditorGuides" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="EnemyZone" type="ReferenceRect" parent="EditorGuides"]
+offset_top = 0.0
+offset_right = 2100.0
+offset_bottom = 525.0
+mouse_filter = 2
+border_color = Color(0.45, 0.65, 0.8, 0.8)
+border_width = 2.0
+editor_only = true
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="EditorGuides/EnemyZone"]
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 700.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 32
+text = "敌军部署区 · 上方 1/3"
+metadata/_edit_lock_ = true
+
+[node name="NeutralZone" type="ReferenceRect" parent="EditorGuides"]
+offset_top = 525.0
+offset_right = 2100.0
+offset_bottom = 1050.0
+mouse_filter = 2
+border_color = Color(0.8, 0.75, 0.55, 0.8)
+border_width = 2.0
+editor_only = true
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="EditorGuides/NeutralZone"]
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 700.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 32
+text = "中立交战区 · 不可部署"
+metadata/_edit_lock_ = true
+
+[node name="AllyZone" type="ReferenceRect" parent="EditorGuides"]
+offset_top = 1050.0
+offset_right = 2100.0
+offset_bottom = 1575.0
+mouse_filter = 2
+border_color = Color(0.8, 0.4, 0.3, 0.8)
+border_width = 2.0
+editor_only = true
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="EditorGuides/AllyZone"]
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 700.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 32
+text = "我军部署区 · 下方 1/3"
+metadata/_edit_lock_ = true

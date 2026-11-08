@@ -7,14 +7,17 @@ func key_tab():
 	for down in [true,false]:
 		var e=InputEventKey.new();e.physical_keycode=KEY_TAB;e.pressed=down
 		root.push_input(e,true)
-func click(p: Vector2,shift: bool=false):
+func click(p: Vector2,shift: bool=false,double: bool=false):
 	for down in [true,false]:
-		var e=InputEventMouseButton.new();e.position=p;e.global_position=p;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;e.shift_pressed=shift
+		var e=InputEventMouseButton.new();e.position=p;e.global_position=p;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=down;e.shift_pressed=shift;e.double_click=double
 		root.push_input(e,true)
 func run():
 	var app=load('res://scenes/main.tscn').instantiate();app.settings_path='/tmp/eagle-square-overview.cfg';root.add_child(app)
 	app.menu_view.get_node('%TacticalTrial').pressed.emit()
-	var t=app.active_trial;t.set_process(false);t.combined_button.pressed.emit()
+	var t=app.active_trial;t.set_process(false)
+	# Legacy authored-map fixture; default menu coverage lives in test_whiteboard_battle.gd.
+	t.rules=t.SquareBattle.new();t.field.load_battlefield();t.reset_camera()
+	t.combined_button.pressed.emit()
 	var r=t.rules
 	check(t.zoom==1.,'Default deployment preserves original figure scale')
 	var offset: Vector2=t.camera_offset
@@ -23,7 +26,7 @@ func run():
 	var horse=r.alive('ally').filter(func(u):return u.kind=='cavalry')[0]
 	var direct: Array[Vector2]=[]
 	r.march_route(horse.id,direct,Vector2(340,1500))
-	click((r.projection*horse.pos-t.camera_offset)*t.zoom)
+	click((r.projection*horse.pos-t.camera_offset)*t.zoom,false,true)
 	click((r.projection*Vector2(220,1600)-t.camera_offset)*t.zoom,true)
 	var selected=t.squad_ids.duplicate();var draft=t.draft_waypoints.duplicate();var destination: Vector2=horse.destination
 	check(selected==[horse.id] and draft.size()==1,'Real selection and draft exist before overview')

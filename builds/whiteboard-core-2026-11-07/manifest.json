@@ -1,0 +1,26 @@
+{
+  "files": [
+    {
+      "name": "UnderTheEagle-macOS.zip",
+      "bytes": 240818339,
+      "sha256": "14751ca6b105b00007bf5c4ad7193629390661e6bea578aec6ef404504ae9575",
+      "parts": [
+        {
+          "name": "UnderTheEagle-macOS.zip.part00",
+          "bytes": 83886080,
+          "sha256": "a847b9ba4fc855b36331b56ba8dc9c93a1897c5b7e3fa317cd6277220dc5ca62"
+        },
+        {
+          "name": "UnderTheEagle-macOS.zip.part01",
+          "bytes": 83886080,
+          "sha256": "6fcc652e81721e7a4b96bf838813796c0a25270324ec32a610613d9ad3ba0a15"
+        },
+        {
+          "name": "UnderTheEagle-macOS.zip.part02",
+          "bytes": 73046179,
+          "sha256": "53235949c485c88dc1ec906515ea277ce5972ffafe706d30f83e7e0b20b84bd0"
+        }
+      ]
+    }
+  ]
+}

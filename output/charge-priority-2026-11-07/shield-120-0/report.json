@@ -1,0 +1,1127 @@
+{
+	"angle": 0.0,
+	"contacts": [
+		{
+			"damage": 30.0,
+			"rider": 1,
+			"target": 2,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 30.0,
+			"rider": 2,
+			"target": 3,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 30.0,
+			"rider": 3,
+			"target": 5,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 21.0,
+			"rider": 3,
+			"target": 6,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 30.0,
+			"rider": 4,
+			"target": 7,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 21.0,
+			"rider": 4,
+			"target": 8,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 30.0,
+			"rider": 5,
+			"target": 0,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 21.0,
+			"rider": 5,
+			"target": 1,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 14.7,
+			"rider": 5,
+			"target": 9,
+			"time": 1.79999999999999
+		},
+		{
+			"damage": 19.25,
+			"rider": 2,
+			"target": 4,
+			"time": 1.81666666666666
+		},
+		{
+			"damage": 13.475,
+			"rider": 3,
+			"target": 4,
+			"time": 1.81666666666666
+		},
+		{
+			"damage": 30.0,
+			"rider": 7,
+			"target": 0,
+			"time": 2.08333333333333
+		},
+		{
+			"damage": 30.0,
+			"rider": 6,
+			"target": 6,
+			"time": 2.14999999999999
+		},
+		{
+			"damage": 11.1719996261596,
+			"rider": 4,
+			"target": 6,
+			"time": 2.18333333333333
+		},
+		{
+			"damage": 18.4799997329712,
+			"rider": 6,
+			"target": 8,
+			"time": 2.18333333333333
+		},
+		{
+			"damage": 18.4799997329712,
+			"rider": 1,
+			"target": 5,
+			"time": 2.19999999999999
+		},
+		{
+			"damage": 11.1719986915588,
+			"rider": 2,
+			"target": 2,
+			"time": 2.24999999999999
+		},
+		{
+			"damage": 6.58559960746754,
+			"rider": 4,
+			"target": 9,
+			"time": 2.24999999999999
+		},
+		{
+			"damage": 4.00966972522747,
+			"rider": 4,
+			"target": 1,
+			"time": 2.26666666666666
+		},
+		{
+			"damage": 6.58559960746766,
+			"rider": 3,
+			"target": 3,
+			"time": 2.31666666666666
+		},
+		{
+			"damage": 4.6099197252272,
+			"rider": 3,
+			"target": 7,
+			"time": 2.31666666666666
+		},
+		{
+			"damage": 6.58560026168834,
+			"rider": 2,
+			"target": 9,
+			"time": 2.35
+		},
+		{
+			"damage": 11.1719996261597,
+			"rider": 6,
+			"target": 1,
+			"time": 2.36666666666667
+		},
+		{
+			"damage": 2.01684,
+			"rider": 4,
+			"target": 2,
+			"time": 2.43333333333334
+		},
+		{
+			"damage": 11.1720005607604,
+			"rider": 1,
+			"target": 3,
+			"time": 2.45
+		},
+		{
+			"damage": 6.58559960746766,
+			"rider": 6,
+			"target": 0,
+			"time": 2.46666666666667
+		},
+		{
+			"damage": 2.01684016028412,
+			"rider": 3,
+			"target": 8,
+			"time": 2.48333333333334
+		},
+		{
+			"damage": 6.58559960746766,
+			"rider": 5,
+			"target": 2,
+			"time": 2.58333333333334
+		},
+		{
+			"damage": 3.74556009159085,
+			"rider": 2,
+			"target": 7,
+			"time": 2.63333333333335
+		},
+		{
+			"damage": 1.23531450000007,
+			"rider": 4,
+			"target": 5,
+			"time": 2.63333333333335
+		},
+		{
+			"damage": 1.23531438780105,
+			"rider": 3,
+			"target": 1,
+			"time": 2.66666666666668
+		},
+		{
+			"damage": 2.01684,
+			"rider": 2,
+			"target": 8,
+			"time": 2.81666666666669
+		},
+		{
+			"damage": 0.864720150000039,
+			"rider": 4,
+			"target": 3,
+			"time": 2.93333333333336
+		},
+		{
+			"damage": 0.864720071460852,
+			"rider": 3,
+			"target": 9,
+			"time": 3.16666666666671
+		}
+	],
+	"crossings": {
+		"0": 1.96666666666666,
+		"1": 1.99999999999999,
+		"2": 2.03333333333333,
+		"3": 2.06666666666666,
+		"4": 2.03333333333333,
+		"5": 2.06666666666666,
+		"6": 1.98333333333333,
+		"7": 1.98333333333333
+	},
+	"ends": [
+		{
+			"p": [
+				1926.00024414062,
+				1709.19897460938
+			],
+			"reason": "goal",
+			"time": 2.88333333333336
+		},
+		{
+			"p": [
+				1909.16491699219,
+				1678.00939941406
+			],
+			"reason": "duration",
+			"time": 3.18333333333337
+		},
+		{
+			"p": [
+				1834.27087402344,
+				1656.21459960938
+			],
+			"reason": "duration",
+			"time": 3.18333333333337
+		},
+		{
+			"p": [
+				1777.97180175781,
+				1607.0615234375
+			],
+			"reason": "duration",
+			"time": 3.18333333333337
+		},
+		{
+			"p": [
+				1784.42004394531,
+				1567.73303222656
+			],
+			"reason": "duration",
+			"time": 3.18333333333337
+		},
+		{
+			"p": [
+				1861.19018554688,
+				1546.67700195312
+			],
+			"reason": "duration",
+			"time": 3.18333333333337
+		},
+		{
+			"p": [
+				1895.86547851562,
+				1521.99975585938
+			],
+			"reason": "duration",
+			"time": 3.18333333333337
+		},
+		{
+			"p": [
+				1927.74768066406,
+				1490.80102539062
+			],
+			"reason": "goal",
+			"time": 3.00000000000003
+		}
+	],
+	"failures": 0,
+	"final": {
+		"defenders": [
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 0.0,
+				"order": "move",
+				"p": [
+					1753.75732421875,
+					1551.67907714844
+				],
+				"slot": 0,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 0.0,
+				"order": "move",
+				"p": [
+					1701.87426757812,
+					1552.62768554688
+				],
+				"slot": 1,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 50.2255617009735,
+				"order": "move",
+				"p": [
+					1701.6796875,
+					1660.59350585938
+				],
+				"slot": 2,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 51.3776796817719,
+				"order": "hold",
+				"p": [
+					1701.75695800781,
+					1647.5322265625
+				],
+				"slot": 3,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 67.275,
+				"order": "hold",
+				"p": [
+					1701.52563476562,
+					1634.32800292969
+				],
+				"slot": 4,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 50.2846857670288,
+				"order": "hold",
+				"p": [
+					1701.5439453125,
+					1620.49572753906
+				],
+				"slot": 5,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 1.82800037384033,
+				"order": "move",
+				"p": [
+					1702.15893554688,
+					1607.06604003906
+				],
+				"slot": 6,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 61.6445201831818,
+				"order": "hold",
+				"p": [
+					1702.02880859375,
+					1593.2529296875
+				],
+				"slot": 7,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 56.4863201067448,
+				"order": "hold",
+				"p": [
+					1702.25500488281,
+					1579.71728515625
+				],
+				"slot": 8,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 71.2640800593833,
+				"order": "move",
+				"p": [
+					1701.58471679688,
+					1566.11999511719
+				],
+				"slot": 9,
+				"wall": true
+			}
+		],
+		"horses": [
+			{
+				"charging": false,
+				"heading": [
+					-0.67592316865921,
+					0.736972153186798
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1726.25598144531,
+					1633.77722167969
+				],
+				"slot": 0,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.997928977012634,
+					-0.0643251091241837
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1737.35070800781,
+					1662.90673828125
+				],
+				"slot": 1,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					0.660002171993256,
+					-0.751263678073883
+				],
+				"hp": 70.0,
+				"order": "auto",
+				"p": [
+					1678.45471191406,
+					1687.02990722656
+				],
+				"slot": 2,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					0.997124969959259,
+					0.0757738575339317
+				],
+				"hp": 95.0,
+				"order": "auto",
+				"p": [
+					1667.06018066406,
+					1604.39880371094
+				],
+				"slot": 3,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.609505414962769,
+					0.792781949043274
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1720.95666503906,
+					1523.08129882812
+				],
+				"slot": 4,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.998868107795715,
+					0.0475662276148796
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1759.26318359375,
+					1590.52746582031
+				],
+				"slot": 5,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.993844330310822,
+					0.11078554391861
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1763.76721191406,
+					1559.37524414062
+				],
+				"slot": 6,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.553527057170868,
+					0.832831203937531
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1734.93676757812,
+					1550.71435546875
+				],
+				"slot": 7,
+				"wall": false
+			}
+		]
+	},
+	"first_contact": 1.79999999999999,
+	"fps": 120,
+	"initial": {
+		"defenders": [
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1539.99084472656
+				],
+				"slot": 0,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1554.43737792969
+				],
+				"slot": 1,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1663.88854980469
+				],
+				"slot": 2,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1645.83337402344
+				],
+				"slot": 3,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1631.94519042969
+				],
+				"slot": 4,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1618.89038085938
+				],
+				"slot": 5,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1605.00219726562
+				],
+				"slot": 6,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1591.11413574219
+				],
+				"slot": 7,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1577.22595214844
+				],
+				"slot": 8,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 100.0,
+				"order": "hold",
+				"p": [
+					1700.0,
+					1564.17114257812
+				],
+				"slot": 9,
+				"wall": true
+			}
+		],
+		"horses": [
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1709.1923828125
+				],
+				"slot": 0,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1677.99401855469
+				],
+				"slot": 1,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1646.79626464844
+				],
+				"slot": 2,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1615.59899902344
+				],
+				"slot": 3,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1584.40185546875
+				],
+				"slot": 4,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1553.2041015625
+				],
+				"slot": 5,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1522.005859375
+				],
+				"slot": 6,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					0.0
+				],
+				"hp": 120.0,
+				"order": "hold",
+				"p": [
+					1260.0,
+					1490.80651855469
+				],
+				"slot": 7,
+				"wall": false
+			}
+		]
+	},
+	"limits": [
+		"Local deterministic fixture, not an original-game replay",
+		"Same rider starts and command; only defender type/facing differs",
+		"Crossing is past the centre plane, not proof that a whole formation was pierced",
+		"Contact times have render-sampling resolution; physics uses the existing fixed step"
+	],
+	"peak_slot_distance": 183.571136474609,
+	"scenario": "shield",
+	"two_seconds_after_hit": {
+		"defenders": [
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 33.4144003925324,
+				"order": "move",
+				"p": [
+					1812.18310546875,
+					1566.33715820312
+				],
+				"slot": 0,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 62.5830162608118,
+				"order": "move",
+				"p": [
+					1779.29577636719,
+					1569.16918945312
+				],
+				"slot": 1,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 50.2255617009735,
+				"order": "move",
+				"p": [
+					1825.92004394531,
+					1604.49584960938
+				],
+				"slot": 2,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 51.3776796817719,
+				"order": "move",
+				"p": [
+					1796.33813476562,
+					1633.37353515625
+				],
+				"slot": 3,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 67.275,
+				"order": "move",
+				"p": [
+					1741.30114746094,
+					1636.42504882812
+				],
+				"slot": 4,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 50.2846857670288,
+				"order": "move",
+				"p": [
+					1780.5361328125,
+					1619.41125488281
+				],
+				"slot": 5,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 37.8280003738403,
+				"order": "move",
+				"p": [
+					1772.10034179688,
+					1612.77124023438
+				],
+				"slot": 6,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 61.6445201831818,
+				"order": "move",
+				"p": [
+					1791.80017089844,
+					1596.38916015625
+				],
+				"slot": 7,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 56.4863201067448,
+				"order": "move",
+				"p": [
+					1774.33410644531,
+					1585.68701171875
+				],
+				"slot": 8,
+				"wall": true
+			},
+			{
+				"charging": false,
+				"heading": [
+					-1.0,
+					0.0
+				],
+				"hp": 71.2640800593833,
+				"order": "move",
+				"p": [
+					1811.87072753906,
+					1582.35461425781
+				],
+				"slot": 9,
+				"wall": true
+			}
+		],
+		"frame": 575,
+		"horses": [
+			{
+				"charging": false,
+				"heading": [
+					-0.878818392753601,
+					-0.477156341075897
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1898.40112304688,
+					1643.09326171875
+				],
+				"slot": 0,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					1.0,
+					-0.000261608540313318
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1906.29699707031,
+					1679.06311035156
+				],
+				"slot": 1,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.852669835090637,
+					-0.52245020866394
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1817.28820800781,
+					1639.91333007812
+				],
+				"slot": 2,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					0.893120765686035,
+					0.449816882610321
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1742.61022949219,
+					1598.06994628906
+				],
+				"slot": 3,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					0.995920836925507,
+					0.0902314335107803
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1756.34045410156,
+					1547.26477050781
+				],
+				"slot": 4,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					0.997312724590302,
+					0.0732616111636162
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1856.30578613281,
+					1553.48266601562
+				],
+				"slot": 5,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.936818897724152,
+					0.349814742803574
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1873.94873046875,
+					1543.94873046875
+				],
+				"slot": 6,
+				"wall": false
+			},
+			{
+				"charging": false,
+				"heading": [
+					-0.901569306850433,
+					0.432634800672531
+				],
+				"hp": 120.0,
+				"order": "auto",
+				"p": [
+					1894.74963378906,
+					1526.98974609375
+				],
+				"slot": 7,
+				"wall": false
+			}
+		],
+		"time": 3.80000000000007
+	},
+	"zoom": 1.0
+}

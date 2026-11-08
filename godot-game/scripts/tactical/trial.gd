@@ -7,6 +7,7 @@ const Paper=preload('res://scripts/rpg_ui.gd')
 const INK=Color('#382f25')
 const PassBattle=preload('res://scripts/tactical/pass_battle.gd')
 const SquareBattle=preload('res://scripts/tactical/square_battle.gd')
+const WhiteboardBattle=preload('res://scripts/tactical/whiteboard_battle.gd')
 const SiegeBattle=preload('res://scripts/tactical/siege_battle.gd')
 @onready var siege_button: Button=$BattleHUD/DeploymentActions/SiegeButton
 @onready var cavalry_variant_button: Button=$BattleHUD/DeploymentActions/CavalryVariantButton
@@ -321,7 +322,6 @@ func refresh():
 		hint.text=words('右键移动 · 右拖拉出阵线 · R 收回','Right click to reposition · Right drag a line · R to reserve')
 	elif rules.phase=='deploy' and not setup_button.visible:
 		hint.text=words('点选或 Shift 框选已部署部队，可重新布阵','Select or Shift-box deployed squads to reposition')
-	if notice_seconds>0:hint.text=notice
 	if paused:hint.text=words('已暂停 · 空格继续','PAUSED · Space to resume')
 	var names={'legion':words('步兵','Infantry'),'archer':words('弓兵','Archers'),'cavalry':words('骑兵','Cavalry'),'spear':words('长矛兵','Spears'),'guard':words('重盾卫','Guards'),'medic':words('军医','Medics'),'siege':words('投石机','Onagers')}
 	for kind in loadout_buttons:
@@ -442,15 +442,15 @@ func refresh():
 	if rules is SquareBattle and notice_seconds<=0 and not paused and selected!='lightning':
 		hint.text=words('下方 1/3 布阵 · 中间不可部署 · 开战后敌军主动进攻','Deploy in the bottom third · Neutral ground cannot be deployed into · Enemy attacks on Begin') if rules.phase=='deploy' else words('击溃敌军取得胜利 · 全军进攻或选择部队下令','Rout the enemy to win · All attack or select squads to give orders')
 		if rules is SiegeBattle:hint.text=words('选中投石机，右键轰击墙段 · 五次命中打开缺口，再令步兵通过','Select catapults, right-click a wall · Five impacts open a breach for infantry')
+		if rules is WhiteboardBattle and rules.phase=='deploy':hint.text=words('下方虚线内布阵 · 中央缓冲带不可部署 · Tab 全览 / 返回','Deploy below the lower dashed line · Central strip excludes deployment · Tab overview / return')
 	flag_alert.visible=rules.flag_state!='secure' and rules.phase=='battle'
 	if flag_alert.visible:
 		var state=words('军旗告急','Flag threatened') if rules.flag_state=='capturing' else words('旗区争夺','Contested')
 		flag_alert.text=state+'  %.1f / %s s'%[floorf((rules.capture_time+1e-8)*10)/10,str(rules.capture_seconds).trim_suffix('.0')]
 		flag_alert.modulate=Color('#ffd294') if rules.flag_state=='contested' else Color('#ffac88')
-	if selected=='route' and rules.phase=='battle' and notice_seconds<=0:
+	if selected in ['route','personal_route'] and rules.phase=='battle' and notice_seconds<=0:
 		hint.text=words('Shift＋点击添加途经点 · 左键确认终点 · Esc 取消','Shift-click for waypoints · Click to march · Esc to cancel')
 		if paused:hint.text=words('已暂停 · ','Paused · ')+hint.text
-	if selected=='personal_route' and rules.phase=='battle':hint.text=words('单兵命令 · X 攻击移动 · F 盾墙 · C 冲锋 · 右键集火','Soldier orders · X attack move · F wall · C charge · RMB focus')
 	if selected=='attack_move' and rules.phase=='battle':hint.text=words('攻击移动 · 点击终点，接敌作战后继续前进 · Esc 取消','Attack move · Click destination; fight on the way, then resume · Esc cancels')
 	if selected=='blink' and rules.phase=='battle':hint.text=words('怨灵闪现 · 点击落点 · 单人最多 200 · 8 秒冷却 · Esc 取消','Wraith blink · Click destination · 200 per caster · 8 s cooldown · Esc cancels')
 	if selected=='volley' and rules.phase=='battle':hint.text=words('长弓齐射 · 点击落点 · 15 秒冷却 · Esc 取消','Longbow volley · Click landing point · 15 s cooldown · Esc cancels')
@@ -476,13 +476,15 @@ func refresh():
 	if rules.phase=='battle' and not rout_alerts.is_empty():
 		if rout_notice_left<=0:rout_notice_left=3
 		hint.text=event_text(rout_alerts[0])
+	# A rejected command must remain readable above mode instructions, including pause.
+	if notice_seconds>0:hint.text=(words('已暂停 · ','Paused · ') if paused else '')+notice
 
 func retry():
 	for voice in impact_voices.values():voice.stop()
 	voice_times.clear()
 	myth_audio.stop_all()
 	var deity=rules.deity
-	rules=SiegeBattle.new(rules.unlimited_powers) if rules is SiegeBattle else SquareBattle.new(rules.unlimited_powers) if rules is SquareBattle else PassBattle.new(rules.unlimited_powers)
+	rules=WhiteboardBattle.new(rules.unlimited_powers) if rules is WhiteboardBattle else SiegeBattle.new(rules.unlimited_powers) if rules is SiegeBattle else SquareBattle.new(rules.unlimited_powers) if rules is SquareBattle else PassBattle.new(rules.unlimited_powers)
 	field.load_battlefield()
 	slow=false
 	oil_index=-1
@@ -612,6 +614,7 @@ func reset_camera():
 		zoom=field.Terrain.VIEW.default_zoom
 		# Keep the deployment and the approach ahead visible at the original figure size.
 		var focus=Vector2(1050,1180) if rules is SiegeBattle else rules.deployment.get_center()
+		if rules is WhiteboardBattle:focus=rules.camera_focus()
 		set_camera(rules.projection*focus-Vector2(960,530)/zoom)
 	else:
 		zoom=1.0
@@ -619,6 +622,17 @@ func reset_camera():
 
 func toggle_overview():
 	if not rules is SquareBattle:return
+	if rules is WhiteboardBattle:
+		if detail_view.is_empty():
+			detail_view={'zoom':zoom,'offset':camera_offset}
+			zoom=overview_zoom()
+			set_camera(rules.bounds.get_center()-Vector2(960,530)/zoom)
+		else:
+			zoom=detail_view.zoom
+			set_camera(detail_view.offset)
+			detail_view.clear()
+		refresh()
+		return
 	if zoom>.65:
 		detail_view={'zoom':zoom,'offset':camera_offset}
 		zoom=.55
@@ -629,6 +643,10 @@ func toggle_overview():
 		detail_view.clear()
 	else:reset_camera()
 	refresh()
+
+func overview_zoom() -> float:
+	var area: Rect2=rules.projection*rules.bounds
+	return minf(1760.0/area.size.x,760.0/area.size.y)
 
 func field_point(screen: Vector2) -> Vector2:
 	return camera_offset+screen/zoom
@@ -720,6 +738,9 @@ func command_selection(order: String,point: Vector2,target_id: int=-1,target_slo
 	if not soldier_ids.is_empty():return rules.Soldiers.command(rules,soldier_ids,order,point,target_id,target_slot)
 	return rules.command(squad_ids,order,point,target_id)
 
+func personal_route_valid(goal: Vector2) -> bool:
+	return rules.Soldiers.command(rules,soldier_ids,'move',goal,-1,-1,draft_waypoints,false)
+
 func wall_preview(commit: bool=false) -> Dictionary:
 	if not soldier_ids.is_empty():return rules.Soldiers.shield_line(rules,soldier_ids,rank_start,rank_end,commit)
 	if commit:return {'ok':true} if rules.command_shield_line(squad_ids,rank_start,rank_end) else {}
@@ -807,8 +828,10 @@ func click_ground(screen: Vector2, additive: bool):
 		else:
 			notice=words('无法到达 · 原命令继续','Cannot reach · Previous order retained');notice_seconds=2
 	elif selected=='personal_route' and soldier_at(screen,'ally').is_empty():
-		if additive:draft_waypoints.append(pointer)
-		elif rules.Soldiers.command(rules,soldier_ids,'move',pointer,-1,-1,draft_waypoints):selected=''
+		if additive and personal_route_valid(pointer):
+			draft_waypoints.append(pointer);notice_seconds=0
+		elif not additive and rules.Soldiers.command(rules,soldier_ids,'move',pointer,-1,-1,draft_waypoints):
+			selected='';notice_seconds=0
 		else:notice=words('无法到达 · 原命令继续','Cannot reach · Previous order retained');notice_seconds=2
 	elif selected=='lightning':
 		if paused:return
@@ -886,7 +909,7 @@ func _unhandled_input(event):
 	pointer=field.unproject(field_point(screen))
 	if event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
 		var anchor=field_point(screen)
-		zoom=clampf(zoom+(.25 if event.button_index==MOUSE_BUTTON_WHEEL_UP else -.25),.5,5.0/3.0)
+		zoom=clampf(zoom+(.25 if event.button_index==MOUSE_BUTTON_WHEEL_UP else -.25),overview_zoom() if rules is WhiteboardBattle else .5,5.0/3.0)
 		set_camera(anchor-screen/zoom)
 		return
 	if event.button_index==MOUSE_BUTTON_LEFT:

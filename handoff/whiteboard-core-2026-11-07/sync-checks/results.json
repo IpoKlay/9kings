@@ -1,0 +1,26 @@
+[
+  {
+    "suite": "test_wall_casualties",
+    "exit_code": 0
+  },
+  {
+    "suite": "test_command_route_input",
+    "exit_code": 0
+  },
+  {
+    "suite": "test_whiteboard_battle",
+    "exit_code": 0
+  },
+  {
+    "suite": "test_target_batch",
+    "exit_code": 0
+  },
+  {
+    "suite": "test_battle_commands",
+    "exit_code": 0
+  },
+  {
+    "suite": "test_personal_charge",
+    "exit_code": 0
+  }
+]

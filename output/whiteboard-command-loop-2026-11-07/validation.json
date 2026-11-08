@@ -1,0 +1,270 @@
+{
+  "current_sha256": {
+    "godot-game/scripts/tactical/trial.gd": "4dedd50b6b30797a4db08095443a9fa5afb0e70a343794eca7046c2c4f52d9e6",
+    "godot-game/scripts/tactical/trial_field.gd": "10c2e2bc818af34afc707b4b70fab6c14135d87565d980d6730cbefb68f38dab",
+    "godot-game/tests/tactical/test_command_route_input.gd": "14e828ceb24d199b11ac401b6ac975c898a6984842f064dcf5ccc1e70ff6a56d",
+    "godot-game/tests/tactical/observe_live_battle.gd": "416213f4c69dca9072a99788c05c5b16403010b91de834165c957ff0834658ec",
+    "handoff/combat-core-2026-11-07/BACKLOG.md": "866d3b64165dfcaf9f5a28fbf3ef2c4792f51f51bcb1eacfd923dc9819d68910",
+    "handoff/combat-core-2026-11-07/STATE.md": "56dc934fbccc08e5ec9158c66a58666ca8174a3e94890b1ec30c93bf710b759a",
+    "output/whiteboard-command-loop-2026-11-07/README.md": "8cc9771799d0c3113f3355825705f9649f82438f805c588a46e7ca0afbc3c6b1"
+  },
+  "prior_target_cache_preserved": {
+    "scripts/tactical/trial_rules.gd": true,
+    "scripts/tactical/target_decision_batch.gd": true,
+    "scripts/tactical/myth_powers.gd": true,
+    "scripts/tactical/regiment_soldiers.gd": true,
+    "scripts/tactical/soldier_specials.gd": true,
+    "tests/tactical/test_target_batch.gd": true,
+    "tests/tactical/original_myth_powers.gd": true
+  },
+  "before": {
+    "checks": [
+      {
+        "check": "Real menu click opens the current whiteboard battle",
+        "pass": true
+      },
+      {
+        "check": "Seven-arm deployment, start and pause use normal input",
+        "pass": true
+      },
+      {
+        "check": "Click selects an actual soldier",
+        "pass": true
+      },
+      {
+        "check": "Right click starts a personal movement order while paused",
+        "pass": true
+      },
+      {
+        "check": "First waypoint stages without replacing any live order",
+        "pass": true
+      },
+      {
+        "check": "Outside Shift-click is rejected without poisoning the valid draft",
+        "pass": false
+      },
+      {
+        "check": "Rejected waypoint remains visible while paused",
+        "pass": false
+      },
+      {
+        "check": "Rejected endpoint preserves draft and old movement",
+        "pass": false
+      },
+      {
+        "check": "Personal-route instructions cannot hide an unreachable notice",
+        "pass": false
+      },
+      {
+        "check": "A corrected waypoint extends the valid plan",
+        "pass": true
+      },
+      {
+        "check": "A valid correction clears the stale error",
+        "pass": false
+      },
+      {
+        "check": "Overview toggles preserve the draft and pause",
+        "pass": true
+      },
+      {
+        "check": "Confirm commits exactly the authored route",
+        "pass": true
+      },
+      {
+        "check": "Paused planning never advances the soldier",
+        "pass": true
+      },
+      {
+        "check": "Soldier physically reaches both turns and changes facing",
+        "pass": true
+      },
+      {
+        "check": "Soldier settles at final goal",
+        "pass": true
+      },
+      {
+        "check": "Unselected neighbour keeps its position",
+        "pass": true
+      },
+      {
+        "check": "Esc cancels only the draft and preserves the live order",
+        "pass": true
+      },
+      {
+        "check": "Rock occupancy rejects a staged waypoint without changing orders",
+        "pass": false
+      },
+      {
+        "check": "Double-click selects the complete horse regiment",
+        "pass": true
+      },
+      {
+        "check": "Mid-march replacement discards old turns without teleporting anyone",
+        "pass": true
+      },
+      {
+        "check": "All riders settle at the replacement destination",
+        "pass": true
+      },
+      {
+        "check": "H holds the selected regiment at its actual positions",
+        "pass": true
+      },
+      {
+        "check": "Retry removes selection, drafts and pause",
+        "pass": true
+      }
+    ],
+    "failures": 6,
+    "renderer": "macOS"
+  },
+  "after_visible": {
+    "checks": [
+      {
+        "check": "Real menu click opens the current whiteboard battle",
+        "pass": true
+      },
+      {
+        "check": "Seven-arm deployment, start and pause use normal input",
+        "pass": true
+      },
+      {
+        "check": "Click selects an actual soldier",
+        "pass": true
+      },
+      {
+        "check": "Right click starts a personal movement order while paused",
+        "pass": true
+      },
+      {
+        "check": "First waypoint stages without replacing any live order",
+        "pass": true
+      },
+      {
+        "check": "Outside Shift-click is rejected without poisoning the valid draft",
+        "pass": true
+      },
+      {
+        "check": "Rejected waypoint remains visible while paused",
+        "pass": true
+      },
+      {
+        "check": "Rejected endpoint preserves draft and old movement",
+        "pass": true
+      },
+      {
+        "check": "Personal-route instructions cannot hide an unreachable notice",
+        "pass": true
+      },
+      {
+        "check": "English paused error is visible as well",
+        "pass": true
+      },
+      {
+        "check": "A corrected waypoint extends the valid plan",
+        "pass": true
+      },
+      {
+        "check": "A valid correction clears the stale error",
+        "pass": true
+      },
+      {
+        "check": "Overview toggles preserve the draft and pause",
+        "pass": true
+      },
+      {
+        "check": "Confirm commits exactly the authored route",
+        "pass": true
+      },
+      {
+        "check": "Paused planning never advances the soldier",
+        "pass": true
+      },
+      {
+        "check": "Soldier physically reaches both turns and changes facing",
+        "pass": true
+      },
+      {
+        "check": "Soldier settles at final goal",
+        "pass": true
+      },
+      {
+        "check": "Unselected neighbour keeps its position",
+        "pass": true
+      },
+      {
+        "check": "Esc cancels only the draft and preserves the live order",
+        "pass": true
+      },
+      {
+        "check": "Shift click adds a second actual soldier",
+        "pass": true
+      },
+      {
+        "check": "An inside-map cursor is rejected if any selected soldier would end outside",
+        "pass": true
+      },
+      {
+        "check": "Rock occupancy rejects a staged waypoint without changing orders",
+        "pass": true
+      },
+      {
+        "check": "Double-click selects the complete horse regiment",
+        "pass": true
+      },
+      {
+        "check": "Mid-march replacement discards old turns without teleporting anyone",
+        "pass": true
+      },
+      {
+        "check": "All riders settle at the replacement destination",
+        "pass": true
+      },
+      {
+        "check": "H holds the selected regiment at its actual positions",
+        "pass": true
+      },
+      {
+        "check": "Retry removes selection, drafts and pause",
+        "pass": true
+      }
+    ],
+    "failures": 0,
+    "renderer": "macOS"
+  },
+  "live": {
+    "average_render_fps": 107.061908665405,
+    "initial": {
+      "ally": 57.0,
+      "enemy": 57.0,
+      "regiments": 14,
+      "zoom": 1.0
+    },
+    "normal_process": true,
+    "p95_frame_ms": 12.5,
+    "phase": "victory",
+    "remaining": {
+      "ally": 15.0,
+      "enemy": 0.0
+    },
+    "scope": "Unmodified main-loop timing in visible editor-launched game; includes screenshot readback and tool input. Not a thousand-unit benchmark.",
+    "simulation_seconds": 40.699999999999,
+    "slow": false,
+    "wall_seconds": 40.69608
+  },
+  "live_retry": {
+    "ally": 0,
+    "arrows": 0,
+    "corpses": 0,
+    "draft": 0,
+    "effects": 0,
+    "enemy": 7,
+    "paused": false,
+    "phase": "deploy",
+    "selected_regiments": 0,
+    "selected_soldiers": 0,
+    "stones": 0,
+    "zoom": 1.0
+  }
+}

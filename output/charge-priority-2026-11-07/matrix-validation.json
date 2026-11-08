@@ -1,0 +1,59 @@
+[
+  {
+    "mode": "side",
+    "fps": 30,
+    "identical_final_state": true,
+    "same_hit_pairs_damage": true
+  },
+  {
+    "mode": "side",
+    "fps": 120,
+    "identical_final_state": true,
+    "same_hit_pairs_damage": true
+  },
+  {
+    "mode": "side",
+    "rotation_degrees": 90,
+    "max_position_error": 13.102678666540863,
+    "max_hp_error": 30.0,
+    "same_hit_pairs": true
+  },
+  {
+    "mode": "shield",
+    "fps": 30,
+    "identical_final_state": true,
+    "same_hit_pairs_damage": true
+  },
+  {
+    "mode": "shield",
+    "fps": 120,
+    "identical_final_state": true,
+    "same_hit_pairs_damage": true
+  },
+  {
+    "mode": "shield",
+    "rotation_degrees": 90,
+    "max_position_error": 0.0,
+    "max_hp_error": 0.0,
+    "same_hit_pairs": true
+  },
+  {
+    "mode": "pikes",
+    "fps": 30,
+    "identical_final_state": true,
+    "same_hit_pairs_damage": true
+  },
+  {
+    "mode": "pikes",
+    "fps": 120,
+    "identical_final_state": true,
+    "same_hit_pairs_damage": true
+  },
+  {
+    "mode": "pikes",
+    "rotation_degrees": 90,
+    "max_position_error": 0.0,
+    "max_hp_error": 0.0,
+    "same_hit_pairs": true
+  }
+]

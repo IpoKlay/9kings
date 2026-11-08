@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+ERROR: Deployment regions and preset follow enlarged center
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tactical/test_whiteboard_battle.gd:12)
+       [1] run (res://tests/tactical/test_whiteboard_battle.gd:145)
+Whiteboard: 80 checks, 1 failures; { &"legion_frontage_screen_fraction": 0.13489583730698, &"first_melee_seconds": 4.54999999999999 }

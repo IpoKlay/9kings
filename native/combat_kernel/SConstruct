@@ -1,0 +1,42 @@
+# SConstruct
+# External official godot-cpp 4.5 checkout, including its normal dependencies:
+# scons godot_cpp=/absolute/path/to/godot-cpp platform=macos arch=arm64 \
+#       target=template_release
+# Use eagle_combat_kernel_library_init as the .gdextension entry_symbol.
+
+import os
+from SCons.Script import ARGUMENTS, Default, Exit, Glob, SConscript
+
+cpp_path = ARGUMENTS.get("godot_cpp")
+if not cpp_path:
+    print("Required: godot_cpp=/path/to/official/godot-cpp-4.5")
+    Exit(1)
+
+cpp_path = os.path.abspath(os.path.expanduser(cpp_path))
+if not os.path.isfile(os.path.join(cpp_path, "SConstruct")):
+    print("godot_cpp must name a godot-cpp checkout.")
+    Exit(1)
+
+ARGUMENTS.setdefault("platform", "macos")
+ARGUMENTS.setdefault("arch", "arm64")
+ARGUMENTS.setdefault("target", "template_release")
+ARGUMENTS.setdefault("precision", "single")
+ARGUMENTS.setdefault("lto", "none")
+
+if (ARGUMENTS["platform"] != "macos"
+        or ARGUMENTS["arch"] != "arm64"
+        or ARGUMENTS["precision"] != "single"):
+    print("This build targets macOS arm64, precision=single.")
+    Exit(1)
+
+env = SConscript(os.path.join(cpp_path, "SConstruct"))
+env.Append(CPPPATH=["src"])
+env["SHLIBSUFFIX"] = ".dylib"
+# Appended after inherited flags. Do not override with later fast-math flags.
+env.Append(CCFLAGS=["-fno-fast-math", "-ffp-contract=off"])
+
+library = env.SharedLibrary(
+    target="bin/libeagle_combat_kernel" + env["suffix"] + ".dylib",
+    source=Glob("src/*.cpp"),
+)
+Default(library)

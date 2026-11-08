@@ -14,8 +14,10 @@ func run():
 	main.menu_view.get_node('%TacticalTrial').pressed.emit()
 	var t=main.active_trial
 	t.set_process(false)
+	# Legacy authored-map fixture; default menu coverage lives in test_whiteboard_battle.gd.
+	t.rules=t.SquareBattle.new();t.field.load_battlefield();t.reset_camera()
 	var r=t.rules
-	check(r is Battle,'Menu opens square battlefield')
+	check(r is Battle,'Legacy fixture uses square battlefield')
 	check(r.bounds.size==Vector2(2100,2100),'True square world')
 	check(r.enemy_zone.size==r.neutral_zone.size and r.deployment.size==r.neutral_zone.size,'Three equal thirds')
 	check(r.alive('enemy').size()==7 and r.alive('ally').is_empty(),'Enemy awaits deployment')

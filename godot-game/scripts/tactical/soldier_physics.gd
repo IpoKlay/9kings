@@ -48,7 +48,7 @@ static func integrate(r,rows: Array,dt: float):
 	for row in rows:
 		var u: Dictionary=row.unit;var actor: Dictionary=u.soldiers[row.slot]
 		if actor.get('death_state',0)!=0 or not actor.has('position') or u.stun>0 or u.petrified>0:continue
-		var speed: float=u.get('combat_stats',r.config.types[u.kind]).speed
+		var speed: float=(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed
 		var cap=110. if shield(actor) else maxf(speed,r.config.individual_charge.speed)+60. if actor.has('charge_run') else speed+60.
 		actor.velocity=actor.get('velocity',Vector2.ZERO).limit_length(cap)
 		var impulse: Vector2=actor.get('impulse',Vector2.ZERO)

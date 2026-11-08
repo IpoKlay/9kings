@@ -1,0 +1,14 @@
+{
+	"ally": 0,
+	"arrows": 0,
+	"corpses": 0,
+	"draft": 0,
+	"effects": 0,
+	"enemy": 7,
+	"paused": false,
+	"phase": "deploy",
+	"selected_regiments": 0,
+	"selected_soldiers": 0,
+	"stones": 0,
+	"zoom": 1.0
+}

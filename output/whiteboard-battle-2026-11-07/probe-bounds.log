@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PRESET_AFTER_WRITE { "bounds": [P: (0.0, 0.0), S: (4000.0, 4000.0)], "neutral_width": 600.0, "camera_margin": 200.0 } same=true
+BOUNDS_PROBE bounds=[P: (0.0, 0.0), S: (3200.0, 3200.0)] deployment=[P: (0.0, 1900.0), S: (3200.0, 1300.0)] formation=[["guard", 690.0, 1550.0], ["legion", 1050.0, 1550.0], ["spear", 1410.0, 1550.0], ["cavalry", 340.0, 1770.0], ["archer", 1050.0, 1840.0], ["medic", 720.0, 1950.0], ["siege", 1410.0, 1950.0]] rows=[["guard", 1240.0, 2100.0], ["legion", 1600.0, 2100.0], ["spear", 1960.0, 2100.0], ["cavalry", 890.0, 2320.0], ["archer", 1600.0, 2390.0], ["medic", 1270.0, 2500.0], ["siege", 1960.0, 2500.0]] resource=[P: (0.0, 0.0), S: (3200.0, 3200.0)]
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
