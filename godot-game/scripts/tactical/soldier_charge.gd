@@ -30,7 +30,11 @@ static func issue(r,ids: Array,destination: Vector2,side: String='ally') -> bool
 		actor.erase('charge_end')
 		actor.erase('attack_engaged')
 		var speed: float=maxf(u.get('combat_stats',r.config.types[u.kind]).speed,r.config.individual_charge.speed)
-		var velocity: Vector2=actor.get('velocity',u.heading*u.get('slot_speeds',{}).get(row.slot,0.) if u.moving else Vector2.ZERO)
+		var lane_speed=0.
+		if u.moving and u.has('slot_speeds'):
+			var speeds: PackedFloat32Array=u.slot_speeds
+			if row.slot<speeds.size():lane_speed=speeds[row.slot]
+		var velocity: Vector2=actor.get('velocity',u.heading*lane_speed if u.moving else Vector2.ZERO)
 		actor.charge_run={'goal':actor.position+delta,'age':0.,'duration':r.config.individual_charge.max_range/speed,
 			'velocity':velocity,'penalty':0.,'hits':[],'speed':speed}
 		# The legacy regiment sweep must not also award a charge to this rider.

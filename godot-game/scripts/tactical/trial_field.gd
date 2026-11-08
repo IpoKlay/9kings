@@ -529,88 +529,168 @@ func draw_casualties(rules):
 			draw_set_transform(Vector2.ZERO)
 
 func draw_regiments(rules, pass_battle: bool):
-	var figures: Array=[]
+	# Parallel arrays replace one twelve-key Dictionary per figure: at a thousand people this
+	# function rebuilds every frame, and the dictionary churn dominated the draw budget.
+	var feet: PackedVector2Array=PackedVector2Array()
+	var scales: PackedFloat32Array=PackedFloat32Array()
+	var drops: PackedFloat32Array=PackedFloat32Array()
+	var angles: PackedFloat32Array=PackedFloat32Array()
+	var cells: PackedInt32Array=PackedInt32Array()
+	var uppers: PackedInt32Array=PackedInt32Array()
+	var bearings: PackedInt32Array=PackedInt32Array()
+	var tints: Array[Color]=[]
+	var textures: Array[Texture2D]=[]
+	var riders: PackedByteArray=PackedByteArray()
+	var flames: PackedFloat32Array=PackedFloat32Array()
+	var heads: PackedVector2Array=PackedVector2Array()
+	var ground: Transform2D=ground_transform()
+	var now: float=rules.elapsed
+	var attack_duration_base: float=rules.Soldiers.ATTACK_DURATION
 	for u in rules.units:
 		if u.get('escaped',false):continue
 		var stats: Dictionary=rules.config.types[u.kind]
 		var scale: float=rules.contact_profiles[u.kind].scale*u.get('visual_scale',1.)
-		var heading:=ground_transform().basis_xform(u.heading)
-		var angle=atan2(heading.x,heading.y)
-		var bearing:=mounted_bearing(u,angle) if u.kind=='cavalry' else posmod(roundi(angle/(PI/4)),8)
+		var heading:=ground.basis_xform(u.heading)
+		var base_angle=atan2(heading.x,heading.y)
+		var base_bearing:=mounted_bearing(u,base_angle) if u.kind=='cavalry' else posmod(roundi(base_angle/(PI/4)),8)
 		var center:=project(u.pos)
 		var slots=rules.Contact.feet(rules,u)
+		var stride: float=maxf(.001,float(stats.stride))
+		var has_soldiers: bool=u.has('soldiers')
+		var has_individual: bool=rules.config.types[u.kind].has('individual')
+		var attack_duration: float=attack_duration_base if has_individual else .55
+		var mounted_shot: bool=rules.Soldiers.mounted_ranged(u)
+		var art: String=u.get('art',u.kind)
+		var stone: bool=u.petrified>0
+		var texture: Texture2D=regiments[art].stone if stone else regiments[art][u.side]
+		var dragon_fire: float=dragon_flame_strength(u.attack_age) if u.get('archetype','')=='dragon' and not stone else 0.
+		# Hoisted out of the per-slot loop: these were re-read (and re-defaulted) for every person.
+		var slot_distances:=PackedFloat32Array()
+		var slot_speeds:=PackedFloat32Array()
+		if u.has('slot_distances'):slot_distances=u.slot_distances
+		if u.has('slot_speeds'):slot_speeds=u.slot_speeds
+		var slot_states: Dictionary=u.get('slot_states',{})
+		var contact_motion: Dictionary=u.get('contact_motion',{})
+		var motion_offsets: Dictionary=contact_motion.get('offsets',{})
+		var rider_contacts: Dictionary=u.get('rider_contacts',{})
+		var last_contact: Dictionary=u.get('last_contact',{}) if u.kind=='cavalry' else contact_motion.get('contact',{})
+		var special_contact: bool=not last_contact.is_empty() and now-first_time(last_contact)<1./60+.00001
+		var wall_next: float=u.get('wall_next',0.)
+		var wall_files: Dictionary=u.get('wall_files',{})
+		var sprint: bool=u.kind=='cavalry' and u.gait=='sprint'
+		var routing: bool=pass_battle and u.get('routing',false)
+		var unit_heading: Vector2=u.get('heading',u.heading)
 		for slot in slots.size():
 			if not rules.Contact.drawable(u,slot):continue
-			var foot: Vector2=center+slots[slot]+rules.Contact.body_shift(u,slot,rules.elapsed)
-			if pass_battle and u.get('routing',false):foot+=Vector2(sin(slot*7.3),cos(slot*4.7))*12
-			var distance: float=u.get('slot_distances',{}).get(slot,u.march_distance)
-			var speed: float=u.get('slot_speeds',{}).get(slot,1. if u.moving else 0.)
+			var foot: Vector2=center+slots[slot]+rules.Contact.body_shift(u,slot,now)
+			if routing:foot+=Vector2(sin(slot*7.3),cos(slot*4.7))*12
+			var distance: float=slot_distances[slot] if slot<slot_distances.size() else u.march_distance
+			var speed: float=slot_speeds[slot] if slot<slot_speeds.size() else (1. if u.moving else 0.)
 			var walk=speed>.2
-			var actor: Dictionary=u.soldiers[slot] if u.has('soldiers') else {}
+			var actor: Dictionary=u.soldiers[slot] if has_soldiers else {}
 			var attack_age: float=u.attack_age if u.kind=='medic' else actor.get('attack_age',u.attack_age)
-			var attack_duration: float=rules.Soldiers.ATTACK_DURATION if rules.config.types[u.kind].has('individual') else .55
-			var mounted_shot: bool=rules.Soldiers.mounted_ranged(u)
 			var action: bool=attack_age<attack_duration and (mounted_shot or u.kind!='cavalry' or not walk or u.gait=='impact')
-			if actor.is_empty() and u.get('wall_next',0.)>rules.elapsed and not u.get('wall_files',{}).has(slot):action=false
-			var frame:=clampi(int(attack_age/attack_duration*8),0,7) if action else floori(8*distance/float(stats.stride))
-			var actor_bearing:=bearing
+			if actor.is_empty() and wall_next>now and not wall_files.has(slot):action=false
+			var frame:=clampi(int(attack_age/attack_duration*8),0,7) if action else floori(8*distance/stride)
+			var actor_bearing:=base_bearing
 			if (action or actor.has('personal_order')) and actor.has('heading'):
-				var direction: Vector2=ground_transform().basis_xform(actor.heading)
+				var direction: Vector2=ground.basis_xform(actor.heading)
 				actor_bearing=posmod(roundi(atan2(direction.x,direction.y)/(PI/4)),8)
 			var cell=rules.Contact.cell_index(action,walk,frame,slot%4)
-			var upper_cell=11 if u.kind=='cavalry' and u.gait=='sprint' else -1
+			var upper_cell=11 if sprint else -1
 			if mounted_shot and action:
 				upper_cell=cell
-				cell=rules.Contact.cell_index(false,walk,floori(8*distance/float(stats.stride)),slot%4)
+				cell=rules.Contact.cell_index(false,walk,floori(8*distance/stride),slot%4)
 			if actor.has('charge_run'):upper_cell=11
 			if rules.shield_active(u,slot) and not action:upper_cell=9
 			var tint=Color.WHITE
-			var pose: Dictionary={}
-			var state: Dictionary=u.get('slot_states',{}).get(slot,{})
-			if actor.has('impact_pose') and rules.elapsed-actor.impact_pose.start<.8:state=actor.impact_pose
+			var drop=0.
+			var angle=0.
+			var state: Dictionary=slot_states.get(slot,{})
+			if actor.has('impact_pose') and now-actor.impact_pose.start<.8:state=actor.impact_pose
 			if u.kind!='cavalry':
-				pose=reaction_pose(state,rules.elapsed,slot)
-				if pose.is_empty():
-					var motion: Dictionary=u.get('contact_motion',{})
-					if motion.get('offsets',{}).has(slot):
-						pose=reaction_pose({'reaction':'light','start':motion.start,'dir':Vector2(motion.offsets[slot].x,motion.offsets[slot].y)},rules.elapsed,slot)
+				var pose: Dictionary=reaction_pose(state,now,slot)
+				if pose.is_empty() and motion_offsets.has(slot):
+					var impulse: Variant=motion_offsets[slot]
+					pose=reaction_pose({'reaction':'light','start':contact_motion.start,'dir':Vector2(impulse.x,impulse.y)},now,slot)
+				if not pose.is_empty():
+					cell=pose.frame;drop=pose.get('drop',0.);angle=pose.get('angle',0.)
+					if pose.flash:tint=Color(1.8,1.7,1.45)
 			else:
-				var contact: Dictionary=u.get('rider_contacts',{}).get(slot,{})
+				var contact: Dictionary=rider_contacts.get(slot,{})
 				if not contact.is_empty():
-					var age: float=rules.elapsed-contact.start
+					var age: float=now-contact.start
 					if age>=1./60 and age<.16:
 						# A short planted stride reads as resistance while nearby riders keep running.
 						cell=9 if contact.get('braced',false) else 1
-						pose={'angle':-.08*signf(contact.dir.x),'drop':0.,'frame':cell,'flash':false}
-			if not pose.is_empty():
-				cell=pose.frame
-				if pose.flash:tint=Color(1.8,1.7,1.45)
-			var texture: Texture2D=regiments[u.get('art',u.kind)].stone if u.petrified>0 else regiments[u.get('art',u.kind)][u.side]
-			if u.petrified>0:cell=0;upper_cell=-1;pose={}
-			var first: Dictionary=u.get('last_contact',{}) if u.kind=='cavalry' else u.get('contact_motion',{}).get('contact',{})
-			if not first.is_empty() and rules.elapsed-first.time<1./60+.00001:
-				if u.kind=='cavalry' and slot==first.rider_slot:
-					cell=first.rider_cell;upper_cell=first.get('rider_upper_cell',-1);actor_bearing=first.rider_bearing;pose={}
-				elif u.kind in ['legion','guard','spear'] and slot==first.defender_slot:
-					cell=first.defender_cell;actor_bearing=first.defender_bearing;pose={};tint=Color(1.8,1.7,1.45)
-			figures.append({'foot':foot,'scale':scale,'kind':u.kind,'texture':texture,'cell':cell,'upper_cell':upper_cell,'bearing':actor_bearing,'tint':tint,'pose':pose,'dragon_fire':dragon_flame_strength(attack_age) if u.get('archetype','')=='dragon' and u.petrified<=0 else 0.,'heading':actor.get('heading',u.heading)})
-	figures.sort_custom(func(a,b):return a.foot.y<b.foot.y)
-	for figure in figures:
-		var foot: Vector2=figure.foot
-		var scale: float=figure.scale
-		draw_foot_shadow(foot,scale,figure.kind=='cavalry')
-		var pose: Dictionary=figure.pose
-		var offset=Vector2(0,pose.get('drop',0.)*scale)
-		draw_set_transform((foot+offset).round(),pose.get('angle',0.))
+						angle=-.08*signf(contact.dir.x)
+			if stone:cell=0;upper_cell=-1;angle=0.;drop=0.
+			if special_contact:
+				if u.kind=='cavalry' and slot==last_contact.rider_slot:
+					cell=last_contact.rider_cell;upper_cell=last_contact.get('rider_upper_cell',-1);actor_bearing=last_contact.rider_bearing;angle=0.;drop=0.
+				elif u.kind in ['legion','guard','spear'] and slot==last_contact.defender_slot:
+					cell=last_contact.defender_cell;actor_bearing=last_contact.defender_bearing;angle=0.;drop=0.;tint=Color(1.8,1.7,1.45)
+			feet.append(foot);scales.append(scale);drops.append(drop);angles.append(angle)
+			cells.append(cell);uppers.append(upper_cell);bearings.append(actor_bearing)
+			tints.append(tint);textures.append(texture);riders.append(1 if u.kind=='cavalry' else 0)
+			flames.append(dragon_fire);heads.append(unit_heading)
+	var order:=sorted_by_foot(feet)
+	# Pass 1: every ground shadow first, so the untextured rects never split a sprite batch.
+	for index in order:
+		var foot: Vector2=feet[index]
+		draw_foot_shadow(foot,scales[index],riders[index]==1)
+	# Pass 2: sprites.
+	for index in order:
+		var foot: Vector2=feet[index]
+		var scale: float=scales[index]
+		draw_set_transform((foot+Vector2(0,drops[index]*scale)).round(),angles[index])
 		var dest=Rect2(-Vector2(32,54)*scale,Vector2(64,64)*scale)
-		if figure.upper_cell>=0:
+		var upper: int=uppers[index]
+		var bearing: int=bearings[index]
+		if upper>=0:
 			# Only the rider/weapon change pose; horse legs retain distance-based gait.
-			draw_texture_rect_region(figure.texture,Rect2(dest.position,Vector2(64,32)*scale),Rect2(figure.upper_cell*64,figure.bearing*64,64,32),figure.tint)
-			draw_texture_rect_region(figure.texture,Rect2(dest.position+Vector2(0,32)*scale,Vector2(64,32)*scale),Rect2(figure.cell*64,figure.bearing*64+32,64,32),figure.tint)
+			draw_texture_rect_region(textures[index],Rect2(dest.position,Vector2(64,32)*scale),Rect2(upper*64,bearing*64,64,32),tints[index])
+			draw_texture_rect_region(textures[index],Rect2(dest.position+Vector2(0,32)*scale,Vector2(64,32)*scale),Rect2(cells[index]*64,bearing*64+32,64,32),tints[index])
 		else:
-			draw_texture_rect_region(figure.texture,dest,Rect2(figure.cell*64,figure.bearing*64,64,64),figure.tint)
+			draw_texture_rect_region(textures[index],dest,Rect2(cells[index]*64,bearing*64,64,64),tints[index])
 		draw_set_transform(Vector2.ZERO)
-		if figure.dragon_fire>0:draw_dragon_flame(foot,figure.heading,scale,figure.dragon_fire,rules.elapsed)
+		if flames[index]>0:draw_dragon_flame(foot,heads[index],scale,flames[index],now)
+
+static func first_time(contact: Dictionary) -> float:
+	return float(contact.get('time',0.))
+
+## Depth order by foot Y with a counting sort over ~8 px buckets: a closure comparator over a
+## thousand figures costs more than the sort itself in GDScript.
+static func sorted_by_foot(feet: PackedVector2Array) -> PackedInt32Array:
+	var count=feet.size()
+	var order:=PackedInt32Array()
+	order.resize(count)
+	if count==0:return order
+	var low=feet[0].y;var high=low
+	for i in count:
+		var y: float=feet[i].y
+		if y<low:low=y
+		elif y>high:high=y
+	var span=high-low
+	if span<.001:
+		for i in count:order[i]=i
+		return order
+	var buckets=clampi(ceili(span/8.)+1,1,8192)
+	var scale=(buckets-1)/span
+	var starts:=PackedInt32Array()
+	starts.resize(buckets+1)
+	starts.fill(0)
+	for i in count:starts[int((feet[i].y-low)*scale)+1]+=1
+	for b in buckets:starts[b+1]+=starts[b]
+	var cursor:=PackedInt32Array()
+	cursor.resize(buckets)
+	for b in buckets:cursor[b]=starts[b]
+	for i in count:
+		var b=int((feet[i].y-low)*scale)
+		order[cursor[b]]=i
+		cursor[b]+=1
+	return order
+
 
 static func dragon_flame_strength(age: float) -> float:
 	# Public renderer breath is visual only, active at .12–.76 of the .8s attack.

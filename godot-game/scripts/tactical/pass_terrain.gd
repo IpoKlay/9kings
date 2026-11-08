@@ -60,8 +60,14 @@ func clear_segment(kind: String, start: Vector2, finish: Vector2) -> bool:
 	var a=basis*start
 	var b=basis*finish
 	if turning_rows and not (basis*bounds).encloses(Rect2(b-extents[kind],extents[kind]*2)):return false
+	# Same test as crosses(), inlined: this runs for every person on every step and the
+	# per-wall function call dominated the loop.
+	var segment_box=Rect2(a,b-a).abs()
+	var normal=(b-a).orthogonal()
+	var normal_abs=normal.abs()
 	for wall: Rect2 in clearances[kind]:
-		if crosses(wall,a,b):return false
+		if not wall.intersects(segment_box,true):continue
+		if absf(normal.dot(a-wall.get_center()))<=normal_abs.dot(wall.size*.5):return false
 	return true
 
 func first_blocker(kind: String, start: Vector2, finish: Vector2) -> Vector2:

@@ -106,9 +106,9 @@ static func figures(r,u: Dictionary,pose_data: Dictionary,finish: Vector2,start_
 		var phase=(slot%int(stats.files)+3*(slot/int(stats.files)))%4
 		var stride=pose_data.frame
 		var walk=pose_data.walk
-		if not pose_data.action and pose_data.slot_distances.has(slot):
+		if not pose_data.action and slot<pose_data.slot_distances.size():
 			stride=floori(8*pose_data.slot_distances[slot]/float(stats.stride))
-			walk=pose_data.slot_speeds.get(slot,0.)>.2
+			walk=pose_data.slot_speeds[slot]>.2
 		var cell=Contact.cell_index(pose_data.action,walk,stride,phase)
 		var shape=mask(u.kind,'stone' if u.petrified>0 else u.side,pose_data.bearing,cell,r.contact_profiles[u.kind].scale,pose_data.upper_cell)
 		var box: Rect2=shape.bounds

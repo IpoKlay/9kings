@@ -5,10 +5,24 @@ const ATTACK_DURATION=.8
 
 static func individual(r,u: Dictionary) -> Dictionary:
 	if u.has('individual_stats'):return u.individual_stats
-	return r.config.types.get(u.kind,{}).get('individual',{})
+	# Rules stubs in tests expose only config; fall back to the uncached lookup for those.
+	var memo: Variant=r.get('individual_kinds')
+	if memo==null:return r.config.types.get(u.kind,{}).get('individual',{})
+	var cached: Variant=memo.get(u.kind)
+	if cached==null:
+		cached=r.config.types.get(u.kind,{}).get('individual',{})
+		memo[u.kind]=cached
+	return cached
+
+## Per-person simulation support, resolved from the memoised stat block. Replaces the
+## three-dictionary `config.types[kind].has('individual')` probe run per soldier.
+static func has_individual(r,u: Dictionary) -> bool:
+	return not individual(r,u).is_empty()
 
 static func ranged(u: Dictionary) -> bool:
-	return bool(int(u.get('individual_stats',{}).get('role_bits',0))&4) or u.kind in ['archer','siege']
+	var stats: Variant=u.get('individual_stats')
+	if stats!=null and int(stats.get('role_bits',0))&4:return true
+	return u.kind in ['archer','siege']
 
 static func mounted_ranged(u: Dictionary) -> bool:
 	return u.kind=='cavalry' and ranged(u)
@@ -71,10 +85,10 @@ static func hurt(u: Dictionary,damage: float,slot: int=-1) -> float:
 static func retaliate(r,u: Dictionary,slot: int,source_id: int,source_slot: int):
 	if slot<0 or slot>=u.get('soldiers',[]).size() or source_slot<0:return
 	var actor: Dictionary=u.soldiers[slot]
-	var source=r.units.filter(func(other):return other.id==source_id)
-	if source.is_empty() or source_slot>=source[0].soldiers.size():return
+	var source: Dictionary=r.unit_by_id(source_id)
+	if source.is_empty() or source_slot>=source.soldiers.size():return
 	# A lethal hit does not unregister the attacker until its death-system visit.
-	if source[0].soldiers[source_slot].get('death_state',0)!=0:return
+	if source.soldiers[source_slot].get('death_state',0)!=0:return
 	actor.last_attacker=Vector2i(source_id,source_slot)
 	if actor.get('death_state',0)!=0 or not actor.has('personal_order') or actor.get('shield_wall',false) or actor.has('charge_run'):return
 	var order: String=actor.personal_order
@@ -83,7 +97,7 @@ static func retaliate(r,u: Dictionary,slot: int,source_id: int,source_slot: int)
 	actor.resume_attack_move=order=='attack_move'
 	actor.personal_order='attack'
 	actor.focus_id=source_id;actor.focus_slot=source_slot
-	remember_target(u,actor,{'unit':source[0],'near':{'slot':source_slot}},r.target_reservations)
+	remember_target(u,actor,{'unit':source,'near':{'slot':source_slot}},r.target_reservations)
 	actor.erase('attack_engaged');actor.erase('steer_path');actor.erase('steer_goal')
 	if not actor.resume_attack_move:actor.path=[];actor.route_stops=[]
 
@@ -109,8 +123,9 @@ static func wounded(u: Dictionary) -> bool:
 	return u.soldiers.any(func(actor):return actor.hp>0 and actor.hp<actor.max_hp-.001)
 
 static func ground_position(r,u: Dictionary,slot: int) -> Vector2:
-	if u.soldiers[slot].has('position'):return u.soldiers[slot].position
-	return u.pos+r.ground_basis.affine_inverse().basis_xform(r.Contact.formation_feet(r,u)[slot])
+	var actor: Dictionary=u.soldiers[slot]
+	if actor.has('position'):return actor.position
+	return u.pos+r.ground_inverse.basis_xform(r.Contact.formation_feet(r,u)[slot])
 
 static func point(r,u: Dictionary,slot: int) -> Vector2:
 	return r.projection*ground_position(r,u,slot)+r.Contact.body_shift(u,slot,r.elapsed)
@@ -184,10 +199,13 @@ static func engagement_range(r,u: Dictionary,actor: Dictionary,target: Dictionar
 # The countdown fraction describes time remaining, not elapsed windup.
 static func fire_attacks(r):
 	for a in r.units:
+		# Unit-level gates cost three dictionary probes per soldier when they sit in fire_actor.
+		if not has_individual(r,a):continue
+		if a.get('escaped',false) or a.stun>0 or a.petrified>0:continue
 		for i in a.soldiers.size():fire_actor(r,a,i)
 
 static func fire_actor(r,a: Dictionary,i: int):
-	if not r.config.types[a.kind].has('individual'):return
+	if not has_individual(r,a):return
 	if a.get('escaped',false) or a.stun>0 or a.petrified>0:return
 	var stats: Dictionary=individual(r,a)
 	var actor: Dictionary=a.soldiers[i]
@@ -234,7 +252,7 @@ static func mounted_fire(r,u: Dictionary,slot: int,actor: Dictionary,counts: Dic
 	var chosen=identified_target(r,u,slot,actor.target_id,actor.target_slot)
 	if chosen.is_empty() or chosen.near.distance>reach:
 		chosen={};var distance=INF
-		for enemy in r.alive('enemy' if u.side=='ally' else 'ally'):
+		for enemy in r.step_units('enemy' if u.side=='ally' else 'ally'):
 			var candidate=nearest(r,u,slot,enemy)
 			if not candidate.is_empty() and candidate.distance<=reach and candidate.distance<distance:
 				chosen={'unit':enemy,'near':candidate};distance=candidate.distance
@@ -246,6 +264,11 @@ static func brake_for_attack(r,row: Dictionary,velocity: Vector2,dt: float):
 	if row.unit.rooted>0:actor.velocity=Vector2.ZERO
 
 static func navigator(r,kind: String,u: Dictionary={}) -> String:
+	# The key is a per-kind clearance table name; building it per call cost a string join and
+	# a float format for every person on every step.
+	if not u.is_empty():
+		var memo: Variant=u.get('nav_key')
+		if memo!=null and r.terrain.extents.has(memo):return memo
 	var radius: float=individual(r,u).get('unit_size',9.) if not u.is_empty() else r.config.types[kind].get('individual',{}).get('unit_size',9.)
 	var key='person_'+kind+'_'+str(radius)
 	if r.terrain.extents.has(key):return key
@@ -254,14 +277,16 @@ static func navigator(r,kind: String,u: Dictionary={}) -> String:
 	var walls: Array[Rect2]=[]
 	for rock: Rect2 in r.terrain.ROCKS:walls.append(Rect2(rock.position-extent,rock.size+extent*2))
 	r.terrain.clearances[key]=walls
+	if not u.is_empty():u.nav_key=key
 	return key
 
 static func members(r,ids: Array,side: String='ally') -> Array:
 	var result=[]
 	for id: Vector2i in ids:
-		for u in r.alive(side):
-			if u.id!=id.x or id.y<0 or id.y>=u.soldiers.size() or u.soldiers[id.y].hp<=0:continue
-			result.append({'unit':u,'slot':id.y,'actor':u.soldiers[id.y]})
+		var u: Dictionary=r.unit_by_id(id.x)
+		if u.is_empty() or u.side!=side or u.hp<=0:continue
+		if id.y<0 or id.y>=u.soldiers.size() or u.soldiers[id.y].hp<=0:continue
+		result.append({'unit':u,'slot':id.y,'actor':u.soldiers[id.y]})
 	return result
 
 static func group_members(squads: Array) -> Array:
@@ -374,7 +399,10 @@ static func automate(r,u: Dictionary,replace: bool=false):
 	u.charge=false;u.erase('penetration')
 
 static func independent(u: Dictionary) -> bool:
-	return u.soldiers.all(func(actor):return actor.hp<=0 or actor.has('personal_order') and actor.personal_order!='regroup')
+	for actor in u.soldiers:
+		if actor.hp<=0:continue
+		if not actor.has('personal_order') or actor.personal_order=='regroup':return false
+	return true
 
 static func update_center(r,u: Dictionary,dt: float):
 	r.powers.invalidate_target_batch()
@@ -389,27 +417,49 @@ static func update_center(r,u: Dictionary,dt: float):
 	u.march_distance+=u.pos.distance_to(center);u.pos=center;u.moving=moving
 	if not heading.is_zero_approx():u.heading=heading.normalized()
 	if u.kind=='cavalry':u.gait='ride';u.pace=1. if moving else 0.
-	u.engaged=u.soldiers.any(func(actor):return actor.hp>0 and actor.attack_age<.55)
+	# One pass replaces three closure scans over every person in the regiment.
+	var engaged=false
+	for actor in u.soldiers:
+		if actor.hp>0 and actor.attack_age<.55:engaged=true;break
+	u.engaged=engaged
 	if u.has('route_progress'):
 		var reached=100000
 		for actor in u.soldiers:
 			if actor.hp>0:reached=mini(reached,actor.get('route_progress',0))
 		while u.route_progress<reached and not u.waypoints.is_empty():
 			u.destination=u.waypoints.pop_front();u.route_progress+=1
-	if u.order in ['move','attack_move','attack'] and u.soldiers.all(func(actor):return actor.hp<=0 or actor.personal_order in ['hold','idle']):
-		u.order='idle' if u.soldiers.any(func(actor):return actor.hp>0 and actor.personal_order=='idle') else 'hold'
-		u.waypoints.clear()
+	if u.order in ['move','attack_move','attack']:
+		var settled=true
+		var any_idle=false
+		for actor in u.soldiers:
+			if actor.hp<=0:continue
+			var state: String=actor.get('personal_order','')
+			if state!='hold' and state!='idle':settled=false;break
+			if state=='idle':any_idle=true
+		if settled:
+			u.order='idle' if any_idle else 'hold'
+			u.waypoints.clear()
 
 static func identified_target(r,u: Dictionary,slot: int,id: int,target_slot: int,living: bool=true) -> Dictionary:
 	if id<0 or target_slot<0:return {}
-	var candidates: Array=r.units if r.personal_unit_lookup.is_empty() else [r.personal_unit_lookup[id]] if r.personal_unit_lookup.has(id) else []
-	for enemy in candidates:
-		if enemy.id!=id or enemy.side==u.side or enemy.get('escaped',false) or target_slot<0 or target_slot>=enemy.soldiers.size():continue
-		var target: Dictionary=enemy.soldiers[target_slot]
-		if target.get('death_state',0)!=0 or (living and target.hp<=0):continue
-		var delta: Vector2=ground_position(r,enemy,target_slot)-ground_position(r,u,slot)
-		return {'unit':enemy,'near':{'slot':target_slot,'distance':delta.length(),'heading':delta.normalized()}}
-	return {}
+	# Called for nearly every person on every step: avoid the per-call wrapper Array and the
+	# eager default Dictionary that the previous lookup form allocated.
+	var enemy: Dictionary={}
+	if r.personal_unit_lookup.is_empty():
+		for candidate in r.units:
+			if candidate.id==id:enemy=candidate;break
+	else:
+		var found: Variant=r.personal_unit_lookup.get(id)
+		if found!=null:enemy=found
+	if enemy.is_empty() or enemy.side==u.side or enemy.get('escaped',false) or target_slot>=enemy.soldiers.size():return {}
+	var target: Dictionary=enemy.soldiers[target_slot]
+	if target.get('death_state',0)!=0 or (living and target.hp<=0):return {}
+	var enemy_feet: Variant=r.personal_feet.get(enemy.id)
+	var own_feet: Variant=r.personal_feet.get(u.id)
+	var far: Vector2=enemy_feet[target_slot] if enemy_feet!=null and target_slot<enemy_feet.size() else ground_position(r,enemy,target_slot)
+	var here: Vector2=own_feet[slot] if own_feet!=null and slot<own_feet.size() else ground_position(r,u,slot)
+	var delta: Vector2=far-here
+	return {'unit':enemy,'near':{'slot':target_slot,'distance':delta.length(),'heading':delta.normalized()}}
 
 static func shield_line(r,ids: Array,start: Vector2,finish: Vector2,commit: bool=true) -> Dictionary:
 	var plan=r.Walls.layout(r,ids,start,finish)
@@ -448,9 +498,13 @@ static func personal_target(r,u: Dictionary,slot: int,actor: Dictionary,shared_c
 	var stats: Dictionary=individual(r,u)
 	if actor.personal_order=='attack':
 		if actor.get('target_id',-1)>=0:return remember_target(u,actor,identified_target(r,u,slot,actor.target_id,actor.target_slot),counts)
-		var alive_focus=r.alive('enemy' if u.side=='ally' else 'ally').filter(func(enemy):return enemy.id==actor.focus_id)
+		var alive_focus={}
+		for enemy in r.step_units('enemy' if u.side=='ally' else 'ally'):
+			if enemy.id==actor.focus_id:
+				alive_focus=enemy
+				break
 		if alive_focus.is_empty():return remember_target(u,actor,{},counts)
-		var focused=identified_target(r,u,slot,actor.focus_id,actor.focus_slot) if actor.focus_slot>=0 else {'unit':alive_focus[0],'near':nearest(r,u,slot,alive_focus[0])}
+		var focused=identified_target(r,u,slot,actor.focus_id,actor.focus_slot) if actor.focus_slot>=0 else {'unit':alive_focus,'near':nearest(r,u,slot,alive_focus)}
 		return remember_target(u,actor,focused,counts)
 	if u.side=='enemy':
 		for decoy in r.powers.decoys:
@@ -467,15 +521,18 @@ static func personal_target(r,u: Dictionary,slot: int,actor: Dictionary,shared_c
 	if not fresh and actor.personal_order in ['auto','idle','attack_move'] and not current.is_empty():return current
 	var holding: bool=actor.personal_order=='hold' or actor.get('shield_wall',false)
 	var origin=ground_position(r,u,slot)
-	for enemy in r.alive('enemy' if u.side=='ally' else 'ally'):
+	for enemy in r.step_units('enemy' if u.side=='ally' else 'ally'):
 		if r.personal_target_bounds.has(enemy.id):
 			var area: Rect2=r.personal_target_bounds[enemy.id]
 			if origin.distance_squared_to(origin.clamp(area.position,area.end))>reach*reach:continue
 		var enemy_roles: int=individual(r,enemy).get('role_bits',0)
+		var enemy_feet: Variant=r.personal_feet.get(enemy.id)
+		var snap: bool=enemy_feet!=null and enemy_feet.size()==enemy.soldiers.size()
 		for j in enemy.soldiers.size():
 			var victim: Dictionary=enemy.soldiers[j]
 			if victim.hp<=0:continue
-			var delta: Vector2=ground_position(r,enemy,j)-origin
+			var point: Vector2=enemy_feet[j] if snap else ground_position(r,enemy,j)
+			var delta: Vector2=point-origin
 			var distance_sq=delta.length_squared()
 			if distance_sq>reach*reach:continue
 			var score=-distance_sq
@@ -507,13 +564,16 @@ static func retarget_pursuit(r,u: Dictionary,slot: int,actor: Dictionary,navigat
 	var best=current
 	var best_cost: float=current.near.distance*current.near.distance
 	if is_ranged:best_cost+=counts.get(Vector2i(current.unit.id,current.near.slot),0)*1500.
-	for enemy in r.alive('enemy' if u.side=='ally' else 'ally'):
+	for enemy in r.step_units('enemy' if u.side=='ally' else 'ally'):
 		if r.personal_target_bounds.has(enemy.id):
 			var area: Rect2=r.personal_target_bounds[enemy.id]
 			if origin.distance_squared_to(origin.clamp(area.position,area.end))>radius*radius:continue
+		var enemy_feet: Variant=r.personal_feet.get(enemy.id)
+		var snap: bool=enemy_feet!=null and enemy_feet.size()==enemy.soldiers.size()
 		for j in enemy.soldiers.size():
 			if enemy.soldiers[j].hp<=0 or (enemy.id==current.unit.id and j==current.near.slot):continue
-			var delta=ground_position(r,enemy,j)-origin
+			var point: Vector2=enemy_feet[j] if snap else ground_position(r,enemy,j)
+			var delta=point-origin
 			var cost=delta.length_squared()
 			if cost>radius*radius:continue
 			var distance: float=sqrt(cost)
@@ -527,47 +587,88 @@ static func retarget_pursuit(r,u: Dictionary,slot: int,actor: Dictionary,navigat
 static func begin_target_lookup(r):
 	# Regroup can settle feet during decisions; it erases that unit's bounds below.
 	r.personal_unit_lookup.clear();r.personal_target_bounds.clear()
+	r.personal_feet.clear()
 	for unit in r.units:
 		r.personal_unit_lookup[unit.id]=unit
 		if unit.hp<=0 or unit.soldiers.is_empty():continue
-		var area=Rect2(ground_position(r,unit,0),Vector2.ZERO)
-		for slot in range(1,unit.soldiers.size()):area=area.expand(ground_position(r,unit,slot))
+		# Feet are gathered once here; nothing moves a person between this pass and the last
+		# decision step, so the scans can index this snapshot instead of re-projecting.
+		var feet:=PackedVector2Array()
+		feet.resize(unit.soldiers.size())
+		for slot in unit.soldiers.size():feet[slot]=ground_position(r,unit,slot)
+		r.personal_feet[unit.id]=feet
+		var area=Rect2(feet[0],Vector2.ZERO)
+		for slot in range(1,feet.size()):area=area.expand(feet[slot])
 		r.personal_target_bounds[unit.id]=area
 
 static func advance_personal(r,dt: float):
 	r.powers.end_target_batch()
-	var registered=[]
+	# Rows are persistent per soldier: the registration pass used to build one four-key
+	# Dictionary per person per step (1000 allocations off-heap per step at full strength).
+	var personalized: bool=false
+	for unit in r.units:
+		if unit.get('personalized',false):personalized=true;break
+	var occupied: Array=r.personal_occupied
+	var count=0
+	# The broad phase before the decisions only feeds move-batch settling; the collision pass
+	# rebuilds it after movement anyway, so it is skipped when nothing is settling.
+	var settling: bool=false
 	for unit in r.units:
 		if unit.get('escaped',false):continue
+		if not personalized:continue
 		var radius: float=float(individual(r,unit).get('unit_size',9.))
+		var rows: Array=unit.get('personal_rows',[])
+		if rows.size()!=unit.soldiers.size():
+			rows=[]
+			for slot in unit.soldiers.size():rows.append({})
+			unit.personal_rows=rows
 		for slot in unit.soldiers.size():
 			var actor: Dictionary=unit.soldiers[slot]
 			if actor.get('death_state',0)!=0:continue
-			actor.source_point=ground_position(r,unit,slot)
-			registered.append({'unit':unit,'slot':slot,'radius':radius,'point':actor.source_point})
-	if not r.units.any(func(u):return u.get('personalized',false)):
+			if actor.has('move_batch'):settling=true
+			var row: Dictionary=rows[slot]
+			row.unit=unit;row.slot=slot;row.radius=radius
+			# `ground_position` is a plain field read once a person owns a position; only the
+			# regimental fallback needs the formation row and the cached ground inverse.
+			row.point=actor.position if actor.has('position') else ground_position(r,unit,slot)
+			if count<occupied.size():occupied[count]=row
+			else:occupied.append(row)
+			count+=1
+	if not personalized:
 		fire_attacks(r)
-		for row in registered:
-			if row.unit.soldiers[row.slot].hp<=0 and row.unit.stun<=0 and row.unit.petrified<=0:
-				r.record_casualty(row.unit,row.slot)
-				row.unit.soldiers[row.slot].death_state=1
+		for unit in r.units:
+			if unit.stun>0 or unit.petrified>0:continue
+			for slot in unit.soldiers.size():
+				var actor: Dictionary=unit.soldiers[slot]
+				if actor.hp<=0 and actor.get('death_state',0)==0:
+					r.record_casualty(unit,slot)
+					actor.death_state=1
 		return
+	if count<occupied.size():occupied.resize(count)
 	begin_target_lookup(r)
 	r.Walls.advance(r)
-	var occupied=registered
-	prepare_neighbours(r,occupied,dt)
+	if settling:prepare_neighbours(r,occupied,dt)
 	var target_counts=ranged_target_counts(r)
 	r.target_reservations=target_counts
 	var dead=[]
 	r.powers.begin_target_batch()
-	for row in registered:
+	for row in occupied:
 		if row.unit.stun>0 or row.unit.petrified>0:continue
-		step_personal(r,row,occupied,target_counts,dt)
+		var actor: Dictionary=row.unit.soldiers[row.slot]
+		# Attack release stays on the 60 Hz step; the decision (and therefore the death report)
+		# is what the cadence table batches.
+		if not (r.simulation_lod and lod_throttled(r,actor,dt)):
+			var debt: Variant=actor.get('sim_debt')
+			if debt!=null:
+				actor.erase('sim_debt')
+				step_personal(r,row,occupied,target_counts,dt+float(debt))
+			else:step_personal(r,row,occupied,target_counts,dt)
 		fire_actor(r,row.unit,row.slot)
 		if row.unit.soldiers[row.slot].hp<=0:dead.append(row)
 	r.powers.end_target_batch()
 	r.target_reservations={}
 	r.personal_unit_lookup.clear();r.personal_target_bounds.clear()
+	r.personal_feet.clear()
 	Physics.integrate(r,occupied,dt)
 	Physics.repel(r,occupied,dt)
 	# Free the combat registration now; queue_free keeps the source object until frame end.
@@ -579,10 +680,19 @@ static func advance_personal(r,dt: float):
 	for u in r.units:
 		update_center(r,u,dt)
 		if independent(u) and u.get('routing',false):u.escaped=personal_fled(r,u)
-		if u.get('personalized',false) and not u.soldiers.any(func(actor):return actor.has('position')):u.erase('personalized')
+		if u.get('personalized',false) and not has_person(u):u.erase('personalized')
+
+static func has_person(u: Dictionary) -> bool:
+	for actor in u.soldiers:
+		if actor.has('position'):return true
+	return false
 
 static func pending_deaths(r,side: String) -> bool:
-	return r.units.any(func(u):return u.side==side and not u.get('escaped',false) and u.soldiers.any(func(a):return a.hp<=0 and a.get('death_state',0)==0))
+	for u in r.units:
+		if u.side!=side or u.get('escaped',false):continue
+		for a in u.soldiers:
+			if a.hp<=0 and a.get('death_state',0)==0:return true
+	return false
 
 static func finish_deaths(r):
 	for unit in r.units:
@@ -590,6 +700,14 @@ static func finish_deaths(r):
 			if actor.get('death_state',0)==1:
 				actor.death_state=2
 				actor.erase('attack_pending');actor.erase('charge_run');actor.erase('impulse')
+
+## Decision cadence table. Physics, cooldowns and attack release stay on the 60 Hz step; only
+## the target/path decision is batched, with the skipped time banked into `sim_debt` so totals
+## are preserved. Charging riders and people mid-release keep the full cadence.
+static func lod_throttled(r,actor: Dictionary,dt: float) -> bool:
+	if actor.has('charge_run') or actor.get('attack_pending',false) or actor.has('attack_engaged'):return false
+	actor.sim_debt=minf(actor.get('sim_debt',0.)+dt,.05)
+	return int(actor.get('scan_slot',0))%2!=r.simulation_step%2
 
 static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dictionary,dt: float):
 	var u=row.unit;var slot: int=row.slot;var actor=u.soldiers[slot]
@@ -602,7 +720,9 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 		r.Charges.step(r,row,occupied,dt);return
 	var previous_velocity: Vector2=actor.get('velocity',Vector2.ZERO)
 	brake_for_attack(r,row,previous_velocity,dt)
-	var reaction: Dictionary=u.get('slot_states',{}).get(slot,{})
+	var reaction: Dictionary={}
+	var states: Variant=u.get('slot_states')
+	if states!=null and states.has(slot):reaction=states[slot]
 	if not reaction.is_empty() and r.elapsed<reaction.start+reaction.get('hold',0.)+reaction.get('recover',0.):actor.velocity=Vector2.ZERO;return
 	if actor.get('shield_wall',false) and actor.personal_order=='hold' and actor.has('wall_slot'):
 		actor.wall_off_slot=actor.get('wall_off_slot',0.)+dt if actor.position.distance_to(actor.wall_slot)>17. else 0.
@@ -727,9 +847,10 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 	elif order=='bombard':
 		goal=r.Structures.approach(r,row)
 	elif order=='regroup':
-		goal=u.pos+r.ground_basis.affine_inverse().basis_xform(r.Contact.formation_feet(r,u)[slot])
+		goal=u.pos+r.ground_inverse.basis_xform(r.Contact.formation_feet(r,u)[slot])
 		if actor.position.distance_to(goal)<.05:
 			r.personal_target_bounds.erase(u.id)
+			r.personal_feet.erase(u.id)
 			actor.erase('position');actor.erase('personal_order');actor.erase('velocity');return
 	elif order=='flee':
 		goal=Vector2(actor.position.x,r.bounds.end.y-30. if u.side=='ally' else r.bounds.position.y+30.) if r.square_battle else Vector2(r.bounds.position.x+30. if u.side=='ally' else r.bounds.end.x-30.,actor.position.y)
@@ -765,19 +886,31 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 
 static func prepare_neighbours(r,occupied: Array,dt: float):
 	# Broad phase only. Exact collision still reads the live point of every nearby person.
-	var cells={};var widest=0.;var fastest: float=r.config.individual_charge.speed*2.
+	# Cell buckets and per-row neighbour arrays are reused; this pass used to rebuild both
+	# for every row on every step.
+	var cells: Dictionary=r.neighbour_cells
+	# `neighbour_keys` is the registry of every bucket this battle has ever used; it is only
+	# appended to, so each existing bucket is emptied on every pass.
+	for key in r.neighbour_keys:cells[key].clear()
+	var widest=0.;var fastest: float=r.config.individual_charge.speed*2.
 	for u in r.units:
 		fastest=maxf(fastest,(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed*r.powers.speed_multiplier(u)*1.35)
 	for row in occupied:
 		var cell=Vector2i((row.point/64.).floor())
-		if not cells.has(cell):cells[cell]=[]
-		cells[cell].append(row);widest=maxf(widest,row.radius)
+		var bucket: Variant=cells.get(cell)
+		if bucket==null:
+			bucket=[]
+			cells[cell]=bucket
+			r.neighbour_keys.append(cell)
+		bucket.append(row);widest=maxf(widest,row.radius)
 	for row in occupied:
 		var padding=Vector2.ONE*(row.radius+widest+.6*maxf(row.radius,widest)+2.*fastest*dt)
 		var low=Vector2i(((row.point-padding)/64.).floor());var high=Vector2i(((row.point+padding)/64.).floor())
 		var neighbours=[]
 		for y in range(low.y,high.y+1):
-			for x in range(low.x,high.x+1):neighbours.append_array(cells.get(Vector2i(x,y),[]))
+			for x in range(low.x,high.x+1):
+				var bucket: Variant=cells.get(Vector2i(x,y))
+				if bucket!=null:neighbours.append_array(bucket)
 		row.neighbours=neighbours
 
 static func personal_fled(r,u: Dictionary) -> bool:
