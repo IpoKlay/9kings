@@ -4,6 +4,14 @@
 
 **最新交接：** [2026-11-07 战斗核心与完整剩余任务](handoff/combat-core-2026-11-07/README.md)。本节点暂停扩展，完整复现尚未完成，千人性能仍未达标。
 
+编译后的试玩包、录像和旧工程副本已从当前版本移出，模型源文件与游戏所需资源保留。旧历史仍含大文件，新协作者可使用浅克隆，只下载当前版本。
+
+```sh
+git clone --depth 1 git@github.com:IpoKlay/9kings.git
+```
+
+后续试玩包使用 GitHub Releases 分发。本次清理尚未迁移到 Releases，已有历史包可从对应 `builds/` 说明中的历史链接按需获取。
+
 当前开发以 [godot-game/](godot-game/) 为准。在 Godot 4.7.2 中导入 `godot-game/project.godot`，按 F5 运行。
 
 - 从主菜单进入「军团会战 · RTS」，默认开放野战；七个部署类别可切换旧公开版32种配置，也可选择山口守阵或攻城演练。山口保留守旗/夺旗规则，攻城目前完成石墙五击破坏。
@@ -24,10 +32,10 @@
 - [会战 HUD](godot-game/scenes/ui/battle_hud.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-hud.png)
 - [山口布局](godot-game/scenes/battlefields/roman_pass.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-pass.png)
 - [主菜单](godot-game/scenes/ui/main_menu.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-menu.png)
-- [六排冲锋独立源码](output/formation-impact/六排Godot工程/project.godot) · [冲击验收与录像](output/formation-impact/试玩与验收.md)
+- [六排冲锋独立源码](https://github.com/IpoKlay/9kings/blob/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/output/formation-impact/%E5%85%AD%E6%8E%92Godot%E5%B7%A5%E7%A8%8B/project.godot) · [冲击验收与录像](output/formation-impact/试玩与验收.md)
 - [同步范围与复测说明](docs/SYNC-2026-11-05.md)
 
-按钮位置、纸签样式、树木、军旗、阻挡岩壁、出生标记与菜单行距的具体编辑入口见 [DATA_GUIDE](godot-game/DATA_GUIDE.md)。六排源码保留当时的冲锋验收版本，具有独立应用标识；后续编辑器场景重构位于当前单排主工程。
+按钮位置、纸签样式、树木、军旗、阻挡岩壁、出生标记与菜单行距的具体编辑入口见 [DATA_GUIDE](godot-game/DATA_GUIDE.md)。六排源码属于历史验收快照，链接指向清理前的提交；当前开发使用单排主工程。
 
 ## 最新游戏画面
 

@@ -1,13 +1,7 @@
-# 战斗核心试玩包
+# 早期 Mac 与 Windows 试玩
 
-与本节点源码一起提交的Mac/Windows导出包。每个ZIP按80MiB分卷，以适应GitHub单文件限制；无需Git LFS。克隆整个仓库或下载仓库ZIP后，在仓库根目录执行：
+试玩包分卷已于 2026-11-07 从当前源码版本移出，本机原件保留。当前克隆无需下载或拼接编译产物，在 Godot 4.7.2 打开 `godot-game/project.godot` 后按 F5 即可运行。
 
-```sh
-python3 builds/combat-core-2026-11-07/reassemble.py
-```
+[历史包与校验记录](https://github.com/IpoKlay/9kings/tree/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/builds/combat-core-2026-11-07) 仍可按需访问。目录内原还原脚本仅供已有历史分卷的本机使用。
 
-脚本校验每一卷及最终ZIP的SHA256，生成两份原始完整ZIP；随后正常解压即可。Mac包保留完整.app，Windows包包含.exe和同目录.pck。也可以直接使用Godot4.7.2打开 `godot-game/project.godot`，不需要还原试玩包。
-
-Mac独立程序实际点通部署、开战、进攻、暂停、菜单；两平台导出PCK均通过78项资源/战斗检查。Windows exe尚未在Windows实机运行。Mac仅本机签名、未经Apple公证。完整复现未完成，千人战约2.71FPS，不建议用千人负载当作正常试玩。
-
-接手文档：[交接目录](../../handoff/combat-core-2026-11-07/README.md)。
+后续独立试玩包通过 GitHub Releases 按需提供。本次仅完成源码仓库清理，尚未创建或上传 Release。

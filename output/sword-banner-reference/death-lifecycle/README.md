@@ -1,6 +1,6 @@
 # 来源死亡与在飞投射物
 
-[正常速度实机录像](runtime.mp4)：一名预伤至1HP的弓手先发箭，随后被近处敌弓手杀死；他的箭继续飞向远处盾兵并造成15点完整伤害。第50模拟帧死亡、第97帧命中；画面从菜单进入，固定默认缩放、无音效。集火通过正式接口由脚本下令，第四名友军用于维持战斗，不冒充自由会战。
+[正常速度实机录像](https://github.com/IpoKlay/9kings/blob/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/output/sword-banner-reference/death-lifecycle/runtime.mp4)：一名预伤至1HP的弓手先发箭，随后被近处敌弓手杀死；他的箭继续飞向远处盾兵并造成15点完整伤害。第50模拟帧死亡、第97帧命中；画面从菜单进入，固定默认缩放、无音效。集火通过正式接口由脚本下令，第四名友军用于维持战斗，不冒充自由会战。
 
 依据为公开旧版脚本、[Godot4.6节点生命周期文档](https://docs.godotengine.org/en/4.6/classes/class_node.html#class-node-method-queue-free)及本机Godot4.7.2节点实验。原版完整游戏同条件死亡对照尚未执行。
 

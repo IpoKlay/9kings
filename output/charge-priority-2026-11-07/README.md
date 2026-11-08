@@ -12,7 +12,7 @@
 
 ## 正常速度静音录像
 
-[侧撞](side.mp4) · [正面剑盾](shield.mp4) · [正面长矛](pikes.mp4)
+[侧撞](https://github.com/IpoKlay/9kings/blob/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/output/charge-priority-2026-11-07/side.mp4) · [正面剑盾](https://github.com/IpoKlay/9kings/blob/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/output/charge-priority-2026-11-07/shield.mp4) · [正面长矛](https://github.com/IpoKlay/9kings/blob/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/output/charge-priority-2026-11-07/pikes.mp4)
 
 由当前正式菜单进入白板后设置固定夹具，8 骑对 10 人，实际 F 布阵完成后才下达共享 C 指令。敌我颜色反转，以便守方使用正常玩家 F 布阵接口。三段均为 Godot Movie Maker 的实际渲染，60 FPS、481 帧（约 8 秒），固定模拟每帧 1/60 秒；编码解码检查见 video-validation.json。不是现场帧率测量，也不是原作录像。
 

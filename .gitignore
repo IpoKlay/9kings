@@ -15,15 +15,16 @@ __pycache__/
 **/test-settings.cfg
 **/menu-test-run.cfg*
 
-# Reassembled checkpoint downloads (verified parts are tracked)
-/builds/combat-core-2026-11-07/*.zip
-/builds/combat-core-2026-11-07/*.partial
-
-# Reassembled latest whiteboard playtest
-/builds/whiteboard-core-2026-11-07/*.zip
-/builds/whiteboard-core-2026-11-07/*.partial
-
 # Local native probe build outputs
 /native/combat_kernel/bin/
 /native/combat_kernel/src/*.os
 /native/combat_kernel/.sconsign*
+
+# Local build packages, recordings and generated validation output
+/builds/
+/output/
+/local-artifacts/
+*.zip.part*
+*.pck
+*.exe
+*.dmg
