@@ -15,7 +15,7 @@ func _init():
 	check(r.damage_amount(100,[.2,.3],[.2,.1],5)==100.,'Additive modifiers and flat armor')
 	check(r.damage_amount(10,[],[],20)==0.,'No negative healing damage')
 	r.start()
-	var spear=r.alive('ally').filter(func(u):return u.unit_type=='spear')[0]
+	var spear=r.spawn_person('spear','ally',Vector2(1250,2260))
 	var chosen=[Vector2i(spear.id,0)]
 	check(r.Soldiers.command(r,chosen,'move',Vector2(1600,1800)),'Individual move')
 	for i in 120:r.step(1./60)
@@ -41,21 +41,21 @@ func _init():
 	r.advance_economy(1.)
 	check(r.stock.food>food and r.stock.wood>wood,'Fruit yields food and wood')
 	r.stock={'food':10000.,'wood':10000.,'iron':10000.}
-	var engineer=r.alive('ally').filter(func(u):return u.unit_type=='engineer')[0]
+	var engineer=r.alive('ally').filter(func(u):return u.unit_type=='villager')[1]
 	var workers=[Vector2i(engineer.id,0)]
 	check(not r.build('range',Vector2(400,2400),workers),'Range requires barracks influence')
 	check(r.build('range',Vector2(2030,2520),workers),'Range within barracks influence')
 	var building: Dictionary=r.buildings.back()
 	engineer.pos=building.pos+Vector2(80,0);engineer.soldiers[0].position=engineer.pos
 	r.advance_economy(15.)
-	check(building.remaining==0 and r.building_ready('range'),'Engineer completes construction')
-	check(r.train('archer'),'Training queue accepts ranged unit')
+	check(building.remaining==0 and r.building_ready('range'),'Villager completes construction')
+	check(r.train('archer',building.id),'Training queue accepts ranged unit')
 	var count=r.units.size()
 	# Housing needed because the layout fixture deliberately exceeded the starting cap.
 	for i in 5:r.add_building('house',Vector2(100+i*100,3000),true)
 	r.advance_economy(10.)
 	check(r.units.size()>count,'Production spawns actual units')
-	check(r.research('promotion'),'Promotion research starts')
+	check(r.research('promotion',1),'Promotion research starts')
 	var base_hp: float=spear.max_hp
 	r.advance_economy(21.)
 	check(r.level==2 and is_equal_approx(spear.max_hp,base_hp*1.1),'Promotion raises base HP ten percent')

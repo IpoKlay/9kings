@@ -194,6 +194,7 @@ func install_strategy_ui():
 	if rules is StrategyBattle:
 		var panel=preload('res://scripts/strategy/interface.gd').new()
 		panel.trial=self
+		selected=''
 		add_child(panel)
 
 func start_or_hold():
@@ -304,6 +305,9 @@ func event_text(e: Dictionary) -> String:
 	return ''
 
 func refresh():
+	if rules is StrategyBattle:
+		$BattleHUD.hide()
+		return
 	var character=rules.characters.filter(func(c):return c.id==rules.deity)[0]
 	if portrait_id!=rules.deity:
 		portrait_id=rules.deity
@@ -515,7 +519,7 @@ func retry():
 	drawing_wall=false
 	drag_select=false
 	reset_camera()
-	selected='legion'
+	selected='' if rules is StrategyBattle else 'legion'
 	paused=false
 	accumulator=0
 	result.text=''
@@ -772,6 +776,7 @@ func _notification(what):
 		drag_select=false
 
 func _input(event):
+	if rules is StrategyBattle:return
 	if drawing_wall:
 		if event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:
 			drawing_wall=false;selected='';get_viewport().set_input_as_handled();return
@@ -883,6 +888,7 @@ func click_ground(screen: Vector2, additive: bool):
 		notice_seconds=2
 
 func _unhandled_input(event):
+	if rules is StrategyBattle:return
 	if event is InputEventKey and event.pressed and not event.echo:
 		var code=event.physical_keycode if event.physical_keycode!=0 else event.keycode
 		match code:

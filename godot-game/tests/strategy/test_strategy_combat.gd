@@ -7,6 +7,8 @@ func check(ok: bool,note: String):
 	if not ok:failures+=1;push_error(note)
 func _init():
 	var r=Battle.new(false);r.start();r.stock={'food':10000.,'wood':10000.,'iron':10000.}
+	for row in [['gate',1500,650],['wall',1700,650],['fortress',1300,380]]:
+		var structure=r.add_building(row[0],Vector2(row[1],row[2]),true);structure.side='enemy'
 	var a=r.spawn_person('shield','ally',Vector2(1500,1500))
 	var b=r.spawn_person('shield','enemy',Vector2(1550,1500))
 	a.soldiers[0].formation='default';b.soldiers[0].formation='default'
@@ -57,7 +59,9 @@ func _init():
 	r.waves_sent=3
 	for enemy in r.alive('enemy'):
 		enemy.hp=0.;enemy.soldier_hp=0.;enemy.soldiers[0].hp=0.;enemy.soldiers[0].death_state=2
-	fort.hp=0.;r.resolve_battle(0.)
-	check(r.phase=='victory','Fort destruction plus completed waves resolves victory')
+	for building in r.buildings:
+		if building.side=='enemy' and building.kind=='town':building.hp=0.
+	r.resolve_battle(0.)
+	check(r.phase=='victory','Enemy town destruction resolves victory')
 	print('STRATEGY COMBAT CHECKS=',checks,' FAILURES=',failures)
 	quit(1 if failures else 0)

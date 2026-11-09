@@ -13,7 +13,10 @@ var research_queue={}
 var team_serial=0
 var report=''
 var waves_sent=0
-var next_wave=100.
+var next_wave=180.
+var ai_food=100.
+var ai_training=0.
+var ai_serial=0
 var direction=''
 var rain: Array=[]
 
@@ -32,17 +35,13 @@ func _init(test_powers: bool=false):
 	terrain=PassTerrain.new(projection,bounds,config.types,{'rocks':cliffs,'SidePass':Rect2(-10000,-10000,1,1),'MainPass':Rect2(-10000,-10000,1,1)},true)
 	add_building('town',Vector2(1450,2540),true)
 	add_building('barracks',Vector2(1830,2450),true)
-	for i in 4:spawn_person('villager','ally',Vector2(1330+i*32,2410))
-	spawn_person('engineer','ally',Vector2(1650,2400))
-	for type in ['shield','spear','archer','light_cavalry']:
-		for i in 7:spawn_person(type,'ally',Vector2(1250+i*32,2170+['shield','spear','archer','light_cavalry'].find(type)*90))
-	for i in 12:spawn_person('spear' if i%2 else 'shield','enemy',Vector2(1200+i*40,480))
+	for i in 6:spawn_person('villager','ally',Vector2(1330+i*32,2410))
 	for row in [['tree',950,2440],['fruit',1050,2260],['berries',1700,2700],['deer',900,1950],['sheep',1900,2720],['boar',2200,2050],['cattle',800,2700],['fish',2750,2330],['iron',2050,2280],['tree',1120,2720],['fruit',720,2230]]:
 		resources.append({'kind':row[0],'pos':Vector2(row[1],row[2]),'remaining':1000.})
-	var fort=add_building('fortress',Vector2(1600,370),true);fort.side='enemy'
-	for x in [1472,1536,1600,1664]:
-		var wall=add_building('gate' if x==1536 else 'wall',Vector2(x,650),true);wall.side='enemy'
+	var town=add_building('town',Vector2(1600,370),true);town.side='enemy'
+	var barracks=add_building('barracks',Vector2(1920,460),true);barracks.side='enemy'
 	charges=0
+	start()
 
 func spawn_person(type: String,side: String,point: Vector2) -> Dictionary:
 	var data: Dictionary=strategy.units[type]
@@ -97,8 +96,8 @@ func rebuild_obstacles():
 	terrain.replace_rocks(obstacles)
 func build(kind: String,point: Vector2,ids: Array) -> bool:
 	if phase!='battle' or not strategy.buildings.has(kind):return false
-	var workers=Soldiers.members(self,ids).filter(func(row):return row.unit.unit_type=='engineer')
-	if workers.is_empty():report='请选择军事工程师';return false
+	var workers=Soldiers.members(self,ids).filter(func(row):return row.unit.unit_type=='villager')
+	if workers.is_empty():report='请选择村民';return false
 	var cost={'wood':strategy.buildings[kind].wood}
 	if not affordable(cost):report='木材不足';return false
 	var size: float=strategy.buildings[kind].size
@@ -113,18 +112,19 @@ func build(kind: String,point: Vector2,ids: Array) -> bool:
 		report='必须在军营的360范围影响力内';return false
 	var worker: Dictionary=workers[0].unit
 	var approach=point+point.direction_to(worker.pos)*(size*.5+40)
-	if not Soldiers.command(self,[Vector2i(worker.id,0)],'move',approach):report='工程师无法到达';return false
+	if not Soldiers.command(self,[Vector2i(worker.id,0)],'move',approach):report='村民无法到达';return false
 	spend(cost)
 	var b=add_building(kind,point)
 	worker.soldiers[0].job={'kind':'build','id':b.id}
 	report='已安排建造：'+strategy.buildings[kind].name
 	return true
-func train(type: String) -> bool:
+func train(type: String,building_id: int=-1) -> bool:
 	if phase!='battle':return false
+	if not strategy.units.has(type):return false
 	var data: Dictionary=strategy.units[type]
 	if type=='elite_cavalry' and level<4:report='精锐骑兵需要晋升四级';return false
-	var available=buildings.filter(func(b):return b.side=='ally' and b.kind==data.producer and b.hp>0 and b.remaining<=0 and b.queue.size()<5)
-	if available.is_empty():report='缺少生产建筑或队列已满';return false
+	var available=buildings.filter(func(b):return b.id==building_id and b.side=='ally' and b.kind==data.producer and b.hp>0 and b.remaining<=0 and b.queue.size()<5)
+	if available.is_empty():report='请选中对应的已完工建筑；每座建筑最多排队5人';return false
 	if not affordable({'food':data.food}):report='食物不足';return false
 	spend({'food':data.food})
 	available[0].queue.append({'type':type,'remaining':float(data.train_seconds)})
@@ -134,15 +134,15 @@ func promotion_cost() -> Dictionary:
 	var cost=strategy.promotion_base_cost.duplicate()
 	for key in cost:cost[key]*=pow(2,level-1)
 	return cost
-func research(id: String) -> bool:
+func research(id: String,building_id: int=-1) -> bool:
 	if phase!='battle' or not research_queue.is_empty():report='已有科技研究中';return false
 	var producer='barracks' if id=='promotion' else 'house' if id=='economy' else 'factory' if id=='military' else 'town' if id=='towncraft' else 'academy'
-	if not building_ready(producer):report='缺少研究建筑：'+strategy.buildings[producer].name;return false
+	if building_id<0 or building_id>=buildings.size() or buildings[building_id].kind!=producer or buildings[building_id].side!='ally' or buildings[building_id].hp<=0 or buildings[building_id].remaining>0:report='缺少研究建筑：'+strategy.buildings[producer].name;return false
 	if id=='promotion' and level>=5 or id!='promotion' and researches.has(id):report='已完成该研究';return false
 	if id.begins_with('direction_') and direction!='':report='发展方向已选择';return false
 	var cost=promotion_cost() if id=='promotion' else {'food':60.,'wood':40.,'iron':40.}
 	if not affordable(cost):report='研究资源不足';return false
-	spend(cost);research_queue={'id':id,'remaining':20.,'producer':producer}
+	spend(cost);research_queue={'id':id,'remaining':20.,'producer':producer,'building_id':building_id}
 	report='研究中，20秒完成'
 	return true
 func apply_level(u: Dictionary):
@@ -278,9 +278,9 @@ func interact(ids: Array,point: Vector2) -> bool:
 			if resources[i].get('building',-1)==b.id:return gathering(ids,i)
 	if b.kind=='gate':b.open=not b.open;rebuild_obstacles();report='城门已打开' if b.open else '城门已关闭';return true
 	for row in Soldiers.members(self,ids):
-		if row.unit.unit_type=='engineer':
+		if row.unit.unit_type in ['villager','engineer']:
 			var goal: Vector2=b.pos+b.pos.direction_to(row.unit.pos)*(strategy.buildings[b.kind].size*.5+40)
-			if Soldiers.command(self,[Vector2i(row.unit.id,0)],'move',goal):row.actor.job={'kind':'repair_building','id':b.id}
+			if Soldiers.command(self,[Vector2i(row.unit.id,0)],'move',goal):row.actor.job={'kind':'build' if b.remaining>0 else 'repair_building','id':b.id}
 	return true
 func step(dt: float):
 	if phase!='battle' or dt<=0:return
@@ -316,14 +316,14 @@ func step(dt: float):
 			if u.pos.distance_to(shot.point)<80.:hurt(u,shot.damage,'volley',0.,0,shot.attacker,0)
 		events.append({'kind':'hit','pos':shot.point,'from':shot.point-Vector2(0,120)})
 	rain=rain.filter(func(s):return s.remaining>0)
-	if elapsed>=next_wave and waves_sent<3:
-		waves_sent+=1;next_wave+=90.
-		for i in 10+waves_sent*3:
-			var u=spawn_person('light_cavalry' if i%4==0 else 'archer' if i%3==0 else 'shield','enemy',Vector2(850+i*45,300))
-			u.order='auto'
+	advance_ai(dt)
 func advance_economy(dt: float):
 	for b in buildings:
-		if b.hp<=0 or b.remaining>0:continue
+		if b.hp<=0:
+			b.queue.clear()
+			if research_queue.get('building_id',-1)==b.id:research_queue={};report='研究建筑已被摧毁，研究中止'
+			continue
+		if b.remaining>0:continue
 		if b.side=='enemy':
 			if b.kind in ['outpost','fortress','wall_tower']:
 				b.timer+=dt
@@ -332,13 +332,11 @@ func advance_economy(dt: float):
 						if not defender.escaped and defender.pos.distance_to(b.pos)<450.:
 							hurt(defender,25.,'archer',0.,0);b.timer=0.;events.append({'kind':'hit','pos':defender.pos,'from':b.pos});break
 			continue
-		if b.kind=='town':
-			b.timer+=dt
-			if b.timer>=(15. if researches.has('towncraft') else 20.) and population()<population_cap() and affordable({'food':35.}):
-				spend({'food':35.});spawn_person('villager','ally',b.pos+Vector2(-100,100));b.timer=0.
 		if not b.queue.is_empty() and population()<population_cap():
-			b.queue[0].remaining-=dt
-			if b.queue[0].remaining<=0:spawn_person(b.queue.pop_front().type,'ally',b.pos+Vector2(0,110))
+			b.queue[0].remaining-=dt*(1.35 if b.kind=='town' and researches.has('towncraft') else 1.)
+			if b.queue[0].remaining<=0:
+				var spawn_point=find_exit(b)
+				if spawn_point!=Vector2.INF:spawn_person(b.queue.pop_front().type,'ally',spawn_point)
 		if b.kind in ['outpost','fortress','wall_tower']:
 			b.timer+=dt
 			if b.timer>=1.5:
@@ -367,7 +365,7 @@ func advance_economy(dt: float):
 					if b.kind=='farm':resources.append({'kind':'farm','pos':b.pos,'remaining':2500.,'building':b.id})
 					a.erase('job')
 			elif affordable({'wood':dt}):spend({'wood':dt});b.hp=minf(b.max_hp,b.hp+dt*20)
-	if not research_queue.is_empty() and building_ready(research_queue.producer):
+	if not research_queue.is_empty() and buildings[research_queue.building_id].hp>0:
 		research_queue.remaining-=dt
 		if research_queue.remaining<=0:
 			var id: String=research_queue.id
@@ -390,8 +388,8 @@ func autonomous_destination(u: Dictionary,actor: Dictionary) -> Vector2:
 	if u.side=='enemy':return buildings[0].pos+Vector2(0,-120)
 	return super.autonomous_destination(u,actor)
 func resolve_battle(_dt: float):
-	if buildings[0].hp<=0:outcome='defenders_routed';phase='defeat'
-	elif waves_sent>=3 and not buildings.any(func(b):return b.side=='enemy' and b.kind=='fortress' and b.hp>0) and alive('enemy').is_empty() and not Soldiers.pending_deaths(self,'enemy'):outcome='enemy_routed';phase='victory'
+	if not buildings.any(func(b):return b.side=='ally' and b.kind=='town' and b.hp>0):outcome='defenders_routed';phase='defeat'
+	elif not buildings.any(func(b):return b.side=='enemy' and b.kind=='town' and b.hp>0):outcome='enemy_routed';phase='victory'
 
 func strategy_paths(selected: Array,destination: Vector2,via: Array[Vector2]) -> Array:
 	return Layout.plan(self,selected,destination,via)
@@ -490,3 +488,43 @@ func wall_navigator(u: Dictionary) -> String:
 		walls.append(obstacle.grow(9))
 	terrain.clearances[key]=walls
 	return key
+
+func find_exit(b: Dictionary) -> Vector2:
+	for offset in [Vector2(0,110),Vector2(-110,0),Vector2(110,0),Vector2(0,-110),Vector2(-110,110),Vector2(110,110)]:
+		var point: Vector2=b.pos+offset
+		if terrain.clear_segment('legion',point,point) and not units.any(func(u):return u.hp>0 and u.pos.distance_to(point)<22.):return point
+	return Vector2.INF
+
+func cancel_training(building_id: int,index: int) -> bool:
+	if phase!='battle' or building_id<0 or building_id>=buildings.size():return false
+	var b: Dictionary=buildings[building_id]
+	if b.side!='ally' or b.hp<=0 or index<0 or index>=b.queue.size():return false
+	stock.food+=strategy.units[b.queue[index].type].food
+	b.queue.remove_at(index);report='已取消生产，退还食物'
+	return true
+
+func advance_ai(dt: float):
+	if phase!='battle':return
+	# Bounded AI recruitment budget; no fixed three-wave win condition.
+	if not buildings.any(func(b):return b.side=='enemy' and b.kind=='town' and b.hp>0):return
+	ai_food+=dt*2.
+	ai_training+=dt
+	var bases=buildings.filter(func(b):return b.side=='enemy' and b.kind=='barracks' and b.hp>0)
+	if not bases.is_empty() and ai_training>=20. and alive('enemy').size()<30:
+		var type=['spear','shield','archer','light_cavalry'][ai_serial%4]
+		var cost: float=strategy.units[type].food
+		var point=find_exit(bases[0])
+		if ai_food>=cost and point!=Vector2.INF:
+			ai_food-=cost;ai_training=0.;ai_serial+=1
+			var u=spawn_person(type,'enemy',point)
+			u.order='hold';u.soldiers[0].personal_order='hold';u.soldiers[0].reserve_ai=true
+			# Move recruits to separate reserve slots without releasing an attack.
+			var ids=[Vector2i(u.id,0)]
+			Soldiers.command(self,ids,'move',Vector2(1100+(ai_serial%7)*40,650+(ai_serial%3)*45),-1,-1,[],true,'enemy')
+	if elapsed>=next_wave:
+		waves_sent+=1
+		next_wave=elapsed+[95.,120.,105.][waves_sent%3]
+		var reserves=alive('enemy').filter(func(u):return u.soldiers[0].get('reserve_ai',false))
+		for u in reserves.slice(0,mini(reserves.size(),3+waves_sent)):
+			u.soldiers[0].erase('reserve_ai');u.order='auto';Soldiers.automate(self,u,true)
+		if not reserves.is_empty():report='斥候报告：敌军开始向城镇进军'

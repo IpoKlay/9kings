@@ -201,6 +201,11 @@ func _draw():
 	for u in rules.units:
 		if clean_capture or u.hp<=0 or u.get('escaped',false):continue
 		if rules.has_method('strategy_paths') and u.id not in trial.squad_ids and Vector2i(u.id,0) not in trial.soldier_ids and u.hp>=u.max_hp:continue
+		if rules.has_method('strategy_paths'):
+			var hp_point=project(u.pos)-Vector2(20,60)
+			draw_rect(Rect2(hp_point,Vector2(40,5)),Color('#203638'))
+			draw_rect(Rect2(hp_point,Vector2(40*u.hp/u.max_hp,4)),Color('#d9bc79') if u.side=='ally' else Color('#b45440'))
+			continue
 		var p: Vector2=labels[u.id]
 		draw_rect(Rect2(p,Vector2(88,8)),Color('#203638'))
 		draw_rect(Rect2(p,Vector2(roundf(88*u.hp/u.max_hp),6)),Color('#d9bc79') if u.side=='ally' else Color('#b45440'))

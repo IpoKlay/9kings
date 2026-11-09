@@ -169,7 +169,7 @@
   },
   "buildings": {
     "town": {
-      "name": "城镇",
+      "name": "城镇中心",
       "wood": 200,
       "hp": 1200,
       "size": 100,
