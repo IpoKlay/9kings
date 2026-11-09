@@ -8,16 +8,19 @@ static func rows(count: int) -> Array:
 
 static func offsets(count: int,form: String,spacing: float) -> Array:
 	var result=[]
-	for i in count:
-		var p=Vector2((i%7-3)*spacing,(i/7)*spacing)
-		if form=='scatter':p*=1.8
-		elif form=='dense':p*=.8
-		elif form=='ring':p=Vector2.from_angle(TAU*i/maxi(count,1))*maxf(spacing,spacing*count/TAU)
-		elif form=='wedge':
-			var rank=ceili(i/2.0)
-			p=Vector2(rank*spacing*(1 if i%2==1 else -1),rank*spacing*.65)
-		if count<7 and form not in ['ring','wedge']:p.x+=(7-count)*spacing*.5*(1.8 if form=='scatter' else .8 if form=='dense' else 1.)
-		result.append(p)
+	var cursor=0
+	var rank=0
+	while cursor<count:
+		# Filled triangular ranks: 1, 2, 3, 4, 5, 6 = 21 soldiers.
+		var width=mini(rank+1,count-cursor) if form=='wedge' else mini(7,count-cursor)
+		for col in width:
+			var gap=spacing*(1.8 if form=='scatter' else .8 if form in ['dense','testudo'] else 1.)
+			var p=Vector2((col-(width-1)*.5)*gap,rank*gap)
+			if form=='scatter':p.x+=(.25 if rank%2 else -.25)*gap
+			if form=='ring':p=Vector2.from_angle(TAU*cursor/maxi(count,1))*maxf(spacing,spacing*count/TAU)
+			result.append(p)
+			cursor+=1
+		rank+=1
 	return result
 
 static func plan(r,selected: Array,destination: Vector2,via: Array) -> Array:
@@ -66,7 +69,7 @@ static func plan(r,selected: Array,destination: Vector2,via: Array) -> Array:
 						var leg=r.terrain.leg(r.Soldiers.navigator(r,row.unit.kind,row.unit),start,next)
 						if leg.is_empty():return []
 						path.append_array(leg);stops.append(next);start=next
-					output[Vector2i(row.unit.id,row.slot)]={'path':path,'stops':stops,'batch':{},'team':team_number,'formation':winner,'heading':forward}
+					output[Vector2i(row.unit.id,row.slot)]={'path':path,'stops':stops,'batch':{},'team':team_number,'formation':winner,'heading':offset.normalized() if winner=='ring' else forward}
 				team_number+=1
 			depth+=height+r.strategy.team_gap
 	var result=[]

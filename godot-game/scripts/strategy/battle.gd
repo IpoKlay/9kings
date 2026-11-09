@@ -173,6 +173,7 @@ func permitted(type: String) -> Array:
 	return ['default']
 func in_combat(u: Dictionary) -> bool:
 	return elapsed-u.soldiers[0].get('last_combat',-100.)<3. or u.soldiers[0].attack_age<1.
+var formation_revision=0
 func set_formation(ids: Array,form: String,heading: Vector2=Vector2.ZERO) -> bool:
 	var people=Soldiers.members(self,ids)
 	if phase!='battle' or people.is_empty():return false
@@ -186,13 +187,14 @@ func set_formation(ids: Array,form: String,heading: Vector2=Vector2.ZERO) -> boo
 	for row in planned:row.actor.formation=form
 	var paths=Layout.plan(self,planned,center+heading*.01,[])
 	if paths.is_empty():report='附近空间不足以构建阵型';return false
+	formation_revision+=1
 	# Commit only after every member has a valid route.
 	for i in people.size():
 		var row=people[i]
 		Soldiers.command(self,[Vector2i(row.unit.id,row.slot)],'hold',row.unit.pos)
 		row.actor.personal_order='move';row.actor.path=paths[i].path;row.actor.move_goal=paths[i].path.back();row.actor.route_stops=paths[i].stops
-		row.actor.formation=form;row.actor.formation_ready=false;row.actor.form_left=5.
-		row.actor.form_heading=heading;row.actor.form_goal=paths[i].path.back()
+		row.actor.formation=form;row.actor.formation_ready=false;row.actor.form_left=5.;row.actor.formation_revision=formation_revision
+		row.actor.form_heading=paths[i].heading;row.actor.form_goal=paths[i].path.back()
 	report='构建阵型中：5秒；枪兵在丘陵为15秒'
 	return true
 func formation_data(u: Dictionary) -> Dictionary:
@@ -394,6 +396,7 @@ func resolve_battle(_dt: float):
 func strategy_paths(selected: Array,destination: Vector2,via: Array[Vector2]) -> Array:
 	return Layout.plan(self,selected,destination,via)
 func strategy_command(row: Dictionary,path: Dictionary):
+	row.actor.erase('formation_revision')
 	row.actor.erase('job')
 	row.actor.erase('form_left')
 	if path.has('team'):

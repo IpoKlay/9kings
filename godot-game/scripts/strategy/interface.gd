@@ -28,7 +28,15 @@ var ctrl_select=false
 var mouse_world=Vector2.ZERO
 var report_age=0.
 var last_report=''
-var cursor_inside_panel=false
+var camera_pan=preload('res://scripts/strategy/camera_pan.gd').new()
+var formation_panel: PanelContainer
+var formation_label: Label
+var formation_bar: ProgressBar
+var formation_members=[]
+var formation_name=''
+var formation_revision=0
+var formation_notice_left=0.
+
 
 func label(text: String,size: int=22) -> Label:
 	var l=Label.new();l.text=text;l.add_theme_color_override('font_color',INK);l.add_theme_font_size_override('font_size',size)
@@ -51,6 +59,12 @@ func _ready():
 	pause_button=button(controls,'暂停',func():trial.paused=not trial.paused)
 	button(controls,'总览',trial.toggle_overview)
 	button(controls,'菜单',trial.closed.emit)
+	formation_panel=surface(Vector2(660,92),Vector2(600,72))
+	formation_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	var formation_box=VBoxContainer.new();formation_box.mouse_filter=Control.MOUSE_FILTER_IGNORE;formation_panel.add_child(formation_box)
+	formation_label=label('',24);formation_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;formation_box.add_child(formation_label)
+	formation_bar=ProgressBar.new();formation_bar.custom_minimum_size=Vector2(580,14);formation_bar.show_percentage=false;formation_bar.mouse_filter=Control.MOUSE_FILTER_IGNORE;formation_box.add_child(formation_bar)
+	formation_panel.hide()
 	panel=surface(Vector2(1500,125),Vector2(398,0))
 	var margin=MarginContainer.new()
 	for edge in ['left','right','top','bottom']:margin.add_theme_constant_override('margin_'+edge,14)
@@ -133,7 +147,7 @@ func show_commands():
 				if people.all(func(row):return form in r.permitted(row.unit.unit_type)):
 					forms.add_item(r.strategy.formations[form].name);forms.set_item_metadata(forms.item_count-1,form)
 			box.add_child(forms)
-			button(box,'切换阵型',func():r.set_formation(trial.selected_people(),forms.get_item_metadata(forms.selected)))
+			button(box,'切换阵型',func():request_formation(forms.get_item_metadata(forms.selected)))
 			button(box,'调整朝向',func():mode='face')
 	var help=label('右键下令 · Esc 清空选择',18);box.add_child(help)
 func unit_icon(art: String) -> Texture2D:
@@ -146,7 +160,10 @@ func icon_button(parent: Node,id: String,text: String,texture: Texture2D,callbac
 	actions[id]=b
 func _process(dt: float):
 	var r=trial.rules
-	if rules_instance!=r:rules_instance=r;clear_selection()
+	if rules_instance!=r:
+		rules_instance=r;clear_selection();formation_members.clear();formation_panel.hide();camera_pan.stop()
+	pan_camera(dt)
+	update_formation_notice(dt)
 	info.text='  食物 %d    木材 %d    铁矿 %d       人口 %d / %d       科技 %d / 5       %02d:%02d'%[r.stock.food,r.stock.wood,r.stock.iron,r.population(),r.population_cap(),r.level,int(r.elapsed)/60,int(r.elapsed)%60]
 	pause_button.text='继续' if trial.paused else '暂停'
 	result_panel.visible=r.phase in ['victory','defeat']
@@ -205,7 +222,7 @@ func map_click(screen: Vector2):
 	elif mode=='attack_move':trial.command_selection('attack_move',point);mode=''
 	elif mode=='face':
 		var people=selected_people()
-		if not people.is_empty():r.set_formation(trial.selected_people(),people[0].actor.formation,people[0].unit.pos.direction_to(point))
+		if not people.is_empty():request_formation(people[0].actor.formation,people[0].unit.pos.direction_to(point))
 		mode=''
 	else:select_at(screen)
 func _input(event):
@@ -264,3 +281,44 @@ func _draw():
 		var p=(trial.field.project(mouse_world)-trial.camera_offset)*trial.zoom
 		draw_rect(Rect2(p-Vector2.ONE*size*trial.zoom*.5,Vector2.ONE*size*trial.zoom),Color('#e9e1a866'))
 		draw_string(get_theme_default_font(),p+Vector2(15,-15),trial.rules.strategy.buildings[build_kind].name,HORIZONTAL_ALIGNMENT_LEFT,-1,22,Color('#fff1c7'))
+
+func pan_camera(dt: float):
+	if trial.rules.phase!='battle' or not is_visible_in_tree() or not get_window().has_focus() or Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
+		camera_pan.stop();return
+	var point=get_local_mouse_position()
+	var direction=Vector2(Input.get_axis('ui_left','ui_right'),Input.get_axis('ui_up','ui_down'))
+	if direction==Vector2.ZERO:
+		var over_panel=panel.visible and panel.get_rect().has_point(point)
+		if not over_panel:direction=camera_pan.edge_direction(point,size)
+	var movement=camera_pan.advance(direction,dt)/trial.zoom
+	trial.set_camera(trial.camera_offset+movement)
+
+func request_formation(form: String,heading: Vector2=Vector2.ZERO):
+	if not trial.rules.set_formation(trial.selected_people(),form,heading):return
+	formation_revision=trial.rules.formation_revision
+	formation_members=selected_people().map(func(row):return row.actor)
+	formation_name=trial.rules.strategy.formations[form].name
+	formation_notice_left=0.
+	update_formation_notice(0.)
+
+func update_formation_notice(dt: float):
+	if formation_members.is_empty():
+		formation_notice_left=maxf(0.,formation_notice_left-dt)
+		if formation_notice_left==0.:formation_panel.hide()
+		return
+	var left=0.;var pending=0;var interrupted=0
+	for actor in formation_members:
+		if actor.hp<=0 or actor.get('formation_revision',-1)!=formation_revision:
+			interrupted+=1
+		elif actor.has('form_left'):
+			left=maxf(left,actor.form_left);pending+=1
+		elif not actor.get('formation_ready',false):interrupted+=1
+	formation_panel.show();formation_bar.show()
+	formation_bar.value=(1.-left/5.)*100.
+	formation_label.text='切换至%s · %.1f / 5秒'%[formation_name,5.-left]
+	if trial.paused:formation_label.text+='（暂停）'
+	elif left<=0 and pending>0:formation_label.text+=' · 正在就位'
+	if pending==0:
+		formation_label.text=('阵型切换已中断' if interrupted>0 else '已切换至'+formation_name)
+		formation_bar.visible=interrupted==0
+		formation_members.clear();formation_notice_left=2.

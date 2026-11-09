@@ -18,3 +18,11 @@
 完整脚本对局只证明这一套固定操作可以走通，不是玩家试玩评价或难度平衡结论。
 
 该轮没有宣称完全复现《帝国时代4》，没有完成长局平衡或完整采集/建造型AI。窗口测试退出时仍有少量ObjectDB/资源引用警告，未记作规则断言失败；未发现运行中的脚本异常。原始日志在本次运行环境 `/tmp/context*.log`、`/tmp/economy-opening.log`。
+
+## 平滑移镜与实体阵型验证
+
+- `test_formation_camera.gd`：19项检查，覆盖加速/减速/停止、30Hz与120Hz位移一致、窗口外无边缘输入、对角限速、小数相机位移、21人实心三角形、散阵间距、圆阵朝外、顶部提示、2.5秒半条、暂停、5秒完成计时、真实21士兵走到阵位、新命令中断。
+- 修复实机变阵发现的提前停步：原通用移动会因为附近同伴已经停止而清空路径；阵位移动现在需抵达自己的位置，不能靠近同伴就结束。
+- Linux Godot 4.7.2 原生窗口执行新脚本，观察 `/tmp/contextual-wedge.png`、`contextual-scatter.png`、`contextual-progress.png`；通过正常主菜单进入RTS，测试兵力由脚本创建。截图是引擎实际渲染，未提交重复图片到源码。
+- 回归：strategy 30、strategy combat 20、contextual UI 27、personal movement 17、personal charge 37检查通过。新脚本有窗口与headless两种运行，不重复计数。
+- 尚未做Windows实机或人工手感评价。原有退出时ObjectDB/资源引用警告仍存在；本轮未改变其生命周期。

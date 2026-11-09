@@ -707,17 +707,18 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 		elif order=='attack':actor.personal_order='idle';actor.next_scan=0.
 	if wall_ready:return
 	if target.is_empty() and order in ['move','attack_move']:
+		var formation_slot=r.has_method('strategy_paths') and actor.has('form_goal')
 		# Authored intermediate waypoints stay exact; only the final ordinary goal settles early.
 		if not actor.get('shield_wall',false) and actor.path.size()==1:
 			var distance: float=actor.position.distance_to(actor.path[0])
-			if distance<17.:
+			if distance<(3. if formation_slot else 17.):
 				actor.move_settle=actor.get('move_settle',0.)+dt
 				if actor.move_settle>=.5:
 					actor.personal_order='idle';actor.path=[];actor.next_scan=0.;actor.settled_position=actor.position
 					actor.route_progress=actor.get('route_progress',0)+actor.get('route_stops',[]).size();actor.route_stops=[]
 				return
 			if distance>=34.:actor.move_settle=0.
-		if not actor.get('shield_wall',false) and sibling_settled(row):
+		if not formation_slot and not actor.get('shield_wall',false) and sibling_settled(row):
 			actor.personal_order='idle';actor.path=[];actor.next_scan=0.;actor.settled_position=actor.position;actor.settled_by_sibling=true
 			actor.route_progress=actor.get('route_progress',0)+actor.get('route_stops',[]).size();actor.route_stops=[]
 			return

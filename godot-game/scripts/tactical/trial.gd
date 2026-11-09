@@ -568,7 +568,7 @@ func _process(dt: float):
 		rout_notice_left=maxf(0,rout_notice_left-dt)
 		if rout_notice_left==0 and not rout_alerts.is_empty():rout_alerts.pop_front()
 	var pan=Vector2(Input.get_axis('ui_left','ui_right'),Input.get_axis('ui_up','ui_down'))
-	if pan!=Vector2.ZERO and not character_picker.get_popup().visible:
+	if not rules is StrategyBattle and pan!=Vector2.ZERO and not character_picker.get_popup().visible:
 		set_camera(camera_offset+pan.normalized()*920*dt/zoom)
 	pointer=field.unproject(field_point(get_local_mouse_position()))
 	if paused:field.queue_redraw()
@@ -679,7 +679,7 @@ func set_camera(offset: Vector2):
 	camera_offset=offset
 	for axis in 2:
 		camera_offset[axis]=clampf(offset[axis],surface_rect.position[axis],maximum[axis]) if maximum[axis]>=surface_rect.position[axis] else (surface_rect.position[axis]+maximum[axis])*.5
-	camera_offset=camera_offset.snapped(Vector2(2,2))
+	if not rules is StrategyBattle:camera_offset=camera_offset.snapped(Vector2(2,2))
 	field.get_viewport().canvas_transform=Transform2D(0,Vector2.ONE*zoom,0,-camera_offset*.5*zoom)
 	field.queue_redraw()
 	if is_instance_valid(field.pass_layout):field.pass_layout.queue_redraw()
