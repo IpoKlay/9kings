@@ -67,7 +67,13 @@ func load_battlefield():
 	if is_instance_valid(pass_layout):
 		remove_child(pass_layout)
 		pass_layout.queue_free()
-	if trial.rules is SquareBattle:
+	if trial.rules.has_method('strategy_paths'):
+		pass_layout=preload('res://scripts/strategy/field.gd').new()
+		pass_layout.trial=trial
+		pass_layout.z_index=-2
+		add_child(pass_layout)
+		LANDSCAPE=pass_layout.landscape_rect
+	elif trial.rules is SquareBattle:
 		pass_layout=(preload('res://scenes/battlefields/whiteboard_battlefield.tscn') if trial.rules is WhiteboardBattle else preload('res://scenes/battlefields/square_battlefield.tscn')).instantiate()
 		pass_layout.trial=trial
 		pass_layout.z_index=-2
@@ -194,6 +200,7 @@ func _draw():
 	var labels=regiment_labels(rules) if not clean_capture else {}
 	for u in rules.units:
 		if clean_capture or u.hp<=0 or u.get('escaped',false):continue
+		if rules.has_method('strategy_paths') and u.id not in trial.squad_ids and Vector2i(u.id,0) not in trial.soldier_ids and u.hp>=u.max_hp:continue
 		var p: Vector2=labels[u.id]
 		draw_rect(Rect2(p,Vector2(88,8)),Color('#203638'))
 		draw_rect(Rect2(p,Vector2(roundf(88*u.hp/u.max_hp),6)),Color('#d9bc79') if u.side=='ally' else Color('#b45440'))

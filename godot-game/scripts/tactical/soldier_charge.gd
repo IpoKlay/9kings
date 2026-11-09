@@ -17,6 +17,7 @@ static func issue(r,ids: Array,destination: Vector2,side: String='ally') -> bool
 	if r.phase!='battle' or not r.bounds.has_point(destination):return false
 	var people=r.Soldiers.members(r,ids,side).filter(func(row):return ready(r,row.unit,row.actor))
 	if people.is_empty():return false
+	if r.has_method('charge_allowed') and not r.charge_allowed(people,destination):return false
 	var center=Vector2.ZERO
 	for row in people:center+=r.Soldiers.ground_position(r,row.unit,row.slot)
 	center/=people.size()
