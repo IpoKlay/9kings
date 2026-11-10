@@ -1,0 +1,153 @@
+[
+  {
+    "id": "ui.scroll",
+    "source": "godot-game/assets/ui_rpg/ui.png",
+    "crop": [
+      254,
+      69,
+      104,
+      145
+    ],
+    "scale": 3,
+    "nine_patch": [
+      78,
+      54,
+      66,
+      48
+    ]
+  },
+  {
+    "id": "ui.paper",
+    "source": "godot-game/assets/ui_rpg/ui.png",
+    "crop": [
+      396,
+      31,
+      86,
+      99
+    ],
+    "scale": 3,
+    "nine_patch": [
+      42,
+      42,
+      42,
+      42
+    ]
+  },
+  {
+    "id": "ui.strip",
+    "source": "godot-game/assets/ui_rpg/ui.png",
+    "crop": [
+      632,
+      204,
+      128,
+      36
+    ],
+    "scale": 3,
+    "nine_patch": [
+      30,
+      15,
+      30,
+      15
+    ]
+  },
+  {
+    "id": "ui.button",
+    "source": "godot-game/assets/ui_rpg/ui.png",
+    "crop": [
+      636,
+      246,
+      67,
+      37
+    ],
+    "scale": 3,
+    "nine_patch": [
+      24,
+      18,
+      24,
+      18
+    ]
+  },
+  {
+    "id": "ui.book",
+    "source": "godot-game/assets/ui_rpg/ui.png",
+    "crop": [
+      125,
+      332,
+      266,
+      152
+    ],
+    "scale": 4,
+    "nine_patch": null
+  },
+  {
+    "id": "ui.arrow_left",
+    "source": "godot-game/assets/ui_rpg/ui.png",
+    "crop": [
+      808,
+      592,
+      32,
+      16
+    ],
+    "scale": 2,
+    "nine_patch": null
+  },
+  {
+    "id": "ui.arrow_right",
+    "source": "godot-game/assets/ui_rpg/ui.png",
+    "crop": [
+      856,
+      592,
+      32,
+      16
+    ],
+    "scale": 2,
+    "nine_patch": null
+  },
+  {
+    "id": "hud.toolbar",
+    "source": "godot-game/assets/ui_rpg/battle_hud/toolbar.png",
+    "scale": 1,
+    "nine_patch": [
+      24,
+      18,
+      24,
+      18
+    ]
+  },
+  {
+    "id": "icon.banner",
+    "source": "godot-game/assets/ui_roman/banner.png",
+    "scale": 1,
+    "nine_patch": null
+  },
+  {
+    "id": "icon.gear",
+    "source": "godot-game/assets/ui_roman/gear.png",
+    "scale": 1,
+    "nine_patch": null
+  },
+  {
+    "id": "icon.helmet",
+    "source": "godot-game/assets/ui_roman/helmet.png",
+    "scale": 1,
+    "nine_patch": null
+  },
+  {
+    "id": "icon.laurels",
+    "source": "godot-game/assets/ui_roman/laurels.png",
+    "scale": 1,
+    "nine_patch": null
+  },
+  {
+    "id": "icon.legion_flag",
+    "source": "godot-game/assets/ui_roman/legion_flag.png",
+    "scale": 1,
+    "nine_patch": null
+  },
+  {
+    "id": "icon.scroll",
+    "source": "godot-game/assets/ui_roman/scroll.png",
+    "scale": 1,
+    "nine_patch": null
+  }
+]
