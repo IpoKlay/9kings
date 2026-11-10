@@ -79,7 +79,7 @@ func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Di
 		if elapsed-victim.get('preview_hit',{}).get('start',-100.)>=.20:
 			var direction=Soldiers.ground_position(self,attacker,strike.attacker_slot).direction_to(Soldiers.ground_position(self,target,strike.target_slot))
 			victim.preview_hit={'start':elapsed,'heavy':heavy,'direction':direction}
-		if elapsed-rider.get('preview_strike',{}).get('start',-100.)>=.20:rider.preview_strike={'start':elapsed}
+		if elapsed-rider.get('preview_strike',{}).get('start',-100.)>=.20:rider.preview_strike={'start':elapsed,'heavy':heavy}
 		if heavy and elapsed-feedback_shock_time>=.45:feedback_shock_time=elapsed
 	if strike.get('personal_charge',false):
 		contact_log.append({'time':elapsed,'rider':[attacker.id,strike.attacker_slot],

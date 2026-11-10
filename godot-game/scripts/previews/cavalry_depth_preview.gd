@@ -155,6 +155,7 @@ func save_report():
 		'recorded_steps':recorded_steps,
 		'feedback':feedback_enabled,'camera_shake':camera_shake,'flash_texture_bytes':feedback.texture_bytes,
 		'flashed_sides':feedback.flashed_sides,
+		'contact_flash_roles':feedback.contact_flash_roles,
 		'still_readbacks':capture_stills,'vsync':DisplayServer.window_get_vsync_mode(),
 		'static_memory_bytes':Performance.get_monitor(Performance.MEMORY_STATIC),
 		'texture_memory_bytes':Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),

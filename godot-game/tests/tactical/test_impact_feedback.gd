@@ -45,5 +45,15 @@ func run():
 		feedback.apply(figure,ordinary,2.+2./60.)
 		check(figure.flash_alpha==1.,'Both teams use full white for ordinary received hits')
 	check(feedback.flashed_sides.has('ally') and feedback.flashed_sides.has('enemy'),'Both team atlases were actually used for flashing')
+	var charging={'preview_strike':{'start':3.,'heavy':true}}
+	figure=base.duplicate(true);feedback.apply(figure,charging,3.)
+	check(figure.get('flash_alpha',0.)==1.,'Charging attacker flashes on actual contact even without receiving damage')
+	var target={'preview_hit':{'start':3.,'heavy':true,'direction':Vector2.RIGHT}}
+	var victim_figure=base.duplicate(true);feedback.apply(victim_figure,target,3.)
+	check(victim_figure.flash_alpha==figure.flash_alpha,'Both participants flash on the same contact frame')
+	figure=base.duplicate(true);feedback.apply(figure,charging,3.15)
+	check(not figure.has('flash_alpha'),'Attacker contact flash ends after eight frames')
+	figure=base.duplicate(true);feedback.apply(figure,{'preview_strike':{'start':4.,'heavy':false}},4.)
+	check(not figure.has('flash_alpha'),'An ordinary attack does not masquerade as receiving a collision')
 	print('Impact feedback: ',checks,' checks, ',failures,' failures')
 	quit(1 if failures else 0)
