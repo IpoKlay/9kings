@@ -51,8 +51,8 @@ func run():
 	check(t.field.LANDSCAPE==r.bounds.grow(Battle.MAP.values.camera_margin),'Camera uses shared bounds and margin')
 	check(t.field.pass_layout.get_child_count()==1 and t.field.pass_layout.get_node('Ground') is Sprite2D and t.field.environment==null and not t.field.has_node('RomanSiege'),'Only ground sprite; no legacy scenery or water environment')
 	var ground: Sprite2D=t.field.pass_layout.get_node('Ground')
-	check(ground.texture.resource_path=='res://assets/environments/natural-ground-v4.png' and ground.texture.get_size()==Vector2(512,512),'Approved natural ground loads at its native resolution')
-	check(ground.material is ShaderMaterial and ground.material.get_shader_parameter('ground_source')==ground.texture,'Fine terrain grain uses the same approved source')
+	check(ground.texture.resource_path=='res://assets/environments/iberia-grass-ground.png' and ground.texture.get_size()==Vector2(512,512),'Original card-roguelike grass crop loads at its native resolution')
+	check(ground.material==null and ground.scale==Vector2.ONE and ground.texture_repeat==CanvasItem.TEXTURE_REPEAT_MIRROR,'Original grass uses native scale and mirrored edges without a replacement shader')
 	check(r.terrain.ROCKS.is_empty(),'No legacy rock collision')
 	for a in [Vector2(250,250),Vector2(250,2950),Vector2(2950,250)]:
 		check(r.terrain.clear_segment('legion',a,Vector2(2950,2950)),'Unobstructed cross-map segment '+str(a))

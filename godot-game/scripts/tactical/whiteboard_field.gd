@@ -1,7 +1,6 @@
 @tool
 extends Node2D
 var map: Resource=preload('res://data/presentation/whiteboard_map.tres')
-const GROUND=preload('res://assets/environments/natural-ground-v4.png')
 var trial
 var landscape_rect: Rect2:
 	get:return map.values.bounds.grow(map.values.camera_margin)
@@ -12,11 +11,9 @@ func advance(_delta: float):
 func _draw():
 	var area: Rect2=map.values.bounds
 	var zoom: float=trial.zoom if trial!=null else 1.0
-	# One composition at integer pixel scale; repeating this image would create a pattern.
-	var coverage=landscape_rect.size/GROUND.get_size()
-	var ground_size=GROUND.get_size()*ceilf(maxf(coverage.x,coverage.y))
-	$Ground.position=area.get_center()
-	$Ground.scale=ground_size/GROUND.get_size()
+	# Keep the original grass pixels at world scale; only the covered region grows.
+	$Ground.position=landscape_rect.position
+	$Ground.region_rect=Rect2(Vector2.ZERO,landscape_rect.size)
 	draw_rect(area,Color('#b7ac75'),false,2.0/zoom)
 	if trial==null or trial.rules.phase!='deploy':return
 	var r=trial.rules
