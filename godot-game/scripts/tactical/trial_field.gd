@@ -16,6 +16,7 @@ var clock = 0.0
 var effects: Array = []
 var debug_first_contact=false
 var clean_capture=false
+var impact_feedback: RefCounted
 const Terrain=preload('res://scripts/tactical/pass_terrain.gd')
 var characters: Dictionary={}
 var animations: Dictionary={}
@@ -607,7 +608,9 @@ func draw_regiments(rules, pass_battle: bool):
 					cell=first.rider_cell;upper_cell=first.get('rider_upper_cell',-1);actor_bearing=first.rider_bearing;pose={}
 				elif u.kind in ['legion','guard','spear'] and slot==first.defender_slot:
 					cell=first.defender_cell;actor_bearing=first.defender_bearing;pose={};tint=Color(1.8,1.7,1.45)
-			figures.append({'foot':foot,'scale':scale,'kind':u.kind,'texture':texture,'cell':cell,'upper_cell':upper_cell,'bearing':actor_bearing,'tint':tint,'pose':pose,'dragon_fire':dragon_flame_strength(attack_age) if u.get('archetype','')=='dragon' and u.petrified<=0 else 0.,'heading':actor.get('heading',u.heading)})
+			var figure={'foot':foot,'scale':scale,'kind':u.kind,'texture':texture,'cell':cell,'upper_cell':upper_cell,'bearing':actor_bearing,'tint':tint,'pose':pose,'dragon_fire':dragon_flame_strength(attack_age) if u.get('archetype','')=='dragon' and u.petrified<=0 else 0.,'heading':actor.get('heading',u.heading)}
+			if impact_feedback!=null and u.petrified<=0:impact_feedback.apply(figure,actor,rules.elapsed)
+			figures.append(figure)
 	figures.sort_custom(func(a,b):return a.foot.y<b.foot.y)
 	for figure in figures:
 		var foot: Vector2=figure.foot
@@ -615,16 +618,21 @@ func draw_regiments(rules, pass_battle: bool):
 		draw_foot_shadow(foot,scale,figure.kind=='cavalry')
 		var pose: Dictionary=figure.pose
 		var offset=Vector2(0,pose.get('drop',0.)*scale)
-		draw_set_transform((foot+offset).round(),pose.get('angle',0.))
+		draw_set_transform((foot+offset+figure.get('body_offset',Vector2.ZERO)).round(),pose.get('angle',0.))
 		var dest=Rect2(-Vector2(32,54)*scale,Vector2(64,64)*scale)
-		if figure.upper_cell>=0:
-			# Only the rider/weapon change pose; horse legs retain distance-based gait.
-			draw_texture_rect_region(figure.texture,Rect2(dest.position,Vector2(64,32)*scale),Rect2(figure.upper_cell*64,figure.bearing*64,64,32),figure.tint)
-			draw_texture_rect_region(figure.texture,Rect2(dest.position+Vector2(0,32)*scale,Vector2(64,32)*scale),Rect2(figure.cell*64,figure.bearing*64+32,64,32),figure.tint)
-		else:
-			draw_texture_rect_region(figure.texture,dest,Rect2(figure.cell*64,figure.bearing*64,64,64),figure.tint)
+		draw_figure_sprite(figure,dest,figure.texture,figure.tint)
+		if figure.get('flash_texture')!=null:
+			draw_figure_sprite(figure,dest,figure.flash_texture,Color(1,1,1,figure.flash_alpha))
 		draw_set_transform(Vector2.ZERO)
 		if figure.dragon_fire>0:draw_dragon_flame(foot,figure.heading,scale,figure.dragon_fire,rules.elapsed)
+
+func draw_figure_sprite(figure: Dictionary,dest: Rect2,texture: Texture2D,tint: Color):
+	if figure.upper_cell>=0:
+		# Only rider/weapon change pose; horse legs retain distance-based gait.
+		draw_texture_rect_region(texture,Rect2(dest.position,Vector2(64,32)*figure.scale),Rect2(figure.upper_cell*64,figure.bearing*64,64,32),tint)
+		draw_texture_rect_region(texture,Rect2(dest.position+Vector2(0,32)*figure.scale,Vector2(64,32)*figure.scale),Rect2(figure.cell*64,figure.bearing*64+32,64,32),tint)
+	else:
+		draw_texture_rect_region(texture,dest,Rect2(figure.cell*64,figure.bearing*64,64,64),tint)
 
 static func dragon_flame_strength(age: float) -> float:
 	# Public renderer breath is visual only, active at .12–.76 of the .8s attack.
