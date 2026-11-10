@@ -17,6 +17,9 @@ var previous_tick=0
 var output=""
 var snapshots={}
 var capture_stills=true
+var recording=false
+var capture_can_step=true
+var recorded_steps=0
 
 func _ready():
 	Engine.max_fps=60
@@ -24,6 +27,8 @@ func _ready():
 	var args=OS.get_cmdline_user_args()
 	var mode=args[0] if args.size()>0 else 'flank'
 	output=args[1] if args.size()>1 else ''
+	recording='record' in args
+	if recording:RenderingServer.frame_post_draw.connect(capture_drawn)
 	capture_stills=not 'perf' in args
 	if 'baseline' in args:
 		charge_speed=240.;follow_through=140.;unbraced_hit_drag=.12;exit_orders=false
@@ -32,6 +37,10 @@ func _ready():
 	app=load('res://scenes/main.tscn').instantiate()
 	app.settings_path='/tmp/eagle-cavalry-depth.cfg';add_child(app);app.hide()
 	app.sound.enabled=false
+	Engine.max_fps=60
+	Engine.time_scale=1.
+	get_window().title='Cavalry Depth Preview — 64 soldiers'
+	if not output.is_empty():get_window().size=Vector2i(1280,720)
 	trial=load('res://scenes/tactical_trial.tscn').instantiate()
 	trial.rules=Rules.new(false)
 	trial.rules.config.individual_charge.speed=charge_speed
@@ -40,6 +49,7 @@ func _ready():
 	trial.rules.exit_orders=exit_orders
 	trial.rules.setup(mode);trial.app=app
 	add_child(trial);move_child(trial,0)
+	if recording:trial.set_process(false)
 	trial.field.clean_capture=true;trial.get_node('BattleHUD').hide()
 	trial.set_process_input(false);trial.set_process_unhandled_input(false)
 	trial.field.pass_layout.hide()
@@ -60,6 +70,13 @@ func _ready():
 
 func _process(delta: float):
 	if trial==null or finished or trial.paused:return
+	# One normal-speed simulation step per exported 60fps frame. Live runs keep
+	# the regular engine loop and are measured separately.
+	if recording:
+		if not capture_can_step:return
+		capture_can_step=false
+		recorded_steps+=1
+		delta=1./60.
 	var now=Time.get_ticks_usec()
 	var measured_ms=(now-previous_tick)/1000.
 	previous_tick=now
@@ -67,7 +84,9 @@ func _process(delta: float):
 	if clock>.5:frame_times.append(measured_ms)
 	if clock>=1.2 and not launched:
 		launched=true
-		assert(trial.rules.launch())
+		var accepted=trial.rules.launch()
+		assert(accepted)
+	if recording:trial._process(delta)
 	if not output.is_empty() and capture_stills and DisplayServer.get_name()!='headless':
 		for time in [1,3,4,5,6,8,11]:
 			if clock>=time and not snapshots.has(time):
@@ -77,6 +96,9 @@ func _process(delta: float):
 		if not output.is_empty():
 			save_report()
 			finish_capture.call_deferred()
+
+func capture_drawn():
+	capture_can_step=true
 
 func finish_capture():
 	trial.queue_free();app.queue_free()
@@ -96,16 +118,18 @@ func save_report():
 			var a=u.soldiers[slot]
 			actors.append({'id':[u.id,slot],'hp':a.hp,'position':a.position,
 				'end':a.get('charge_end',{}),'order':a.personal_order,
+				'entered_defense':r.entered_defense.has(Vector2i(u.id,slot)),
 				'displacement':a.position.distance_to(r.initial_feet[Vector2i(u.id,slot)])})
 	frame_times.sort()
 	var report={'mode':r.comparison,'people':64,'sim_seconds':r.elapsed,'wall_seconds':(Time.get_ticks_usec()-wall_start)/1000000.,
 		'frame_mean_ms':frame_times.reduce(func(a,b):return a+b,0.)/maxi(1,frame_times.size()),
 		'frame_p95_ms':frame_times[int(frame_times.size()*.95)] if not frame_times.is_empty() else 0,
 		'stalls_over_50ms':frame_times.filter(func(v):return v>50.).size(),
-		'movie':OS.get_cmdline_args().has('--write-movie'), 'contacts':r.contact_log,'actors':actors,'zoom':trial.zoom,
+		'movie':recording, 'contacts':r.contact_log,'actors':actors,'zoom':trial.zoom,
+		'recorded_steps':recorded_steps,
 		'still_readbacks':capture_stills,'vsync':DisplayServer.window_get_vsync_mode(),
 		'static_memory_bytes':Performance.get_monitor(Performance.MEMORY_STATIC),
 		'texture_memory_bytes':Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),
 		'charge_speed':charge_speed,'follow_through':follow_through,'unbraced_hit_drag':unbraced_hit_drag,
-		'output_size':get_viewport().get_texture().get_size()}
+		'output_size':get_viewport().get_texture().get_image().get_size()}
 	FileAccess.open(output+'/report.json',FileAccess.WRITE).store_string(JSON.stringify(report,'\t'))

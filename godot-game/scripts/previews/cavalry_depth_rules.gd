@@ -5,15 +5,18 @@ var rider_ids: Array=[]
 var defender_ids: Array=[]
 var initial_feet: Dictionary={}
 var axis=Vector2(.8,-.6)
-var impact=Vector2(1510,1620)
+var impact=Vector2(1610,1670)
 var comparison="flank"
 var exit_orders=true
 var exit_pending: Dictionary={}
+var entered_defense: Dictionary={}
+var defense_area=Rect2()
 
 func setup(mode: String="flank"):
 	comparison=mode
 	units.clear();next_id=0;shield_walls.clear();wall_serial=0
 	contact_log.clear();rider_ids.clear();defender_ids.clear();initial_feet.clear()
+	exit_pending.clear();entered_defense.clear()
 	if mode!="flank":axis=Vector2.UP;impact=Vector2(1640,1700)
 	for rank in 4:
 		spawn('spear' if mode=='pikes' else 'legion','ally',Vector2(1640,1700-rank*38))
@@ -32,6 +35,9 @@ func setup(mode: String="flank"):
 			plan[key]={'goal':p,'heading':Vector2.DOWN,'path':[],'column':column,'rank':rank,'spacing':38.,'columns':10}
 			defender_ids.append(key);initial_feet[key]=p
 	Walls.place(self,plan)
+	defense_area=Rect2(initial_feet[defender_ids[0]],Vector2.ZERO)
+	for key in defender_ids:defense_area=defense_area.expand(initial_feet[key])
+	defense_area=defense_area.grow(18.)
 	for key in defender_ids:
 		var actor=units[key.x].soldiers[key.y]
 		actor.personal_order='hold';actor.path=[];actor.wall_settle=1.
@@ -50,22 +56,18 @@ func launch() -> bool:
 
 func step(dt: float):
 	super.step(dt)
-	if not exit_orders:return
-	# An explicit follow-up order for the drill, not extra charge motion or damage.
-	# A stopped rider remains in melee; only riders that finished their run clear the lane.
 	for key in rider_ids:
 		var actor=units[key.x].soldiers[key.y]
 		if actor.hp<=0:continue
+		if actor.has('charge_run') and defense_area.has_point(actor.position):entered_defense[key]=true
+		if not exit_orders:continue
+		# Finishing a run is not proof of a breakthrough. Reacquire locally instead
+		# of sending untouched riders another 70 units into empty ground.
 		if actor.has('charge_end') and not exit_pending.has(key):
-			exit_pending[key]=false
+			exit_pending[key]=true
 			if actor.charge_end.reason in ['through','goal']:
-				var goal: Vector2=actor.position+axis*70.
-				if Soldiers.command(self,[key],'move',goal,-1,-1,[],true,'enemy'):
-					exit_pending[key]=true
-		elif exit_pending.get(key,false) and actor.get('path',[]).is_empty():
-			# Reacquire from the exit position instead of reversing to a trampled victim.
-			actor.personal_order='auto';actor.target_id=-1;actor.target_slot=-1
-			exit_pending[key]=false
+				Soldiers.command(self,[key],'auto',actor.position,-1,-1,[],true,'enemy')
+				actor.aggro_timer=.1
 
 func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Dictionary={},strike: Dictionary={}) -> Dictionary:
 	var result=super.deal_blow(attacker,target,damage,contact,strike)

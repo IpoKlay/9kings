@@ -18,12 +18,24 @@ func run():
 		check(r.rider_ids.size()==24 and r.defender_ids.size()==40,mode+': fixed 64 people')
 		check(r.structures.is_empty(),mode+': no siege structures')
 		check(r.launch(),mode+': shared C command accepted')
+		for key in r.rider_ids:
+			var actor=r.units[key.x].soldiers[key.y]
+			var nearest=INF
+			for defender in r.defender_ids:
+				var point: Vector2=r.initial_feet[defender]
+				nearest=minf(nearest,point.distance_to(Geometry2D.get_closest_point_to_segment(point,actor.position,actor.charge_run.goal)))
+			check(nearest<=r.Soldiers.individual(r,r.units[key.x]).range,mode+': rider '+str(key)+' initial lane reaches defenders')
 		var start=r.units[4].soldiers[0].position
 		r.step(0.)
 		check(r.units[4].soldiers[0].position==start,mode+': zero time preserves position')
+		var empty_followup=false
 		for frame in 720:
 			r.step(1./60.);r.events.clear()
+			for key in r.rider_ids:
+				var actor=r.units[key.x].soldiers[key.y]
+				if actor.has('charge_end') and actor.personal_order=='move':empty_followup=true
 			if frame%120==0:await process_frame
+		check(not empty_followup,mode+': no automatic move farther into empty ground after charging')
 		var pairs={};var first={};var ended={};var through=0
 		for hit in r.contact_log:
 			var key=str(hit.rider)+str(hit.victim)
@@ -35,6 +47,8 @@ func run():
 			var actor=r.units[key.x].soldiers[key.y]
 			check(not actor.has('charge_run'),mode+': charge has finite end')
 			check(r.bounds.has_point(actor.position),mode+': movement stays in battlefield')
+			var touched=r.contact_log.any(func(hit):return hit.rider==[key.x,key.y])
+			check(touched or r.entered_defense.has(key),mode+': rider '+str(key)+' actually contacts or enters the original defensive footprint')
 			var reason=actor.get('charge_end',{}).get('reason','dead')
 			ended[reason]=ended.get(reason,0)+1
 			if reason=='through':through+=1

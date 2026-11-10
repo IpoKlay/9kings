@@ -138,5 +138,26 @@
     "ui_signal_input": 7,
     "existing_personal_charge": 35,
     "failures": 0
+  },
+  "route_fix": {
+    "output_size": "(1280, 720)",
+    "frame_mean_ms": 16.7273154069767,
+    "frame_p95_ms": 17.177,
+    "stalls_over_50ms": 1,
+    "sim_seconds": 11.9333333333335,
+    "wall_seconds": 11.851724,
+    "static_memory_bytes": 181181239.0,
+    "texture_memory_bytes": 719037993.0,
+    "contacts": 154,
+    "contacting_riders": 23,
+    "ends": {
+      "through": 6,
+      "resisted": 10,
+      "duration": 6,
+      "goal": 2
+    },
+    "captured_simulation_steps": 720,
+    "rule_checks": 532,
+    "ui_checks": 7
   }
 }
