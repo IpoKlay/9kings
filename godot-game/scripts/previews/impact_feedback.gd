@@ -7,6 +7,7 @@ var hold_frames=5
 var masks: Dictionary={}
 var atlas_sides: Dictionary={}
 var flashed_sides: Dictionary={}
+var contact_flash_roles: Dictionary={}
 var texture_bytes=0
 
 func prepare(regiments: Dictionary,units: Array):
@@ -29,6 +30,11 @@ func prepare(regiments: Dictionary,units: Array):
 func apply(figure: Dictionary,actor: Dictionary,now: float):
 	if not enabled:return
 	var strike: Dictionary=actor.get('preview_strike',{})
+	if not strike.is_empty() and strike.get('heavy',false):
+		var strike_frame=floori((now-strike.start)*60.+.00001)
+		if strike_frame>=0 and strike_frame<8:
+			apply_flash(figure,strike_frame,true)
+			contact_flash_roles['attacker']=true
 	if not strike.is_empty() and now-strike.start<float(hold_frames)/60.:
 		if not strike.has('cell'):
 			strike.cell=figure.cell;strike.upper_cell=figure.upper_cell
@@ -54,11 +60,15 @@ func apply(figure: Dictionary,actor: Dictionary,now: float):
 		pose.angle=angle*(signf(hit.direction.x) if absf(hit.direction.x)>.1 else 1.)
 		pose.drop=3.*strength if frame<9 else 0.
 	figure.pose=pose
+	apply_flash(figure,frame,heavy)
+	if heavy and frame<8:contact_flash_roles['victim']=true
+
+func apply_flash(figure: Dictionary,frame: int,heavy: bool):
 	var flash_frames=8 if heavy else 6
 	if frame<flash_frames and flash_strength>0.:
 		figure.flash_texture=masks.get(figure.texture.get_instance_id())
 		var white_frames=4 if heavy else 3
-		figure.flash_alpha=flash_strength*(1. if frame<white_frames else .75 if frame<flash_frames-1 else .35)
+		figure.flash_alpha=maxf(figure.get('flash_alpha',0.),flash_strength*(1. if frame<white_frames else .75 if frame<flash_frames-1 else .35))
 		if figure.flash_texture!=null:flashed_sides[atlas_sides[figure.texture.get_instance_id()]]=true
 
 static func camera_offset(age: float,strength: float) -> Vector2:

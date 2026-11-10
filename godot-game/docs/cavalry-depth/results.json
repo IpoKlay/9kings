@@ -210,5 +210,21 @@
     "hold_frames": 5,
     "local_shake": 2,
     "camera_shake": 2
+  },
+  "contact_participants": {
+    "contact_flash_roles": {
+      "attacker": true,
+      "victim": true
+    },
+    "flashed_sides": {
+      "ally": true,
+      "enemy": true
+    },
+    "output_size": "(1280, 720)",
+    "frame_mean_ms": 16.666008683068,
+    "frame_p95_ms": 16.755,
+    "stalls_over_50ms": 0,
+    "feedback_checks": 18,
+    "combat_state_unchanged": true
   }
 }
