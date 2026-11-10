@@ -12,7 +12,7 @@ func run():
 	r.ai_training=-10000.;r.next_wave=10000.
 	var ids=[]
 	for i in 63:
-		var u=r.spawn_person('shield','ally',Vector2(1120+(i%9)*42,2200+(i/9)*38));ids.append(Vector2i(u.id,0))
+		var u=r.spawn_person('shield','ally',Vector2(1240+(i%9)*42,2240+(i/9)*32));ids.append(Vector2i(u.id,0))
 	t.soldier_ids=ids;t.selected='';t.set_camera(Vector2(1450,2100)-Vector2(960,530)/t.zoom)
 	click(point(t,Vector2(1450,2030)),MOUSE_BUTTON_RIGHT)
 	check(r.alive('ally').all(func(u):return not u.soldiers[0].path.is_empty()),'Real mouse group order accepted')

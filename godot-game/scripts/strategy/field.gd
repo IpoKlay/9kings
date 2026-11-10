@@ -46,17 +46,23 @@ func _draw():
 		label(p+Vector2(-65,35),names[resource.kind]+('' if resource.kind in ['tree','farm'] else ' '+str(int(resource.remaining))))
 	var art={'town':'medic_3','barracks':'legion_1','range':'archer_1','stable':'cavalry_1','factory':'siege_2','academy':'training_2','house':'medic_1','outpost':'guard_1','fortress':'guard_3','wall':'guard_2','gate':'guard_2','wall_tower':'guard_3'}
 	for b in r.world.displayed_buildings(r):
-		if b.hp<=0 or b.kind=='farm':continue
+		if b.hp<=0 or b.kind=='farm' and b.remaining<=0:continue
 		var p: Vector2=b.pos
 		if b.kind in ['wall','gate']:
 			draw_wall(b)
+			if b.remaining>0:construction_meter(b,p+Vector2(-30,24))
 			continue
+		if b.kind=='farm':
+			draw_rect(Rect2(p-Vector2(30,25),Vector2(60,50)),Color('#75604480'))
+			for i in 5:draw_line(p+Vector2(-24+i*12,-20),p+Vector2(-24+i*12,20),Color('#b6af6980'),4)
+			construction_meter(b,p+Vector2(-30,34));continue
 		if b.kind=='barracks':draw_arc(p,360,0,TAU,64,Color('#c6be6666'),2)
 		var size: float=r.strategy.buildings[b.kind].size
 		draw_texture_rect(tex('building_'+art[b.kind]),Rect2(p-Vector2(size*.65,size),Vector2(size*1.3,size*1.3)),false,Color(1,1,1,.5 if b.remaining>0 or b.open else 1.))
-		label(p+Vector2(-75,40),('敌方 ' if b.side=='enemy' else '')+r.strategy.buildings[b.kind].name+(' 建造%.0f秒'%b.remaining if b.remaining>0 else ' 已打开' if b.open else ''))
+		label(p+Vector2(-75,40),('敌方 ' if b.side=='enemy' else '')+r.strategy.buildings[b.kind].name+(' · 建造中' if b.remaining>0 else ' 已打开' if b.open else ''))
 		draw_rect(Rect2(p-Vector2(30,size+10),Vector2(60,5)),Color('#493c35'))
 		draw_rect(Rect2(p-Vector2(30,size+10),Vector2(60*b.hp/b.max_hp,5)),Color('#91b07a'))
+		if b.remaining>0:construction_meter(b,p-Vector2(30,size+22))
 		if not b.queue.is_empty():label(p+Vector2(-75,62),'生产 %.0f秒'%b.queue[0].remaining)
 	for camp in r.world.camps:
 		if not r.world.discovered(camp.pos):continue
@@ -77,13 +83,20 @@ func _draw():
 
 func draw_wall(b: Dictionary):
 	var p: Vector2=b.pos
-	var vertical=absf(p.x-trial.rules.world.CENTER.x)>440 and absf(p.y-trial.rules.world.CENTER.y)<440
-	var dimensions=Vector2(34,64) if vertical else Vector2(64,34)
+	var dimensions=Vector2(b.get('wall_length',64.),34.)
 	if b.kind=='gate' and b.open:
 		label(p+Vector2(-30,-20),'城门·开');return
-	var rect=Rect2(p-dimensions*.5,dimensions)
-	draw_rect(rect,Color('#6b6b62'));draw_rect(Rect2(rect.position-Vector2(0,9),dimensions),Color('#aaa78c'))
-	for i in 4:
-		var at=rect.position+(Vector2(0,i*16) if vertical else Vector2(i*16,0))
-		draw_rect(Rect2(at-Vector2(0,12),Vector2(10,10)),Color('#d0c6a1'))
+	var opacity=.5 if b.remaining>0 else 1.
+	draw_set_transform(p,b.get('wall_angle',0.))
+	var rect=Rect2(-dimensions*.5,dimensions)
+	draw_rect(rect,Color(Color('#6b6b62'),opacity));draw_rect(Rect2(rect.position-Vector2(0,9),dimensions),Color(Color('#aaa78c'),opacity))
+	for i in int(ceil(dimensions.x/16.)):
+		var at=rect.position+Vector2(i*16,0)
+		draw_rect(Rect2(at-Vector2(0,12),Vector2(10,10)),Color(Color('#d0c6a1'),opacity))
+	draw_set_transform(Vector2.ZERO)
 	if b.kind=='gate':label(p+Vector2(-30,-22),'城门·关')
+
+func construction_meter(b: Dictionary,at: Vector2):
+	var progress=clampf(1.-b.remaining/trial.rules.strategy.buildings[b.kind].seconds,0.,1.)
+	draw_rect(Rect2(at,Vector2(60,6)),Color('#493c35'))
+	draw_rect(Rect2(at,Vector2(60*progress,6)),Color('#d5ac60'))

@@ -1,3 +1,16 @@
+# 2026-11-10 血条、建造进度、云雾与正八边形回归
+
+环境：Linux Godot 4.6.3、原生 OpenGL Compatibility / llvmpipe 窗口，Xvfb。未进行 Windows 实机验证。
+
+- `test_octagon_presentation.gd`：47项通过，headless和正常菜单入口的原生窗口均执行。覆盖八边等长/45°转角、四门开关碰撞、斜墙阻挡、资源环与树林位置、横纵队间距45、伤后血条实时变化、真实建造图标与选建筑、双村民50%施工进度、完成启用、多人农田只生成一次、深灰不透明云纹。
+- 实际截图检查单位生命行、半透明房屋与金色半进度、完成后的不透明房屋、八边形总览、未探索云雾及探索记忆。修复了灰雾格子边缘透明叠加产生的暗线；新截图确认消除。截图保存在本次环境 `/tmp/contextual-health-meter.png`、`contextual-construction-meter.png`、`contextual-construction-complete.png`、`contextual-octagon-overview.png`、`contextual-cloud-fog.png`。
+- `test_gate_navigation.gd`：12项通过，63人全部穿过北门并完成移动；起始测试阵列移入八边形内。当前斜墙使用保守矩形包围盒，缓存图继续复用。首次63人下令样本393ms，不能沿用上一版方墙73ms或推断帧率；较复杂斜墙仍有首次规划开销。
+- `test_gate_window.gd`：2项通过，从正常菜单入口实际右键指挥63人穿门，全部到位。两张过门截图来自引擎实际渲染。
+- 相关回归：strategy 30、combat 20、expansion 94、expansion UI 17、contextual UI 27、formation/camera 19项通过。
+- 原有退出 ObjectDB / 资源引用警告仍可能出现；没有把这类退出警告或脚本驱动的玩法测试宣称为 Windows 人工试玩。下方记录为历史版本。
+
+---
+
 # 2026-11-10 城门、多选寻路与减速回归
 
 - 复现输入：63盾兵在城内，向(1450,2030)右键行军。旧版命令失败、6386ms；修复后成功、约73ms。旧失败来自被墙占用的阵位和每名士兵重建完整绕障图，并非仅单位互相碰撞。单次本机样本，不是跨设备帧率保证。

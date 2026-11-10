@@ -96,7 +96,8 @@ func rebuild_obstacles():
 	for b in buildings:
 		if b.hp<=0 or b.kind=='farm' or b.kind=='gate' and b.open:continue
 		var size: float=strategy.buildings[b.kind].size
-		obstacles.append(Rect2(b.pos-Vector2.ONE*size*.5,Vector2.ONE*size))
+		var dimensions: Vector2=b.get('wall_bounds',Vector2.ONE*size)
+		obstacles.append(Rect2(b.pos-dimensions*.5,dimensions))
 	terrain.replace_rocks(obstacles)
 func build(kind: String,point: Vector2,ids: Array) -> bool:
 	if phase!='battle' or not strategy.buildings.has(kind):return false
@@ -385,6 +386,8 @@ func advance_economy(dt: float):
 			if b.hp<=0:a.erase('job');continue
 			if u.pos.distance_to(b.pos)>strategy.buildings[b.kind].size*.5+70:continue
 			if job.kind=='build':
+				# Only the worker finishing the shared progress creates the farm resource.
+				if b.remaining<=0:a.erase('job');continue
 				b.remaining=maxf(0,b.remaining-dt)
 				if b.remaining<=0:
 					if b.kind=='farm':resources.append({'kind':'farm','pos':b.pos,'remaining':2500.,'building':b.id})

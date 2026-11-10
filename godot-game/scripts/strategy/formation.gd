@@ -98,7 +98,7 @@ static func nearby_slot(r,nav: String,start: Vector2,goal: Vector2,anchor: Vecto
 static func same_wall_side(r,anchor: Vector2,point: Vector2) -> bool:
 	# Keep a destination outside the starting fort outside, rather than filling the doorway.
 	var center: Vector2=r.world.CENTER;var radius: float=r.world.WALL_RADIUS
-	for axis in 2:
-		if anchor[axis]<center[axis]-radius and point[axis]>center[axis]-radius-40.:return false
-		if anchor[axis]>center[axis]+radius and point[axis]<center[axis]+radius+40.:return false
+	for edge in 8:
+		var normal=Vector2.from_angle(edge*PI/4.)
+		if normal.dot(anchor-center)>radius and normal.dot(point-center)<radius+40.:return false
 	return true

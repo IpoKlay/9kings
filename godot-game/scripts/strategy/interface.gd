@@ -12,6 +12,9 @@ var box: VBoxContainer
 var info: Label
 var title: Label
 var detail: Label
+var health_label: Label
+var health_bar: ProgressBar
+var construction_bar: ProgressBar
 var message: Label
 var queue_note: Label
 var pause_button: Button
@@ -36,6 +39,7 @@ var formation_members=[]
 var formation_name=''
 var formation_revision=0
 var formation_notice_left=0.
+var fog_texture: ImageTexture
 
 
 func label(text: String,size: int=22) -> Label:
@@ -46,10 +50,18 @@ func button(parent: Node,text: String,callback: Callable) -> Button:
 	var b=Button.new();b.focus_mode=Control.FOCUS_NONE;b.text=text;b.custom_minimum_size=Vector2(100,42);b.add_theme_font_size_override('font_size',20)
 	b.pressed.connect(callback);parent.add_child(b)
 	return b
+func meter(tint: Color) -> ProgressBar:
+	var bar=ProgressBar.new();bar.custom_minimum_size=Vector2(120,16);bar.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	bar.size_flags_vertical=Control.SIZE_SHRINK_CENTER;bar.show_percentage=false;bar.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	var background=StyleBoxFlat.new();background.bg_color=Color('#4b493b');background.set_border_width_all(2);background.border_color=Color('#756444')
+	var fill=StyleBoxFlat.new();fill.bg_color=tint
+	bar.add_theme_stylebox_override('background',background);bar.add_theme_stylebox_override('fill',fill)
+	return bar
 func surface(at: Vector2,dimensions: Vector2) -> PanelContainer:
 	var p=PanelContainer.new();p.position=at;p.custom_minimum_size=dimensions;p.add_theme_stylebox_override('panel',Paper.box('paper'));add_child(p)
 	return p
 func _ready():
+	make_fog_texture()
 	mouse_filter=Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	rules_instance=trial.rules
@@ -103,15 +115,19 @@ func show_commands():
 	var key=str(selected_building)+'|'+str(trial.selected_people())+'|'+str(r.level)+'|'+str(r.town_level)+'|'+str(r.researches)
 	if not b.is_empty():key+='|'+str(b.remaining<=0)+'|'+str(b.queue.map(func(q):return q.type))
 	if key==signature:return
-	signature=key;actions.clear();queue_note=null
+	signature=key;actions.clear();queue_note=null;construction_bar=null
 	for child in box.get_children():box.remove_child(child);child.queue_free()
 	if b.is_empty() and people.is_empty():panel.hide();return
 	panel.show()
 	title=label('');box.add_child(title)
+	var health_row=HBoxContainer.new();health_row.add_theme_constant_override('separation',12);box.add_child(health_row)
+	health_label=label('',20);health_row.add_child(health_label)
+	health_bar=meter(Color('#65884f'));health_row.add_child(health_bar)
 	detail=label('',20);detail.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;box.add_child(detail)
 	if not b.is_empty():
 		title.text=r.strategy.buildings[b.kind].name
-		if b.remaining>0:return
+		if b.remaining>0:
+			box.add_child(label('建造进度',20));construction_bar=meter(Color('#c69543'));box.add_child(construction_bar);return
 		var grid=GridContainer.new();grid.columns=3;grid.add_theme_constant_override('h_separation',7);grid.add_theme_constant_override('v_separation',7);box.add_child(grid)
 		for type in r.strategy.units:
 			var data: Dictionary=r.strategy.units[type]
@@ -174,10 +190,12 @@ func _process(dt: float):
 	var b=selected_structure()
 	if panel.visible:
 		if not b.is_empty():
-			detail.text='生命 %d / %d'%[b.hp,b.max_hp]
-			if b.kind=='town':detail.text+=' · 城镇 %d 级'%r.town_level
+			update_health(b.hp,b.max_hp);detail.text=''
+			if b.kind=='town':detail.text='城镇 %d 级'%r.town_level
 			if r.strategy.units.values().any(func(d):return d.producer==b.kind):detail.text+='\n右键地图设置集结点 · 费用：食/木/铁'
-			if b.remaining>0:detail.text+='\n村民施工 · 剩余 %.1f秒'%b.remaining
+			if b.remaining>0:
+				detail.text+='\n村民施工中'
+				if construction_bar!=null:construction_bar.value=100.*(1.-b.remaining/r.strategy.buildings[b.kind].seconds)
 			elif not b.queue.is_empty():
 				detail.text+='\n生产 %s · %.1f秒'%[r.strategy.units[b.queue[0].type].name,maxf(0,b.queue[0].remaining)]
 				if r.population()>=r.population_cap():detail.text+='\n人口已满：请建造房屋'
@@ -187,7 +205,7 @@ func _process(dt: float):
 			var people=selected_people()
 			if not people.is_empty():
 				var a: Dictionary=people[0].actor
-				detail.text='生命 %d / %d'%[a.hp,a.max_hp]
+				update_health(a.hp,a.max_hp);detail.text=''
 				if people.size()==1:
 					var n=r.unit_numbers(people[0].unit)
 					detail.text+='\n伤害 %.1f · 近甲 %d / 远甲 %d\n攻击间隔 %.2f 秒\n指令：%s'%[n.damage,n.melee,n.ranged,n.interval,r.current_order(people[0].unit).name]
@@ -195,6 +213,7 @@ func _process(dt: float):
 					if bonus>0:detail.text+='\n对%s额外伤害 +%d'%['骑兵' if people[0].unit.unit_type=='spear' else '弓箭手',bonus]
 				if people[0].unit.unit_type=='villager':detail.text+='\n右键资源采集；点击下方图标建造'
 				else:detail.text+='\n'+r.strategy.formations[a.get('formation','default')].name
+		detail.text=detail.text.strip_edges()
 		for id in actions:
 			if id.begins_with('research:'):
 				var tech: String=id.trim_prefix('research:')
@@ -203,6 +222,9 @@ func _process(dt: float):
 	report_age=maxf(0,report_age-dt)
 	if report_age<=0:message.text=''
 	queue_redraw()
+func update_health(hp: float,maximum: float):
+	health_label.text='生命 %d / %d'%[hp,maximum]
+	health_bar.max_value=maxf(1.,maximum);health_bar.value=hp
 func to_world(screen: Vector2) -> Vector2:return trial.field.unproject(trial.field_point(screen))
 func select_at(screen: Vector2):
 	var r=trial.rules
@@ -336,6 +358,15 @@ func update_formation_notice(dt: float):
 		formation_members.clear();formation_notice_left=2.
 
 func screen_point(point: Vector2) -> Vector2:return (trial.field.project(point)-trial.camera_offset)*trial.zoom
+func make_fog_texture():
+	# Cached, world-anchored pixel clouds: no per-frame noise work or hidden terrain leaks.
+	var noise=FastNoiseLite.new();noise.seed=20261110;noise.frequency=.07;noise.fractal_octaves=3
+	var cloud=Image.create(256,256,false,Image.FORMAT_RGBA8)
+	for x in 256:
+		for y in 256:
+			var shade=(noise.get_noise_2d(x,y)+1.)*.5
+			cloud.set_pixel(x,y,Color(.14+shade*.12,.16+shade*.12,.18+shade*.12,1.))
+	fog_texture=ImageTexture.create_from_image(cloud)
 func draw_fog():
 	if trial==null:return
 	var world=trial.rules.world
@@ -344,8 +375,11 @@ func draw_fog():
 		for y in range(low.y,high.y+1):
 			var key=Vector2i(x,y)
 			if world.sight.has(key):continue
-			var at=screen_point(Vector2(key)*world.CELL)
-			draw_rect(Rect2(at,Vector2.ONE*(world.CELL*trial.zoom+.5)),Color(0,0,0,.58) if world.explored.has(key) else Color('#080b10'))
+			# Adjacent cells share exact screen-pixel edges; alpha must not overlap into dark grid seams.
+			var at=screen_point(Vector2(key)*world.CELL).floor()
+			var end=screen_point((Vector2(key)+Vector2.ONE)*world.CELL).floor()
+			var region=Rect2(Vector2(posmod(x,64),posmod(y,64))*4.,Vector2(4,4))
+			draw_texture_rect_region(fog_texture,Rect2(at,end-at),region,Color(1,1,1,.68 if world.explored.has(key) else 1.),false,false)
 	var city=screen_point(world.enemy_city)
 	if not world.visible(world.enemy_city):
 		draw_rect(Rect2(city-Vector2(8,8),Vector2(16,16)),Color('#c86050'),false,2)
