@@ -26,7 +26,7 @@ func run():
 	var t=main.active_trial;t.set_process(false)
 	var r=t.rules;var ui=t.get_meta('strategy_interface')
 	check(r.phase=='battle','Game starts immediately')
-	check(r.alive('ally').size()==6 and r.alive('ally').all(func(u):return u.unit_type=='villager'),'Economy-only opening')
+	check(r.alive('ally').size()==9 and r.alive('ally').filter(func(u):return u.unit_type=='villager').size()==5,'Walled test opening')
 	check(not t.get_node('BattleHUD').is_visible_in_tree(),'All old battle controls hidden')
 	check(not ui.panel.visible and t.selected_people().is_empty(),'Opening has no command panel or selection')
 	await snap('opening',t)
@@ -36,12 +36,12 @@ func run():
 	check(t.soldier_ids==[Vector2i(villager.id,0)],'Real mouse selects one villager')
 	check(ui.panel.visible and ui.actions.has('build:barracks') and not ui.actions.has('train:spear'),'Villager exposes build icons only')
 	await snap('villager',t)
-	var fruit=r.resources[1]
+	var fruit=r.resources[0]
 	click(point(t,fruit.pos),MOUSE_BUTTON_RIGHT)
 	check(villager.soldiers[0].get('job',{}).get('kind','')=='gather','Right click dispatches gathering')
-	var before: float=r.stock.food
-	for i in 300:r.step(1./60)
-	check(r.stock.food>before and r.stock.wood>100.,'Villager travels and gathers both fruit resources')
+	var before: float=r.stock.iron
+	for i in 900:r.step(1./60)
+	check(r.stock.iron>before,'Villager travels and gathers iron')
 	key(KEY_ESCAPE);await process_frame
 	check(not ui.panel.visible and t.selected_people().is_empty() and ui.mode=='','Esc clears every command surface')
 	check(not t.paused and villager.soldiers[0].has('job'),'Esc does not pause or cancel committed work')
@@ -63,7 +63,7 @@ func run():
 	check(not ui.actions.has('train:villager') and not ui.actions.has('build:house'),'Barracks replaces build bar')
 	r.stock.food=200
 	click(ui.actions['train:spear'].get_global_rect().get_center())
-	check(barracks.queue.size()==1 and town.queue.is_empty(),'Production stays in clicked building')
+	check(barracks.queue.is_empty() and town.queue.is_empty() and r.units.back().unit_type=='spear','Instant production stays in clicked building')
 	await process_frame;await snap('barracks',t)
 	key(KEY_ESCAPE)
 	click(point(t,villager.pos)-Vector2(0,20));await process_frame
@@ -71,21 +71,21 @@ func run():
 	click(ui.actions['build:house'].get_global_rect().get_center())
 	check(ui.mode=='build','Building icon enters placement mode')
 	var wood: float=r.stock.wood;var count=r.buildings.size()
-	key(KEY_ESCAPE);click(point(t,Vector2(1600,2650)))
+	key(KEY_ESCAPE);click(point(t,Vector2(1330,2750)))
 	check(r.buildings.size()==count and r.stock.wood==wood,'Escape cancels placement without spending resources')
 	click(point(t,villager.pos)-Vector2(0,20));await process_frame
 	click(ui.actions['build:house'].get_global_rect().get_center())
-	click(point(t,Vector2(1600,2650)))
+	click(point(t,Vector2(1330,2750)))
 	check(r.buildings.size()==count+1 and is_equal_approx(r.stock.wood,wood-35),'Villager places house and pays once')
 	var house=r.buildings.back()
 	for i in 1800:r.step(1./60)
-	check(house.remaining==0. and r.population_cap()==55,'Villager travels and completes house')
+	check(house.remaining==0. and r.population_cap()==70,'Villager travels and completes house')
 	click(point(t,barracks.pos));await process_frame
 	barracks.hp=0;await process_frame
 	check(not ui.panel.visible and ui.selected_building==-1,'Destroyed selection closes stale production bar')
 	t.retry();await process_frame
-	check(t.rules.phase=='battle' and t.rules.population()==6 and not ui.panel.visible,'Retry resets into immediate economy opening')
-	check(t.rules.stock.food==100 and t.rules.stock.wood==100,'Retry resets economy')
+	check(t.rules.phase=='battle' and t.rules.population()==9 and not ui.panel.visible,'Retry resets into immediate economy opening')
+	check(t.rules.stock.food==10000 and t.rules.stock.wood==10000,'Retry resets economy')
 	await snap('cleared',t)
 	print('CONTEXTUAL UI CHECKS=',checks,' FAILURES=',failures)
 	t.queue_free();main.queue_free();await process_frame;quit(1 if failures else 0)

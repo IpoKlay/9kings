@@ -7,7 +7,7 @@ func check(ok: bool,text: String):
 	if not ok:failures+=1;push_error(text)
 func _init():
 	var r=Battle.new(false)
-	check(r.stock=={'food':100.,'wood':100.,'iron':100.},'Starting resources')
+	check(r.stock=={'food':10000.,'wood':10000.,'iron':10000.},'Starting resources')
 	check(r.building_ready('town') and r.building_ready('barracks'),'Starting buildings')
 	check(r.units.all(func(u):return u.soldiers.size()==1),'Independent selectable bodies')
 	check(r.Layout.rows(6)==[3,3] and r.Layout.rows(7)==[4,3] and r.Layout.rows(8)==[4,4] and r.Layout.rows(9)==[5,4] and r.Layout.rows(10)==[5,5],'Balanced team rows')
@@ -35,8 +35,9 @@ func _init():
 		check(plan.all(func(path):return path.formation=='wedge'),'Majority formation by people')
 	check(not r.Soldiers.command(r,chosen,'move',r.cliffs[0].get_center()),'Cliffs reject orders')
 	var villager=r.alive('ally').filter(func(u):return u.unit_type=='villager')[0]
-	villager.pos=r.resources[1].pos+Vector2(60,0);villager.soldiers[0].position=villager.pos
-	check(r.gathering([Vector2i(villager.id,0)],1),'Fruit gathering accepted')
+	var fruit_index=r.resources.find(r.resources.filter(func(v):return v.kind=='fruit')[0])
+	villager.pos=r.resources[fruit_index].pos+Vector2(60,0);villager.soldiers[0].position=villager.pos
+	check(r.gathering([Vector2i(villager.id,0)],fruit_index),'Fruit gathering accepted')
 	var food: float=r.stock.food;var wood: float=r.stock.wood
 	r.advance_economy(1.)
 	check(r.stock.food>food and r.stock.wood>wood,'Fruit yields food and wood')
@@ -49,8 +50,8 @@ func _init():
 	engineer.pos=building.pos+Vector2(80,0);engineer.soldiers[0].position=engineer.pos
 	r.advance_economy(15.)
 	check(building.remaining==0 and r.building_ready('range'),'Villager completes construction')
-	check(r.train('archer',building.id),'Training queue accepts ranged unit')
 	var count=r.units.size()
+	check(r.train('archer',building.id),'Ranged production is immediate')
 	# Housing needed because the layout fixture deliberately exceeded the starting cap.
 	for i in 5:r.add_building('house',Vector2(100+i*100,3000),true)
 	r.advance_economy(10.)
@@ -63,6 +64,9 @@ func _init():
 	var fresh=r.spawn_person('spear','ally',Vector2(1800,1800))
 	check(fresh.max_hp==spear.max_hp and fresh.combat_stats.damage==spear.combat_stats.damage,'Existing and new units share upgraded stats')
 	spear.soldiers[0].attack_age=10.;spear.soldiers[0].last_combat=-100.
+	for enemy in r.alive('enemy'):enemy.hp=0;enemy.soldiers[0].hp=0
+	for structure in r.buildings:
+		if structure.side=='enemy' and structure.kind=='outpost':structure.hp=0
 	spear.pos=Vector2(1000,1000);spear.soldiers[0].position=spear.pos
 	check(r.set_formation(chosen,'ring'),'Out of combat formation starts')
 	check(not spear.soldiers[0].formation_ready,'No construction buff')

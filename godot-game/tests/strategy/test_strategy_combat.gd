@@ -11,24 +11,25 @@ func _init():
 		var structure=r.add_building(row[0],Vector2(row[1],row[2]),true);structure.side='enemy'
 	var a=r.spawn_person('shield','ally',Vector2(1500,1500))
 	var b=r.spawn_person('shield','enemy',Vector2(1550,1500))
+	b.max_hp=1000.;b.hp=1000.;b.soldier_max_hp=1000.;b.soldier_hp=1000.;b.soldiers[0].max_hp=1000.;b.soldiers[0].hp=1000.
 	a.soldiers[0].formation='default';b.soldiers[0].formation='default'
 	r.researches.military=true;r.direction='military'
 	var dealt=r.hurt(b,100.,'sword',0.,0,a.id,0)
-	check(is_equal_approx(dealt,133.),'Military bonuses are additive before flat armor')
+	check(is_equal_approx(dealt,130.),'Military bonuses are additive before flat armor')
 	b.hp=b.max_hp;b.soldier_hp=b.hp;b.soldiers[0].hp=b.max_hp;b.soldiers[0].shield_raised=true
 	dealt=r.hurt(b,100.,'sword',0.,0,a.id,0)
-	check(is_equal_approx(dealt,52.),'Shield reduction follows attack bonus, before armor')
+	check(is_equal_approx(dealt,49.),'Shield reduction follows attack bonus, before armor')
 	var cavalry=r.spawn_person('light_cavalry','ally',Vector2(900,1000))
 	b.soldiers[0].shield_raised=false;b.hp=b.max_hp;b.soldier_hp=b.hp;b.soldiers[0].hp=b.max_hp
 	dealt=r.hurt(b,100.,'sword',0.,0,cavalry.id,0)
-	check(is_equal_approx(dealt,103.),'Hill cavalry penalty is additive with buffs')
+	check(is_equal_approx(dealt,100.),'Hill cavalry penalty is additive with buffs')
 	cavalry.soldiers[0].formation='wedge';cavalry.soldiers[0].heading=Vector2.LEFT
 	check(not r.Charges.issue(r,[Vector2i(cavalry.id,0)],cavalry.pos+Vector2(200,0)),'Cavalry wedge needs facing alignment')
 	var archer=r.spawn_person('archer','ally',Vector2(1600,1200))
 	archer.soldiers[0].formation='dense'
 	check(r.arrow_rain([Vector2i(archer.id,0)],Vector2(1700,1200)),'Arrow rain fires')
 	check(not r.arrow_rain([Vector2i(archer.id,0)],Vector2(1700,1200)),'Arrow rain cooldown enforced')
-	check(not r.train('elite_cavalry'),'Elite cavalry locked before level four')
+	check(not r.train('elite_cavalry'),'Elite cavalry locked before town level five')
 	var gate=r.buildings.filter(func(item):return item.side=='enemy' and item.kind=='gate')[0]
 	var ram=r.spawn_person('ram','ally',gate.pos+Vector2(0,100))
 	check(r.assault_building([Vector2i(ram.id,0)],gate),'Ram accepts enemy gate')

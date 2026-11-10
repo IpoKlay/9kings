@@ -1,7 +1,9 @@
 extends 'res://scripts/tactical/whiteboard_battle.gd'
 const Layout=preload('res://scripts/strategy/formation.gd')
 var strategy: Dictionary=JSON.parse_string(FileAccess.get_file_as_string('res://data/balance/strategy.json'))
-var stock={'food':100.,'wood':100.,'iron':100.}
+var stock: Dictionary=strategy.starting_resources.duplicate()
+var town_level=1
+var world=preload('res://scripts/strategy/world.gd').new()
 var buildings: Array=[]
 var resources: Array=[]
 var hills=[Rect2(700,850,600,400),Rect2(2000,1500,420,360)]
@@ -33,13 +35,7 @@ func _init(test_powers: bool=false):
 	config.individual_charge.damage_multiplier=1.
 	config.individual_charge.trample_decay=1.
 	terrain=PassTerrain.new(projection,bounds,config.types,{'rocks':cliffs,'SidePass':Rect2(-10000,-10000,1,1),'MainPass':Rect2(-10000,-10000,1,1)},true)
-	add_building('town',Vector2(1450,2540),true)
-	add_building('barracks',Vector2(1830,2450),true)
-	for i in 6:spawn_person('villager','ally',Vector2(1330+i*32,2410))
-	for row in [['tree',950,2440],['fruit',1050,2260],['berries',1700,2700],['deer',900,1950],['sheep',1900,2720],['boar',2200,2050],['cattle',800,2700],['fish',2750,2330],['iron',2050,2280],['tree',1120,2720],['fruit',720,2230]]:
-		resources.append({'kind':row[0],'pos':Vector2(row[1],row[2]),'remaining':1000.})
-	var town=add_building('town',Vector2(1600,370),true);town.side='enemy'
-	var barracks=add_building('barracks',Vector2(1920,460),true);barracks.side='enemy'
+	world.setup(self)
 	charges=0
 	start()
 
@@ -63,9 +59,14 @@ func spawn_person(type: String,side: String,point: Vector2) -> Dictionary:
 	if side=='ally':apply_level(u)
 	return u
 
+func start() -> bool:
+	if phase!='deploy' or alive('ally').is_empty():return false
+	phase='battle';enemy_director.active=false
+	return true
+
 func deploy_combined() -> bool:return false
 func deploy_vanguard() -> bool:return false
-func camera_focus() -> Vector2:return Vector2(1550,2320)
+func camera_focus() -> Vector2:return world.CENTER
 func population() -> int:return alive('ally').size()
 func population_cap() -> int:
 	var count=40
@@ -83,6 +84,7 @@ func spend(cost: Dictionary):
 func add_building(kind: String,point: Vector2,complete: bool=false) -> Dictionary:
 	var data: Dictionary=strategy.buildings[kind]
 	var b={'id':buildings.size(),'kind':kind,'pos':point,'hp':float(data.hp),'max_hp':float(data.hp),'remaining':0. if complete else float(data.seconds),'timer':0.,'queue':[],'open':false,'side':'ally'}
+	if town_level>1:b.max_hp*=1.+.2*mini(town_level-1,3);b.hp=b.max_hp
 	buildings.append(b)
 	if complete and kind=='farm':resources.append({'kind':'farm','pos':point,'remaining':2500.,'building':b.id})
 	rebuild_obstacles()
@@ -98,7 +100,7 @@ func build(kind: String,point: Vector2,ids: Array) -> bool:
 	if phase!='battle' or not strategy.buildings.has(kind):return false
 	var workers=Soldiers.members(self,ids).filter(func(row):return row.unit.unit_type=='villager')
 	if workers.is_empty():report='请选择村民';return false
-	var cost={'wood':strategy.buildings[kind].wood}
+	var cost={'wood':building_cost(kind)}
 	if not affordable(cost):report='木材不足';return false
 	var size: float=strategy.buildings[kind].size
 	var padding=0. if kind in ['wall','gate','wall_tower'] else 20.
@@ -122,11 +124,16 @@ func train(type: String,building_id: int=-1) -> bool:
 	if phase!='battle':return false
 	if not strategy.units.has(type):return false
 	var data: Dictionary=strategy.units[type]
-	if type=='elite_cavalry' and level<4:report='精锐骑兵需要晋升四级';return false
+	if type=='elite_cavalry' and town_level<5:report='精锐骑兵需要城镇五级';return false
 	var available=buildings.filter(func(b):return b.id==building_id and b.side=='ally' and b.kind==data.producer and b.hp>0 and b.remaining<=0 and b.queue.size()<5)
 	if available.is_empty():report='请选中对应的已完工建筑；每座建筑最多排队5人';return false
-	if not affordable({'food':data.food}):report='食物不足';return false
-	spend({'food':data.food})
+	var cost=unit_cost(type)
+	if not affordable(cost):report='生产资源不足';return false
+	if data.train_seconds==0:
+		if population()>=population_cap():report='人口已满';return false
+		if not produce(available[0],type):report='建筑出口被堵住';return false
+		spend(cost);report='已生产：'+data.name;return true
+	spend(cost)
 	available[0].queue.append({'type':type,'remaining':float(data.train_seconds)})
 	report='已加入生产队列：'+data.name
 	return true
@@ -136,11 +143,11 @@ func promotion_cost() -> Dictionary:
 	return cost
 func research(id: String,building_id: int=-1) -> bool:
 	if phase!='battle' or not research_queue.is_empty():report='已有科技研究中';return false
-	var producer='barracks' if id=='promotion' else 'house' if id=='economy' else 'factory' if id=='military' else 'town' if id=='towncraft' else 'academy'
+	var producer='barracks' if id=='promotion' else 'house' if id=='economy' else 'factory' if id=='military' else 'town' if id in ['towncraft','town_upgrade'] else 'academy'
 	if building_id<0 or building_id>=buildings.size() or buildings[building_id].kind!=producer or buildings[building_id].side!='ally' or buildings[building_id].hp<=0 or buildings[building_id].remaining>0:report='缺少研究建筑：'+strategy.buildings[producer].name;return false
-	if id=='promotion' and level>=5 or id!='promotion' and researches.has(id):report='已完成该研究';return false
+	if id=='town_upgrade' and town_level>=5 or id=='promotion' and level>=5 or id not in ['promotion','town_upgrade'] and researches.has(id):report='已完成该研究';return false
 	if id.begins_with('direction_') and direction!='':report='发展方向已选择';return false
-	var cost=promotion_cost() if id=='promotion' else {'food':60.,'wood':40.,'iron':40.}
+	var cost=town_cost() if id=='town_upgrade' else promotion_cost() if id=='promotion' else {'food':60.,'wood':40.,'iron':40.}
 	if not affordable(cost):report='研究资源不足';return false
 	spend(cost);research_queue={'id':id,'remaining':20.,'producer':producer,'building_id':building_id}
 	report='研究中，20秒完成'
@@ -148,11 +155,15 @@ func research(id: String,building_id: int=-1) -> bool:
 func apply_level(u: Dictionary):
 	var data: Dictionary=strategy.units[u.unit_type]
 	var factor=1.+.1*(level-1)
+	if u.unit_type=='villager':factor*=1.+.3*mini(town_level-1,3)
+	elif town_level>=5:factor*=1.1
 	var actor: Dictionary=u.soldiers[0]
 	var ratio: float=actor.hp/maxf(1.,actor.max_hp)
 	actor.max_hp=data.hp*factor;actor.hp=actor.max_hp*ratio
 	u.max_hp=actor.max_hp;u.soldier_max_hp=actor.max_hp
-	u.combat_stats.damage=data.damage*factor
+	u.combat_stats.damage=data.damage*(1.+.1*(level-1))+(5. if u.unit_type=='villager' and town_level>=3 else 0.)
+	if u.unit_type=='villager' and town_level>=3:
+		u.combat_stats.range=32.;u.individual_stats.range=32.;u.individual_stats.aggro_range=300.
 	u.individual_stats.damage=u.combat_stats.damage
 	Soldiers.total(u)
 func gathering(ids: Array,index: int) -> bool:
@@ -203,7 +214,7 @@ func formation_data(u: Dictionary) -> Dictionary:
 func on_hill(point: Vector2) -> bool:
 	return hills.any(func(h):return h.has_point(point))
 func personal_speed(u: Dictionary) -> float:
-	return float(formation_data(u).speed)*(0.8 if u.soldiers[0].get('weakened',0.)>elapsed else 1.)
+	return (1.1 if u.side=='ally' and u.unit_type!='villager' and town_level>=4 else 1.)*float(formation_data(u).speed)*(0.8 if u.soldiers[0].get('weakened',0.)>elapsed else 1.)
 func damage_amount(base: float,bonuses: Array,reductions: Array,armor: float) -> float:
 	var bonus=0.;var reduction=0.
 	for value in bonuses:bonus+=value
@@ -221,11 +232,13 @@ func hurt(u: Dictionary,damage: float,source_kind: String='',shock: float=0.,slo
 		if source.side=='ally' and researches.has('military'):bonuses.append(.2)
 		if source.side=='ally' and direction=='military':bonuses.append(.15)
 		if source.kind=='cavalry' and on_hill(source.pos):bonuses.append(-strategy.hill_cavalry_attack_penalty)
-		if source.unit_type=='spear' and u.kind=='cavalry':bonuses.append(.6)
-		if source.unit_type=='light_cavalry' and u.unit_type in ['archer','ballista','catapult']:bonuses.append(.35)
+		if source.unit_type=='spear' and u.unit_type in ['light_cavalry','elite_cavalry']:damage+=strategy.units.spear.bonus_damage
+		if source.unit_type in ['light_cavalry','elite_cavalry'] and u.unit_type=='archer':damage+=strategy.units[source.unit_type].bonus_damage
+		if source.side=='ally' and town_level>=5 and source.unit_type!='villager' and source.hp>=source.max_hp:bonuses.append(.05)
 		if source.soldiers[0].get('weakened',0.)>elapsed:bonuses.append(-.25)
 		if source.soldiers[0].has('charge_run'):
 			bonuses.append(f.get('charge',0.))
+			if source.kind=='cavalry':bonuses.append(1.)
 			if source.soldiers[0].get('formation','default')=='wedge':u.soldiers[0].weakened=elapsed+4.
 			if source.kind=='cavalry' and u.soldiers[0].get('formation','')=='testudo':u.soldiers[0].formation_ready=false
 		if source.soldiers[0].get('shield_raised',false):bonuses.append(-.4)
@@ -235,7 +248,8 @@ func hurt(u: Dictionary,damage: float,source_kind: String='',shock: float=0.,slo
 	var data: Dictionary=strategy.units[u.unit_type]
 	var armor: float=data.armor_ranged if ranged else data.armor_melee
 	armor+=level-1 if u.side=='ally' else 0
-	armor+=target_form.armor
+	if u.side=='ally' and u.unit_type=='villager' and town_level>=3:armor+=2
+	armor+=target_form.armor+u.get('armor_bonus',0)
 	if u.unit_type=='spear' and u.soldiers[0].get('formation_ready',false) and u.soldiers[0].get('formation','')=='default':armor+=2
 	if u.soldiers[0].get('shield_raised',false):reductions.append(.6)
 	if source_kind in ['volley','siege']:reductions.append(target_form.get('area_reduction',0.))
@@ -263,6 +277,7 @@ func shield(ids: Array):
 	for row in Soldiers.members(self,ids):
 		if row.unit.unit_type=='shield':row.actor.shield_raised=not row.actor.get('shield_raised',false)
 func entity_at(point: Vector2) -> Dictionary:
+	if not world.visible(point):return {}
 	for b in buildings:
 		if b.hp>0 and point.distance_to(b.pos)<float(strategy.buildings[b.kind].size)*.7:return {'kind':'building','id':b.id}
 	for i in resources.size():
@@ -301,7 +316,7 @@ func step(dt: float):
 					var path=terrain.leg(Soldiers.navigator(self,u.kind,u),a.position,goal)
 					if not path.is_empty():
 						a.path=path;a.move_goal=goal;a.route_stops=[goal];a.personal_order='move';a.formation_ready=true;a.heading=heading
-		if u.unit_type in ['villager','engineer','ram','tower']:
+		if u.unit_type in ['engineer','ram','tower'] or u.unit_type=='villager' and town_level<3:
 			a.target_id=-1;a.target_slot=-1;a.erase('attack_pending')
 			if a.personal_order in ['auto','idle','attack','attack_move']:a.personal_order='hold'
 		if a.get('weakened',0.)>elapsed:u.combat_stats.interval=strategy.units[u.unit_type].interval*1.3
@@ -319,6 +334,7 @@ func step(dt: float):
 		events.append({'kind':'hit','pos':shot.point,'from':shot.point-Vector2(0,120)})
 	rain=rain.filter(func(s):return s.remaining>0)
 	advance_ai(dt)
+	world.step(self,dt)
 func advance_economy(dt: float):
 	for b in buildings:
 		if b.hp<=0:
@@ -335,10 +351,10 @@ func advance_economy(dt: float):
 							hurt(defender,25.,'archer',0.,0);b.timer=0.;events.append({'kind':'hit','pos':defender.pos,'from':b.pos});break
 			continue
 		if not b.queue.is_empty() and population()<population_cap():
-			b.queue[0].remaining-=dt*(1.35 if b.kind=='town' and researches.has('towncraft') else 1.)
+			b.queue[0].remaining-=dt*(1.+.3*mini(town_level-1,3)+(.35 if researches.has('towncraft') else 0.) if b.kind=='town' else 1.)
 			if b.queue[0].remaining<=0:
 				var spawn_point=find_exit(b)
-				if spawn_point!=Vector2.INF:spawn_person(b.queue.pop_front().type,'ally',spawn_point)
+				if spawn_point!=Vector2.INF and produce(b,b.queue[0].type):b.queue.pop_front()
 		if b.kind in ['outpost','fortress','wall_tower']:
 			b.timer+=dt
 			if b.timer>=1.5:
@@ -352,10 +368,10 @@ func advance_economy(dt: float):
 			var resource: Dictionary=resources[job.id]
 			if resource.remaining<=0:a.erase('job');continue
 			if u.pos.distance_to(resource.pos)>85.:continue
-			var amount=minf(resource.remaining,dt*(3. if researches.has('economy') else 2.)*(1.25 if direction=='economy' else 1.))
+			var amount=minf(resource.remaining,dt*gather_rate(resource.kind)*(1.5 if researches.has('economy') else 1.)*(1.25 if direction=='economy' else 1.))
 			resource.remaining-=amount
 			if resource.kind in ['tree','fruit']:stock.wood+=amount
-			if resource.kind=='iron':stock.iron+=amount
+			if resource.kind in ['iron','large_iron']:stock.iron+=amount
 			elif resource.kind!='tree':stock.food+=amount
 		elif job.kind in ['build','repair_building']:
 			var b: Dictionary=buildings[job.id]
@@ -368,10 +384,11 @@ func advance_economy(dt: float):
 					a.erase('job')
 			elif affordable({'wood':dt}):spend({'wood':dt});b.hp=minf(b.max_hp,b.hp+dt*20)
 	if not research_queue.is_empty() and buildings[research_queue.building_id].hp>0:
-		research_queue.remaining-=dt
+		research_queue.remaining-=dt*(1.3 if town_level>=4 else 1.)
 		if research_queue.remaining<=0:
 			var id: String=research_queue.id
-			if id=='promotion':
+			if id=='town_upgrade':upgrade_town()
+			elif id=='promotion':
 				level+=1
 				for u in alive('ally'):apply_level(u)
 			else:
@@ -387,6 +404,7 @@ func advance_economy(dt: float):
 				if b.hp<=0:rebuild_obstacles()
 				break
 func autonomous_destination(u: Dictionary,actor: Dictionary) -> Vector2:
+	if u.has('camp') or u.get('wild',false):return u.home
 	if u.side=='enemy':return buildings[0].pos+Vector2(0,-120)
 	return super.autonomous_destination(u,actor)
 func resolve_battle(_dt: float):
@@ -502,7 +520,7 @@ func cancel_training(building_id: int,index: int) -> bool:
 	if phase!='battle' or building_id<0 or building_id>=buildings.size():return false
 	var b: Dictionary=buildings[building_id]
 	if b.side!='ally' or b.hp<=0 or index<0 or index>=b.queue.size():return false
-	stock.food+=strategy.units[b.queue[index].type].food
+	for key in unit_cost(b.queue[index].type):stock[key]+=unit_cost(b.queue[index].type)[key]
 	b.queue.remove_at(index);report='已取消生产，退还食物'
 	return true
 
@@ -513,7 +531,7 @@ func advance_ai(dt: float):
 	ai_food+=dt*2.
 	ai_training+=dt
 	var bases=buildings.filter(func(b):return b.side=='enemy' and b.kind=='barracks' and b.hp>0)
-	if not bases.is_empty() and ai_training>=20. and alive('enemy').size()<30:
+	if not bases.is_empty() and ai_training>=20. and alive('enemy').filter(func(u):return not u.has('camp') and not u.get('wild',false)).size()<30:
 		var type=['spear','shield','archer','light_cavalry'][ai_serial%4]
 		var cost: float=strategy.units[type].food
 		var point=find_exit(bases[0])
@@ -531,3 +549,54 @@ func advance_ai(dt: float):
 		for u in reserves.slice(0,mini(reserves.size(),3+waves_sent)):
 			u.soldiers[0].erase('reserve_ai');u.order='auto';Soldiers.automate(self,u,true)
 		if not reserves.is_empty():report='斥候报告：敌军开始向城镇进军'
+
+func building_cost(kind: String) -> float:return strategy.buildings[kind].wood*(.9 if town_level>=4 else 1.)
+func unit_cost(type: String) -> Dictionary:
+	var d: Dictionary=strategy.units[type]
+	return {'food':d.food,'wood':d.get('wood',0),'iron':d.get('iron',0)}
+func town_cost() -> Dictionary:return {'food':0,'wood':200*(town_level+1),'iron':200*(town_level+1)}
+func upgrade_town():
+	town_level=mini(5,town_level+1)
+	for u in alive('ally'):apply_level(u)
+	for b in buildings:
+		if b.side!='ally':continue
+		var ratio: float=b.hp/b.max_hp
+		b.max_hp=strategy.buildings[b.kind].hp*(1.+.2*mini(town_level-1,3));b.hp=b.max_hp*ratio
+func gather_rate(kind: String) -> float:
+	return {'fruit':.6,'berries':1.1,'sheep':1.3,'wolf':1.3,'deer':1.5,'boar':1.8,'large_iron':1.5}.get(kind,1.)
+func set_rally(b: Dictionary,point: Vector2) -> bool:
+	if b.side!='ally' or b.hp<=0 or not strategy.units.values().any(func(d):return d.producer==b.kind):return false
+	var start=find_exit(b)
+	if start==Vector2.INF or terrain.leg('legion',start,point).is_empty():report='无法到达集结点';return false
+	b.rally=point;report='集结点已设置';return true
+func produce(b: Dictionary,type: String) -> bool:
+	var point=find_exit(b)
+	if point==Vector2.INF:return false
+	var u=spawn_person(type,'ally',point)
+	if b.has('rally'):Soldiers.command(self,[Vector2i(u.id,0)],'move',b.rally)
+	return true
+func unit_visible(u: Dictionary) -> bool:return u.side=='ally' or world.visible(u.pos)
+func can_detect(observer: Dictionary,target: Dictionary) -> bool:
+	return unit_visible(target) if observer.side=='ally' else observer.pos.distance_to(target.pos)<=600.
+func current_order(u: Dictionary) -> Dictionary:
+	var a: Dictionary=u.soldiers[0]
+	if a.has('job'):
+		var job: Dictionary=a.job
+		var names={'gather':'采集','build':'建造','repair_building':'修复建筑','repair_siege':'修复攻城器','siege':'攻击建筑','embark':'登上攻城塔'}
+		var point: Vector2=resources[job.id].pos if job.kind=='gather' else buildings[job.id].pos if job.kind in ['build','repair_building','siege'] else u.pos
+		return {'name':names.get(job.kind,job.kind),'point':point,'attack':job.kind=='siege'}
+	if a.has('charge_run'):return {'name':'冲锋','point':a.charge_run.goal,'attack':true}
+	if a.has('form_left') and a.has('formation_revision'):return {'name':'切换阵型','point':a.form_goal,'attack':false}
+	var order: String=a.get('personal_order','idle')
+	var target=units.filter(func(other):return other.id==a.get('target_id',-1) and other.hp>0 and can_detect(u,other))
+	if not target.is_empty():return {'name':'攻击','point':target[0].pos,'attack':true}
+	if order in ['move','attack_move'] and not a.get('path',[]).is_empty():return {'name':'攻击移动' if order=='attack_move' else '移动','point':a.path.back(),'attack':order=='attack_move'}
+	return {'name':'待命' if order in ['idle','hold'] else '自动作战','point':u.pos,'attack':false}
+func unit_numbers(u: Dictionary) -> Dictionary:
+	var d: Dictionary=strategy.units[u.unit_type]
+	var armor=level-1 if u.side=='ally' else 0
+	if u.unit_type=='villager' and u.side=='ally' and town_level>=3:armor+=2
+	return {'hp':u.hp,'max_hp':u.max_hp,'damage':u.combat_stats.damage,'melee':d.armor_melee+armor,'ranged':d.armor_ranged+armor,'interval':u.combat_stats.interval}
+
+func town_upgrade_description() -> String:
+	return {1:'二级：村民生产速度与生命 +30%；所有建筑生命 +20%。',2:'三级：村民生产速度与生命再 +30%；村民攻击 +5、近远程护甲 +2；建筑生命再 +20%。',3:'四级：村民生产速度与生命再 +30%；建筑生命再 +20%；建筑木材成本 -10%；研发速度 +30%；军队移速 +10%。',4:'五级：解锁精锐骑兵；军队生命 +10%；脱战回复 2生命/秒；满血军队伤害 +5%。'}.get(town_level,'城镇已达最高等级')

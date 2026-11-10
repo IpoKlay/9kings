@@ -14,7 +14,9 @@
       "armor_melee": 0,
       "armor_ranged": 0,
       "interval": 1.2,
-      "train_seconds": 8
+      "train_seconds": 8,
+      "wood": 0,
+      "iron": 0
     },
     "engineer": {
       "name": "军事工程师",
@@ -29,82 +31,99 @@
       "armor_melee": 0,
       "armor_ranged": 0,
       "interval": 1.2,
-      "train_seconds": 8
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 0
     },
     "spear": {
       "name": "枪兵",
       "kind": "spear",
       "art": "spear",
-      "hp": 100,
-      "damage": 20,
+      "hp": 80,
+      "damage": 15,
       "range": 65,
       "speed": 85,
-      "food": 45,
+      "food": 180,
       "producer": "barracks",
-      "armor_melee": 2,
-      "armor_ranged": 0,
-      "interval": 1.2,
-      "train_seconds": 8
+      "armor_melee": 3,
+      "armor_ranged": 3,
+      "interval": 1.4,
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 30,
+      "bonus_damage": 10
     },
     "shield": {
-      "name": "持盾步兵",
+      "name": "持盾护卫",
       "kind": "guard",
       "art": "guard",
-      "hp": 140,
-      "damage": 22,
+      "hp": 100,
+      "damage": 11,
       "range": 32,
       "speed": 75,
-      "food": 55,
+      "food": 200,
       "producer": "barracks",
-      "armor_melee": 2,
-      "armor_ranged": 3,
-      "interval": 1.2,
-      "train_seconds": 8
+      "armor_melee": 5,
+      "armor_ranged": 7,
+      "interval": 1.1,
+      "train_seconds": 0,
+      "wood": 50,
+      "iron": 50,
+      "bonus_damage": 0
     },
     "archer": {
       "name": "弓箭手",
       "kind": "archer",
       "art": "archer",
-      "hp": 75,
-      "damage": 16,
+      "hp": 60,
+      "damage": 10,
       "range": 400,
       "speed": 90,
-      "food": 45,
+      "food": 130,
       "producer": "range",
       "armor_melee": 0,
       "armor_ranged": 0,
-      "interval": 1.2,
-      "train_seconds": 8
+      "interval": 2,
+      "train_seconds": 0,
+      "wood": 100,
+      "iron": 0,
+      "bonus_damage": 0
     },
     "light_cavalry": {
-      "name": "轻型骑兵",
+      "name": "骑兵",
       "kind": "cavalry",
       "art": "cavalry",
-      "hp": 160,
-      "damage": 24,
+      "hp": 120,
+      "damage": 10,
       "range": 38,
       "speed": 155,
-      "food": 80,
+      "food": 250,
       "producer": "stable",
-      "armor_melee": 0,
-      "armor_ranged": 0,
-      "interval": 1.2,
-      "train_seconds": 8
+      "armor_melee": 2,
+      "armor_ranged": 2,
+      "interval": 1.1,
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 80,
+      "bonus_damage": 5
     },
     "elite_cavalry": {
       "name": "精锐骑兵",
       "kind": "cavalry",
       "art": "cavalry",
-      "hp": 230,
-      "damage": 34,
+      "hp": 300,
+      "damage": 28,
       "range": 40,
       "speed": 130,
-      "food": 140,
+      "food": 400,
       "producer": "stable",
-      "armor_melee": 2,
-      "armor_ranged": 3,
-      "interval": 1.2,
-      "train_seconds": 8
+      "armor_melee": 6,
+      "armor_ranged": 6,
+      "interval": 1.4,
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 300,
+      "bonus_damage": 10
     },
     "ram": {
       "name": "攻城锤",
@@ -119,7 +138,9 @@
       "armor_melee": 0,
       "armor_ranged": 0,
       "interval": 2.5,
-      "train_seconds": 15
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 0
     },
     "tower": {
       "name": "攻城塔",
@@ -134,7 +155,9 @@
       "armor_melee": 0,
       "armor_ranged": 0,
       "interval": 2.5,
-      "train_seconds": 15
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 0
     },
     "ballista": {
       "name": "扭力弩炮",
@@ -149,7 +172,9 @@
       "armor_melee": 0,
       "armor_ranged": 0,
       "interval": 2.5,
-      "train_seconds": 15
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 0
     },
     "catapult": {
       "name": "投石机",
@@ -164,7 +189,27 @@
       "armor_melee": 0,
       "armor_ranged": 0,
       "interval": 2.5,
-      "train_seconds": 15
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 0
+    },
+    "wolf": {
+      "name": "野狼",
+      "kind": "cavalry",
+      "art": "cavalry",
+      "hp": 65,
+      "damage": 8,
+      "range": 38,
+      "speed": 125,
+      "food": 0,
+      "producer": "",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 1.1,
+      "train_seconds": 0,
+      "wood": 0,
+      "iron": 0,
+      "bonus_damage": 0
     }
   },
   "buildings": {
@@ -302,9 +347,9 @@
     }
   },
   "starting_resources": {
-    "food": 100,
-    "wood": 100,
-    "iron": 100
+    "food": 10000,
+    "wood": 10000,
+    "iron": 10000
   },
   "promotion_base_cost": {
     "food": 50,

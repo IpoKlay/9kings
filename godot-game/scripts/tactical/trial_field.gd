@@ -178,7 +178,7 @@ func _draw():
 		if clean_capture:break
 		var foot: Vector2=rules.Soldiers.ground_position(rules,row.unit,row.slot)
 		draw_arc(foot,13,0,TAU,20,Color('#ffe39d'),2)
-		if row.actor.has('path') and not row.actor.path.is_empty():
+		if not rules.has_method('strategy_paths') and row.actor.has('path') and not row.actor.path.is_empty():
 			draw_dashed_line(foot,row.actor.path[0],Color('#f4da94'),2,10)
 	draw_set_transform(Vector2.ZERO)
 	if trial.drag_select:
@@ -211,6 +211,7 @@ func _draw():
 	draw_regiments(rules,pass_battle)
 	var labels=regiment_labels(rules) if not clean_capture else {}
 	for u in rules.units:
+		if rules.has_method('unit_visible') and not rules.unit_visible(u):continue
 		if clean_capture or u.hp<=0 or u.get('escaped',false):continue
 		if rules.has_method('strategy_paths') and u.id not in trial.squad_ids and Vector2i(u.id,0) not in trial.soldier_ids and u.hp>=u.max_hp:continue
 		if rules.has_method('strategy_paths'):
@@ -344,6 +345,7 @@ func _draw():
 			draw_line(p-Vector2(radius,12),p+Vector2(radius,-12),Color('#e9d49d'),4)
 	if debug_first_contact:
 		for u in rules.units:
+			if rules.has_method('unit_visible') and not rules.unit_visible(u):continue
 			if u.has('last_contact'):
 				var mark=project(u.last_contact.pos).round()
 				draw_circle(mark,8,Color.BLACK,false,4)
@@ -379,7 +381,7 @@ func _draw():
 				var tip=center+delta;var direction=delta.normalized()
 				draw_line(center,tip,Color('#eea875'),2)
 				draw_polyline(PackedVector2Array([tip-direction*16+direction.orthogonal()*9,tip,tip-direction*16-direction.orthogonal()*9]),Color('#eea875'),3)
-		if trial.selected=='personal_route' and rules.phase=='battle':
+		if trial.selected=='personal_route' and rules.phase=='battle' and not rules.has_method('strategy_paths'):
 			var people=rules.Soldiers.members(rules,trial.soldier_ids)
 			if not people.is_empty():
 				var origin=Vector2.ZERO
@@ -560,7 +562,8 @@ func draw_casualties(rules):
 func draw_regiments(rules, pass_battle: bool):
 	var figures: Array=[]
 	for u in rules.units:
-		if u.get('escaped',false):continue
+		if rules.has_method('unit_visible') and not rules.unit_visible(u):continue
+		if u.get('escaped',false) or u.get('wild',false):continue
 		var stats: Dictionary=rules.config.types[u.kind]
 		var scale: float=rules.contact_profiles[u.kind].scale*u.get('visual_scale',1.)
 		var heading:=ground_transform().basis_xform(u.heading)
