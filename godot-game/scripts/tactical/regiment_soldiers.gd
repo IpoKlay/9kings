@@ -322,6 +322,7 @@ static func command(r,ids: Array,order: String,destination: Vector2,target_id: i
 		var row=selected[i];var actor=row.actor;var u=row.unit
 		r.Charges.detach(r,u,row.slot)
 		r.Charges.cancel(r,u,actor)
+		actor.erase('contact_recovery')
 		actor.personal_order=order
 		if r.has_method('strategy_command'):r.strategy_command(row,paths[i] if not paths.is_empty() else {})
 		actor.erase('resume_attack_move')
@@ -595,6 +596,15 @@ static func finish_deaths(r):
 				actor.death_state=2
 				actor.erase('attack_pending');actor.erase('charge_run');actor.erase('impulse')
 
+# Only displaced wall members check this, at 5 Hz. Reuse this step's soldiers.
+static func return_occupied(row: Dictionary,occupied: Array) -> bool:
+	var actor: Dictionary=row.unit.soldiers[row.slot]
+	for other in occupied:
+		if other.unit.side==row.unit.side or other.unit.soldiers[other.slot].hp<=0:continue
+		var nearest=Geometry2D.get_closest_point_to_segment(other.point,actor.position,actor.wall_slot)
+		if nearest.distance_squared_to(other.point)<pow(row.radius+other.radius+12.,2.):return true
+	return false
+
 static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dictionary,dt: float):
 	var u=row.unit;var slot: int=row.slot;var actor=u.soldiers[slot]
 	if actor.get('death_state',0)!=0 or not actor.has('personal_order'):return
@@ -602,6 +612,7 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 		r.Charges.cancel(r,u,actor)
 		actor.personal_order='flee'
 	if u.stun>0 or u.petrified>0:return
+	if r.elapsed<actor.get('contact_recovery',0.):actor.velocity=Vector2.ZERO;return
 	if actor.has('charge_run'):
 		r.Charges.step(r,row,occupied,dt);return
 	var previous_velocity: Vector2=actor.get('velocity',Vector2.ZERO)
@@ -610,8 +621,9 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 	if not reaction.is_empty() and r.elapsed<reaction.start+reaction.get('hold',0.)+reaction.get('recover',0.):actor.velocity=Vector2.ZERO;return
 	if actor.get('shield_wall',false) and actor.personal_order=='hold' and actor.has('wall_slot'):
 		actor.wall_off_slot=actor.get('wall_off_slot',0.)+dt if actor.position.distance_to(actor.wall_slot)>17. else 0.
-		if actor.wall_off_slot>=.5:
-			var return_path=r.terrain.leg(navigator(r,u.kind,u),actor.position,actor.wall_slot)
+		if actor.wall_off_slot>=.5 and r.elapsed>=actor.get('gap_until',0.) and r.elapsed>=actor.get('return_check',0.):
+			actor.return_check=r.elapsed+.2
+			var return_path=[] if return_occupied(row,occupied) else r.terrain.leg(navigator(r,u.kind,u),actor.position,actor.wall_slot)
 			if not return_path.is_empty():r.Walls.assign(actor,actor.wall_slot,return_path)
 			actor.wall_off_slot=0.
 	var order: String=actor.personal_order

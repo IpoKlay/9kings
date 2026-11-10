@@ -16,14 +16,16 @@ func run():
 	var app=load('res://scenes/main.tscn').instantiate()
 	app.settings_path='/tmp/eagle-full-individual.cfg'
 	root.add_child(app)
-	app.menu_view.get_node('%TacticalTrial').pressed.emit()
-	var t=app.active_trial;t.set_process(false);app.sound.enabled=false
+	# Explicit ordinary-field fixture; the normal menu now enters StrategyBattle.
+	var t=load('res://scenes/tactical_trial.tscn').instantiate()
+	t.app=app;t.rules=t.WhiteboardBattle.new(false);app.hide();app.set_process_input(false);app.set_process_unhandled_input(false);root.add_child(t)
+	t.set_process(false);app.sound.enabled=false
 	var baseline={}
 	var results=[]
 	for fps in [30,60,120]:
 		t.retry();t.combined_button.pressed.emit();t.start_button.pressed.emit()
 		var r=t.rules
-		check(r.units.size()==14 and r.phase=='battle','Main-menu battle begins with both seven-arm armies')
+		check(r.units.size()==14 and r.phase=='battle','Ordinary-field fixture begins with both seven-arm armies')
 		r.command(r.alive('ally').map(func(u):return u.id),'auto',Vector2.ZERO)
 		t.paused=true
 		var frozen=digest(r)
@@ -59,7 +61,8 @@ func run():
 		check(t.rules.phase=='deploy' and t.rules.units.size()==7,'Result button creates a clean deployment')
 		check(t.rules.casualties.is_empty() and t.rules.volleys.is_empty() and t.rules.stones.is_empty() and t.field.effects.is_empty(),'Retry clears all bodies, projectiles and effects')
 		check(t.rules.units.all(func(u):return u.soldiers.all(func(s):return s.hp==s.max_hp and s.cooldown==0.)),'Retry resets every soldier')
-	FileAccess.open('res://../output/sword-banner-reference/individual-full-battle.json',FileAccess.WRITE).store_string(JSON.stringify({'checks':checks,'failures':failures,'results':results,'timing_scope':'Headless full trial _process, including UI refresh; excludes GPU rendering. FPS runs perform different simulation steps per frame.'},'\t'))
-	t.closed.emit();app.queue_free();await process_frame
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path('res://../output/combat-readability-20261109/regression'))
+	FileAccess.open('res://../output/combat-readability-20261109/regression/individual-full-battle.json',FileAccess.WRITE).store_string(JSON.stringify({'checks':checks,'failures':failures,'results':results,'timing_scope':'Headless full trial _process, including UI refresh; excludes GPU rendering. FPS runs perform different simulation steps per frame.'},'\t'))
+	t.queue_free();app.queue_free();await process_frame
 	print('Individual full battle: ',checks,' checks, ',failures,' failures')
 	quit(1 if failures else 0)

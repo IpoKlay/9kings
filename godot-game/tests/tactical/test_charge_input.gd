@@ -29,9 +29,12 @@ func snapshot(r) -> Array:
 	return state
 func run():
 	var app=load('res://scenes/main.tscn').instantiate();app.settings_path='/tmp/eagle-charge-input.cfg';root.add_child(app)
-	app.menu_view.get_node('%TacticalTrial').pressed.emit();var t=app.active_trial;t.set_process(false);app.sound.enabled=false
+	# Explicit ordinary-field fixture; production main-menu coverage is separate.
+	var t=load('res://scenes/tactical_trial.tscn').instantiate()
+	t.app=app;t.rules=t.WhiteboardBattle.new(false);app.hide();app.set_process_input(false);app.set_process_unhandled_input(false);root.add_child(t)
+	t.set_process(false);app.sound.enabled=false
 	var a=setup(t);var r=t.rules
-	key(KEY_C);check(t.selected=='charge','C enters charge targeting from the normal menu battle')
+	key(KEY_C);check(t.selected=='charge','C enters charge targeting from the ordinary-field HUD')
 	key(KEY_ESCAPE);check(t.selected=='' and not t.paused,'Escape cancels targeting without pausing')
 	key(KEY_C);t.paused=true;click(screen(t,Vector2(1000,700)))
 	check(a.soldiers.all(func(s):return s.has('charge_run')),'A regiment selection expands to eight individual charge orders')
@@ -55,5 +58,5 @@ func run():
 	a=setup(t);key(KEY_C);click(screen(t,Vector2(1000,700)));t.slow=true
 	for frame in 120:t._process(1./60)
 	check(is_equal_approx(t.rules.elapsed,1.) and a.soldiers.any(func(s):return s.has('charge_run')),'Half speed advances charge simulation by one second over two real seconds')
-	t.closed.emit();app.queue_free();await process_frame
+	t.queue_free();app.queue_free();await process_frame
 	print('Charge input: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)

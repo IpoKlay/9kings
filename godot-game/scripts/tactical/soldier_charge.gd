@@ -30,6 +30,7 @@ static func issue(r,ids: Array,destination: Vector2,side: String='ally') -> bool
 		actor.erase('resume_attack_move')
 		actor.erase('charge_end')
 		actor.erase('attack_engaged')
+		actor.erase('contact_recovery')
 		var speed: float=maxf(u.get('combat_stats',r.config.types[u.kind]).speed,r.config.individual_charge.speed)
 		var velocity: Vector2=actor.get('velocity',u.heading*u.get('slot_speeds',{}).get(row.slot,0.) if u.moving else Vector2.ZERO)
 		actor.charge_run={'goal':actor.position+delta,'age':0.,'duration':r.config.individual_charge.max_range/speed,
@@ -50,6 +51,19 @@ static func finish(r,u: Dictionary,actor: Dictionary,reason: String):
 	actor.personal_order='attack' if actor.get('target_id',-1)>=0 else 'auto'
 	actor.focus_id=actor.get('target_id',-1);actor.focus_slot=actor.get('target_slot',-1)
 
+# Resistance is local to the actual victim, not a regiment-wide hit modifier.
+static func brace(r,u: Dictionary,actor: Dictionary,incoming: Vector2) -> String:
+	if u.kind not in ['legion','guard','spear'] or u.get('routing',false) or u.stun>0:return ''
+	if actor.get('velocity',Vector2.ZERO).length()>20. or actor.has('form_left'):return ''
+	if r.elapsed<actor.get('gap_until',0.):return ''
+	var facing: Vector2=actor.get('wall_heading',actor.heading) if actor.get('shield_wall',false) else actor.heading
+	if facing.dot(-incoming)<.65:return ''
+	var holding: bool=actor.get('personal_order','')=='hold' or actor.get('shield_wall',false) or actor.get('formation_ready',false) and actor.get('path',[]).is_empty()
+	if not holding:return ''
+	if u.kind=='spear':return 'pike'
+	if actor.get('shield_wall',false) or actor.get('shield_raised',false):return 'shield'
+	return ''
+
 static func step(r,row: Dictionary,occupied: Array,dt: float):
 	var u: Dictionary=row.unit;var actor: Dictionary=u.soldiers[row.slot]
 	var run: Dictionary=actor.charge_run
@@ -58,18 +72,26 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 	if run.age>=run.duration:finish(r,u,actor,'duration');return
 	if u.rooted>0:finish(r,u,actor,'rooted');return
 	var here: Vector2=actor.position
+	if run.has('brace_origin') and here.distance_to(run.brace_origin)>=cfg.shield_yield:
+		actor.velocity=Vector2.ZERO;actor.contact_recovery=r.elapsed+.2
+		finish(r,u,actor,'resisted');return
 	var reach: float=r.Soldiers.individual(r,u).range
 	var dragon: bool=r.Soldiers.individual(r,u).get('dragon',false)
 	var dragon_hit=false
+	var incoming: Vector2=run.velocity.normalized()
+	if incoming.is_zero_approx():incoming=here.direction_to(run.goal)
 	for other in occupied:
 		if other.unit.side==u.side or other.unit.soldiers[other.slot].hp<=0:continue
 		var id=Vector2i(other.unit.id,other.slot)
 		if id in run.hits or here.distance_squared_to(other.point)>reach*reach:continue
+		if u.kind=='cavalry' and (other.point-here).dot(incoming)<-1.:continue
+		var victim: Dictionary=other.unit.soldiers[other.slot]
+		var braced=brace(r,other.unit,victim,incoming) if u.kind=='cavalry' else ''
 		var fraction=clampf(run.velocity.length()/run.speed,.1,1.)
 		var damage: float=u.get('combat_stats',r.config.types[u.kind]).damage*cfg.damage_multiplier*fraction
 		if u.kind=='cavalry':damage*=pow(cfg.trample_decay,run.hits.size())
 		run.hits.append(id)
-		if u.kind!='cavalry':actor.target_id=id.x;actor.target_slot=id.y
+		actor.target_id=id.x;actor.target_slot=id.y
 		actor.attack_age=0.
 		var hit=r.deal_blow(u,other.unit,damage,{}, {'attacker_slot':row.slot,'target_slot':other.slot,'personal_charge':true,'speed_fraction':fraction})
 		if hit.get('damage',0.)>0:
@@ -78,13 +100,34 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 			# Stable scatter for reproducible recordings. Original uses a random 0.1–0.45 radian angle.
 			var scatter=lerpf(.1,cfg.scatter_angle,float(posmod(u.id*73+row.slot*31+id.x*17+id.y,101))/100.)
 			var impulse: Vector2=direction.rotated(side*scatter)*cfg.knockback*fraction*(cfg.cavalry_knockback if u.kind=='cavalry' else 1.)
+			if u.kind=='cavalry':
+				if braced=='pike':impulse=incoming*24.*fraction
+				elif braced=='shield':impulse=incoming*90.*fraction
+				else:
+					if side==0.:side=1. if (id.x+id.y)%2 else -1.
+					impulse=(incoming*.35+Vector2(-incoming.y,incoming.x)*side*.94)*320.*fraction
 			knock(r,other.unit,other.slot,impulse)
+			if braced!='':victim.impact_pose.reaction='brace';victim.erase('gap_until')
+		if u.kind=='cavalry':
+			actor.rider_contact={'start':r.elapsed,'dir':r.ground_basis.basis_xform(incoming),'braced':braced!=''}
+			if not run.has('contact_origin'):run.contact_origin=here
+			var resistance: float=cfg.pike_resistance if braced=='pike' else cfg.shield_resistance if braced=='shield' else cfg.slow_per_hit
+			run.penalty+=resistance
+			run.velocity*=.15 if braced=='pike' else .35 if braced=='shield' else .88
+			if run.penalty>=cfg.resistance_limit:
+				if braced=='shield' and not run.has('brace_origin'):
+					run.brace_origin=here;run.penalty=cfg.slow_cap
+				else:
+					actor.velocity=Vector2.ZERO;actor.contact_recovery=r.elapsed+(.3 if braced=='pike' else .2)
+					finish(r,u,actor,'pike' if braced=='pike' else 'resisted');return
 		if u.kind!='cavalry':
 			if not dragon:finish(r,u,actor,'hit');return
 			dragon_hit=true
-		else:run.penalty=minf(cfg.slow_cap,run.penalty+cfg.slow_per_hit)
+
 	# The legacy dragon loop finishes all nearby hits before leaving its charging step.
 	if dragon_hit:finish(r,u,actor,'hit')
+	if run.has('contact_origin') and here.distance_to(run.contact_origin)>=cfg.follow_through:
+		finish(r,u,actor,'through');return
 	var to_goal: Vector2=run.goal-here
 	if to_goal.length()<25.:finish(r,u,actor,'goal');return
 	var desired=to_goal.normalized()*run.speed*(1.-run.penalty)
@@ -96,5 +139,6 @@ static func knock(r,u: Dictionary,slot: int,impulse: Vector2):
 	var actor: Dictionary=u.soldiers[slot]
 	detach(r,u,slot)
 	actor.impulse=actor.get('impulse',Vector2.ZERO)+impulse
+	actor.gap_until=r.elapsed+r.config.individual_charge.gap_hold
 	actor.impact_pose={'reaction':'charge','start':r.elapsed,'dir':r.ground_basis.basis_xform(impulse).normalized()}
 

@@ -272,7 +272,13 @@
     "slow_cap": 0.65,
     "knockback": 260.0,
     "cavalry_knockback": 3.0,
-    "scatter_angle": 0.45
+    "scatter_angle": 0.45,
+    "shield_resistance": 0.72,
+    "shield_yield": 14.0,
+    "pike_resistance": 1.0,
+    "resistance_limit": 0.7,
+    "gap_hold": 2.6,
+    "follow_through": 140.0
   },
   "unit_variants": {
     "longbowman": {
