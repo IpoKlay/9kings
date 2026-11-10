@@ -192,5 +192,23 @@
       "static_memory_bytes": 180954085.0,
       "texture_memory_bytes": 724979905.0
     }
+  },
+  "bilateral_strength": {
+    "frame_mean_ms": 16.6648929088277,
+    "frame_p95_ms": 17.172,
+    "stalls_over_50ms": 0,
+    "output_size": "(1280, 720)",
+    "flash_texture_bytes": 4456448,
+    "flashed_sides": {
+      "ally": true,
+      "enemy": true
+    },
+    "feedback_tests": 14,
+    "ui_tests": 9,
+    "contacts_and_final_state_unchanged": true,
+    "recorded_steps": 720,
+    "hold_frames": 5,
+    "local_shake": 2,
+    "camera_shake": 2
   }
 }

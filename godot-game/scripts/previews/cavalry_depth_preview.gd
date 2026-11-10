@@ -9,9 +9,9 @@ const Feedback=preload('res://scripts/previews/impact_feedback.gd')
 @export var view_zoom=1.0
 @export var feedback_enabled=true
 @export_range(0.,1.,.1) var flash_strength=1.0
-@export_range(0.,2.,.25) var local_shake=1.0
-@export_range(0.,2.,1.) var camera_shake=1.0
-@export_range(0,5,1) var hit_hold_frames=3
+@export_range(0.,3.,.25) var local_shake=2.0
+@export_range(0.,3.,1.) var camera_shake=2.0
+@export_range(0,6,1) var hit_hold_frames=5
 var feedback=Feedback.new()
 var trial
 var app
@@ -82,7 +82,7 @@ func _ready():
 		feedback_enabled=not feedback_enabled;feedback.enabled=feedback_enabled
 		update_feedback_controls())
 	$CameraShake.pressed.connect(func():
-		camera_shake=0. if camera_shake>0. else 1.
+		camera_shake=0. if camera_shake>0. else 2.
 		update_feedback_controls())
 	update_feedback_controls()
 	wall_start=Time.get_ticks_usec()
@@ -154,6 +154,7 @@ func save_report():
 		'movie':recording, 'contacts':r.contact_log,'actors':actors,'zoom':trial.zoom,
 		'recorded_steps':recorded_steps,
 		'feedback':feedback_enabled,'camera_shake':camera_shake,'flash_texture_bytes':feedback.texture_bytes,
+		'flashed_sides':feedback.flashed_sides,
 		'still_readbacks':capture_stills,'vsync':DisplayServer.window_get_vsync_mode(),
 		'static_memory_bytes':Performance.get_monitor(Performance.MEMORY_STATIC),
 		'texture_memory_bytes':Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),
