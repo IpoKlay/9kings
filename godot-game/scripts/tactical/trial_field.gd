@@ -587,14 +587,16 @@ func draw_regiments(rules, pass_battle: bool):
 					if motion.get('offsets',{}).has(slot):
 						pose=reaction_pose({'reaction':'light','start':motion.start,'dir':Vector2(motion.offsets[slot].x,motion.offsets[slot].y)},rules.elapsed,slot)
 			else:
-				var contact: Dictionary=u.get('rider_contacts',{}).get(slot,{})
+				var contact: Dictionary=actor.get('rider_contact',u.get('rider_contacts',{}).get(slot,{}))
 				if not contact.is_empty():
 					var age: float=rules.elapsed-contact.start
-					if age>=1./60 and age<.16:
+					if age>=0. and age<(.3 if contact.get('braced',false) else .16):
 						# A short planted stride reads as resistance while nearby riders keep running.
+						upper_cell=-1
 						cell=9 if contact.get('braced',false) else 1
 						pose={'angle':-.08*signf(contact.dir.x),'drop':0.,'frame':cell,'flash':false}
 			if not pose.is_empty():
+				upper_cell=-1
 				cell=pose.frame
 				if pose.flash:tint=Color(1.8,1.7,1.45)
 			var texture: Texture2D=regiments[u.get('art',u.kind)].stone if u.petrified>0 else regiments[u.get('art',u.kind)][u.side]

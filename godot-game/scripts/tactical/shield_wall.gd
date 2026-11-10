@@ -14,7 +14,7 @@ static func layout(r,ids: Array,start: Vector2,finish: Vector2) -> Dictionary:
 	for row in people:radius=maxf(radius,r.Soldiers.individual(r,row.unit).unit_size)
 	var spacing=radius*2.-5.
 	var width=start.distance_to(finish);var axis=start.direction_to(finish)
-	var columns=maxi(1,roundi(width/spacing));var rows=ceili(float(people.size())/columns)
+	var columns=clampi(roundi(width/spacing),1,people.size());var rows=ceili(float(people.size())/columns)
 	var across=width/maxi(1,columns-1) if columns>1 else 0.
 	var normal=axis.orthogonal();var remaining=people.duplicate();var result={}
 	for rank in rows:

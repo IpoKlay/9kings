@@ -19,8 +19,10 @@ func settled_at_goal(u: Dictionary) -> bool:
 
 func run():
 	var app=load('res://scenes/main.tscn').instantiate();app.settings_path='/tmp/eagle-command-test.cfg';root.add_child(app)
-	app.menu_view.get_node('%TacticalTrial').pressed.emit()
-	var t=app.active_trial;t.set_process(false);app.sound.enabled=false
+	# Explicit ordinary-field fixture; the normal menu now enters StrategyBattle.
+	var t=load('res://scenes/tactical_trial.tscn').instantiate()
+	t.app=app;t.rules=t.WhiteboardBattle.new(false);app.hide();app.set_process_input(false);app.set_process_unhandled_input(false);root.add_child(t)
+	t.set_process(false);app.sound.enabled=false
 	var r=t.rules;r.units.clear()
 	r.spawn('legion','ally',Vector2(700,1100))
 	r.spawn('legion','enemy',Vector2(900,1100))
@@ -111,6 +113,6 @@ func run():
 		r.step(1./60)
 		if a.order=='idle':break
 	check(b.hp<=0 and a.order=='idle' and settled_at_goal(a),'Attack-move reaches the real surviving foot, defeats it, and resumes instead of stalling at the enemy centre')
-	t.closed.emit();app.queue_free();await process_frame
+	t.queue_free();app.queue_free();await process_frame
 	print('Battle commands: ',checks,' checks, ',failures,' failures')
 	quit(1 if failures else 0)

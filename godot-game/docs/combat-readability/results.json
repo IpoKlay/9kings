@@ -1,0 +1,246 @@
+{
+  "before_charge": {
+    "charge_issued": true,
+    "charge_seen": true,
+    "failures": 0,
+    "fps_cap": 60,
+    "limits": [
+      "Controlled seven-arm ordinary-field fixture, not economy opening",
+      "GPU time unavailable in this compatibility renderer; texture monitor is not total VRAM",
+      "Scripted UI activation, not system mouse input"
+    ],
+    "mean_frame_ms": 16.6582682038835,
+    "normal_process": true,
+    "output_pixels": "(1280, 720)",
+    "over_50ms": 0,
+    "p95_cpu_process_ms": 15.529,
+    "p95_frame_ms": 16.993,
+    "peak_static_bytes": 183650814.0,
+    "peak_texture_bytes": 803492334.0,
+    "phase": "victory",
+    "simulation_seconds": 41.1833333333323,
+    "slow": false,
+    "soldiers": 114,
+    "stall_times": [],
+    "stalls_per_minute": 0.0,
+    "tag": "before-charge",
+    "vsync": 0,
+    "wall_seconds": 41.17925
+  },
+  "after_charge": {
+    "charge_issued": true,
+    "charge_seen": true,
+    "failures": 0,
+    "fps_cap": 60,
+    "limits": [
+      "Controlled seven-arm ordinary-field fixture, not economy opening",
+      "GPU time unavailable in this compatibility renderer; texture monitor is not total VRAM",
+      "Scripted UI activation, not system mouse input"
+    ],
+    "mean_frame_ms": 16.6629601560324,
+    "normal_process": true,
+    "output_pixels": "(1280, 720)",
+    "over_50ms": 0,
+    "p95_cpu_process_ms": 15.158,
+    "p95_frame_ms": 16.806,
+    "peak_static_bytes": 184038552.0,
+    "peak_texture_bytes": 810482834.0,
+    "phase": "victory",
+    "simulation_seconds": 59.7999999999979,
+    "slow": false,
+    "soldiers": 114,
+    "stall_times": [],
+    "stalls_per_minute": 0.0,
+    "tag": "after-charge",
+    "vsync": 0,
+    "wall_seconds": 59.803367
+  },
+  "normal_match": {
+    "entry_seconds": 1.207268,
+    "failures": 0,
+    "history": [
+      {
+        "ally": 15,
+        "enemy": 6,
+        "seconds": 120.016666666661,
+        "town_hp": 1200.0
+      }
+    ],
+    "input": "Scripted normal menu button and player command APIs; no forced simulation stepping",
+    "pause_feedback_ms": [
+      28.549,
+      1.995
+    ],
+    "peak_soldiers": 27,
+    "phase": "victory",
+    "seconds": 202.100000000053,
+    "siege": "No siege units created; only pre-existing infantry town attack used to reach existing victory condition",
+    "wall_seconds": 202.340535
+  },
+  "result_ui": {
+    "failures": 0,
+    "samples": [
+      {
+        "cycle": 0,
+        "nodes": 256.0,
+        "objects": 2823.0,
+        "static_bytes": 176939850.0,
+        "texture_bytes": 128685838.0
+      },
+      {
+        "cycle": 1,
+        "nodes": 256.0,
+        "objects": 2826.0,
+        "static_bytes": 177357634.0,
+        "texture_bytes": 128685838.0
+      },
+      {
+        "cycle": 2,
+        "nodes": 256.0,
+        "objects": 2824.0,
+        "static_bytes": 177356974.0,
+        "texture_bytes": 128642148.0
+      }
+    ],
+    "scope": "Loss branch deliberately triggered by town HP=0; three real scene-entry/retry/menu cycles. Not a naturally played losing match."
+  },
+  "matrix": [
+    {
+      "scenario": "side",
+      "contact_riders": [
+        3,
+        4
+      ],
+      "charge_hits": 10,
+      "end_reasons": [
+        "goal",
+        "goal",
+        "goal",
+        "through",
+        "through",
+        "goal",
+        "goal",
+        "goal"
+      ],
+      "end_x": [
+        1926.0,
+        1926.0,
+        1926.0,
+        1677.78,
+        1678.12,
+        1926.0,
+        1926.0,
+        1926.0
+      ],
+      "first_contact_seconds_after_order": 1.26666666666666,
+      "30_60_120_identical": true,
+      "rotated_charge_hits": 10,
+      "rotated_end_reasons": [
+        "goal",
+        "goal",
+        "goal",
+        "through",
+        "through",
+        "goal",
+        "goal",
+        "goal"
+      ]
+    },
+    {
+      "scenario": "shield",
+      "contact_riders": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "charge_hits": 12,
+      "end_reasons": [
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted"
+      ],
+      "end_x": [
+        1669.93,
+        1679.56,
+        1680.19,
+        1680.83,
+        1680.83,
+        1680.19,
+        1679.56,
+        1669.93
+      ],
+      "first_contact_seconds_after_order": 1.79999999999999,
+      "30_60_120_identical": true,
+      "rotated_charge_hits": 12,
+      "rotated_end_reasons": [
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted",
+        "resisted"
+      ]
+    },
+    {
+      "scenario": "pikes",
+      "contact_riders": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "charge_hits": 8,
+      "end_reasons": [
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike"
+      ],
+      "end_x": [
+        1666.0,
+        1666.0,
+        1666.0,
+        1666.0,
+        1666.0,
+        1666.0,
+        1666.0,
+        1666.0
+      ],
+      "first_contact_seconds_after_order": 1.79999999999999,
+      "30_60_120_identical": true,
+      "rotated_charge_hits": 8,
+      "rotated_end_reasons": [
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike",
+        "pike"
+      ]
+    }
+  ],
+  "base": "bbe557b7c72a9d2af9c6e9dfa5403401137524b9",
+  "scope": "Normal-size field combat only. No thousand-unit or siege development."
+}
