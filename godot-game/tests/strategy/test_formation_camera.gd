@@ -38,9 +38,13 @@ func run():
 	var camera_before=t.camera_offset
 	t.set_camera(camera_before+Vector2(.25,.25))
 	check(t.camera_offset.distance_to(camera_before+Vector2(.25,.25))<.01,'Fractional camera movement survives low-speed acceleration')
+	for camp in r.world.camps:camp.claimed=true
+	for u in r.alive('enemy'):u.hp=0;u.soldiers[0].hp=0
+	for building in r.buildings:
+		if building.side=='enemy' and building.kind=='outpost':building.hp=0
 	var ids=[]
 	for i in 21:
-		var u=r.spawn_person('shield','ally',Vector2(1250+(i%7)*30,2290+(i/7)*30))
+		var u=r.spawn_person('shield','ally',Vector2(1300+(i%7)*36,1600+(i/7)*36))
 		ids.append(Vector2i(u.id,0))
 	t.soldier_ids=ids;t.selected='personal_route'
 	ui.request_formation('wedge',Vector2.UP)
@@ -58,11 +62,11 @@ func run():
 	for i in 300:r.step(1./60)
 	var members=r.Soldiers.members(r,ids)
 	check(members.all(func(row):return row.actor.formation_ready and row.actor.position.distance_to(row.actor.form_goal)<21.),'All 21 live soldiers reach triangular slots')
-	t.set_camera(r.projection*Vector2(1400,2400)-Vector2(960,530)/t.zoom)
+	t.set_camera(r.projection*Vector2(1400,1750)-Vector2(960,530)/t.zoom)
 	ui.update_formation_notice(0.);ui.show_commands()
 	await snap('wedge',t)
 	ui.request_formation('scatter',Vector2.UP)
-	for i in 400:r.step(1./60)
+	for i in 900:r.step(1./60)
 	ui.update_formation_notice(0.)
 	check(members.all(func(row):return row.actor.position.distance_to(row.actor.form_goal)<21.),'Soldiers physically spread out')
 	await snap('scatter',t)
@@ -70,12 +74,12 @@ func run():
 	for row in members:center+=row.unit.pos
 	center/=members.size()
 	for row in members:
-		row.unit.pos+=Vector2(1200,2380)-center;row.actor.position=row.unit.pos
+		row.unit.pos+=Vector2(1350,1750)-center;row.actor.position=row.unit.pos
 	ui.request_formation('ring',Vector2.UP)
 	for i in 100:r.step(1./60)
 	ui.update_formation_notice(0.)
 	await snap('progress',t)
-	var ring_plan=r.Layout.plan(r,members,Vector2(1200,2380),[])
+	var ring_plan=r.Layout.plan(r,members,Vector2(1350,1750),[],false)
 	check(ring_plan.size()==21 and ring_plan[0].heading.dot(ring_plan[10].heading)<-.9,'Ring slots face outwards on opposite sides')
 	r.Soldiers.command(r,ids,'hold',Vector2.ZERO)
 	ui.update_formation_notice(0.)

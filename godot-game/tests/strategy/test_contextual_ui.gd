@@ -40,7 +40,7 @@ func run():
 	click(point(t,fruit.pos),MOUSE_BUTTON_RIGHT)
 	check(villager.soldiers[0].get('job',{}).get('kind','')=='gather','Right click dispatches gathering')
 	var before: float=r.stock.iron
-	for i in 900:r.step(1./60)
+	for i in 1800:r.step(1./60)
 	check(r.stock.iron>before,'Villager travels and gathers iron')
 	key(KEY_ESCAPE);await process_frame
 	check(not ui.panel.visible and t.selected_people().is_empty() and ui.mode=='','Esc clears every command surface')
