@@ -1,0 +1,142 @@
+{
+  "perf-before": {
+    "people": 64,
+    "sim_seconds": 11.9333333333335,
+    "wall_seconds": 11.866601,
+    "frame_mean_ms": 16.6659725036179,
+    "frame_p95_ms": 16.751,
+    "stalls_over_50ms": 0,
+    "movie": false,
+    "zoom": 1.0,
+    "output_size": "(854.0, 480.0)",
+    "vsync": 0,
+    "still_readbacks": false,
+    "static_memory_bytes": 180681217.0,
+    "texture_memory_bytes": 719037993.0,
+    "charge_contacts": 80,
+    "distinct_contacting_riders": 15,
+    "ends": {
+      "resisted": 12,
+      "through": 2,
+      "goal": 10
+    },
+    "first_contact_by_rank": [
+      2.26666666666666,
+      2.65,
+      2.96666666666666
+    ]
+  },
+  "perf-after": {
+    "people": 64,
+    "sim_seconds": 11.9333333333335,
+    "wall_seconds": 11.863824,
+    "frame_mean_ms": 16.6659217391304,
+    "frame_p95_ms": 16.745,
+    "stalls_over_50ms": 0,
+    "movie": false,
+    "zoom": 1.0,
+    "output_size": "(854.0, 480.0)",
+    "vsync": 0,
+    "still_readbacks": false,
+    "static_memory_bytes": 180806053.0,
+    "texture_memory_bytes": 719037993.0,
+    "charge_contacts": 109,
+    "distinct_contacting_riders": 17,
+    "ends": {
+      "resisted": 9,
+      "through": 4,
+      "goal": 9,
+      "duration": 2
+    },
+    "first_contact_by_rank": [
+      1.95,
+      2.18333333333333,
+      2.45
+    ]
+  },
+  "flank": {
+    "people": 64,
+    "sim_seconds": 11.9833333333335,
+    "wall_seconds": 9.298893,
+    "frame_mean_ms": 12.8828956521739,
+    "frame_p95_ms": 13.979,
+    "stalls_over_50ms": 7,
+    "movie": false,
+    "zoom": 1.0,
+    "output_size": "(854.0, 480.0)",
+    "vsync": 0,
+    "still_readbacks": true,
+    "static_memory_bytes": 180842113.0,
+    "texture_memory_bytes": 719037993.0,
+    "charge_contacts": 104,
+    "distinct_contacting_riders": 17,
+    "ends": {
+      "resisted": 8,
+      "through": 4,
+      "goal": 9,
+      "duration": 3
+    },
+    "first_contact_by_rank": [
+      2.0,
+      2.23333333333333,
+      2.5
+    ]
+  },
+  "shield": {
+    "people": 64,
+    "sim_seconds": 11.9833333333335,
+    "wall_seconds": 9.318379,
+    "frame_mean_ms": 16.6666666666666,
+    "frame_p95_ms": 16.6666666666667,
+    "stalls_over_50ms": 0,
+    "movie": false,
+    "zoom": 1.0,
+    "output_size": "(854.0, 480.0)",
+    "vsync": 0,
+    "still_readbacks": true,
+    "static_memory_bytes": 180642748.0,
+    "texture_memory_bytes": 719037993.0,
+    "charge_contacts": 29,
+    "distinct_contacting_riders": 24,
+    "ends": {
+      "resisted": 24
+    },
+    "first_contact_by_rank": [
+      2.25,
+      2.45,
+      2.65
+    ]
+  },
+  "pikes": {
+    "people": 64,
+    "sim_seconds": 11.9833333333335,
+    "wall_seconds": 9.496281,
+    "frame_mean_ms": 16.6666666666666,
+    "frame_p95_ms": 16.6666666666667,
+    "stalls_over_50ms": 0,
+    "movie": false,
+    "zoom": 1.0,
+    "output_size": "(854.0, 480.0)",
+    "vsync": 0,
+    "still_readbacks": true,
+    "static_memory_bytes": 180783741.0,
+    "texture_memory_bytes": 719037993.0,
+    "charge_contacts": 24,
+    "distinct_contacting_riders": 24,
+    "ends": {
+      "pike": 24
+    },
+    "first_contact_by_rank": [
+      2.25,
+      2.43333333333333,
+      2.61666666666666
+    ]
+  },
+  "grass_sha256": "b9a7bd846b4a76db719cf5741fe383c561059e007c5f7b3a732b922e4430d900",
+  "tests": {
+    "depth": 344,
+    "ui_signal_input": 7,
+    "existing_personal_charge": 35,
+    "failures": 0
+  }
+}
