@@ -47,3 +47,17 @@ offset_top = 30.0
 offset_right = 1840.0
 offset_bottom = 80.0
 text = "重新冲阵"
+
+[node name="Feedback" type="Button" parent="."]
+offset_left = 1160.0
+offset_top = 30.0
+offset_right = 1330.0
+offset_bottom = 80.0
+text = "打击反馈：开"
+
+[node name="CameraShake" type="Button" parent="."]
+offset_left = 1340.0
+offset_top = 30.0
+offset_right = 1510.0
+offset_bottom = 80.0
+text = "镜头震动：开"

@@ -159,5 +159,38 @@
     "captured_simulation_steps": 720,
     "rule_checks": 532,
     "ui_checks": 7
+  },
+  "impact_feedback": {
+    "contacts_identical": true,
+    "final_actors_identical": true,
+    "normal_render_identical_pngs": 5,
+    "flash_texture_bytes": 4456448,
+    "tests": {
+      "feedback": 11,
+      "ui": 9,
+      "charge": 35,
+      "depth": 532,
+      "failures": 0
+    },
+    "perf-off": {
+      "output_size": "(1280, 720)",
+      "sim_seconds": 11.9333333333335,
+      "wall_seconds": 11.863878,
+      "frame_mean_ms": 16.6661273516642,
+      "frame_p95_ms": 17.009,
+      "stalls_over_50ms": 0,
+      "static_memory_bytes": 180943045.0,
+      "texture_memory_bytes": 725154667.0
+    },
+    "perf-on": {
+      "output_size": "(1280, 720)",
+      "sim_seconds": 11.9333333333335,
+      "wall_seconds": 11.864116,
+      "frame_mean_ms": 16.665997105644,
+      "frame_p95_ms": 16.756,
+      "stalls_over_50ms": 0,
+      "static_memory_bytes": 180954085.0,
+      "texture_memory_bytes": 724979905.0
+    }
   }
 }

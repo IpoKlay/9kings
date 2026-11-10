@@ -11,6 +11,7 @@ var exit_orders=true
 var exit_pending: Dictionary={}
 var entered_defense: Dictionary={}
 var defense_area=Rect2()
+var feedback_shock_time=-100.
 
 func setup(mode: String="flank"):
 	comparison=mode
@@ -71,6 +72,15 @@ func step(dt: float):
 
 func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Dictionary={},strike: Dictionary={}) -> Dictionary:
 	var result=super.deal_blow(attacker,target,damage,contact,strike)
+	if result.get('damage',0.)>0. and strike.has('target_slot') and strike.has('attacker_slot'):
+		var victim: Dictionary=target.soldiers[strike.target_slot]
+		var rider: Dictionary=attacker.soldiers[strike.attacker_slot]
+		var heavy: bool=strike.get('personal_charge',false)
+		if elapsed-victim.get('preview_hit',{}).get('start',-100.)>=.20:
+			var direction=Soldiers.ground_position(self,attacker,strike.attacker_slot).direction_to(Soldiers.ground_position(self,target,strike.target_slot))
+			victim.preview_hit={'start':elapsed,'heavy':heavy,'direction':direction}
+		if elapsed-rider.get('preview_strike',{}).get('start',-100.)>=.20:rider.preview_strike={'start':elapsed}
+		if heavy and elapsed-feedback_shock_time>=.45:feedback_shock_time=elapsed
 	if strike.get('personal_charge',false):
 		contact_log.append({'time':elapsed,'rider':[attacker.id,strike.attacker_slot],
 			'victim':[target.id,strike.target_slot],'damage':result.get('damage',0.),
