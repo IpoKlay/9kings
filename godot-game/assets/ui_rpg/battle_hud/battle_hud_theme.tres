@@ -1,7 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://dpbffji3qeqbn"]
 
 [ext_resource type="FontVariation" path="res://assets/fonts/game_pixel_font.tres" id="font"]
-[ext_resource type="Texture2D" uid="uid://cgy4lqwrkxovc" path="res://assets/ui_rpg/battle_hud/toolbar.png" id="paper"]
+[ext_resource type="Texture2D" path="res://assets/ui_rpg/atlas/ui-atlas.png" id="paper"]
 
 [sub_resource type="StyleBoxTexture" id="disabled"]
 content_margin_left = 12.0
@@ -9,6 +9,7 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("paper")
+region_rect = Rect2(1648, 2, 201, 111)
 texture_margin_left = 24.0
 texture_margin_top = 18.0
 texture_margin_right = 24.0
@@ -30,6 +31,7 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("paper")
+region_rect = Rect2(1648, 2, 201, 111)
 texture_margin_left = 24.0
 texture_margin_top = 18.0
 texture_margin_right = 24.0
@@ -43,6 +45,7 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("paper")
+region_rect = Rect2(1648, 2, 201, 111)
 texture_margin_left = 24.0
 texture_margin_top = 18.0
 texture_margin_right = 24.0
@@ -56,6 +59,7 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("paper")
+region_rect = Rect2(1648, 2, 201, 111)
 texture_margin_left = 24.0
 texture_margin_top = 18.0
 texture_margin_right = 24.0
@@ -69,6 +73,7 @@ content_margin_top = 12.0
 content_margin_right = 12.0
 content_margin_bottom = 12.0
 texture = ExtResource("paper")
+region_rect = Rect2(1648, 2, 201, 111)
 texture_margin_left = 24.0
 texture_margin_top = 18.0
 texture_margin_right = 24.0

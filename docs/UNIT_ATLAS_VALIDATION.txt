@@ -1,0 +1,47 @@
+Battlefield and HUD atlas integration — 2026-11-09
+
+Base: IpoKlay/9kings main eb078612cf84f13ecd97c3f36008a08726ffd75b.
+Branch: IpoKlay/battle-unit-atlas. Main is not modified directly.
+
+Change
+The previous square atlas changed horizontal texture-coordinate normalization and produced edge-pixel differences at fractional unit scales. Packing sheets vertically with their original widths (1088 or 64) and power-of-two heights eliminated differences in the tested renders. The new layout keeps complete sheets, all original frame indices, foot anchors, animation selection, source rectangles and painter order. It does not rotate or trim assets.
+96 sheets use eight pages; maximum page height8192, uncompressed RGBA8 pages total 157.50 MiB. This trades some padding memory for identical sampling, not a memory-saving claim.
+Each page has a white texel in a separate unused row. A soldier's two shadow rectangles now sample that texel from the same page as the soldier, using their original geometry and colors. Shadows remain immediately before their soldier in the original foot-y-sorted order. Corpse rendering, effects, game rules and input handlers are unchanged.
+The HUD uses a shared atlas and background drawing on its existing controls; input, text and focus remain on those controls.
+
+Validation
+- Exported macOS PCK: all 96 sheets and shadows loaded; normal menu-to-battle entry passed in a headless runtime. Both export presets explicitly include the atlas JSON manifest. This is a resource-pack smoke test, not a standalone app playthrough.
+- Source image RGBA round trips: 96 sheets, no rotation or trimming.
+- Sampling fixture: all directions and animation cells, alternating full-body and split-body drawing, five scales plus a rotated pose (576 cases), zero pixel differences using imported textures. See tests/tactical/test_unit_atlas_sampling.gd.
+- Whole battle: 13 before/after captures across three camera zooms, movement/contact/attacks/casualties through1200 simulation steps, and petrification. All pixel-identical on the tested branch.
+- Chinese HUD input and visual regression: zero failures,16 state comparisons plus a first-rendered-frame hover check.
+- Command-route input regression: 27 checks, zero failures. Godot reported four ObjectDB instances and two resources retained at exit; this remains a cleanup warning.
+- The root-window performance fixture checks equal final positions, health and morale between native and atlas runs.
+An early insufficiently settled capture had a one-pixel discrepancy and an out-of-date petrification frame; the final fixed-seed fixture uses six settled rendered frames per capture. Initial results were not used as passing evidence.
+
+Measured performance
+Apple M4, Godot4.7.2, Compatibility/OpenGL,1280×720; 14 squads,114 drawable members. HUD optimization enabled in both sides.120 warmup frames +600 measured frames/run. Unlimited-frame scenarios have3 paired runs with alternating order;60FPS scenarios have one pair. No forced extra rendering inside timing intervals; all runs verified600 actual rendered frames. Battle advances one fixed1/60 simulation step per rendered frame.
+
+                          Draw calls before/after     Mean FPS before/after
+Deployment                347 /120 (-65.4%)            227.85 /247.84 (+8.8%)
+Fixed battle              344 /132 (-61.6%)            109.13 /111.97 (+2.6%)
+Deployment,60FPS limit    347 /120                     60.14 /60.12
+Battle,60FPS limit        344 /132                     60.00 /60.00
+
+Unlimited-frame run ranges:
+Deployment:183.38–253.40 before,203.34–289.36 after.
+Battle:108.27–110.01 before,103.90–116.70 after.
+Mean per-run P95 frame times:
+Deployment6.923→7.074ms; battle12.516→12.027ms.
+Thus draw-call reductions are clear, but FPS gains are modest and variable, and deployment P95 did not improve. This does not prove a universal FPS gain, low-end-device benefit or a thousand-soldier fix. Default production frame limit remains60.
+
+Reproduce
+uv run --with pillow python godot-game/tools/build_unit_atlas.py
+Godot --path godot-game --editor --import --quit
+Godot --path godot-game --script res://tests/tactical/test_unit_atlas_sampling.gd
+Godot --path godot-game --script res://tests/tactical/test_unit_atlas.gd
+Godot --path godot-game --script res://tests/tactical/test_hud_atlas.gd
+Godot --headless --path godot-game --script res://tests/tactical/test_command_route_input.gd
+Godot --path godot-game --script res://tests/tactical/benchmark_unit_atlas.gd
+
+Evidence stays in local output directories; generated textures and manifests are source assets. No compiled app/exe/pck, videos or screenshot sets are committed. Windows/mobile and exported executable tests were not performed. Automated mouse-event regressions were run; the computer-control tool was unavailable for a new native mouse playthrough in this turn.

@@ -1,0 +1,390 @@
+{
+  "canvas": [
+    2048,
+    1024
+  ],
+  "filter": "nearest",
+  "mipmaps": false,
+  "padding": 2,
+  "extrusion": 0,
+  "rotation": false,
+  "trim": false,
+  "rgba8_MiB": 8.0,
+  "assets": {
+    "ui.scroll": {
+      "id": "ui.scroll",
+      "source": "godot-game/assets/ui_rpg/ui.png",
+      "crop": [
+        254,
+        69,
+        104,
+        145
+      ],
+      "scale": 3,
+      "nine_patch": [
+        78,
+        54,
+        66,
+        48
+      ],
+      "source_size": [
+        312,
+        435
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        1070,
+        2,
+        312,
+        435
+      ],
+      "page": "ui-atlas.png"
+    },
+    "ui.paper": {
+      "id": "ui.paper",
+      "source": "godot-game/assets/ui_rpg/ui.png",
+      "crop": [
+        396,
+        31,
+        86,
+        99
+      ],
+      "scale": 3,
+      "nine_patch": [
+        42,
+        42,
+        42,
+        42
+      ],
+      "source_size": [
+        258,
+        297
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        1386,
+        2,
+        258,
+        297
+      ],
+      "page": "ui-atlas.png"
+    },
+    "ui.strip": {
+      "id": "ui.strip",
+      "source": "godot-game/assets/ui_rpg/ui.png",
+      "crop": [
+        632,
+        204,
+        128,
+        36
+      ],
+      "scale": 3,
+      "nine_patch": [
+        30,
+        15,
+        30,
+        15
+      ],
+      "source_size": [
+        384,
+        108
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        2,
+        614,
+        384,
+        108
+      ],
+      "page": "ui-atlas.png"
+    },
+    "ui.button": {
+      "id": "ui.button",
+      "source": "godot-game/assets/ui_rpg/ui.png",
+      "crop": [
+        636,
+        246,
+        67,
+        37
+      ],
+      "scale": 3,
+      "nine_patch": [
+        24,
+        18,
+        24,
+        18
+      ],
+      "source_size": [
+        201,
+        111
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        1648,
+        2,
+        201,
+        111
+      ],
+      "page": "ui-atlas.png"
+    },
+    "ui.book": {
+      "id": "ui.book",
+      "source": "godot-game/assets/ui_rpg/ui.png",
+      "crop": [
+        125,
+        332,
+        266,
+        152
+      ],
+      "scale": 4,
+      "nine_patch": null,
+      "source_size": [
+        1064,
+        608
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        2,
+        2,
+        1064,
+        608
+      ],
+      "page": "ui-atlas.png"
+    },
+    "ui.arrow_left": {
+      "id": "ui.arrow_left",
+      "source": "godot-game/assets/ui_rpg/ui.png",
+      "crop": [
+        808,
+        592,
+        32,
+        16
+      ],
+      "scale": 2,
+      "nine_patch": null,
+      "source_size": [
+        64,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        458,
+        614,
+        64,
+        32
+      ],
+      "page": "ui-atlas.png"
+    },
+    "ui.arrow_right": {
+      "id": "ui.arrow_right",
+      "source": "godot-game/assets/ui_rpg/ui.png",
+      "crop": [
+        856,
+        592,
+        32,
+        16
+      ],
+      "scale": 2,
+      "nine_patch": null,
+      "source_size": [
+        64,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        390,
+        614,
+        64,
+        32
+      ],
+      "page": "ui-atlas.png"
+    },
+    "hud.toolbar": {
+      "id": "hud.toolbar",
+      "source": "godot-game/assets/ui_rpg/battle_hud/toolbar.png",
+      "scale": 1,
+      "nine_patch": [
+        24,
+        18,
+        24,
+        18
+      ],
+      "source_size": [
+        201,
+        111
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        1648,
+        2,
+        201,
+        111
+      ],
+      "page": "ui-atlas.png"
+    },
+    "icon.banner": {
+      "id": "icon.banner",
+      "source": "godot-game/assets/ui_roman/banner.png",
+      "scale": 1,
+      "nine_patch": null,
+      "source_size": [
+        32,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        670,
+        614,
+        32,
+        32
+      ],
+      "page": "ui-atlas.png"
+    },
+    "icon.gear": {
+      "id": "icon.gear",
+      "source": "godot-game/assets/ui_roman/gear.png",
+      "scale": 1,
+      "nine_patch": null,
+      "source_size": [
+        30,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        706,
+        614,
+        30,
+        32
+      ],
+      "page": "ui-atlas.png"
+    },
+    "icon.helmet": {
+      "id": "icon.helmet",
+      "source": "godot-game/assets/ui_roman/helmet.png",
+      "scale": 1,
+      "nine_patch": null,
+      "source_size": [
+        32,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        526,
+        614,
+        32,
+        32
+      ],
+      "page": "ui-atlas.png"
+    },
+    "icon.laurels": {
+      "id": "icon.laurels",
+      "source": "godot-game/assets/ui_roman/laurels.png",
+      "scale": 1,
+      "nine_patch": null,
+      "source_size": [
+        32,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        562,
+        614,
+        32,
+        32
+      ],
+      "page": "ui-atlas.png"
+    },
+    "icon.legion_flag": {
+      "id": "icon.legion_flag",
+      "source": "godot-game/assets/ui_roman/legion_flag.png",
+      "scale": 1,
+      "nine_patch": null,
+      "source_size": [
+        32,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        634,
+        614,
+        32,
+        32
+      ],
+      "page": "ui-atlas.png"
+    },
+    "icon.scroll": {
+      "id": "icon.scroll",
+      "source": "godot-game/assets/ui_roman/scroll.png",
+      "scale": 1,
+      "nine_patch": null,
+      "source_size": [
+        32,
+        32
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "rotation": false,
+      "region": [
+        598,
+        614,
+        32,
+        32
+      ],
+      "page": "ui-atlas.png"
+    }
+  }
+}

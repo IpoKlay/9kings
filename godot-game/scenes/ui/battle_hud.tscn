@@ -2,6 +2,8 @@
 
 [ext_resource type="Theme" path="res://assets/ui_rpg/battle_hud/battle_hud_theme.tres" id="theme"]
 
+[ext_resource type="Script" path="res://scripts/ui/battle_hud_backgrounds.gd" id="backgrounds"]
+
 [node name="BattleHUD" type="Control" unique_id=274400512]
 texture_filter = 1
 layout_mode = 3
@@ -10,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource("theme")
+script = ExtResource("backgrounds")
 
 [node name="StatusGroup" type="Control" parent="." unique_id=1686750415]
 layout_mode = 0

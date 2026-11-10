@@ -1,0 +1,1064 @@
+{
+  "sheets": {
+    "archer_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        0,
+        64,
+        512
+      ],
+      "source_sha256": "b8ad3fffd4884c9619972e44b5ed3b1995b9eec6ce4287932acd923b97112107"
+    },
+    "cavalry_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        512,
+        64,
+        512
+      ],
+      "source_sha256": "76d897919c21e440647461028b1fb8edf8467facdfa957bfcaa53adf53940819"
+    },
+    "guard_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        1024,
+        64,
+        512
+      ],
+      "source_sha256": "a56f9d07c416c678913c962e8a4fd4b52012c2f689701007ecab24f04e93c8f0"
+    },
+    "legion_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        1536,
+        64,
+        512
+      ],
+      "source_sha256": "04d58e2487f2108102f2769cefb57a1a066022cd18c91b9762bbf65b6eb04974"
+    },
+    "medic_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        2048,
+        64,
+        512
+      ],
+      "source_sha256": "5e001657670cb2c4d38a03b5db87b2f8b3b3a1476b97bfc5906eec2c283501df"
+    },
+    "siege_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        2560,
+        64,
+        512
+      ],
+      "source_sha256": "66af0951c8ddf381535dfed462055f8449ff6865870bb55d172b798ab851152e"
+    },
+    "spear_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        3072,
+        64,
+        512
+      ],
+      "source_sha256": "842840b8f9f9fd760f74ee6fc2fdd4ad48d9464456e726caefea35943af9b037"
+    },
+    "crossbow_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        3584,
+        64,
+        512
+      ],
+      "source_sha256": "862b212445decbff376a9308f10ceed5d2b2a0448907c9fb79e82d90ad7e8891"
+    },
+    "death_rider_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        4096,
+        64,
+        512
+      ],
+      "source_sha256": "7b74febacfd61c4ae7f194c9fd617dc6291f21af84d6e18c514e207fe0e13519"
+    },
+    "dragon_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        4608,
+        64,
+        512
+      ],
+      "source_sha256": "94285ad8dd1ca0868a8c912f83cfd975e3917c0b2efd53641600049de3308950"
+    },
+    "draugr_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        5120,
+        64,
+        512
+      ],
+      "source_sha256": "9ea5dfb1446506335119d5f6d24d30e9b455f109e55c9d3ce48b1e685ff222ed"
+    },
+    "fell_hound_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        5632,
+        64,
+        512
+      ],
+      "source_sha256": "644bda64af711343cf794cec3ef5fa416de2c15428e779c53742cf6bd9836b22"
+    },
+    "goblin_archer_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        6144,
+        64,
+        512
+      ],
+      "source_sha256": "d542b12869f0030c3f36b4ecc387821fa4b65d7a7118f6098baf662f6447fa96"
+    },
+    "goblin_brat_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        6656,
+        64,
+        512
+      ],
+      "source_sha256": "d0c73c0e05312c6904b09c85bfa2871e80f5824eec5ac75e6ca525d3678be811"
+    },
+    "goblin_runt_stone": {
+      "page": "units-64-0.png",
+      "region": [
+        0,
+        7168,
+        64,
+        512
+      ],
+      "source_sha256": "99c48661ffedf87c1caa903553d55d911dcf9068e617f8c4b5b36e7a4073566a"
+    },
+    "goblin_shaman_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        0,
+        64,
+        512
+      ],
+      "source_sha256": "3d3596bfd0e73bcbcc69c3f000fea7a6b6f1eb51ee9162d12c993c55bb570adf"
+    },
+    "goblin_slinger_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        512,
+        64,
+        512
+      ],
+      "source_sha256": "1b76406405a8dcc1a1dc232df1a980347c4c40b7e6ce5dc1ef9237b00480113e"
+    },
+    "goblin_spiker_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        1024,
+        64,
+        512
+      ],
+      "source_sha256": "05cb4ab72204dee3aa0667d660aaf51e3bd01d0cf425c6ff4c924d5d204eeba1"
+    },
+    "goblin_stabber_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        1536,
+        64,
+        512
+      ],
+      "source_sha256": "b46675aa105d4efe49921944cd3f1e263246ae5ad54f3693a8a1a4130f2728e2"
+    },
+    "goblin_troll_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        2048,
+        64,
+        512
+      ],
+      "source_sha256": "beb26e50752cfb8e6ef699ba3bf3b1115b03bd933ea92107df573aae3b72b136"
+    },
+    "goblin_wolf_rider_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        2560,
+        64,
+        512
+      ],
+      "source_sha256": "c7cb889785f043d4eef66f8424b2865414f4edf8de27502b978f1464fbc3f094"
+    },
+    "goblin_wolf_skirmisher_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        3072,
+        64,
+        512
+      ],
+      "source_sha256": "6bd3f83d0030ee7fe7f351b23c8dbdddb9cf5821b5316e5fa103092ac8a7bb3a"
+    },
+    "gravewalker_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        3584,
+        64,
+        512
+      ],
+      "source_sha256": "fd74a2ca997b3ce4e61eee76595637eaaaf846f0d5943a644413531ccb57e0c0"
+    },
+    "heavy_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        4096,
+        64,
+        512
+      ],
+      "source_sha256": "58a927a84f66ca46a406e0280cb1a1661b0fa7b5a5ffe4e6537ef0e71fcdc6b9"
+    },
+    "knight_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        4608,
+        64,
+        512
+      ],
+      "source_sha256": "eda003bb3040713cd6d321cee33159f1acc2a40b353ecc00311254d0ee57d26a"
+    },
+    "mounted_archer_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        5120,
+        64,
+        512
+      ],
+      "source_sha256": "ca6c1cae02bf932a3fc5e2c0da5a7e56e8b36093f0b1b92eb788c5ad2dd5b883"
+    },
+    "noble_son_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        5632,
+        64,
+        512
+      ],
+      "source_sha256": "437b9e014b49fac8ab77c3a399d8f6018e60b7dd73c07339efb2eb6cb60d7b79"
+    },
+    "peasant_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        6144,
+        64,
+        512
+      ],
+      "source_sha256": "b531cc985b00708d672e3b00ff983ccecbad0886b0078f55330d35ee57673243"
+    },
+    "skeleton_archer_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        6656,
+        64,
+        512
+      ],
+      "source_sha256": "5e5477465586b9c8c60f9b12f961bb9c3d3de49d2ebb0176db42369c66aab76a"
+    },
+    "skeleton_spearman_stone": {
+      "page": "units-64-1.png",
+      "region": [
+        0,
+        7168,
+        64,
+        512
+      ],
+      "source_sha256": "1e84e1a67c158478dbf4144c80e2ab09a77e9ed4352ddf305c234782b5ad4a2e"
+    },
+    "veteran_spearman_stone": {
+      "page": "units-64-2.png",
+      "region": [
+        0,
+        0,
+        64,
+        512
+      ],
+      "source_sha256": "84ce01da65a5a11e3828db214690fbe7f9362c65ac0c3485525e8f4742703acf"
+    },
+    "wraith_stone": {
+      "page": "units-64-2.png",
+      "region": [
+        0,
+        512,
+        64,
+        512
+      ],
+      "source_sha256": "652108f396b6ee81b386938d298ceb3f2e81abcb89525405b181b12a9f92b669"
+    },
+    "archer_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        0,
+        1088,
+        512
+      ],
+      "source_sha256": "a8fa1016628749ec23bc72b208b930bc23789ec3daf5843415ad87cff2c529cf"
+    },
+    "archer_enemy": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        512,
+        1088,
+        512
+      ],
+      "source_sha256": "4a068579cb6ec58b695a284caebc1fac054fe73292f13b1d3c1f86a4796600af"
+    },
+    "cavalry_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        1024,
+        1088,
+        512
+      ],
+      "source_sha256": "9e4c16e993af84c8f8d17df282cf810656b4a21ae3ea692852698003c6cf3857"
+    },
+    "cavalry_enemy": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        1536,
+        1088,
+        512
+      ],
+      "source_sha256": "743c5b56f925e268fc203d0804de0113a6be4254ef68d78725692f9379b92a71"
+    },
+    "guard_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        2048,
+        1088,
+        512
+      ],
+      "source_sha256": "495733153086d371640ca70a9a73f78f58dbc46556b6df1adfd2b854a74eb710"
+    },
+    "guard_enemy": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        2560,
+        1088,
+        512
+      ],
+      "source_sha256": "2456e0e20825a35a37ffd95d7ebeb7c889c23068b7ec4ca6c7e28519d5ea8b7e"
+    },
+    "legion_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        3072,
+        1088,
+        512
+      ],
+      "source_sha256": "1de6ca6404c7932ca483da7f9ebc6b981fc5d06251efd6cf5d9b7afc525a175e"
+    },
+    "legion_enemy": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        3584,
+        1088,
+        512
+      ],
+      "source_sha256": "c12e3d8a0ab48d1de5f5ede37f1cd7600a0dfc9f535be7b472691fc6ecad93e9"
+    },
+    "medic_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        4096,
+        1088,
+        512
+      ],
+      "source_sha256": "572c630da71a3cfcebdb279724d914c20260e1a7da57c498aae3f5da5ab41d75"
+    },
+    "medic_enemy": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        4608,
+        1088,
+        512
+      ],
+      "source_sha256": "fed964929977f086b5292a0159e41e8b95a09cc006f2bbc6393024132882f223"
+    },
+    "siege_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        5120,
+        1088,
+        512
+      ],
+      "source_sha256": "6e293be1dae98bf48ba8fd287e3de78bd95840435e398d2108d29f8600e6a4b4"
+    },
+    "siege_enemy": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        5632,
+        1088,
+        512
+      ],
+      "source_sha256": "d8ac6133dee13d914b5668d9bcfa3fbf44d6e9e5140caaee86bf80d20d1e92a0"
+    },
+    "spear_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        6144,
+        1088,
+        512
+      ],
+      "source_sha256": "bf76d73dc6dd1035ed4be601a068f45187d657c82392bd4e8b30af45d539334d"
+    },
+    "spear_enemy": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        6656,
+        1088,
+        512
+      ],
+      "source_sha256": "7c1b77e4d13794a4e106cbb7eb812c06f137d6d36bf38240e619bc04fa0806d1"
+    },
+    "crossbow_ally": {
+      "page": "units-1088-0.png",
+      "region": [
+        0,
+        7168,
+        1088,
+        512
+      ],
+      "source_sha256": "2fac42d69422cf13cded28896ac533db19687dbc75f412cf09fa3330da35fa80"
+    },
+    "crossbow_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        0,
+        1088,
+        512
+      ],
+      "source_sha256": "fd03823cd8d40a8beca8445ece8d7bdd9f775ba98014d86ea9840e7f1af5c70f"
+    },
+    "death_rider_ally": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        512,
+        1088,
+        512
+      ],
+      "source_sha256": "8cf5c2e7cd9e757ef2d6645dc7cddbe47083a91db8aa6554b1e4bc5b04017a96"
+    },
+    "death_rider_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        1024,
+        1088,
+        512
+      ],
+      "source_sha256": "b34ad1b3fca607b57ed4d847f72a785aa52b1fb7874dd421c2abb59b49f88af5"
+    },
+    "dragon_ally": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        1536,
+        1088,
+        512
+      ],
+      "source_sha256": "3cbc5b61c45e1f24545c71147af71a38ebfe6470b7ce5c3f601625e1c8e502ca"
+    },
+    "dragon_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        2048,
+        1088,
+        512
+      ],
+      "source_sha256": "62802fa12815c4995f3788b5f5d71e3d0025a5518552768a651d167193b259cb"
+    },
+    "draugr_ally": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        2560,
+        1088,
+        512
+      ],
+      "source_sha256": "4a077cafd575d3f05b26a2eee8ee17e8a586862300fdd45e38ef6980917cda33"
+    },
+    "draugr_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        3072,
+        1088,
+        512
+      ],
+      "source_sha256": "6953b04e082c006ccaaa2593272174c263a38308c44269f39083b069e04d60e1"
+    },
+    "fell_hound_ally": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        3584,
+        1088,
+        512
+      ],
+      "source_sha256": "65b5277954ae47d2669183e5516235cefbe45f2e7d8841d059174a3999ac0b9f"
+    },
+    "fell_hound_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        4096,
+        1088,
+        512
+      ],
+      "source_sha256": "2757a49dc931df7f24eaf691f3a059d953aa95c80754ba0b70ab76a157b91a06"
+    },
+    "goblin_archer_ally": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        4608,
+        1088,
+        512
+      ],
+      "source_sha256": "7d7f36a81b51561628a1db75eb12af7afd92326ec9c8a7973bc13adcef799b31"
+    },
+    "goblin_archer_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        5120,
+        1088,
+        512
+      ],
+      "source_sha256": "4305e536df9863496efe2729b712c0b4887564ea6af843cde1d483a689e2abc6"
+    },
+    "goblin_brat_ally": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        5632,
+        1088,
+        512
+      ],
+      "source_sha256": "ed24b56c11ee2e7dea52c2bb1f56c5e5f1fe3625a0a6669a975f6b08aae10c86"
+    },
+    "goblin_brat_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        6144,
+        1088,
+        512
+      ],
+      "source_sha256": "0525f1d294af576017069383a1d8deb995117723732d2e0cc843469121fa0b90"
+    },
+    "goblin_runt_ally": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        6656,
+        1088,
+        512
+      ],
+      "source_sha256": "79f9a44e592a0f8548a73c8f2f806dfdaadb972a28c73037c535d3454faef26e"
+    },
+    "goblin_runt_enemy": {
+      "page": "units-1088-1.png",
+      "region": [
+        0,
+        7168,
+        1088,
+        512
+      ],
+      "source_sha256": "bf0a94fb41a476b9ada83220c7788d7c686e0d8ec7b59598608149973592dd9e"
+    },
+    "goblin_shaman_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        0,
+        1088,
+        512
+      ],
+      "source_sha256": "9affd51b6491fdb7ec3670e348d5d11ae48ec0dc9420495560716cdf6da107e1"
+    },
+    "goblin_shaman_enemy": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        512,
+        1088,
+        512
+      ],
+      "source_sha256": "7433a5060a1835c7d30920ed8e136be2e2a1f6d77854331d4bf3b83d5e7aef65"
+    },
+    "goblin_slinger_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        1024,
+        1088,
+        512
+      ],
+      "source_sha256": "747573dc937fa0e9f7b1b63bcac1cfd8f0d42202375c1fa50b8501d4008c39a4"
+    },
+    "goblin_slinger_enemy": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        1536,
+        1088,
+        512
+      ],
+      "source_sha256": "7ebdaf61a149eebadde1ec82fb81a8423317318e7dcd36dd998b733d06664f78"
+    },
+    "goblin_spiker_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        2048,
+        1088,
+        512
+      ],
+      "source_sha256": "a3c252aaf4c72d2d1b7660c4b505160bbc56365e3fd252e79e9e8778dc1e0a98"
+    },
+    "goblin_spiker_enemy": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        2560,
+        1088,
+        512
+      ],
+      "source_sha256": "a4ff297336ab0c68a8272f91dbcc68f51f68bc41bd6b4e6cf40ea31d8e42f915"
+    },
+    "goblin_stabber_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        3072,
+        1088,
+        512
+      ],
+      "source_sha256": "60012e7479de3eb9ebef5daf752fdaea30c098413f9d7412f158252d8bc75463"
+    },
+    "goblin_stabber_enemy": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        3584,
+        1088,
+        512
+      ],
+      "source_sha256": "06b183f1f40c81aa57adaf227e4f4027678cbec09872b2eec6c138215215b0da"
+    },
+    "goblin_troll_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        4096,
+        1088,
+        512
+      ],
+      "source_sha256": "5f2632f40082fc14ba5cfac42d8b0a4ad2ccdb4b0429a172fdf7d8ede636b3a8"
+    },
+    "goblin_troll_enemy": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        4608,
+        1088,
+        512
+      ],
+      "source_sha256": "0fb3f01e10669c7ae8d66c26e3e8872b85d37951060a9e8d5f728be7233e9955"
+    },
+    "goblin_wolf_rider_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        5120,
+        1088,
+        512
+      ],
+      "source_sha256": "4facef03d08d28a7dcfbb2033741095cef17971a0b7b8e8d0e159571219558e5"
+    },
+    "goblin_wolf_rider_enemy": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        5632,
+        1088,
+        512
+      ],
+      "source_sha256": "ec3ce0a2b26b3c5b19594b1b8f369acab785b4df7825e536c5e3ab0ff26dd750"
+    },
+    "goblin_wolf_skirmisher_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        6144,
+        1088,
+        512
+      ],
+      "source_sha256": "275dd5569f3756d1c168a959bdf7ec021f5eaf2f97bf4b4924cef6c2e7ffa06e"
+    },
+    "goblin_wolf_skirmisher_enemy": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        6656,
+        1088,
+        512
+      ],
+      "source_sha256": "478916d4be68c38594f21621cdcdf4ab506992dc6763230462e383b8cca62603"
+    },
+    "gravewalker_ally": {
+      "page": "units-1088-2.png",
+      "region": [
+        0,
+        7168,
+        1088,
+        512
+      ],
+      "source_sha256": "4c9f49a9a7ae572cdc4f3324a23992f9ff1f1dfd18193e9d816108af813bb7a1"
+    },
+    "gravewalker_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        0,
+        1088,
+        512
+      ],
+      "source_sha256": "8cc6f4bdcb4121a2178ee0aba0cd509d7fedb3db25a8f0081d72ab9d38681947"
+    },
+    "heavy_ally": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        512,
+        1088,
+        512
+      ],
+      "source_sha256": "51c919353857e447b47d7bc1a681913b71bee9a4797c7f590162af9b2af00720"
+    },
+    "heavy_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        1024,
+        1088,
+        512
+      ],
+      "source_sha256": "311b3f71450503d1906d2db5804f983571eb2a1221b3cfb6ca77c3b55dc7ca1f"
+    },
+    "knight_ally": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        1536,
+        1088,
+        512
+      ],
+      "source_sha256": "e0261ef1e389cb3f65501a7855cf5629d59c9875cd85eddcce67b83454371552"
+    },
+    "knight_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        2048,
+        1088,
+        512
+      ],
+      "source_sha256": "97baeef54c72a1e8323afe8e68fd11644440d70517763fc851c79860b59b944d"
+    },
+    "mounted_archer_ally": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        2560,
+        1088,
+        512
+      ],
+      "source_sha256": "d2032e4ea4a78c912aed5cde7b006d7a0e3269d3ec9d85a8a2ad1f403bb974ab"
+    },
+    "mounted_archer_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        3072,
+        1088,
+        512
+      ],
+      "source_sha256": "c52573dc562b19b0ba90dad813058219b3c0c120e4da9d408daa49cd058acca2"
+    },
+    "noble_son_ally": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        3584,
+        1088,
+        512
+      ],
+      "source_sha256": "df6a6ab7dafa26479f1e9214cafc3f468cba13f921f3c062b8eb06c92d2ca052"
+    },
+    "noble_son_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        4096,
+        1088,
+        512
+      ],
+      "source_sha256": "8dcfed63c8f088f316be235395a07afc7f4098134031cc0134e1a0ee75e1468f"
+    },
+    "peasant_ally": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        4608,
+        1088,
+        512
+      ],
+      "source_sha256": "5cadf1778ea2cf894e711a0948ce4ba230810a2cdf0fb955b7af6c0c9b9ebf87"
+    },
+    "peasant_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        5120,
+        1088,
+        512
+      ],
+      "source_sha256": "e99e0534d10285a58fba841feee83cdd0e3d826604c01dc49bc3390ba98ae34b"
+    },
+    "skeleton_archer_ally": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        5632,
+        1088,
+        512
+      ],
+      "source_sha256": "1a94d0242f2153300ddae995e092dc3028063fbded20bb40f480cdd627e6f438"
+    },
+    "skeleton_archer_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        6144,
+        1088,
+        512
+      ],
+      "source_sha256": "8b56f32fafb1b388c19026e21e3db56019d47d14d19595558c77d1055ecc55b9"
+    },
+    "skeleton_spearman_ally": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        6656,
+        1088,
+        512
+      ],
+      "source_sha256": "14900460545e320cf2d2663926dc341861799a7e49f1af1d5729d3419e5bee1c"
+    },
+    "skeleton_spearman_enemy": {
+      "page": "units-1088-3.png",
+      "region": [
+        0,
+        7168,
+        1088,
+        512
+      ],
+      "source_sha256": "29f8e570cf5dca045b08c990b06f824a0d2bc998f97919f111ccf63fc6f1fb64"
+    },
+    "veteran_spearman_ally": {
+      "page": "units-1088-4.png",
+      "region": [
+        0,
+        0,
+        1088,
+        512
+      ],
+      "source_sha256": "636ab55323ed7b23d3e7d6de7580297679f78b69c6edc6cf59a5a0614b5e7a29"
+    },
+    "veteran_spearman_enemy": {
+      "page": "units-1088-4.png",
+      "region": [
+        0,
+        512,
+        1088,
+        512
+      ],
+      "source_sha256": "3744fa322cb119c29ba498c24030e730e7f932e851b94f3e9fdcad7bd7f3797c"
+    },
+    "wraith_ally": {
+      "page": "units-1088-4.png",
+      "region": [
+        0,
+        1024,
+        1088,
+        512
+      ],
+      "source_sha256": "4d309938cf5fa99853d7826de35cc49d6c0495aaad1170d9cf845ef5b671e4a3"
+    },
+    "wraith_enemy": {
+      "page": "units-1088-4.png",
+      "region": [
+        0,
+        1536,
+        1088,
+        512
+      ],
+      "source_sha256": "d6a099a9e5f32d96e372247e062a4441dec2936a4f3c6d006dc51264d8aa8ea3"
+    }
+  },
+  "pages": {
+    "units-64-0.png": {
+      "size": [
+        64,
+        8192
+      ],
+      "white_pixel": [
+        0,
+        8191,
+        1,
+        1
+      ]
+    },
+    "units-64-1.png": {
+      "size": [
+        64,
+        8192
+      ],
+      "white_pixel": [
+        0,
+        8191,
+        1,
+        1
+      ]
+    },
+    "units-64-2.png": {
+      "size": [
+        64,
+        2048
+      ],
+      "white_pixel": [
+        0,
+        2047,
+        1,
+        1
+      ]
+    },
+    "units-1088-0.png": {
+      "size": [
+        1088,
+        8192
+      ],
+      "white_pixel": [
+        0,
+        8191,
+        1,
+        1
+      ]
+    },
+    "units-1088-1.png": {
+      "size": [
+        1088,
+        8192
+      ],
+      "white_pixel": [
+        0,
+        8191,
+        1,
+        1
+      ]
+    },
+    "units-1088-2.png": {
+      "size": [
+        1088,
+        8192
+      ],
+      "white_pixel": [
+        0,
+        8191,
+        1,
+        1
+      ]
+    },
+    "units-1088-3.png": {
+      "size": [
+        1088,
+        8192
+      ],
+      "white_pixel": [
+        0,
+        8191,
+        1,
+        1
+      ]
+    },
+    "units-1088-4.png": {
+      "size": [
+        1088,
+        4096
+      ],
+      "white_pixel": [
+        0,
+        4095,
+        1,
+        1
+      ]
+    }
+  },
+  "rotation": false,
+  "trim": false
+}
