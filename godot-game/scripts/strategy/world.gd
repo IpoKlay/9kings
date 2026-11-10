@@ -3,6 +3,7 @@ extends RefCounted
 const CELL=64.
 const CENTER=Vector2(1450,2540)
 const WALL_RADIUS=448.
+const WALL_CORNER=WALL_RADIUS*(sqrt(2.)-1.)
 const RING_TWO=850.
 const RING_THREE=1250.
 var explored={}
@@ -14,7 +15,7 @@ var rng=RandomNumberGenerator.new()
 var enemy_city=Vector2(1600,370)
 func ring(point: Vector2) -> int:
 	var delta=(point-CENTER).abs()
-	var distance=maxf(delta.x,delta.y)
+	var distance=maxf(maxf(delta.x,delta.y),(delta.x+delta.y)/sqrt(2.))
 	return 1 if distance<WALL_RADIUS else 2 if distance<RING_TWO else 3 if distance<RING_THREE else 4
 func cell(point: Vector2) -> Vector2i:return Vector2i((point/CELL).floor())
 func visible(point: Vector2) -> bool:return sight.has(cell(point))
@@ -28,18 +29,25 @@ func setup(r):
 	for i in 2:
 		r.spawn_person('shield','ally',Vector2(1590+i*35,2410))
 		r.spawn_person('spear','ally',Vector2(1590+i*35,2350))
-	for edge in 4:
-		for slot in range(-7,8):
-			# Corners belong to the horizontal edges only.
-			if edge>=2 and absi(slot)==7:continue
-			var offset=Vector2(slot*64,-WALL_RADIUS if edge==0 else WALL_RADIUS) if edge<2 else Vector2(-WALL_RADIUS if edge==2 else WALL_RADIUS,slot*64)
-			var b=r.add_building('gate' if slot==0 else 'wall',CENTER+offset,true)
-			b.initial_wall=true
-			if b.kind=='gate':b.open=true
+	var corners=wall_vertices()
+	for edge in 8:
+		var start: Vector2=corners[edge];var finish: Vector2=corners[(edge+1)%8]
+		var direction=start.direction_to(finish);var length=start.distance_to(finish)
+		var cardinal=edge%2==0;var segments=7 if cardinal else 6
+		var cursor=0.
+		for slot in segments:
+			var gate=cardinal and slot==3
+			var span=64. if gate else (length-64.)/6. if cardinal else length/6.
+			var b=r.add_building('gate' if gate else 'wall',start+direction*(cursor+span*.5),true)
+			b.initial_wall=true;b.wall_angle=direction.angle();b.wall_length=span
+			# Conservative bounds of the same rotated stone segment used by rendering.
+			b.wall_bounds=direction.abs()*span+direction.orthogonal().abs()*34.
+			if gate:b.open=true
+			cursor+=span
 	r.rebuild_obstacles()
 	add_resource(r,'iron',Vector2(1730,2790))
 	for i in 3:r.add_building('farm',Vector2(1460+i*72,2730),true)
-	for i in 9:add_resource(r,'tree',Vector2(1140+(i%3)*60,2200+(i/3)*60))
+	for i in 9:add_resource(r,'tree',Vector2(1190+(i%3)*60,2280+(i/3)*60))
 	for zone in [2,3,4]:
 		var kinds=['berries','sheep','tree','iron'] if zone==2 else ['deer','fruit','iron'] if zone==3 else ['boar','large_iron']
 		for kind in kinds:
@@ -58,6 +66,11 @@ func setup(r):
 	var town=r.add_building('town',enemy_city,true);town.side='enemy'
 	var barracks=r.add_building('barracks',Vector2(1920,460),true);barracks.side='enemy'
 	refresh_sight(r)
+func wall_vertices() -> Array[Vector2]:
+	var a=WALL_CORNER;var b=WALL_RADIUS
+	var result: Array[Vector2]=[]
+	for offset in [Vector2(-a,-b),Vector2(a,-b),Vector2(b,-a),Vector2(b,a),Vector2(a,b),Vector2(-a,b),Vector2(-b,a),Vector2(-b,-a)]:result.append(CENTER+offset)
+	return result
 func add_resource(r,kind: String,point: Vector2):
 	r.resources.append({'kind':kind,'pos':point,'remaining':5000. if kind=='large_iron' else 1200.,'ring':ring(point)})
 func pick(r,zone: int,clearance: float=75.) -> Vector2:

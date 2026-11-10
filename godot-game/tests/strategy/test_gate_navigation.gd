@@ -14,13 +14,13 @@ func _init():
 		if b.side=='enemy' and b.kind=='outpost':b.hp=0
 	r.next_wave=10000.;r.ai_training=-10000.
 	for i in 63:
-		var u=r.spawn_person('shield','ally',Vector2(1120+(i%9)*42,2200+(i/9)*38));ids.append(Vector2i(u.id,0))
+		var u=r.spawn_person('shield','ally',Vector2(1240+(i%9)*42,2240+(i/9)*32));ids.append(Vector2i(u.id,0))
 	var t=Time.get_ticks_usec()
 	check(r.Soldiers.command(r,ids,'move',Vector2(1450,2030)),'63-person order near wall no longer rejected')
 	var command_ms=(Time.get_ticks_usec()-t)/1000.
 	var builds=r.terrain.graph_builds
 	check(builds<=2,'Navigation graph shared across units')
-	check(r.terrain.ROCKS.size()<30,'Contiguous wall segments merged without closing gates')
+	check(r.terrain.ROCKS.size()<r.buildings.size(),'Contiguous cardinal wall segments merged without closing gates')
 	for i in 3600:r.step(1./60);r.events.clear()
 	var crossed=r.alive('ally').filter(func(u):return u.pos.y<2060.).size()
 	check(crossed==63,'All selected units physically cross north gate')

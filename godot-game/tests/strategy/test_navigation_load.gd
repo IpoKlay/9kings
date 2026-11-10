@@ -4,7 +4,7 @@ func _init():
 	var r=Battle.new(false)
 	var ids=[]
 	for i in 63:
-		var u=r.spawn_person('shield','ally',Vector2(1120+(i%9)*42,2200+(i/9)*38))
+		var u=r.spawn_person('shield','ally',Vector2(1240+(i%9)*42,2240+(i/9)*32))
 		ids.append(Vector2i(u.id,0))
 	var start=Time.get_ticks_usec()
 	var accepted=r.Soldiers.command(r,ids,'move',Vector2(1450,2030))

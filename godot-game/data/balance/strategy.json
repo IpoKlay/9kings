@@ -360,7 +360,7 @@
   "team_size": 21,
   "frontage": 7,
   "spacing": 36,
-  "team_gap": 90,
+  "team_gap": 45,
   "hill_formation_multiplier": 3,
   "hill_cavalry_attack_penalty": 0.3,
   "collision_radius": 10
