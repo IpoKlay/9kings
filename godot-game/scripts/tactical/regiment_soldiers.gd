@@ -246,6 +246,7 @@ static func brake_for_attack(r,row: Dictionary,velocity: Vector2,dt: float):
 	if row.unit.rooted>0:actor.velocity=Vector2.ZERO
 
 static func navigator(r,kind: String,u: Dictionary={}) -> String:
+	if r.has_method('wall_navigator') and not u.is_empty() and u.soldiers[0].has('wall_top'):return r.wall_navigator(u)
 	var radius: float=individual(r,u).get('unit_size',9.) if not u.is_empty() else r.config.types[kind].get('individual',{}).get('unit_size',9.)
 	var key='person_'+kind+'_'+str(radius)
 	if r.terrain.extents.has(key):return key
@@ -272,6 +273,7 @@ static func group_members(squads: Array) -> Array:
 	return ids
 
 static func movement_paths(r,selected: Array,destination: Vector2,via: Array[Vector2]=[]) -> Array:
+	if r.has_method("strategy_paths"):return r.strategy_paths(selected,destination,via)
 	var center=Vector2.ZERO
 	var low=Vector2.INF;var high=-Vector2.INF;var total_radius=0.
 	for row in selected:
@@ -306,12 +308,13 @@ static func command(r,ids: Array,order: String,destination: Vector2,target_id: i
 	if r.phase!='battle' or order not in ['move','hold','auto','attack','attack_move']:return false
 	var selected=members(r,ids,side)
 	if selected.is_empty():return false
-	if order=='move' and via.is_empty():
+	if order=='move' and via.is_empty() and not r.has_method('strategy_paths'):
 		var wall=r.Walls.march(r,ids,destination,commit)
 		if not wall.is_empty():return wall.accepted
 	var paths=movement_paths(r,selected,destination,via) if order in ['move','attack_move'] else []
 	if order in ['move','attack_move'] and paths.is_empty():return false
 	if not commit:return true
+	if r.has_method('strategy_command'):r.team_serial+=10000
 	var batch={}
 	if not paths.is_empty() and not paths[0].batch.is_empty():
 		batch=paths[0].batch.duplicate();batch.id=r.move_batch_serial;r.move_batch_serial+=1
@@ -320,6 +323,7 @@ static func command(r,ids: Array,order: String,destination: Vector2,target_id: i
 		r.Charges.detach(r,u,row.slot)
 		r.Charges.cancel(r,u,actor)
 		actor.personal_order=order
+		if r.has_method('strategy_command'):r.strategy_command(row,paths[i] if not paths.is_empty() else {})
 		actor.erase('resume_attack_move')
 		actor.erase('attack_engaged')
 		if order!='hold':actor.shield_wall=false;actor.erase('wall_id')
@@ -703,17 +707,18 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 		elif order=='attack':actor.personal_order='idle';actor.next_scan=0.
 	if wall_ready:return
 	if target.is_empty() and order in ['move','attack_move']:
+		var formation_slot=r.has_method('strategy_paths') and actor.has('form_goal')
 		# Authored intermediate waypoints stay exact; only the final ordinary goal settles early.
 		if not actor.get('shield_wall',false) and actor.path.size()==1:
 			var distance: float=actor.position.distance_to(actor.path[0])
-			if distance<17.:
+			if distance<(3. if formation_slot else 17.):
 				actor.move_settle=actor.get('move_settle',0.)+dt
 				if actor.move_settle>=.5:
 					actor.personal_order='idle';actor.path=[];actor.next_scan=0.;actor.settled_position=actor.position
 					actor.route_progress=actor.get('route_progress',0)+actor.get('route_stops',[]).size();actor.route_stops=[]
 				return
 			if distance>=34.:actor.move_settle=0.
-		if not actor.get('shield_wall',false) and sibling_settled(row):
+		if not formation_slot and not actor.get('shield_wall',false) and sibling_settled(row):
 			actor.personal_order='idle';actor.path=[];actor.next_scan=0.;actor.settled_position=actor.position;actor.settled_by_sibling=true
 			actor.route_progress=actor.get('route_progress',0)+actor.get('route_stops',[]).size();actor.route_stops=[]
 			return
@@ -747,6 +752,7 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 		goal=path[0]
 	else:actor.erase('steer_path')
 	var speed: float=(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed*r.powers.speed_multiplier(u)
+	if r.has_method('personal_speed'):speed*=r.personal_speed(u)
 	if not mobile and not target.is_empty() and target.near.distance>effective_range(r,u,target.unit):
 		var reach: float=effective_range(r,u,target.unit)
 		if target.near.distance<reach*1.2:speed*=clampf((target.near.distance-reach*.9)/(reach*.3),.35,1.)

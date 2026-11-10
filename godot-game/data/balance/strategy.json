@@ -1,0 +1,321 @@
+{
+  "note": "2026-11-09 user rules; unspecified values are provisional balance tuning.",
+  "units": {
+    "villager": {
+      "name": "村民",
+      "kind": "legion",
+      "art": "medic",
+      "hp": 60,
+      "damage": 0,
+      "range": 0,
+      "speed": 95,
+      "food": 35,
+      "producer": "town",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 1.2,
+      "train_seconds": 8
+    },
+    "engineer": {
+      "name": "军事工程师",
+      "kind": "legion",
+      "art": "medic",
+      "hp": 85,
+      "damage": 0,
+      "range": 0,
+      "speed": 85,
+      "food": 55,
+      "producer": "barracks",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 1.2,
+      "train_seconds": 8
+    },
+    "spear": {
+      "name": "枪兵",
+      "kind": "spear",
+      "art": "spear",
+      "hp": 100,
+      "damage": 20,
+      "range": 65,
+      "speed": 85,
+      "food": 45,
+      "producer": "barracks",
+      "armor_melee": 2,
+      "armor_ranged": 0,
+      "interval": 1.2,
+      "train_seconds": 8
+    },
+    "shield": {
+      "name": "持盾步兵",
+      "kind": "guard",
+      "art": "guard",
+      "hp": 140,
+      "damage": 22,
+      "range": 32,
+      "speed": 75,
+      "food": 55,
+      "producer": "barracks",
+      "armor_melee": 2,
+      "armor_ranged": 3,
+      "interval": 1.2,
+      "train_seconds": 8
+    },
+    "archer": {
+      "name": "弓箭手",
+      "kind": "archer",
+      "art": "archer",
+      "hp": 75,
+      "damage": 16,
+      "range": 400,
+      "speed": 90,
+      "food": 45,
+      "producer": "range",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 1.2,
+      "train_seconds": 8
+    },
+    "light_cavalry": {
+      "name": "轻型骑兵",
+      "kind": "cavalry",
+      "art": "cavalry",
+      "hp": 160,
+      "damage": 24,
+      "range": 38,
+      "speed": 155,
+      "food": 80,
+      "producer": "stable",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 1.2,
+      "train_seconds": 8
+    },
+    "elite_cavalry": {
+      "name": "精锐骑兵",
+      "kind": "cavalry",
+      "art": "cavalry",
+      "hp": 230,
+      "damage": 34,
+      "range": 40,
+      "speed": 130,
+      "food": 140,
+      "producer": "stable",
+      "armor_melee": 2,
+      "armor_ranged": 3,
+      "interval": 1.2,
+      "train_seconds": 8
+    },
+    "ram": {
+      "name": "攻城锤",
+      "kind": "siege",
+      "art": "siege",
+      "hp": 450,
+      "damage": 70,
+      "range": 55,
+      "speed": 45,
+      "food": 120,
+      "producer": "factory",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 2.5,
+      "train_seconds": 15
+    },
+    "tower": {
+      "name": "攻城塔",
+      "kind": "siege",
+      "art": "siege",
+      "hp": 600,
+      "damage": 0,
+      "range": 40,
+      "speed": 38,
+      "food": 150,
+      "producer": "factory",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 2.5,
+      "train_seconds": 15
+    },
+    "ballista": {
+      "name": "扭力弩炮",
+      "kind": "archer",
+      "art": "siege",
+      "hp": 190,
+      "damage": 65,
+      "range": 500,
+      "speed": 45,
+      "food": 140,
+      "producer": "factory",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 2.5,
+      "train_seconds": 15
+    },
+    "catapult": {
+      "name": "投石机",
+      "kind": "siege",
+      "art": "siege",
+      "hp": 220,
+      "damage": 85,
+      "range": 700,
+      "speed": 40,
+      "food": 160,
+      "producer": "factory",
+      "armor_melee": 0,
+      "armor_ranged": 0,
+      "interval": 2.5,
+      "train_seconds": 15
+    }
+  },
+  "buildings": {
+    "town": {
+      "name": "城镇中心",
+      "wood": 200,
+      "hp": 1200,
+      "size": 100,
+      "seconds": 12
+    },
+    "barracks": {
+      "name": "军营",
+      "wood": 100,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "range": {
+      "name": "靶场",
+      "wood": 80,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "stable": {
+      "name": "马厩",
+      "wood": 100,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "factory": {
+      "name": "军工厂",
+      "wood": 140,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "outpost": {
+      "name": "哨站",
+      "wood": 50,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "fortress": {
+      "name": "堡垒",
+      "wood": 200,
+      "hp": 1200,
+      "size": 100,
+      "seconds": 12
+    },
+    "wall": {
+      "name": "城墙",
+      "wood": 25,
+      "hp": 500,
+      "size": 64,
+      "seconds": 5
+    },
+    "gate": {
+      "name": "城门",
+      "wood": 40,
+      "hp": 500,
+      "size": 64,
+      "seconds": 5
+    },
+    "wall_tower": {
+      "name": "城墙塔楼",
+      "wood": 70,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "academy": {
+      "name": "学院",
+      "wood": 120,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "farm": {
+      "name": "农田",
+      "wood": 40,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    },
+    "house": {
+      "name": "房屋",
+      "wood": 35,
+      "hp": 500,
+      "size": 64,
+      "seconds": 12
+    }
+  },
+  "formations": {
+    "default": {
+      "name": "默认阵型",
+      "speed": 1.0,
+      "attack": 0.0,
+      "armor": 0.0
+    },
+    "wedge": {
+      "name": "楔形阵",
+      "speed": 1.0,
+      "attack": 0.0,
+      "armor": 0.0,
+      "charge": 0.5
+    },
+    "ring": {
+      "name": "环形阵",
+      "speed": 0.35,
+      "attack": 0.4,
+      "armor": 8.0
+    },
+    "scatter": {
+      "name": "散阵",
+      "speed": 1.2,
+      "attack": 0.0,
+      "armor": 0.0,
+      "area_reduction": 0.55
+    },
+    "dense": {
+      "name": "密集阵",
+      "speed": 0.85,
+      "attack": -0.2,
+      "armor": 0.0,
+      "volley": 0.6
+    },
+    "testudo": {
+      "name": "龟甲阵",
+      "speed": 0.3,
+      "attack": -0.2,
+      "armor": 12.0
+    }
+  },
+  "starting_resources": {
+    "food": 100,
+    "wood": 100,
+    "iron": 100
+  },
+  "promotion_base_cost": {
+    "food": 50,
+    "wood": 25,
+    "iron": 25
+  },
+  "formation_seconds": 5,
+  "team_size": 21,
+  "frontage": 7,
+  "spacing": 30,
+  "team_gap": 90,
+  "hill_formation_multiplier": 3,
+  "hill_cavalry_attack_penalty": 0.3
+}
