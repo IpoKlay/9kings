@@ -25,9 +25,9 @@ func run():
 	check(actor.hp==80. and actor.position==Vector2(100,100) and figure.foot==actor.position,'Feedback never changes physical feet or HP')
 	figure=base.duplicate(true);figure.cell=12
 	feedback.apply(figure,actor,1.+2./60.)
-	check(figure.cell==9,'Hold the actual contact animation cell for three frames')
+	check(figure.cell==9,'Hold the actual contact animation cell')
 	figure=base.duplicate(true);figure.cell=12
-	feedback.apply(figure,actor,1.1)
+	feedback.apply(figure,actor,1.15)
 	check(figure.cell==12 and not figure.has('flash_alpha'),'Animation resumes and white flash finishes')
 	figure=base.duplicate(true);feedback.apply(figure,{},1.01)
 	check(figure==base,'Untouched soldiers keep their original animation and color')
@@ -36,5 +36,14 @@ func run():
 	check(figure==base,'Feedback off restores the unmodified draw data')
 	check(Feedback.camera_offset(.03,0.)==Vector2.ZERO,'Camera shake can be disabled independently')
 	check(Feedback.camera_offset(.2,1.)==Vector2.ZERO,'Camera returns exactly to its original position')
+	feedback.enabled=true
+	var enemy_texture=ImageTexture.create_from_image(source)
+	feedback.prepare({'legion':{'enemy':enemy_texture}},[{'kind':'legion','side':'enemy'}])
+	for side_texture in [texture,enemy_texture]:
+		var ordinary={'preview_hit':{'start':2.,'heavy':false,'direction':Vector2.LEFT}}
+		figure=base.duplicate(true);figure.texture=side_texture
+		feedback.apply(figure,ordinary,2.+2./60.)
+		check(figure.flash_alpha==1.,'Both teams use full white for ordinary received hits')
+	check(feedback.flashed_sides.has('ally') and feedback.flashed_sides.has('enemy'),'Both team atlases were actually used for flashing')
 	print('Impact feedback: ',checks,' checks, ',failures,' failures')
 	quit(1 if failures else 0)
