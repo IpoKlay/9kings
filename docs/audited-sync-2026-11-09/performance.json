@@ -1,0 +1,49 @@
+{
+  "device": "Apple M4 / 16GB",
+  "renderer": "Godot 4.7.2 Compatibility",
+  "fps_limit": 60,
+  "vsync": false,
+  "seed": 20261109,
+  "runs": [
+    {
+      "atlas": false,
+      "draws_median": 235.0,
+      "frames": 1802,
+      "mean_ms": 16.6554012208657,
+      "over_50ms": 0,
+      "p95_ms": 18.048,
+      "people": 114,
+      "phase": "battle",
+      "process_p95_ms": 16.397,
+      "seconds": 30.013033,
+      "sim_seconds": 31.9833333333328,
+      "size": "(1280, 720)",
+      "static_bytes": 187950958.0,
+      "texture_bytes": 794841571.0,
+      "texture_bytes_after_exit": 121826747.0
+    },
+    {
+      "atlas": true,
+      "draws_median": 135.0,
+      "frames": 1802,
+      "mean_ms": 16.6569450610433,
+      "over_50ms": 0,
+      "p95_ms": 18.113,
+      "people": 114,
+      "phase": "battle",
+      "process_p95_ms": 17.049,
+      "seconds": 30.015815,
+      "sim_seconds": 31.9999999999995,
+      "size": "(1280, 720)",
+      "static_bytes": 188169258.0,
+      "texture_bytes": 819308451.0,
+      "texture_bytes_after_exit": 121826747.0
+    }
+  ],
+  "method": "Sequential real-time 30-second runs after 2-second warmup; no forced draws or manual simulation steps. Native sheets and packed sheets use identical grass/commands/114-person starting force. Actual dt differs normally; this is not a deterministic frame replay.",
+  "limits": [
+    "One run per mode; not a long-duration performance acceptance",
+    "No isolated GPU timer, resource-load timing or end-to-end input latency measurement",
+    "Engine texture allocation monitor is not total OS GPU memory"
+  ]
+}

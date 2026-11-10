@@ -12,6 +12,10 @@ var environment
 var trial
 var textures = {}
 var regiments: Dictionary={}
+const UnitAtlas=preload('res://scripts/tactical/unit_atlas.gd')
+var unit_atlas=UnitAtlas.new()
+var unit_atlas_enabled=true
+var atlas_shadows_enabled=true
 var clock = 0.0
 var effects: Array = []
 var debug_first_contact=false
@@ -52,14 +56,21 @@ func tex(id: String):
 func _ready():
 	texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
 	load_battlefield()
+	set_unit_atlas_enabled(unit_atlas_enabled)
+
+func set_unit_atlas_enabled(enabled: bool):
+	unit_atlas_enabled=enabled
+	regiments.clear()
+	if not enabled:unit_atlas=UnitAtlas.new()
 	var art_kinds=trial.rules.config.types.keys()
 	for variant in trial.rules.config.unit_variants.values():
 		if variant.has('art') and variant.art not in art_kinds:art_kinds.append(variant.art)
 	for kind in art_kinds:
 		var art := {}
 		for side in ['ally','enemy','stone']:
-			art[side]=load('res://assets/rts-armies/%s_%s.png' % [kind,side])
+			art[side]=unit_atlas.sheet('%s_%s' % [kind,side]) if enabled else load('res://assets/rts-armies/%s_%s.png' % [kind,side])
 		regiments[kind]=art
+	queue_redraw()
 
 func load_battlefield():
 	environment=null
@@ -475,8 +486,13 @@ func mounted_bearing(u: Dictionary,angle: float) -> int:
 	return trial.rules.Contact.bearing(u,angle,trial.rules.config.regiment_impact.bearing_hysteresis_degrees)
 
 # Ground shadows and discrete rigid poses retain the source pixel proportions.
-func draw_foot_shadow(foot: Vector2,scale: float,mounted: bool=false,alpha: float=1.):
+func draw_foot_shadow(foot: Vector2,scale: float,mounted: bool=false,alpha: float=1.,sheet: Texture2D=null):
 	var width=19 if mounted else 9
+	if atlas_shadows_enabled and sheet!=null and sheet.has_meta('foot_shadow'):
+		var white: Texture2D=sheet.get_meta('foot_shadow')
+		draw_texture_rect(white,Rect2((foot-Vector2(width,1)*scale).round(),Vector2(width*2,4)*scale),false,Color(0.10,0.16,0.10,.43*alpha))
+		draw_texture_rect(white,Rect2((foot-Vector2(width-3,3)*scale).round(),Vector2(width*2-6,8)*scale),false,Color(0.10,0.16,0.10,.22*alpha))
+		return
 	draw_rect(Rect2((foot-Vector2(width,1)*scale).round(),Vector2(width*2,4)*scale),Color(0.10,0.16,0.10,.43*alpha))
 	draw_rect(Rect2((foot-Vector2(width-3,3)*scale).round(),Vector2(width*2-6,8)*scale),Color(0.10,0.16,0.10,.22*alpha))
 
@@ -615,7 +631,7 @@ func draw_regiments(rules, pass_battle: bool):
 	for figure in figures:
 		var foot: Vector2=figure.foot
 		var scale: float=figure.scale
-		draw_foot_shadow(foot,scale,figure.kind=='cavalry')
+		draw_foot_shadow(foot,scale,figure.kind=='cavalry',1.,figure.texture)
 		var pose: Dictionary=figure.pose
 		var offset=Vector2(0,pose.get('drop',0.)*scale)
 		draw_set_transform((foot+offset+figure.get('body_offset',Vector2.ZERO)).round(),pose.get('angle',0.))

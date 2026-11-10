@@ -1,6 +1,7 @@
 extends SceneTree
+const Strategy=preload('res://scripts/strategy/battle.gd')
 ## Input regression: a rejected route must not poison the draft or replace a live order.
-const OUT='res://../output/whiteboard-command-loop-2026-11-07/'
+const OUT='res://../output/audited-sync/route/'
 const Whiteboard=preload('res://scripts/tactical/whiteboard_battle.gd')
 var checks=[]
 var failures=0
@@ -36,8 +37,12 @@ func run():
 	await process_frame
 	click(app.menu_view.get_node('%TacticalTrial').get_global_rect().get_center())
 	var t=app.active_trial
-	check(is_instance_valid(t),'Real menu click opens the current whiteboard battle')
+	check(is_instance_valid(t),'Real menu click opens the current battle')
 	if not is_instance_valid(t):quit(1);return
+	check(t.rules is Strategy,'Production menu preserves the strategy entry')
+	t.closed.emit();await process_frame
+	# Exercise legacy route controls in their own scene, not the strategy UI.
+	t=load('res://scenes/tactical_trial.tscn').instantiate();t.rules=Whiteboard.new(false);t.app=app;root.add_child(t);app.hide()
 	t.set_process(false)
 	click(t.combined_button.get_global_rect().get_center());t.refresh()
 	click(t.start_button.get_global_rect().get_center());key(KEY_SPACE)
@@ -137,6 +142,6 @@ func run():
 	t.retry()
 	check(t.rules.phase=='deploy' and t.soldier_ids.is_empty() and t.squad_ids.is_empty() and t.draft_waypoints.is_empty() and not t.paused,'Retry removes selection, drafts and pause')
 	FileAccess.open(OUT+evidence+'-checks.json',FileAccess.WRITE).store_string(JSON.stringify({'checks':checks,'failures':failures,'renderer':DisplayServer.get_name()},'\t'))
-	t.closed.emit();app.queue_free();await process_frame
+	t.queue_free();app.queue_free();await process_frame;await create_timer(.15).timeout
 	print('Command route input: ',checks.size(),' checks, ',failures,' failures')
 	quit(1 if failures else 0)

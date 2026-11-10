@@ -41,12 +41,22 @@ func run():
 	r.command([u.id],'hold',Vector2.ZERO)
 	var held=u.soldiers.duplicate(true);tick(r,1)
 	check(u.soldiers.all(func(s):return s.shield_wall and not s.has('wall_slot')),'H preserves shields but removes forced return slots')
+	check(u.soldiers.all(func(s):return not s.has('wall_id')), 'H releases old wall movement authority')
 	var paused=r.shield_walls.duplicate(true);var actors=u.soldiers.duplicate(true);r.step(0.)
 	check(paused==r.shield_walls and actors==u.soldiers,'Pause freezes wall locks and individual settlement state')
 	# Source column propagation depends on a dot product with the wall normal, not screen axes.
 	for angle in [0.,PI/2,PI/4]:column_case(angle)
 	r.command([u.id],'attack_move',Vector2(1000,700));tick(r,1)
 	check(not u.get('shield_wall',false) and r.shield_walls.is_empty(),'Replacement X clears the abandoned wall and its locks')
+	var moving=fixture();var squad=moving.units[0]
+	moving.command_shield_line([squad.id],Vector2(900,900),Vector2(1160,900))
+	for actor in squad.soldiers:actor.position=actor.wall_slot;actor.personal_order='hold';actor.path=[]
+	moving.Soldiers.update_center(moving,squad,0.)
+	moving.command([squad.id],'move',Vector2(1030,1200))
+	check(moving.shield_walls[0].marching,'Fixture has an active wall march')
+	moving.command([squad.id],'hold',Vector2.ZERO)
+	moving.Walls.advance(moving)
+	check(squad.soldiers.all(func(a):return a.personal_order=='hold' and a.path.is_empty() and not a.has('wall_slot')),'H cannot be overwritten by the previous wall march')
 	print('Shield columns: ',checks,' checks, ',failures,' failures')
 	quit(1 if failures else 0)
 func column_case(angle: float):

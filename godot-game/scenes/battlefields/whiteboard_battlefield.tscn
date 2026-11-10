@@ -1,7 +1,17 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/tactical/whiteboard_field.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/environments/iberia-grass-ground.png" id="ground"]
 
 [node name="WhiteboardBattlefield" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1")
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -1
+texture_repeat = 3
+texture = ExtResource("ground")
+centered = false
+position = Vector2(-200,-200)
+region_enabled = true
+region_rect = Rect2(0,0,3600,3600)
