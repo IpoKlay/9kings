@@ -327,7 +327,9 @@ static func command(r,ids: Array,order: String,destination: Vector2,target_id: i
 		if r.has_method('strategy_command'):r.strategy_command(row,paths[i] if not paths.is_empty() else {})
 		actor.erase('resume_attack_move')
 		actor.erase('attack_engaged')
-		if order!='hold':actor.shield_wall=false;actor.erase('wall_id')
+		if order!='hold':actor.shield_wall=false
+		# Holding keeps the shield stance, but cancels the old wall's march authority.
+		actor.erase('wall_id')
 		actor.erase('wall_slot')
 		actor.path=paths[i].path if not paths.is_empty() else []
 		if not actor.path.is_empty():actor.move_goal=actor.path.back()

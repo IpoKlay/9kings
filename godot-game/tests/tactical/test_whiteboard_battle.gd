@@ -1,6 +1,7 @@
 extends SceneTree
+const Strategy=preload('res://scripts/strategy/battle.gd')
 ## Real main-menu entry, input routing and rendered evidence for the whiteboard.
-const OUT='res://../output/whiteboard-battle-2026-11-07/'
+const OUT='res://../output/audited-sync/whiteboard/'
 const Battle=preload('res://scripts/tactical/whiteboard_battle.gd')
 const Legacy=preload('res://scripts/tactical/square_battle.gd')
 var checks=[]
@@ -41,15 +42,18 @@ func run():
 	var t=main.active_trial
 	check(is_instance_valid(t),'Actual menu mouse click opens battle')
 	if not is_instance_valid(t):quit(1);return
+	check(t.rules is Strategy,'Production menu keeps strategy rules')
+	t.closed.emit();await process_frame
+	t=load('res://scenes/tactical_trial.tscn').instantiate();t.rules=Battle.new();t.app=main;root.add_child(t);main.hide()
 	t.set_process(false)
 	var r=t.rules
-	check(r is Battle,'Default menu loads whiteboard rules')
+	check(r is Battle,'Dedicated fixture loads whiteboard rules')
 	check(r.bounds==Rect2(0,0,3200,3200),'Default world is confirmed 3200 square')
 	check(r.projection==Transform2D.IDENTITY and r.ground_basis==Transform2D.IDENTITY,'Ground and visual square are uncompressed')
 	check(r.terrain.bounds==r.bounds and r.powers.bounds==r.bounds,'Navigation and powers use shared map bounds')
 	check(t.field.pass_layout.scene_file_path=='res://scenes/battlefields/whiteboard_battlefield.tscn','Actual whiteboard scene is loaded')
 	check(t.field.LANDSCAPE==r.bounds.grow(Battle.MAP.values.camera_margin),'Camera uses shared bounds and margin')
-	check(t.field.pass_layout.get_child_count()==0 and t.field.environment==null and not t.field.has_node('RomanSiege'),'No legacy art nodes or environment')
+	check(t.field.pass_layout.has_node('Ground') and t.field.environment==null and not t.field.has_node('RomanSiege'),'Grass present without legacy pass environment')
 	check(r.terrain.ROCKS.is_empty(),'No legacy rock collision')
 	for a in [Vector2(250,250),Vector2(250,2950),Vector2(2950,250)]:
 		check(r.terrain.clear_segment('legion',a,Vector2(2950,2950)),'Unobstructed cross-map segment '+str(a))
@@ -134,7 +138,7 @@ func run():
 	# Exercise scene reload from an authored battlefield back to whiteboard.
 	t.rules=Battle.new();t.field.load_battlefield();t.reset_camera()
 	check(t.field.pass_layout.scene_file_path.ends_with('whiteboard_battlefield.tscn') and t.field.environment==null,'Whiteboard scene can reload after pass without old environment')
-	main.queue_free();await process_frame
+	t.queue_free();main.queue_free();await process_frame
 	var preset: Resource=Battle.MAP
 	var original: Rect2=preset.values.bounds
 	var authored=Rect2(0,0,4000,4000)

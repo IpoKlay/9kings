@@ -253,11 +253,20 @@ func arm_reserve(kind: String):
 func rank_slots() -> Dictionary:
 	return rules.layout_positions(squad_ids,rank_start,rank_end,rank_dragged)
 
+func displayed_order(u: Dictionary) -> String:
+	var living=u.soldiers.filter(func(s):return s.hp>0)
+	if living.is_empty() or not rules.Soldiers.independent(u):return u.order
+	if living.any(func(s):return s.has('charge_run')):return 'charge'
+	var order: String=living[0].personal_order
+	return order if living.all(func(s):return s.personal_order==order) else 'mixed'
+
 func order_text(u: Dictionary) -> String:
 	if u.routing:return words('失去指挥','No command')
-	if u.get('shield_wall',false):return words('盾墙','Shield wall')
+	if u.soldiers.any(func(s):return s.hp>0) and u.soldiers.all(func(s):return s.hp<=0 or s.get('shield_wall',false)):return words('盾墙','Shield wall')
 	if u.obstruction=='contact':return words('行军','March')
-	match u.order:
+	match displayed_order(u):
+		'charge':return words('冲锋','Charge')
+		'mixed':return words('分队执行','Split orders')
 		'move':return words('行军','March')
 		'attack_move':return words('攻击移动','Attack move')
 		'hold':return words('坚守','Hold')
@@ -268,18 +277,21 @@ func order_text(u: Dictionary) -> String:
 func state_text(u: Dictionary) -> String:
 	if u.hp<=0:return words('阵亡','Lost')
 	if u.routing:return words('溃退','Routing')
-	if u.order=='attack_move':return words('交战 · 随后继续前进','Engaged · Resume march afterward') if u.engaged else words('搜索前进','Advancing and searching')
+	var order=displayed_order(u)
+	if order=='charge':return words('冲锋中','Charging')
+	if order=='mixed':return words('各兵执行当前军令','Soldiers following individual orders')
+	if order=='attack_move':return words('交战 · 随后继续前进','Engaged · Resume march afterward') if u.engaged else words('搜索前进','Advancing and searching')
 	if u.obstruction=='contact':return words('受阻 · 已接敌','Blocked · Engaged')
 	if u.obstruction=='queue':return words('受阻 · 等待前队','Blocked · Queued')
-	if u.stun>0 or u.petrified>0 or (u.order=='move' and u.rooted>0):return words('受阻 · 无法行动','Blocked · Immobilized')
-	if u.order=='move':
+	if u.stun>0 or u.petrified>0 or (order=='move' and u.rooted>0):return words('受阻 · 无法行动','Blocked · Immobilized')
+	if order=='move':
 		var goal: Vector2=u.destination if u.waypoints.is_empty() else u.waypoints.back()
 		if not rules.inside_flag(u) and goal.distance_to(rules.flag_center)<=rules.flag_radius:return words('回防军旗','Returning to flag')
 		return words('行军','Marching')
 	if u.engaged:return words('救治','Healing') if u.kind=='medic' else words('交战','Engaged')
-	if u.order=='hold':return words('守住阵位','Holding position')
-	if u.order=='idle':return words('警戒附近敌人','Watching nearby enemies')
-	if u.order=='attack':return words('接近目标','Closing on target')
+	if order=='hold':return words('守住阵位','Holding position')
+	if order=='idle':return words('警戒附近敌人','Watching nearby enemies')
+	if order=='attack':return words('接近目标','Closing on target')
 	if u.moving:return words('行军','Marching')
 	return words('待敌','Ready')
 
@@ -469,7 +481,7 @@ func refresh():
 	if selected=='volley' and rules.phase=='battle':hint.text=words('长弓齐射 · 点击落点 · 15 秒冷却 · Esc 取消','Longbow volley · Click landing point · 15 s cooldown · Esc cancels')
 	if selected=='charge' and rules.phase=='battle':hint.text=words('冲锋 · 点击目标方向 · 每人独立命中与冷却 · Esc 取消','Charge · Click a destination · Individual hits and cooldowns · Esc cancels')
 	if selected=='shield_line' and rules.phase=='battle':hint.text=words('盾墙 · 左键拖出阵线，箭头为正面 · Esc 取消','Shield wall · LMB-drag the line; arrow shows facing · Esc cancels')
-	if rules.phase=='battle' and selected in ['','personal_route','charge'] and notice_seconds<=0:
+	if rules.phase=='battle' and selected in ['','route','personal_route','charge'] and notice_seconds<=0:
 		var chargeable=rules.Soldiers.members(rules,selected_people()).filter(func(row):return rules.Soldiers.individual(rules,row.unit).get('can_charge',false))
 		if not chargeable.is_empty():
 			var ready_count=chargeable.filter(func(row):return rules.Charges.ready(rules,row.unit,row.actor)).size()
