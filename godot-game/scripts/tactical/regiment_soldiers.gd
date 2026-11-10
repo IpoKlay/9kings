@@ -235,6 +235,7 @@ static func mounted_fire(r,u: Dictionary,slot: int,actor: Dictionary,counts: Dic
 	if chosen.is_empty() or chosen.near.distance>reach:
 		chosen={};var distance=INF
 		for enemy in r.alive('enemy' if u.side=='ally' else 'ally'):
+			if r.has_method('can_detect') and not r.can_detect(u,enemy):continue
 			var candidate=nearest(r,u,slot,enemy)
 			if not candidate.is_empty() and candidate.distance<=reach and candidate.distance<distance:
 				chosen={'unit':enemy,'near':candidate};distance=candidate.distance
@@ -412,6 +413,7 @@ static func identified_target(r,u: Dictionary,slot: int,id: int,target_slot: int
 	var candidates: Array=r.units if r.personal_unit_lookup.is_empty() else [r.personal_unit_lookup[id]] if r.personal_unit_lookup.has(id) else []
 	for enemy in candidates:
 		if enemy.id!=id or enemy.side==u.side or enemy.get('escaped',false) or target_slot<0 or target_slot>=enemy.soldiers.size():continue
+		if r.has_method('can_detect') and not r.can_detect(u,enemy):return {}
 		var target: Dictionary=enemy.soldiers[target_slot]
 		if target.get('death_state',0)!=0 or (living and target.hp<=0):continue
 		var delta: Vector2=ground_position(r,enemy,target_slot)-ground_position(r,u,slot)
@@ -475,6 +477,7 @@ static func personal_target(r,u: Dictionary,slot: int,actor: Dictionary,shared_c
 	var holding: bool=actor.personal_order=='hold' or actor.get('shield_wall',false)
 	var origin=ground_position(r,u,slot)
 	for enemy in r.alive('enemy' if u.side=='ally' else 'ally'):
+		if r.has_method('can_detect') and not r.can_detect(u,enemy):continue
 		if r.personal_target_bounds.has(enemy.id):
 			var area: Rect2=r.personal_target_bounds[enemy.id]
 			if origin.distance_squared_to(origin.clamp(area.position,area.end))>reach*reach:continue
@@ -515,6 +518,7 @@ static func retarget_pursuit(r,u: Dictionary,slot: int,actor: Dictionary,navigat
 	var best_cost: float=current.near.distance*current.near.distance
 	if is_ranged:best_cost+=counts.get(Vector2i(current.unit.id,current.near.slot),0)*1500.
 	for enemy in r.alive('enemy' if u.side=='ally' else 'ally'):
+		if r.has_method('can_detect') and not r.can_detect(u,enemy):continue
 		if r.personal_target_bounds.has(enemy.id):
 			var area: Rect2=r.personal_target_bounds[enemy.id]
 			if origin.distance_squared_to(origin.clamp(area.position,area.end))>radius*radius:continue
@@ -776,7 +780,8 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 	if actor.get('shield_wall',false):speed=minf(speed,r.config.battle_commands.shield_march_speed)
 	var direction=actor.position.direction_to(goal)
 	var wanted=direction*speed
-	var velocity=Vector2(move_toward(previous_velocity.x,wanted.x,1200.*dt),move_toward(previous_velocity.y,wanted.y,1200.*dt))
+	var acceleration=speed/0.45 if r.has_method('strategy_paths') else 1200.
+	var velocity=previous_velocity.move_toward(wanted,acceleration*dt)
 	velocity=velocity.limit_length(110. if actor.get('shield_wall',false) else (u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed+60.)
 	var step=minf(velocity.length()*dt,actor.position.distance_to(goal))
 	if not velocity.is_zero_approx():direction=velocity.normalized()

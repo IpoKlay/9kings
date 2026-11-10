@@ -1,3 +1,29 @@
+# 2026-11-10 本轮：城镇、探索与测试经济
+
+运行环境为当前容器 Godot 4.6.3 stable，Linux，原生OpenGL Compatibility/llvmpipe窗口。Godot AI插件要求4.7，未用于本轮验证；没有Windows实机结果。
+
+| 脚本 | 结果 | 主要证据 |
+| --- | --- | --- |
+| test_expansion.gd | 94项通过 | 新开局/四环分布/营地规模、视野记忆、即时生产/三资源扣费/集结令、五级城镇效果、实际克制与冲锋伤害、果树双收益、战利品只领一次与奖励排除精锐 |
+| test_expansion_ui.gd | 17项通过 | 正常主菜单入口，真实鼠标选建筑/右键设集结/点击生产、单兵数据、同队伍指令合并、士兵加速、攻击移动颜色、Esc、失去视野禁止锁定、真实点击城镇升级 |
+| test_expansion_live.gd | 5项通过 | 单位实际出城再返回、野狼实际攻击村民、死亡狼成为资源 |
+| test_formation_camera.gd | 19项通过 | 平滑相机、实体阵型、变阵5秒进度/暂停/中断；更新空地位置避免新城墙与城镇阻挡测试夹具 |
+| test_strategy.gd | 30项通过 | 集结/21人上限/阵型、采集、建造、晋升、丘陵减速、战斗打断 |
+| test_strategy_combat.gd | 20项通过 | 加算伤害/新护甲、箭雨、冲锋朝向、攻城/修复/登墙 |
+| test_economy_opening.gd | 23项通过 | 新开局、生产建筑绑定、村民排队取消退款、研究中断、AI波次与城镇胜负 |
+| test_contextual_ui.gd | 27项通过 | 选择栏、实际采铁/造房、即时生产、Esc和重试；更新旧开局与时间假设 |
+| test_personal_movement.gd | 17项通过 | 原通用单兵移动回归 |
+| test_personal_charge.gd | 35项通过 | 最新main原冲锋行为回归 |
+| test_strategy_live.gd | 210模拟秒通过 | 保护期没有城邦攻击，随后一轮AI实际出击；8名我方单位存活，战斗继续 |
+
+合计287个断言通过；窗口与headless同一脚本不重复计数。窗口截图检查了城墙/开局、集结点、单兵面板、绿/红军令、黑雾与灰雾总览、城镇升级。运行记录与原始截图在本次环境/tmp，未将重复截图或构建产物写入源码。军令截图发现旧逐兵黄色路线与新标记重叠，已禁用此模式的旧路线显示并重截验证。
+
+复现：`godot --headless --path godot-game --script res://tests/strategy/test_expansion.gd`；替换脚本名可运行其他检查。原生窗口UI验证去掉--headless，脚本截图路径为 `/tmp/contextual-new-opening.png`、`contextual-rally.png`、`contextual-unit-stats.png`、`contextual-orders.png`、`contextual-attack-orders.png`、`contextual-fog-overview.png`、`contextual-town-upgrade.png`。
+
+已修复运行中发现的旧AI导演接管蛮族/狼、狼遗漏队列类型、营寨生命被旧同步逻辑重复放大、隐形敌人仍可锁定和旧路线重复显示问题。退出时原有少量ObjectDB/资源引用警告仍可能出现；本轮通过检查未出现运行脚本异常。当前普通动物仍是静态采集点，狼和墙为简单像素绘制。没有宣称完成完整敌方经济AI或长局平衡。下面保留此前验证记录；旧100资源完整对局记录只代表旧版本。
+
+---
+
 # 验证记录 · 2026-11-10
 
 环境：Linux，Godot 4.7.2 stable，OpenGL Compatibility / llvmpipe 原生窗口，Xvfb 显示。音频使用 Dummy；没有本轮音频输出或 Windows 实机验证。

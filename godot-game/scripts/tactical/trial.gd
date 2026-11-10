@@ -749,6 +749,7 @@ func select_squads(screen: Vector2, additive: bool):
 func soldier_at(screen: Vector2,side: String) -> Dictionary:
 	var found={};var best=INF
 	for u in rules.alive(side):
+		if rules.has_method('unit_visible') and not rules.unit_visible(u):continue
 		var scale: float=rules.contact_profiles[u.kind].scale
 		for slot in u.soldiers.size():
 			if u.soldiers[slot].hp<=0:continue

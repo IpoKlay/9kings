@@ -34,7 +34,7 @@ static func plan(r,selected: Array,destination: Vector2,via: Array) -> Array:
 	var forward=center.direction_to(destination)
 	if forward.is_zero_approx():forward=selected[0].actor.heading
 	var lateral=Vector2(-forward.y,forward.x)
-	var priority=['light_cavalry','elite_cavalry','shield','spear','archer','engineer','villager','ram','tower','ballista','catapult']
+	var priority=['light_cavalry','elite_cavalry','shield','spear','archer','engineer','villager','wolf','ram','tower','ballista','catapult']
 	var output={};var depth=0.;var team_number=0
 	for type in priority:
 		if not groups.has(type):continue
