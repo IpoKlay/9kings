@@ -32,6 +32,7 @@ func _init(test_powers: bool=false):
 	config.battle_commands.shield_melee_reduction=0.
 	config.battle_commands.shield_ranged_reduction=0.
 	config.directional_combat.charge=1.
+	config.individual_charge.speed*=.5
 	config.individual_charge.damage_multiplier=1.
 	config.individual_charge.trample_decay=1.
 	terrain=PassTerrain.new(projection,bounds,config.types,{'rocks':cliffs,'SidePass':Rect2(-10000,-10000,1,1),'MainPass':Rect2(-10000,-10000,1,1)},true)
@@ -47,6 +48,7 @@ func spawn_person(type: String,side: String,point: Vector2) -> Dictionary:
 	var stats: Dictionary=config.types[data.kind].duplicate(true)
 	stats.merge({'hp':data.hp,'damage':data.damage,'range':data.range,'speed':data.speed,'interval':data.interval,'files':1},true)
 	stats.individual=config.types.legion.individual.duplicate(true)
+	stats.individual.unit_size=strategy.collision_radius
 	stats.individual.merge({'hp':data.hp,'damage':data.damage,'range':data.range,'speed':data.speed,'can_charge':type in ['spear','shield','light_cavalry','elite_cavalry'],'can_shield_wall':false,'has_volley':false,'role_bits':4 if type in ['archer','ballista','catapult'] else 1,'aggro_range':450. if data.damage>0 else 0.},true)
 	u.combat_stats=stats;u.individual_stats=stats.individual
 	u.hp=data.hp;u.max_hp=data.hp
@@ -196,7 +198,7 @@ func set_formation(ids: Array,form: String,heading: Vector2=Vector2.ZERO) -> boo
 	if heading.is_zero_approx():heading=people[0].actor.heading
 	var planned=people.duplicate(true)
 	for row in planned:row.actor.formation=form
-	var paths=Layout.plan(self,planned,center+heading*.01,[])
+	var paths=Layout.plan(self,planned,center+heading*.01,[],false)
 	if paths.is_empty():report='附近空间不足以构建阵型';return false
 	formation_revision+=1
 	# Commit only after every member has a valid route.
@@ -305,6 +307,11 @@ func step(dt: float):
 	advance_siege(dt)
 	for u in alive('ally')+alive('enemy'):
 		var a: Dictionary=u.soldiers[0]
+		# A settled soldier can be pushed off its slot by passing friends. Recover without a new command.
+		if a.has('form_goal') and not a.has('job') and a.get('path',[]).is_empty() and a.personal_order in ['idle','move'] and not in_combat(u) and a.position.distance_to(a.form_goal)>8. and elapsed>=a.get('slot_retry',0.):
+			a.slot_retry=elapsed+.5
+			var path=terrain.leg(Soldiers.navigator(self,u.kind,u),a.position,a.form_goal)
+			if not path.is_empty():a.path=path;a.move_goal=a.form_goal;a.personal_order='move'
 		if a.has('form_left'):
 			if in_combat(u):a.erase('form_left');a.formation_ready=false
 			else:
@@ -414,11 +421,13 @@ func resolve_battle(_dt: float):
 func strategy_paths(selected: Array,destination: Vector2,via: Array[Vector2]) -> Array:
 	return Layout.plan(self,selected,destination,via)
 func strategy_command(row: Dictionary,path: Dictionary):
+	row.actor.erase('form_goal')
 	row.actor.erase('formation_revision')
 	row.actor.erase('job')
 	row.actor.erase('form_left')
 	if path.has('team'):
 		row.actor.team=team_serial+path.team
+		row.actor.form_goal=path.path.back()
 		var previous: String=row.actor.get('formation','default')
 		row.actor.formation=path.formation
 		row.actor.form_heading=path.heading
@@ -496,7 +505,7 @@ func advance_siege(dt: float):
 				events.append({'kind':'hit','pos':b.pos,'from':u.pos})
 				if b.hp<=0:rebuild_obstacles();report='敌方工事已摧毁'
 func wall_navigator(u: Dictionary) -> String:
-	var key='wall_top_'+str(u.id)
+	var key='wall_top_'+str(u.id)+'_'+str(u.soldiers[0].wall_top)
 	var b: Dictionary=buildings[u.soldiers[0].wall_top]
 	if b.hp<=0 or u.pos.distance_to(b.pos)>strategy.buildings[b.kind].size*.5+30.:
 		u.soldiers[0].erase('wall_top')

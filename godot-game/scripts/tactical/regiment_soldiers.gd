@@ -740,6 +740,9 @@ static func step_personal(r,row: Dictionary,occupied: Array,target_counts: Dicti
 			actor.personal_order='idle';actor.path=[];actor.next_scan=0.;actor.settled_position=actor.position;actor.settled_by_sibling=true
 			actor.route_progress=actor.get('route_progress',0)+actor.get('route_stops',[]).size();actor.route_stops=[]
 			return
+		# Repulsion can displace a body from an exact corner. Advance only with a clear next leg.
+		if r.has_method('strategy_paths'):
+			while actor.path.size()>1 and actor.position.distance_to(actor.path[0])<24. and actor.path[0] not in actor.get('route_stops',[]) and r.terrain.clear_segment(navigator(r,u.kind,u),actor.position,actor.path[1]):actor.path.pop_front()
 		while not actor.path.is_empty() and actor.position.distance_to(actor.path[0])<.05:
 			var reached: Vector2=actor.path.pop_front()
 			var stops: Array=actor.get('route_stops',[])

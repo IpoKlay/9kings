@@ -64,6 +64,9 @@ func _init():
 	var fresh=r.spawn_person('spear','ally',Vector2(1800,1800))
 	check(fresh.max_hp==spear.max_hp and fresh.combat_stats.damage==spear.combat_stats.damage,'Existing and new units share upgraded stats')
 	spear.soldiers[0].attack_age=10.;spear.soldiers[0].last_combat=-100.
+	# Isolate hill timing from random camp rewards and enemy reinforcements.
+	for camp in r.world.camps:camp.claimed=true
+	r.ai_training=99999.;r.next_wave=99999.
 	for enemy in r.alive('enemy'):enemy.hp=0;enemy.soldiers[0].hp=0
 	for structure in r.buildings:
 		if structure.side=='enemy' and structure.kind=='outpost':structure.hp=0

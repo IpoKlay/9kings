@@ -23,7 +23,7 @@ static func offsets(count: int,form: String,spacing: float) -> Array:
 		rank+=1
 	return result
 
-static func plan(r,selected: Array,destination: Vector2,via: Array) -> Array:
+static func plan(r,selected: Array,destination: Vector2,via: Array,flexible: bool=true) -> Array:
 	var groups={};var center=Vector2.ZERO
 	for row in selected:
 		var type: String=row.unit.get('unit_type',row.unit.kind)
@@ -35,7 +35,7 @@ static func plan(r,selected: Array,destination: Vector2,via: Array) -> Array:
 	if forward.is_zero_approx():forward=selected[0].actor.heading
 	var lateral=Vector2(-forward.y,forward.x)
 	var priority=['light_cavalry','elite_cavalry','shield','spear','archer','engineer','villager','wolf','ram','tower','ballista','catapult']
-	var output={};var depth=0.;var team_number=0
+	var output={};var depth=0.;var team_number=0;var reserved=[]
 	for type in priority:
 		if not groups.has(type):continue
 		var people: Array=groups[type];var votes={}
@@ -66,12 +66,39 @@ static func plan(r,selected: Array,destination: Vector2,via: Array) -> Array:
 					var path: Array[Vector2]=[];var stops: Array[Vector2]=[]
 					for stop in via+[destination]:
 						var next: Vector2=stop+goal-destination
-						var leg=r.terrain.leg(r.Soldiers.navigator(r,row.unit.kind,row.unit),start,next)
+						var nav=r.Soldiers.navigator(r,row.unit.kind,row.unit)
+						var leg=r.terrain.leg(nav,start,next)
+						if flexible and via.is_empty() and (leg.is_empty() or not same_wall_side(r,destination,next) or not r.terrain.clear_segment(nav,destination,next) or reserved.any(func(point):return point.distance_squared_to(next)<pow(spacing*.65,2))):
+							var replacement=nearby_slot(r,nav,start,next,destination,reserved,spacing)
+							if replacement.is_empty():return []
+							next=replacement.goal;leg=replacement.path
 						if leg.is_empty():return []
 						path.append_array(leg);stops.append(next);start=next
+					reserved.append(start)
 					output[Vector2i(row.unit.id,row.slot)]={'path':path,'stops':stops,'batch':{},'team':team_number,'formation':winner,'heading':offset.normalized() if winner=='ring' else forward}
 				team_number+=1
 			depth+=height+r.strategy.team_gap
 	var result=[]
 	for row in selected:result.append(output[Vector2i(row.unit.id,row.slot)])
 	return result
+
+static func nearby_slot(r,nav: String,start: Vector2,goal: Vector2,anchor: Vector2,reserved: Array,spacing: float) -> Dictionary:
+	# The clicked destination itself must remain reachable (closed gates still block orders).
+	if r.terrain.leg(nav,start,anchor).is_empty():return {}
+	var center=goal.clamp(r.bounds.position+Vector2.ONE*24,r.bounds.end-Vector2.ONE*24)
+	for ring in range(1,13):
+		for i in 16:
+			var candidate=center+Vector2.from_angle(TAU*i/16.)*(ring*spacing)
+			if reserved.any(func(point):return point.distance_squared_to(candidate)<pow(spacing*.8,2)):continue
+			if not same_wall_side(r,anchor,candidate) or not r.terrain.clear_segment(nav,anchor,candidate):continue
+			var path=r.terrain.leg(nav,start,candidate)
+			if not path.is_empty():return {'goal':candidate,'path':path}
+	return {}
+
+static func same_wall_side(r,anchor: Vector2,point: Vector2) -> bool:
+	# Keep a destination outside the starting fort outside, rather than filling the doorway.
+	var center: Vector2=r.world.CENTER;var radius: float=r.world.WALL_RADIUS
+	for axis in 2:
+		if anchor[axis]<center[axis]-radius and point[axis]>center[axis]-radius-40.:return false
+		if anchor[axis]>center[axis]+radius and point[axis]<center[axis]+radius+40.:return false
+	return true
