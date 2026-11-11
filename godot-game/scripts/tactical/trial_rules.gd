@@ -1107,6 +1107,10 @@ func record_casualty(u: Dictionary,slot: int):
 	actor.source_point=point
 	var axis: Vector2=ground_basis.basis_xform(actor.get('heading',u.heading))
 	var velocity: Vector2=actor.get('velocity',Vector2.ZERO)
+	# Carry a cavalry launch into the existing corpse rig instead of dropping it
+	# back onto its original foot. Ordinary death motion remains unchanged.
+	var launched: bool=actor.has('charge_lift') and elapsed-actor.charge_lift.start<.46
+	if launched:velocity+=actor.get('impulse',Vector2.ZERO)
 	var attacker_point=null
 	var attacker: Vector2i=actor.get('last_attacker',Vector2i(-1,-1))
 	if attacker.y>=0 and attacker.x>=0:
@@ -1124,6 +1128,7 @@ func record_casualty(u: Dictionary,slot: int):
 		'slot':slot,'foot':foot,'ground_point':point,'velocity':velocity,'attacker_point':attacker_point,
 		'bearing':posmod(roundi(atan2(axis.x,axis.y)/(PI/4)),8),'scale':contact_profiles[u.kind].scale*u.get('visual_scale',1.),
 		'time':elapsed,'step':simulation_step,'dir':ground_basis.basis_xform(motion.direction).normalized(),'motion':motion})
+	if launched:casualties.back().charge_lift=actor.charge_lift.duplicate()
 	if u.has('slot_states'):u.slot_states.erase(slot)
 
 func advance_casualties(dt:float):

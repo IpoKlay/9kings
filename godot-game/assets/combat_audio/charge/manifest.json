@@ -1,0 +1,37 @@
+{
+  "license": "CC0-1.0",
+  "files": [
+    {
+      "file": "charge-hit-0.wav",
+      "source": "assets/combat_audio/impact0.wav",
+      "start_seconds": 0.07172335600907029,
+      "duration_seconds": 0.2,
+      "processing": "short metal transient",
+      "sha256": "caa2a81910676bfcfd430eb5217923090aad57c682174f313ba2355d20c9dc6d"
+    },
+    {
+      "file": "charge-hit-1.wav",
+      "source": "assets/combat_audio/impact1.wav",
+      "start_seconds": 0.10224489795918368,
+      "duration_seconds": 0.2,
+      "processing": "short metal transient",
+      "sha256": "11453870bb6bf1360c8db54a979b45e03d8fe66e2efcb33ede212d2d71c921d8"
+    },
+    {
+      "file": "charge-hit-2.wav",
+      "source": "assets/combat_audio/impact2.wav",
+      "start_seconds": 0.006666666666666667,
+      "duration_seconds": 0.2,
+      "processing": "short metal transient",
+      "sha256": "743fc3d5534bfb305f7100b40f72ec1893685ec2dedb962d13afaff0c49fb5d7"
+    },
+    {
+      "file": "charge-land.wav",
+      "source": "assets/combat_audio/impact0.wav",
+      "start_seconds": 0.07172335600907029,
+      "duration_seconds": 0.13,
+      "processing": "two-pole 550Hz low-pass thud",
+      "sha256": "581190eb0dfd21feb567ceb97bef76a2145bc22148044cd5f900eeeb003132d1"
+    }
+  ]
+}
