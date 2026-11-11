@@ -24,7 +24,7 @@ func run():
 	check(figure.flash_alpha==1. and figure.flash_texture!=null,'Contact starts the white silhouette')
 	check(actor.hp==80. and actor.position==Vector2(100,100) and figure.foot==actor.position,'Feedback never changes physical feet or HP')
 	figure=base.duplicate(true);figure.cell=12
-	feedback.apply(figure,actor,1.+2./60.)
+	feedback.apply(figure,actor,1.+1./60.)
 	check(figure.cell==9,'Hold the actual contact animation cell')
 	figure=base.duplicate(true);figure.cell=12
 	feedback.apply(figure,actor,1.15)
@@ -35,24 +35,30 @@ func run():
 	figure=base.duplicate(true);feedback.apply(figure,actor,1.01)
 	check(figure==base,'Feedback off restores the unmodified draw data')
 	check(Feedback.camera_offset(.03,0.)==Vector2.ZERO,'Camera shake can be disabled independently')
-	check(Feedback.camera_offset(.2,1.)==Vector2.ZERO,'Camera returns exactly to its original position')
+	check(Feedback.camera_offset(.25,1.)==Vector2.ZERO,'Camera returns exactly to its original position')
 	feedback.enabled=true
 	var enemy_texture=ImageTexture.create_from_image(source)
 	feedback.prepare({'legion':{'enemy':enemy_texture}},[{'kind':'legion','side':'enemy'}])
 	for side_texture in [texture,enemy_texture]:
 		var ordinary={'preview_hit':{'start':2.,'heavy':false,'direction':Vector2.LEFT}}
 		figure=base.duplicate(true);figure.texture=side_texture
-		feedback.apply(figure,ordinary,2.+2./60.)
+		feedback.apply(figure,ordinary,2.)
 		check(figure.flash_alpha==1.,'Both teams use full white for ordinary received hits')
 	check(feedback.flashed_sides.has('ally') and feedback.flashed_sides.has('enemy'),'Both team atlases were actually used for flashing')
 	var charging={'preview_strike':{'start':3.,'heavy':true}}
 	figure=base.duplicate(true);feedback.apply(figure,charging,3.)
-	check(figure.get('flash_alpha',0.)==1.,'Charging attacker flashes on actual contact even without receiving damage')
+	check(figure.get('flash_alpha',0.)==1.,'Charging attacker also flashes full white')
 	var target={'preview_hit':{'start':3.,'heavy':true,'direction':Vector2.RIGHT}}
 	var victim_figure=base.duplicate(true);feedback.apply(victim_figure,target,3.)
-	check(victim_figure.flash_alpha==figure.flash_alpha,'Both participants flash on the same contact frame')
+	check(victim_figure.flash_alpha==figure.get('flash_alpha',0.),'Both sides of the collision flash white')
 	figure=base.duplicate(true);feedback.apply(figure,charging,3.15)
-	check(not figure.has('flash_alpha'),'Attacker contact flash ends after eight frames')
+	check(not figure.has('flash_alpha'),'Attacker contact flash ends after six frames')
+	var live_horse={'rider_contact':{'start':5.,'dir':Vector2.RIGHT}}
+	figure=base.duplicate(true);feedback.apply(figure,live_horse,5.)
+	figure=base.duplicate(true);figure.cell=12;feedback.apply(figure,live_horse,5.+4./60.)
+	check(figure.cell==9 and figure.flash_alpha>.5,'Main game horse holds five frames and flashes without preview state')
+	figure=base.duplicate(true);figure.cell=12;feedback.apply(figure,live_horse,5.+6./60.)
+	check(figure.cell==12 and not figure.has('flash_alpha'),'Main game horse releases its animation and color')
 	figure=base.duplicate(true);feedback.apply(figure,{'preview_strike':{'start':4.,'heavy':false}},4.)
 	check(not figure.has('flash_alpha'),'An ordinary attack does not masquerade as receiving a collision')
 	var packed=preload('res://scripts/tactical/unit_atlas.gd').new()

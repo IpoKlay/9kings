@@ -32,6 +32,7 @@ static func issue(r,ids: Array,destination: Vector2,side: String='ally') -> bool
 		actor.erase('attack_engaged')
 		actor.erase('contact_recovery')
 		var speed: float=maxf(u.get('combat_stats',r.config.types[u.kind]).speed,r.config.individual_charge.speed)
+		if u.kind=='cavalry':speed*=1.45
 		var lane_speed=0.
 		if u.moving and u.has('slot_speeds'):
 			var speeds: PackedFloat32Array=u.slot_speeds
@@ -104,13 +105,19 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 			# Stable scatter for reproducible recordings. Original uses a random 0.1–0.45 radian angle.
 			var scatter=lerpf(.1,cfg.scatter_angle,float(posmod(u.id*73+row.slot*31+id.x*17+id.y,101))/100.)
 			var impulse: Vector2=direction.rotated(side*scatter)*cfg.knockback*fraction*(cfg.cavalry_knockback if u.kind=='cavalry' else 1.)
+			var launchable: bool=other.unit.kind in ['legion','guard','spear','archer','medic'] and other.unit.get('art',other.unit.kind)!='siege'
 			if u.kind=='cavalry':
 				if braced=='pike':impulse=incoming*24.*fraction
 				elif braced=='shield':impulse=incoming*90.*fraction
 				else:
 					if side==0.:side=1. if (id.x+id.y)%2 else -1.
-					impulse=(incoming*.35+Vector2(-incoming.y,incoming.x)*side*.94)*320.*fraction
+					if launchable:impulse=(incoming*.9+Vector2(-incoming.y,incoming.x)*side*.436)*360.*fraction
+					else:impulse=(incoming*.35+Vector2(-incoming.y,incoming.x)*side*.94)*320.*fraction
 			knock(r,other.unit,other.slot,impulse)
+			if u.kind=='cavalry' and braced=='' and launchable:
+				victim.charge_lift={'start':r.elapsed,'height':30.*fraction,'dir':r.ground_basis.basis_xform(incoming).normalized()}
+				victim.contact_recovery=r.elapsed+.72
+				victim.erase('attack_pending');victim.erase('attack_engaged')
 			if braced!='':victim.impact_pose.reaction='brace';victim.erase('gap_until')
 		if u.kind=='cavalry':
 			actor.rider_contact={'start':r.elapsed,'dir':r.ground_basis.basis_xform(incoming),'braced':braced!=''}
@@ -135,7 +142,8 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 	var to_goal: Vector2=run.goal-here
 	if to_goal.length()<25.:finish(r,u,actor,'goal');return
 	var desired=to_goal.normalized()*run.speed*(1.-run.penalty)
-	run.velocity=Vector2(move_toward(run.velocity.x,desired.x,cfg.acceleration*dt),move_toward(run.velocity.y,desired.y,cfg.acceleration*dt))
+	var acceleration: float=cfg.acceleration*(1.4 if u.kind=='cavalry' else 1.)
+	run.velocity=Vector2(move_toward(run.velocity.x,desired.x,acceleration*dt),move_toward(run.velocity.y,desired.y,acceleration*dt))
 	actor.heading=run.velocity.normalized();actor.velocity=run.velocity
 
 static func knock(r,u: Dictionary,slot: int,impulse: Vector2):

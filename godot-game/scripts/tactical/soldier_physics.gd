@@ -49,11 +49,13 @@ static func integrate(r,rows: Array,dt: float):
 		var u: Dictionary=row.unit;var actor: Dictionary=u.soldiers[row.slot]
 		if actor.get('death_state',0)!=0 or not actor.has('position') or u.stun>0 or u.petrified>0:continue
 		var speed: float=(u.combat_stats if u.has('combat_stats') else r.config.types[u.kind]).speed
-		var cap=110. if shield(actor) else maxf(speed,r.config.individual_charge.speed)+60. if actor.has('charge_run') else speed+60.
+		var cap=110. if shield(actor) else maxf(speed,actor.charge_run.speed)+60. if actor.has('charge_run') else speed+60.
 		actor.velocity=actor.get('velocity',Vector2.ZERO).limit_length(cap)
 		var impulse: Vector2=actor.get('impulse',Vector2.ZERO)
+		var launch_age: float=r.elapsed-actor.get('charge_lift',{}).get('start',-100.)
+		var planted: bool=launch_age>=0. and launch_age<5./60.
 		var from: Vector2=actor.position
-		var delta: Vector2=(actor.velocity+impulse)*dt
+		var delta: Vector2=(actor.velocity+impulse*(.15 if planted else 1.))*dt
 		# Keep authored thin rocks swept; normal motion and knockback share one proposed displacement.
 		var pieces=maxi(1,ceili(delta.length()/4.))
 		for i in pieces:actor.position=terrain_slide(r,u.kind,actor.position,actor.position+delta/pieces,u)
@@ -64,7 +66,8 @@ static func integrate(r,rows: Array,dt: float):
 			if actor.position.is_equal_approx(from) and not delta.is_zero_approx():
 				actor.velocity=Vector2.ZERO;actor.charge_run.velocity=Vector2.ZERO
 				if actor.charge_run.age>.15:r.Charges.finish(r,u,actor,'blocked')
-		impulse*=pow(.85,dt*60.)
+		var drag=1. if planted else .94 if launch_age>=0. and launch_age<.30 else .80 if launch_age<.9 else .85
+		impulse*=pow(drag,dt*60.)
 		if absf(impulse.x)<.5:impulse.x=0.
 		if absf(impulse.y)<.5:impulse.y=0.
 		if impulse==Vector2.ZERO:actor.erase('impulse')

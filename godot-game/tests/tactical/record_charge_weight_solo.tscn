@@ -1,0 +1,4 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://tests/tactical/record_charge_weight.tscn" id="1"]
+[node name="ChargeWeightSolo" instance=ExtResource("1")]
+solo = true

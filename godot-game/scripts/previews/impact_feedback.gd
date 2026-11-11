@@ -15,31 +15,37 @@ func prepare(regiments: Dictionary,units: Array):
 		var texture: Texture2D=regiments[u.get('art',u.kind)][u.side]
 		var key=texture.get_instance_id()
 		atlas_sides[key]=u.side
-		if masks.has(key):continue
-		var source=texture.get_image()
-		if source.is_compressed():source.decompress()
-		source.convert(Image.FORMAT_RGBA8)
-		var pixels=source.get_data()
-		# Preserve alpha exactly, including transparent pixels and the source edge.
-		for i in range(0,pixels.size(),4):
-			pixels[i]=255;pixels[i+1]=255;pixels[i+2]=255
-		var mask=Image.create_from_data(source.get_width(),source.get_height(),false,Image.FORMAT_RGBA8,pixels)
-		masks[key]=ImageTexture.create_from_image(mask)
-		texture_bytes+=pixels.size()
+		prepare_texture(texture)
+
+func prepare_texture(texture: Texture2D):
+	var key=texture.get_instance_id()
+	if masks.has(key):return
+	var source=texture.get_image()
+	if source.is_compressed():source.decompress()
+	source.convert(Image.FORMAT_RGBA8)
+	var pixels=source.get_data()
+	# Cache only sheets that are used; preserve the exact alpha and atlas region.
+	for i in range(0,pixels.size(),4):
+		pixels[i]=255;pixels[i+1]=255;pixels[i+2]=255
+	var mask=Image.create_from_data(source.get_width(),source.get_height(),false,Image.FORMAT_RGBA8,pixels)
+	masks[key]=ImageTexture.create_from_image(mask)
+	texture_bytes+=pixels.size()
 
 func apply(figure: Dictionary,actor: Dictionary,now: float):
 	if not enabled:return
-	var strike: Dictionary=actor.get('preview_strike',{})
-	if not strike.is_empty() and strike.get('heavy',false):
-		var strike_frame=floori((now-strike.start)*60.+.00001)
-		if strike_frame>=0 and strike_frame<8:
-			apply_flash(figure,strike_frame,true)
-			contact_flash_roles['attacker']=true
+	var strike: Dictionary=actor.get('rider_contact',actor.get('preview_strike',{}))
 	if not strike.is_empty() and now-strike.start<float(hold_frames)/60.:
 		if not strike.has('cell'):
 			strike.cell=figure.cell;strike.upper_cell=figure.upper_cell
 		figure.cell=strike.cell;figure.upper_cell=strike.upper_cell
+	if not strike.is_empty() and strike.get('heavy',true):
+		var strike_frame=floori((now-float(strike.start))*60.+.00001)
+		apply_flash(figure,strike_frame,true)
+		if strike_frame>=0 and strike_frame<6:contact_flash_roles['attacker']=true
 	var hit: Dictionary=actor.get('preview_hit',{})
+	if hit.is_empty() and actor.has('charge_lift'):
+		var lift: Dictionary=actor.charge_lift
+		hit={'start':lift.start,'heavy':true,'direction':lift.dir}
 	if hit.is_empty():return
 	var age: float=now-hit.start
 	if age<0. or age>=.28:return
@@ -61,17 +67,17 @@ func apply(figure: Dictionary,actor: Dictionary,now: float):
 		pose.drop=3.*strength if frame<9 else 0.
 	figure.pose=pose
 	apply_flash(figure,frame,heavy)
-	if heavy and frame<8:contact_flash_roles['victim']=true
+	if heavy and frame<6:contact_flash_roles['victim']=true
 
 func apply_flash(figure: Dictionary,frame: int,heavy: bool):
-	var flash_frames=8 if heavy else 6
-	if frame<flash_frames and flash_strength>0.:
+	var flash_frames=6 if heavy else 2
+	if frame>=0 and frame<flash_frames and flash_strength>0.:
+		prepare_texture(figure.texture)
 		figure.flash_texture=masks.get(figure.texture.get_instance_id())
-		var white_frames=4 if heavy else 3
-		figure.flash_alpha=maxf(figure.get('flash_alpha',0.),flash_strength*(1. if frame<white_frames else .75 if frame<flash_frames-1 else .35))
-		if figure.flash_texture!=null:flashed_sides[atlas_sides[figure.texture.get_instance_id()]]=true
+		figure.flash_alpha=flash_strength*(1. if frame<3 else .8 if frame<5 else .45)
+		if figure.flash_texture!=null:flashed_sides[atlas_sides.get(figure.texture.get_instance_id(),'live')]=true
 
 static func camera_offset(age: float,strength: float) -> Vector2:
-	if age<0. or age>=.18 or strength<=0.:return Vector2.ZERO
-	var samples=[Vector2(1,0),Vector2(-1,0),Vector2(0,1),Vector2(0,-1),Vector2.ZERO,Vector2.ZERO]
-	return (samples[mini(floori(age*30.),5)]*strength).round()
+	if age<0. or age>=.24 or strength<=0.:return Vector2.ZERO
+	var samples=[Vector2(1,.5),Vector2(-1,-.5),Vector2(.75,-.5),Vector2(-.65,.5),Vector2(.45,.25),Vector2(-.3,-.2),Vector2(.15,0),Vector2.ZERO]
+	return (samples[mini(floori(age*30.),7)]*strength).round()

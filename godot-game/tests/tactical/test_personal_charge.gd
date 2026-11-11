@@ -99,7 +99,7 @@ func run():
 	capped.Charges.issue(capped,[Vector2i(cap_a.id,0)],Vector2(1000,100))
 	check(is_equal_approx(cap_a.soldiers[0].position.distance_to(cap_a.soldiers[0].charge_run.goal),760.),'Ground target is capped at the confirmed maximum charge range')
 	tick(capped,1)
-	check(is_equal_approx(cap_a.soldiers[0].charge_run.velocity.length(),20.),'Charging accelerates from rest instead of jumping straight to peak speed')
+	check(is_equal_approx(cap_a.soldiers[0].charge_run.velocity.length(),28.),'Cavalry accelerates 40 percent faster from rest without jumping to peak speed')
 	var moving=fixture();var moving_a=moving.units[0]
 	moving.Soldiers.command(moving,[Vector2i(moving_a.id,0)],'move',Vector2(1000,1050));tick(moving,20)
 	moving.Charges.issue(moving,[Vector2i(moving_a.id,0)],Vector2(1000,700))

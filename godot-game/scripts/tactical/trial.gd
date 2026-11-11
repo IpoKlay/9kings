@@ -529,6 +529,7 @@ func refresh():
 func retry():
 	for voice in impact_voices.values():voice.stop()
 	voice_times.clear()
+	charge_audio.clear();audio_clock=0.
 	myth_audio.stop_all()
 	var deity=rules.deity
 	rules=StrategyBattle.new(false) if rules is StrategyBattle else WhiteboardBattle.new(rules.unlimited_powers) if rules is WhiteboardBattle else SiegeBattle.new(rules.unlimited_powers) if rules is SiegeBattle else SquareBattle.new(rules.unlimited_powers) if rules is SquareBattle else PassBattle.new(rules.unlimited_powers)
@@ -556,28 +557,48 @@ func retry():
 	start_button.text=words('开战','Begin')
 	refresh()
 signal contact_audio_started(contact: Dictionary)
+signal sound_cue(cue: Dictionary)
 
 var impact_voices: Dictionary={}
 var voice_times: Dictionary={}
+var audio_clock=0.
+var charge_audio=preload('res://scripts/tactical/charge_audio.gd').new()
+const CHARGE_CLIPS={
+	'charge_hit0':preload('res://assets/combat_audio/charge/charge-hit-0.wav'),
+	'charge_hit1':preload('res://assets/combat_audio/charge/charge-hit-1.wav'),
+	'charge_hit2':preload('res://assets/combat_audio/charge/charge-hit-2.wav'),
+	'charge_land':preload('res://assets/combat_audio/charge/charge-land.wav')}
 
 func local_sound(layer: String, sample_name: String, ground: Vector2, gain: float, interval: float) -> bool:
 	if app==null or not app.sound.enabled or app.sound.volume<=0:return false
-	if rules.elapsed-float(voice_times.get(layer,-10.))<interval:return false
-	if not impact_voices.has(layer):
+	if layer in charge_audio.PRIORITY:return charge_audio.request(layer,sample_name,ground,gain)
+	return start_local_sound(layer,sample_name,ground,gain,interval)
+
+func flush_charge_audio():
+	for cue in charge_audio.drain(audio_clock):
+		start_local_sound(cue.layer,cue.sample,cue.pos,cue.gain,0.,cue.bus,CHARGE_CLIPS.get(cue.sample),1.)
+
+func start_local_sound(layer: String,sample_name: String,ground: Vector2,gain: float,interval: float,bus: String='',clip: AudioStream=null,pitch: float=-1.) -> bool:
+	if app==null or not app.sound.enabled or app.sound.volume<=0:return false
+	if bus.is_empty():bus=layer
+	if audio_clock-float(voice_times.get(bus,-10.))<interval:return false
+	if not impact_voices.has(bus):
 		var player:=AudioStreamPlayer2D.new()
 		player.attenuation=0.
 		player.max_distance=4000
 		add_child(player)
-		impact_voices[layer]=player
-	var voice: AudioStreamPlayer2D=impact_voices[layer]
-	voice_times[layer]=rules.elapsed
-	voice.stream=app.sound.cache[sample_name]
+		impact_voices[bus]=player
+	var voice: AudioStreamPlayer2D=impact_voices[bus]
+	voice_times[bus]=audio_clock
+	voice.stop()
+	voice.stream=clip if clip!=null else app.sound.cache[sample_name]
 	voice.position=(field.project(ground)-camera_offset)*zoom
 	voice.set_meta('gain',gain)
 	voice.volume_linear=app.sound.volume*gain
-	voice.pitch_scale=.78 if slow else 1.
+	voice.pitch_scale=(pitch if pitch>0. else 1.)*(.78 if slow else 1.)
 	voice.stream_paused=false
 	voice.play()
+	sound_cue.emit({'time':audio_clock,'file':voice.stream.resource_path,'gain':voice.volume_linear,'pitch':voice.pitch_scale,'layer':layer,'voice':bus})
 	return true
 
 func play_contact_audio(contact: Dictionary):
@@ -585,6 +606,7 @@ func play_contact_audio(contact: Dictionary):
 		contact_audio_started.emit(contact)
 
 func _process(dt: float):
+	if not paused:audio_clock+=minf(dt,.1)
 	for voice in impact_voices.values():
 		voice.stream_paused=paused
 		voice.volume_linear=app.sound.volume*voice.get_meta('gain',1.) if app!=null and app.sound.enabled else 0.
@@ -634,11 +656,9 @@ func _process(dt: float):
 			if event.kind=='hoof_dust':
 				local_sound('hoof','foot'+str(int(rules.elapsed*8)%3),event.pos,.27,.105)
 				continue
-			if event.kind=='rider_contact':
-				local_sound('rider','shield'+str(int(event.get('slot',0))%2),event.pos,.30,.075)
-				continue
-			if event.kind=='charge_tail':
-				local_sound('tail','shield1',event.pos,.33,.19)
+			if event.kind in ['rider_contact','charge_tail']:
+				# The shield clips are wooden-haft knocks, not metal armor.
+				# Keep the primary collision sound without this extra clacking layer.
 				continue
 			if event.get('volley',false):
 				local_sound('volley' if event.get('ability','')=='volley' else 'arrows','arrow0',event.get('from',event.pos),.54,.06 if event.get('ability','')=='volley' else .075)
@@ -669,6 +689,7 @@ func _process(dt: float):
 				continue
 			if app!=null and event.kind!='heal':app.sound.play('arrow' if event.kind=='arrow' else 'impact',.5)
 		rules.events.clear()
+		flush_charge_audio()
 	refresh()
 func reset_camera():
 	detail_view.clear()
