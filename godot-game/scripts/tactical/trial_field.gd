@@ -14,6 +14,9 @@ var textures = {}
 var regiments: Dictionary={}
 const UnitAtlas=preload('res://scripts/tactical/unit_atlas.gd')
 var unit_atlas=UnitAtlas.new()
+const ApprovedArt=preload('res://scripts/tactical/approved_unit_art.gd')
+var approved_art=ApprovedArt.new()
+var approved_level=-1
 var unit_atlas_enabled=true
 var atlas_shadows_enabled=true
 var clock = 0.0
@@ -76,6 +79,8 @@ func set_unit_atlas_enabled(enabled: bool):
 
 func load_battlefield():
 	charge_visuals.clear()
+	approved_art.pages.clear()
+	approved_level=-1
 	position=Vector2.ZERO
 	environment=null
 	if has_node('RomanSiege'):
@@ -146,6 +151,9 @@ func _draw():
 	if trial==null: return
 	draw_set_transform(Vector2.ZERO)
 	var rules=trial.rules
+	if rules.has_method('strategy_paths') and approved_level!=rules.level:
+		approved_art.pages.clear()
+		approved_level=rules.level
 	if rules.terrain and not rules is SquareBattle:draw_pass_ground()
 	draw_set_transform_matrix(ground_transform())
 	if not rules is WhiteboardBattle:draw_rect(rules.bounds,Color('#bea36c99'),false,3)
@@ -278,6 +286,10 @@ func _draw():
 			draw_line((arrow-direction*length).round(),arrow.round(),Color('#dfc58d'),2)
 			continue
 		var arrow: Vector2=project(volley.point)
+		if volley.has('sprite_origin'):
+			# The arrow starts at the drawn bow, then rejoins the unchanged flight path.
+			var opening: float=clampf(volley.age/maxf(.001,minf(.12,volley.flight)),0.,1.)
+			arrow+=(project(volley.sprite_origin)-project(volley.origin))*(1.-opening)
 		if volley.get('projectile_art','')=='sling_stone':
 			draw_rect(Rect2(arrow.round()-Vector2(3,3),Vector2(6,6)),Color('#879da6'))
 			draw_rect(Rect2(arrow.round()-Vector2(2,3),Vector2(3,2)),Color('#dce0d5'))
@@ -541,7 +553,7 @@ func draw_casualties(rules):
 		var motion=fallen.motion
 		var fade:float=motion.opacity()
 		var lift: float=ChargeVisuals.height(fallen.get('charge_lift',{}),fallen.time+motion.age)
-		if fallen.has('charge_lift') and motion.age<.12:fade=1.
+		if motion.age<.12 and (fallen.has('charge_lift') or fallen.has('approved_art')):fade=1.
 		if fade<=0:continue
 		var foot:Vector2=fallen.foot
 		var scale:float=fallen.scale
@@ -558,6 +570,9 @@ func draw_casualties(rules):
 			if progress>=1:continue
 			var size:float=maxf(1,roundf(burst.size*(1-progress*.4)))
 			draw_rect(Rect2((foot+ground_transform().basis_xform(burst.point)).round(),Vector2.ONE*size),Color(.12,.10,.16,(1-progress)*.55))
+		if fallen.has('approved_art'):
+			draw_approved_casualty(fallen,fade,lift)
+			continue
 		if not corpse_parts.has(art):continue
 		var sheet:Texture2D=tex('rts-corpses/'+art+'_'+fallen.side)
 		if lift>0:
@@ -581,6 +596,65 @@ func draw_casualties(rules):
 			draw_set_transform((foot+pivot+displacement-Vector2(0,lift)).round(),rotation)
 			draw_texture_rect_region(sheet,Rect2(-Vector2(64,64)*scale-pivot,Vector2(128,128)*scale),Rect2(int(part.cell)*128,int(fallen.bearing)*128,128,128),Color(.82,.78,.70,fade))
 			draw_set_transform(Vector2.ZERO)
+
+func draw_approved_casualty(fallen: Dictionary,fade: float,lift: float):
+	var clip=ApprovedArt.clip(fallen.approved_art,'death',fallen.bearing)
+	var frame: int=clip.frame_at(fallen.motion.age*1000.)
+	var scale=ApprovedArt.scale_for(fallen.kind)
+	var foot: Vector2=fallen.foot
+	var motion=fallen.motion
+	if fallen.has('charge_lift') and motion.x.size()>0:
+		foot+=ground_transform().basis_xform(motion.point(0)-motion.rest[0])
+	if lift>0.:draw_foot_shadow(foot,scale,fallen.kind=='cavalry',fade*.7)
+	var region: Rect2=clip.regions[frame]
+	var anchor: Vector2=clip.anchors[frame]
+	draw_texture_rect_region(approved_art.page(fallen.approved_art,'death',fallen.side),
+		Rect2((foot-Vector2(0,lift)-anchor*scale).round(),region.size*scale),region,Color(.88,.84,.78,fade))
+
+func apply_approved_pose(figure: Dictionary,rules,u: Dictionary,actor: Dictionary,walking: bool,distance: float,
+		attacking: bool,attack_age: float,attack_duration: float) -> String:
+	var id: String=u.get('approved_art','')
+	if id.is_empty() or u.petrified>0:return ''
+	var bearing: int=figure.bearing
+	var now: float=rules.elapsed
+	var work: bool=actor.has('job') and now-actor.get('work_at',-1.)<.1 and not walking
+	if work:
+		var heading: Vector2=ground_transform().basis_xform(actor.work_point-u.pos)
+		if not heading.is_zero_approx():bearing=ApprovedArt.bearing_for(heading)
+	var mounted: bool=u.kind=='cavalry'
+	var charging: bool=mounted and (actor.has('charge_run') or u.gait=='sprint')
+	var hurt_clip=ApprovedArt.clip(id,'hurt',bearing) if u.hit_age<.8 else null
+	var hurt: bool=hurt_clip!=null and u.hit_age*1000.<hurt_clip.duration_ms
+	var action='idle'
+	if hurt:action='hurt'
+	elif charging:action='charge'
+	elif attacking or work:action='attack'
+	elif walking:action='walk'
+	var clip=ApprovedArt.clip(id,action,bearing)
+	var frame: int
+	match action:
+		'hurt':frame=clip.frame_at(u.hit_age*1000.)
+		'charge':
+			var age: float=actor.get('charge_run',{}).get('age',now)
+			frame=clip.frame_at(fposmod(age*1000.,clip.duration_ms))
+		'attack':
+			if work and not attacking:
+				frame=clip.frame_at(fposmod((now-actor.work_start)*1000.,clip.duration_ms))
+			else:
+				var fire_fraction: float=rules.Soldiers.individual(rules,u).get('fire_fraction',.45)
+				frame=clip.attack_frame(attack_age,attack_duration,attack_duration*(1.-fire_fraction))
+		'walk':
+			var stride: float=rules.config.types[u.kind].stride
+			frame=clip.frame_at(fposmod(distance/stride,1.)*clip.duration_ms)
+		_:frame=clip.frame_at(fposmod(now*1000.+u.id*173.,clip.duration_ms))
+	figure.pixel_clip=clip
+	figure.pixel_frame=frame
+	figure.pixel_page=approved_art.page(id,action,u.side)
+	figure.bearing=bearing
+	figure.scale=ApprovedArt.scale_for(u.kind)
+	figure.side=u.side
+	figure.pose={}
+	return action
 
 func draw_regiments(rules, pass_battle: bool):
 	var figures: Array=[]
@@ -651,6 +725,7 @@ func draw_regiments(rules, pass_battle: bool):
 				elif u.kind in ['legion','guard','spear'] and slot==first.defender_slot:
 					cell=first.defender_cell;actor_bearing=first.defender_bearing;pose={};tint=Color(1.8,1.7,1.45)
 			var figure={'foot':foot,'scale':scale,'kind':u.kind,'texture':texture,'cell':cell,'upper_cell':upper_cell,'bearing':actor_bearing,'tint':tint,'pose':pose,'dragon_fire':dragon_flame_strength(attack_age) if u.get('archetype','')=='dragon' and u.petrified<=0 else 0.,'heading':actor.get('heading',u.heading)}
+			apply_approved_pose(figure,rules,u,actor,walk,distance,action,attack_age,attack_duration)
 			if impact_feedback!=null and u.petrified<=0:impact_feedback.apply(figure,actor,rules.elapsed)
 			if u.petrified<=0:ChargeVisuals.apply_figure(figure,actor,rules.elapsed)
 			figure.lift=ChargeVisuals.height(actor.get('charge_lift',{}),rules.elapsed) if u.petrified<=0 else 0.
@@ -663,10 +738,19 @@ func draw_regiments(rules, pass_battle: bool):
 		var pose: Dictionary=figure.pose
 		var offset=Vector2(0,pose.get('drop',0.)*scale-figure.lift)
 		draw_set_transform((foot+offset+figure.get('body_offset',Vector2.ZERO)).round(),pose.get('angle',0.))
-		var dest=Rect2(-Vector2(32,54)*scale,Vector2(64,64)*scale)
-		draw_figure_sprite(figure,dest,figure.texture,figure.tint)
-		if figure.get('flash_texture')!=null:
-			draw_figure_sprite(figure,dest,figure.flash_texture,Color(1,1,1,figure.flash_alpha))
+		if figure.has('pixel_clip'):
+			var clip=figure.pixel_clip
+			var frame: int=figure.pixel_frame
+			var region: Rect2=clip.regions[frame]
+			var anchor: Vector2=clip.anchors[frame]
+			var tint: Color=figure.tint
+			if figure.has('flash_alpha'):tint=tint.lerp(Color(3.,2.8,2.4),figure.flash_alpha)
+			draw_texture_rect_region(figure.pixel_page,Rect2(-anchor*scale,region.size*scale),region,tint)
+		else:
+			var dest=Rect2(-Vector2(32,54)*scale,Vector2(64,64)*scale)
+			draw_figure_sprite(figure,dest,figure.texture,figure.tint)
+			if figure.get('flash_texture')!=null:
+				draw_figure_sprite(figure,dest,figure.flash_texture,Color(1,1,1,figure.flash_alpha))
 		draw_set_transform(Vector2.ZERO)
 		if figure.dragon_fire>0:draw_dragon_flame(foot,figure.heading,scale,figure.dragon_fire,rules.elapsed)
 

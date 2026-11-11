@@ -168,7 +168,7 @@ func show_commands():
 			button(box,'调整朝向',func():mode='face')
 	var help=label('右键下令 · Esc 清空选择',18);box.add_child(help)
 func unit_icon(type: String,art: String) -> Texture2D:
-	var id=static_art.unit_id(type,trial.rules.level)
+	var id=StaticArt.unit_id(type,trial.rules.level)
 	if id!='':return static_art.icon(id)
 	var icon=AtlasTexture.new();icon.atlas=load('res://assets/rts-armies/'+art+'_ally.png');icon.region=Rect2(0,0,64,64);return icon
 func icon_button(parent: Node,id: String,text: String,texture: Texture2D,callback: Callable):

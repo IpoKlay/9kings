@@ -1,5 +1,5 @@
 extends RefCounted
-## Unmodified static PixelLab artwork; field units keep their existing animation sheets.
+## Unmodified static PixelLab artwork for terrain, buildings and unit icons.
 const ROOT='res://assets/strategy/pixellab-v2/'
 const BUILDINGS={'town':['B01','B02','B03'],'barracks':['B04','B05','B06'],'range':['B07'],'stable':['B08'],'academy':['B09'],'factory':['B10'],'wall':['B11'],'gate':['B12'],'wall_tower':['B13'],'outpost':['B14','B15','B16'],'fortress':['B17','B18','B19'],'house':['B20','B21','B22'],'farm':['B23']}
 const UNITS={'villager':['U01'],'engineer':['U02'],'spear':['U03','U04','U05','U06','U07'],'shield':['U08','U09','U10','U11','U12'],'archer':['U13','U14','U15','U16','U17'],'light_cavalry':['U18','U19','U20','U21','U22'],'elite_cavalry':['U23']}
@@ -68,7 +68,7 @@ var icons={}
 func building_id(kind: String,level: int=1) -> String:
 	var choices: Array=BUILDINGS[kind]
 	return choices[clampi(level-1,0,choices.size()-1)]
-func unit_id(type: String,level: int=1) -> String:
+static func unit_id(type: String,level: int=1) -> String:
 	var choices: Array=UNITS.get(type,[])
 	return '' if choices.is_empty() else choices[clampi(level-1,0,choices.size()-1)]
 func texture(id: String) -> Texture2D:
