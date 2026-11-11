@@ -72,9 +72,12 @@ func apply(figure: Dictionary,actor: Dictionary,now: float):
 func apply_flash(figure: Dictionary,frame: int,heavy: bool):
 	var flash_frames=6 if heavy else 2
 	if frame>=0 and frame<flash_frames and flash_strength>0.:
+		figure.flash_alpha=flash_strength*(1. if frame<3 else .8 if frame<5 else .45)
+		if figure.has('pixel_clip'):
+			flashed_sides[figure.side]=true
+			return
 		prepare_texture(figure.texture)
 		figure.flash_texture=masks.get(figure.texture.get_instance_id())
-		figure.flash_alpha=flash_strength*(1. if frame<3 else .8 if frame<5 else .45)
 		if figure.flash_texture!=null:flashed_sides[atlas_sides.get(figure.texture.get_instance_id(),'live')]=true
 
 static func camera_offset(age: float,strength: float) -> Vector2:

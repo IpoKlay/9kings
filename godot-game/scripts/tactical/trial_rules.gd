@@ -1128,6 +1128,7 @@ func record_casualty(u: Dictionary,slot: int):
 		'slot':slot,'foot':foot,'ground_point':point,'velocity':velocity,'attacker_point':attacker_point,
 		'bearing':posmod(roundi(atan2(axis.x,axis.y)/(PI/4)),8),'scale':contact_profiles[u.kind].scale*u.get('visual_scale',1.),
 		'time':elapsed,'step':simulation_step,'dir':ground_basis.basis_xform(motion.direction).normalized(),'motion':motion})
+	if not u.get('approved_art','').is_empty():casualties.back().approved_art=u.approved_art
 	if launched:casualties.back().charge_lift=actor.charge_lift.duplicate()
 	if u.has('slot_states'):u.slot_states.erase(slot)
 

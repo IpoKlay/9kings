@@ -1,5 +1,7 @@
 extends 'res://scripts/tactical/whiteboard_battle.gd'
 const Layout=preload('res://scripts/strategy/formation.gd')
+const StaticArt=preload('res://scripts/strategy/static_art.gd')
+const ApprovedArt=preload('res://scripts/tactical/approved_unit_art.gd')
 var strategy: Dictionary=JSON.parse_string(FileAccess.get_file_as_string('res://data/balance/strategy.json'))
 var stock: Dictionary=strategy.starting_resources.duplicate()
 var town_level=1
@@ -45,6 +47,7 @@ func spawn_person(type: String,side: String,point: Vector2) -> Dictionary:
 	super.spawn(data.kind,side,point)
 	var u: Dictionary=units.back()
 	u.unit_type=type;u.art=data.art;u.archetype='';u.order='auto' if side=='enemy' else 'hold'
+	u.approved_art=StaticArt.unit_id(type,level if side=='ally' else 1)
 	var stats: Dictionary=config.types[data.kind].duplicate(true)
 	stats.merge({'hp':data.hp,'damage':data.damage,'range':data.range,'speed':data.speed,'interval':data.interval,'files':1},true)
 	stats.individual=config.types.legion.individual.duplicate(true)
@@ -156,6 +159,7 @@ func research(id: String,building_id: int=-1) -> bool:
 	report='研究中，20秒完成'
 	return true
 func apply_level(u: Dictionary):
+	u.approved_art=StaticArt.unit_id(u.unit_type,level)
 	var data: Dictionary=strategy.units[u.unit_type]
 	var factor=1.+.1*(level-1)
 	if u.unit_type=='villager':factor*=1.+.3*mini(town_level-1,3)
@@ -265,7 +269,15 @@ func deal_blow(a: Dictionary,b: Dictionary,damage: float,contact: Dictionary={},
 		var dealt=hurt(b,damage,'sword',0.,strike.get('target_slot',0),a.id,strike.get('attacker_slot',0))
 		var event={'kind':'hit','pos':b.pos,'from':a.pos,'attacker':a.id,'target':b.id,'damage':dealt}
 		events.append(event);return event
-	return super.deal_blow(a,b,damage,contact,strike)
+	var hit=super.deal_blow(a,b,damage,contact,strike)
+	if hit.has('origin') and a.get('unit_type','')=='archer' and strike.has('attacker_slot'):
+		var slot: int=strike.attacker_slot
+		var actor: Dictionary=a.soldiers[slot]
+		var bearing=ApprovedArt.bearing_for(ground_basis.basis_xform(actor.get('heading',a.heading)))
+		var clip=ApprovedArt.clip(a.approved_art,'attack',bearing)
+		var offset=clip.release_offset*ApprovedArt.scale_for(a.kind)+Contact.body_shift(a,slot,elapsed)
+		hit.sprite_origin=Soldiers.ground_position(self,a,slot)+ground_inverse.basis_xform(offset)
+	return hit
 func arrow_rain(ids: Array,point: Vector2) -> bool:
 	if phase!='battle' or not bounds.has_point(point):return false
 	var fired=false
@@ -343,6 +355,11 @@ func step(dt: float):
 	rain=rain.filter(func(s):return s.remaining>0)
 	advance_ai(dt)
 	world.step(self,dt)
+func mark_work(actor: Dictionary,point: Vector2):
+	if elapsed-actor.get('work_at',-1.)>.1:actor.work_start=elapsed
+	actor.work_point=point
+	actor.work_at=elapsed
+
 func advance_economy(dt: float):
 	for b in buildings:
 		if b.hp<=0:
@@ -378,6 +395,7 @@ func advance_economy(dt: float):
 			if u.pos.distance_to(resource.pos)>85.:continue
 			var amount=minf(resource.remaining,dt*gather_rate(resource.kind)*(1.5 if researches.has('economy') else 1.)*(1.25 if direction=='economy' else 1.))
 			resource.remaining-=amount
+			mark_work(a,resource.pos)
 			if resource.kind in ['tree','fruit']:stock.wood+=amount
 			if resource.kind in ['iron','large_iron']:stock.iron+=amount
 			elif resource.kind!='tree':stock.food+=amount
@@ -389,10 +407,13 @@ func advance_economy(dt: float):
 				# Only the worker finishing the shared progress creates the farm resource.
 				if b.remaining<=0:a.erase('job');continue
 				b.remaining=maxf(0,b.remaining-dt)
+				mark_work(a,b.pos)
 				if b.remaining<=0:
 					if b.kind=='farm':resources.append({'kind':'farm','pos':b.pos,'remaining':2500.,'building':b.id})
 					a.erase('job')
-			elif affordable({'wood':dt}):spend({'wood':dt});b.hp=minf(b.max_hp,b.hp+dt*20)
+			elif affordable({'wood':dt}):
+				if b.hp<b.max_hp:mark_work(a,b.pos)
+				spend({'wood':dt});b.hp=minf(b.max_hp,b.hp+dt*20)
 	if not research_queue.is_empty() and buildings[research_queue.building_id].hp>0:
 		research_queue.remaining-=dt*(1.3 if town_level>=4 else 1.)
 		if research_queue.remaining<=0:
@@ -486,7 +507,9 @@ func advance_siege(dt: float):
 			if u.pos.distance_to(target.pos)>90.:continue
 			if job.kind=='repair_siege':
 				if target.hp>=target.max_hp:a.erase('job');continue
-				if affordable({'wood':dt}):spend({'wood':dt});heal(target,dt*25.)
+				if affordable({'wood':dt}):
+					spend({'wood':dt});heal(target,dt*25.)
+					mark_work(a,target.pos)
 			elif units.filter(func(other):return other.soldiers[0].get('aboard',-1)==target.id).size()<21:
 				a.aboard=target.id;u.escaped=true;a.erase('job');a.personal_order='hold';a.path=[]
 		elif job.kind=='siege':

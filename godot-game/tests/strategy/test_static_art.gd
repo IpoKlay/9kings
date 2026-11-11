@@ -15,7 +15,10 @@ func run():
 	check(r.projection==Transform2D.IDENTITY,'Camera remains top-down without ground compression')
 	check(r.population()==9 and r.stock.food==10000.,'Art integration preserves the opening economy')
 	var soldier=r.alive('ally').filter(func(u):return u.unit_type=='shield')[0]
-	check(t.field.regiments[soldier.art].ally.get_size().x>64,'Field infantry still has its original multi-frame animation sheet')
+	var figure={'bearing':2}
+	var actor: Dictionary=soldier.soldiers[0]
+	var action: String=t.field.apply_approved_pose(figure,r,soldier,actor,false,0.,false,actor.attack_age,.8)
+	check(action=='idle' and figure.pixel_page!=null,'Field infantry uses its approved whole-sprite animation')
 	var barracks=r.buildings[1]
 	click(point(t,barracks.pos));await process_frame;await process_frame
 	check(image_id(action_texture(ui,'train:engineer'))=='U02','Engineer production uses its own art, not the villager or medic')
@@ -37,8 +40,8 @@ func run():
 	var art=Art.new();var rect=art.sprite_rect('B07',Vector2.ZERO,102.4)
 	check(is_equal_approx(rect.size.x/rect.size.y,192./160.),'Non-square range artwork keeps its aspect ratio')
 	check(art.icon('U03').get_size()==Art.REGIONS.U03.size,'Transparent spear margins are cropped for readable icons')
-	check(art.unit_id('ram')=='','Unprovided siege animations retain the existing fallback')
-	check(art.unit_id('elite_cavalry',5)=='U23','Elite cavalry uses its separate supplied design')
+	check(Art.unit_id('ram')=='','Unprovided siege animations retain the existing fallback')
+	check(Art.unit_id('elite_cavalry',5)=='U23','Elite cavalry uses its separate supplied design')
 	key(KEY_ESCAPE);t.toggle_overview();await snap('art-overview',t)
 	print('STATIC ART CHECKS=',checks,' FAILURES=',failures)
 	t.queue_free();main.queue_free();await process_frame;await create_timer(.2).timeout;quit(1 if failures else 0)
