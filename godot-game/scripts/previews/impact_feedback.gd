@@ -19,13 +19,29 @@ func prepare(regiments: Dictionary,units: Array):
 		var source=texture.get_image()
 		if source.is_compressed():source.decompress()
 		source.convert(Image.FORMAT_RGBA8)
-		var pixels=source.get_data()
-		# Preserve alpha exactly, including transparent pixels and the source edge.
-		for i in range(0,pixels.size(),4):
-			pixels[i]=255;pixels[i+1]=255;pixels[i+2]=255
-		var mask=Image.create_from_data(source.get_width(),source.get_height(),false,Image.FORMAT_RGBA8,pixels)
-		masks[key]=ImageTexture.create_from_image(mask)
-		texture_bytes+=pixels.size()
+		# Native image operations whiten RGB while leaving source alpha intact.
+		source.adjust_bcs(1.,0.,1.);source.adjust_bcs(2.1,1.,1.)
+		masks[key]=ImageTexture.create_from_image(source)
+		texture_bytes+=source.get_data_size()
+
+func observe(event: Dictionary,rules,regiments: Dictionary):
+	if not enabled or event.get('damage',0.)<=0. or not event.has('attacker_slot') or not event.has('target_slot'):return
+	var attacker={};var target={}
+	for u in rules.units:
+		if u.id==event.get('attacker',-1):attacker=u
+		if u.id==event.get('target',-1):target=u
+	if attacker.is_empty() or target.is_empty():return
+	var a: int=event.attacker_slot;var b: int=event.target_slot
+	if a<0 or b<0 or a>=attacker.soldiers.size() or b>=target.soldiers.size():return
+	var heavy: bool=event.get('personal_charge',false)
+	var victim: Dictionary=target.soldiers[b];var rider: Dictionary=attacker.soldiers[a]
+	var now: float=rules.elapsed
+	var previous: Dictionary=victim.get('preview_hit',{})
+	if now-previous.get('start',-100.)>=.2 or heavy and not previous.get('heavy',false):
+		var direction=rules.Soldiers.ground_position(rules,attacker,a).direction_to(rules.Soldiers.ground_position(rules,target,b))
+		victim.preview_hit={'start':now,'heavy':heavy,'direction':direction}
+	if heavy:rider.preview_strike={'start':now,'heavy':true}
+	prepare(regiments,[target,attacker] if heavy else [target])
 
 func apply(figure: Dictionary,actor: Dictionary,now: float):
 	if not enabled:return

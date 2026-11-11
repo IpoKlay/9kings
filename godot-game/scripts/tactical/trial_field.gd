@@ -21,6 +21,7 @@ var effects: Array = []
 var debug_first_contact=false
 var clean_capture=false
 var impact_feedback: RefCounted
+var strategy_feedback=false
 const Terrain=preload('res://scripts/tactical/pass_terrain.gd')
 var characters: Dictionary={}
 var animations: Dictionary={}
@@ -73,6 +74,10 @@ func set_unit_atlas_enabled(enabled: bool):
 	queue_redraw()
 
 func load_battlefield():
+	if trial.rules.has_method('strategy_paths'):
+		impact_feedback=preload('res://scripts/previews/impact_feedback.gd').new();strategy_feedback=true
+	elif strategy_feedback:
+		impact_feedback=null;strategy_feedback=false
 	environment=null
 	if has_node('RomanSiege'):
 		var old=get_node('RomanSiege');remove_child(old);old.queue_free()
@@ -110,6 +115,9 @@ func advance(dt: float):
 	effects=effects.filter(func(e):return e.age<e.duration)
 	queue_redraw()
 func effect(event: Dictionary):
+	if strategy_feedback:
+		impact_feedback.enabled=bool(trial.app.prefs.impact) if trial.app!=null else true
+		impact_feedback.observe(event,trial.rules,regiments)
 	var e=event.duplicate()
 	e.age=0.0
 	e.duration=.72 if e.kind=='flanking_charge' else .5
