@@ -12,7 +12,6 @@ func run():
 	for mode in ['flank','shield','pikes']:
 		var r=Rules.new(false)
 		r.config.individual_charge.speed=360.
-		r.config.individual_charge.follow_through=200.
 		r.config.individual_charge.slow_per_hit=.08
 		r.setup(mode)
 		check(r.rider_ids.size()==24 and r.defender_ids.size()==40,mode+': fixed 64 people')
@@ -51,11 +50,11 @@ func run():
 			check(touched or r.entered_defense.has(key),mode+': rider '+str(key)+' actually contacts or enters the original defensive footprint')
 			var reason=actor.get('charge_end',{}).get('reason','dead')
 			ended[reason]=ended.get(reason,0)+1
-			if reason=='through':through+=1
+			if reason=='goal':through+=1
 		if mode=='flank':
 			check(first.size()==3 and first[4]<first[5] and first[5]<first[6],'Front rank hits before both following ranks')
-			check(through>=2,'At least two actual contacting riders finish finite follow-through')
-		if mode=='pikes':check(ended.get('pike',0)>=8,'Braced pikes stop at least the first cavalry rank')
+			check(through>=2,'At least two riders reach the finite ordered goal')
+		check(not ended.has('pike') and not ended.has('resisted'),mode+': defender labels cannot force a charge to end')
 		summaries[mode]={'hits':r.contact_log.size(),'first_by_rank':first,'ends':ended}
 	var production=Production.new(false)
 	check(production.config.individual_charge.speed==240.,'Preview speed does not mutate production balance')

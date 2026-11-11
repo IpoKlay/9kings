@@ -11,7 +11,8 @@ func run():
 	var fps=int(args[0]) if not args.is_empty() else 60
 	var far='far' in args
 	var mode='far' if far else 'near'
-	var out='res://../output/reference-contact-2026-11-10/local-%s-%d/'%[mode,fps]
+	var label='after' if 'after' in args else 'current'
+	var out='res://../output/reference-contact-2026-11-10/%s/local-%s-%d/'%[label,mode,fps]
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out))
 	var app=load('res://scenes/main.tscn').instantiate()
 	app.settings_path='/tmp/eagle-reference-brace.cfg';root.add_child(app)
@@ -63,7 +64,7 @@ func run():
 		t.field.effects.clear()
 		for slot in horses.soldiers.size():
 			if horses.soldiers[slot].position.x>origin.x+10. and not slot in crossing:crossing.append(slot)
-		for s in wall.soldiers:peak_open=maxf(peak_open,s.position.distance_to(s.wall_slot))
+		for slot in wall.soldiers.size():peak_open=maxf(peak_open,wall.soldiers[slot].position.distance_to(plan[Vector2i(wall.id,slot)].goal))
 		trace.store_line(JSON.stringify({'frame':frame,'time':r.elapsed-run_start,'horses':horses.soldiers,'defenders':wall.soldiers}))
 		if not DisplayServer.get_name()=='headless' and frame in [fps-1,fps*3,fps*4,fps*5]:
 			RenderingServer.force_draw();root.get_texture().get_image().save_png(out+'frame-%04d.png'%frame)

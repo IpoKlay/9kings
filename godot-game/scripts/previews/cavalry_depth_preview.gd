@@ -3,7 +3,6 @@ extends Control
 const Rules=preload('res://scripts/previews/cavalry_depth_rules.gd')
 const Feedback=preload('res://scripts/previews/impact_feedback.gd')
 @export var charge_speed=360.0
-@export var follow_through=200.0
 @export var unbraced_hit_drag=0.08
 @export var exit_orders=true
 @export var view_zoom=1.0
@@ -40,7 +39,7 @@ func _ready():
 	if 'no-feedback' in args:feedback_enabled=false
 	if 'no-camera' in args:camera_shake=0.
 	if 'baseline' in args:
-		charge_speed=240.;follow_through=140.;unbraced_hit_drag=.12;exit_orders=false
+		charge_speed=240.;unbraced_hit_drag=.12;exit_orders=false
 	if 'close' in args:view_zoom=4./3.
 	if not output.is_empty():DirAccess.make_dir_recursive_absolute(output)
 	app=load('res://scenes/main.tscn').instantiate()
@@ -53,7 +52,6 @@ func _ready():
 	trial=load('res://scenes/tactical_trial.tscn').instantiate()
 	trial.rules=Rules.new(false)
 	trial.rules.config.individual_charge.speed=charge_speed
-	trial.rules.config.individual_charge.follow_through=follow_through
 	trial.rules.config.individual_charge.slow_per_hit=unbraced_hit_drag
 	trial.rules.exit_orders=exit_orders
 	trial.rules.setup(mode);trial.app=app
@@ -159,6 +157,6 @@ func save_report():
 		'still_readbacks':capture_stills,'vsync':DisplayServer.window_get_vsync_mode(),
 		'static_memory_bytes':Performance.get_monitor(Performance.MEMORY_STATIC),
 		'texture_memory_bytes':Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),
-		'charge_speed':charge_speed,'follow_through':follow_through,'unbraced_hit_drag':unbraced_hit_drag,
+		'charge_speed':charge_speed,'unbraced_hit_drag':unbraced_hit_drag,
 		'output_size':get_viewport().get_texture().get_image().get_size()}
 	FileAccess.open(output+'/report.json',FileAccess.WRITE).store_string(JSON.stringify(report,'\t'))

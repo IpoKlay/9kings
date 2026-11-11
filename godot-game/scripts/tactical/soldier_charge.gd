@@ -72,9 +72,6 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 	if run.age>=run.duration:finish(r,u,actor,'duration');return
 	if u.rooted>0:finish(r,u,actor,'rooted');return
 	var here: Vector2=actor.position
-	if run.has('brace_origin') and here.distance_to(run.brace_origin)>=cfg.shield_yield:
-		actor.velocity=Vector2.ZERO;actor.contact_recovery=r.elapsed+.2
-		finish(r,u,actor,'resisted');return
 	var reach: float=r.Soldiers.individual(r,u).range
 	var dragon: bool=r.Soldiers.individual(r,u).get('dragon',false)
 	var dragon_hit=false
@@ -84,7 +81,6 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 		if other.unit.side==u.side or other.unit.soldiers[other.slot].hp<=0:continue
 		var id=Vector2i(other.unit.id,other.slot)
 		if id in run.hits or here.distance_squared_to(other.point)>reach*reach:continue
-		if u.kind=='cavalry' and (other.point-here).dot(incoming)<-1.:continue
 		var victim: Dictionary=other.unit.soldiers[other.slot]
 		var braced=brace(r,other.unit,victim,incoming) if u.kind=='cavalry' else ''
 		var fraction=clampf(run.velocity.length()/run.speed,.1,1.)
@@ -100,36 +96,21 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 			# Stable scatter for reproducible recordings. Original uses a random 0.1–0.45 radian angle.
 			var scatter=lerpf(.1,cfg.scatter_angle,float(posmod(u.id*73+row.slot*31+id.x*17+id.y,101))/100.)
 			var impulse: Vector2=direction.rotated(side*scatter)*cfg.knockback*fraction*(cfg.cavalry_knockback if u.kind=='cavalry' else 1.)
-			if u.kind=='cavalry':
-				if braced=='pike':impulse=incoming*24.*fraction
-				elif braced=='shield':impulse=incoming*90.*fraction
-				else:
-					if side==0.:side=1. if (id.x+id.y)%2 else -1.
-					impulse=(incoming*.35+Vector2(-incoming.y,incoming.x)*side*.94)*320.*fraction
 			knock(r,other.unit,other.slot,impulse)
-			if braced!='':victim.impact_pose.reaction='brace';victim.erase('gap_until')
+			if braced!='':victim.impact_pose.reaction='brace'
 		if u.kind=='cavalry':
 			actor.rider_contact={'start':r.elapsed,'dir':r.ground_basis.basis_xform(incoming),'braced':braced!=''}
-			if not run.has('contact_origin'):run.contact_origin=here
-			var resistance: float=cfg.pike_resistance if braced=='pike' else cfg.shield_resistance if braced=='shield' else cfg.slow_per_hit
-			run.penalty+=resistance
-			run.velocity*=.15 if braced=='pike' else .35 if braced=='shield' else .88
-			if run.penalty>=cfg.resistance_limit:
-				if braced=='shield' and not run.has('brace_origin'):
-					run.brace_origin=here;run.penalty=cfg.slow_cap
-				else:
-					actor.velocity=Vector2.ZERO;actor.contact_recovery=r.elapsed+(.3 if braced=='pike' else .2)
-					finish(r,u,actor,'pike' if braced=='pike' else 'resisted');return
+			# Public 20260409 rules accumulate bounded slowdown, not a shield/pike stop.
+			run.penalty=minf(cfg.slow_cap,run.penalty+cfg.slow_per_hit)
 		if u.kind!='cavalry':
 			if not dragon:finish(r,u,actor,'hit');return
 			dragon_hit=true
 
 	# The legacy dragon loop finishes all nearby hits before leaving its charging step.
 	if dragon_hit:finish(r,u,actor,'hit')
-	if run.has('contact_origin') and here.distance_to(run.contact_origin)>=cfg.follow_through:
-		finish(r,u,actor,'through');return
 	var to_goal: Vector2=run.goal-here
 	if to_goal.length()<25.:finish(r,u,actor,'goal');return
+	if run.age>.15 and run.velocity.length()<10.:finish(r,u,actor,'stalled');return
 	var desired=to_goal.normalized()*run.speed*(1.-run.penalty)
 	run.velocity=Vector2(move_toward(run.velocity.x,desired.x,cfg.acceleration*dt),move_toward(run.velocity.y,desired.y,cfg.acceleration*dt))
 	actor.heading=run.velocity.normalized();actor.velocity=run.velocity

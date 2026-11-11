@@ -1,7 +1,30 @@
 {
-  "base": "9140099a326e8039cddfd466601bb5523747514a",
   "fixture": "10 legion in settled F single rank, 8 cavalry using screenshot-estimated initial feet",
-  "runs": [
+  "identical_charge_ends_across_fps": true,
+  "reference_result": "Original legacy recording shows at least some riders crossing. Exact count and original state not extracted.",
+  "completion": false,
+  "over_range_negative_control": {
+    "contacts": 2,
+    "crossed": 0,
+    "failed_checks": 0,
+    "end_reasons": [
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "resisted"
+    ]
+  },
+  "rendered_60fps_fixture": {
+    "contacts": 14,
+    "crossed": 0,
+    "failed_checks": 1,
+    "note": "Windowed deterministic reconstruction with screenshots, not normal-speed original-matched footage or performance evidence"
+  },
+  "before_runs": [
     {
       "fps": 30,
       "contacts": 14,
@@ -150,28 +173,156 @@
       ]
     }
   ],
-  "identical_charge_ends_across_fps": true,
-  "reference_result": "Original legacy recording shows at least some riders crossing. Exact count and original state not extracted.",
-  "completion": false,
-  "over_range_negative_control": {
-    "contacts": 2,
-    "crossed": 0,
-    "failed_checks": 0,
-    "end_reasons": [
-      "duration",
-      "duration",
-      "duration",
-      "duration",
-      "duration",
-      "duration",
-      "duration",
-      "resisted"
-    ]
-  },
-  "rendered_60fps_fixture": {
-    "contacts": 14,
-    "crossed": 0,
-    "failed_checks": 1,
-    "note": "Windowed deterministic reconstruction with screenshots, not normal-speed original-matched footage or performance evidence"
-  }
+  "before_base": "9140099a326e8039cddfd466601bb5523747514a",
+  "after_runs": [
+    {
+      "fps": 30,
+      "contacts": 14,
+      "crossed": 8,
+      "failed_checks": 0,
+      "first_contact_sample": 1.93333333333333,
+      "ends": [
+        {
+          "position": "(1062.491, 940.3515)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1080.172, 911.1204)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1090.197, 937.5865)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1104.697, 892.1971)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1111.779, 863.0413)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1101.641, 834.8127)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1216.415, 905.3789)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1165.773, 887.8646)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        }
+      ]
+    },
+    {
+      "fps": 60,
+      "contacts": 14,
+      "crossed": 8,
+      "failed_checks": 0,
+      "first_contact_sample": 1.91666666666666,
+      "ends": [
+        {
+          "position": "(1062.491, 940.3515)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1080.172, 911.1204)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1090.197, 937.5865)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1104.697, 892.1971)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1111.779, 863.0413)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1101.641, 834.8127)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1216.415, 905.3789)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1165.773, 887.8646)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        }
+      ]
+    },
+    {
+      "fps": 120,
+      "contacts": 14,
+      "crossed": 8,
+      "failed_checks": 0,
+      "first_contact_sample": 1.91666666666666,
+      "ends": [
+        {
+          "position": "(1062.491, 940.3515)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1080.172, 911.1204)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1090.197, 937.5865)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1104.697, 892.1971)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1111.779, 863.0413)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1101.641, 834.8127)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1216.415, 905.3789)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1165.773, 887.8646)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        }
+      ]
+    }
+  ],
+  "after_identical_ends": true,
+  "source_archive_sha256": "8744d5338420d3f308484a7a63ca24ba6b96f39fe2fd530ca1eec1351678d422"
 }
