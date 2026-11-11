@@ -2,8 +2,8 @@ extends RefCounted
 ## Whole-sprite frames for the strategy battle. Gameplay continues to own time and positions.
 const ROOT = 'res://assets/strategy/unit-animations/'
 const MANIFEST = 'res://data/generated/approved_unit_animations.json'
-const INFANTRY_SCALE = 1.25
-const MOUNTED_SCALE = 1.5
+# The 1280×720 default window displays the 1920×1080 battle at 2/3 scale.
+const DISPLAY_SCALE = 1.5
 static var roster: Dictionary
 static var clips: Dictionary
 var pages: Dictionary
@@ -54,9 +54,6 @@ static func clip(id: String, action: String, bearing: int) -> Clip:
 			directions.append(Clip.new(data))
 		clips[key] = directions
 	return clips[key][bearing]
-
-static func scale_for(kind: String) -> float:
-	return MOUNTED_SCALE if kind == 'cavalry' else INFANTRY_SCALE
 
 static func bearing_for(heading: Vector2) -> int:
 	return posmod(roundi(atan2(heading.x, heading.y) / (PI / 4.)), 8)

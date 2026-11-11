@@ -97,7 +97,8 @@ func run():
 	for i in 36:r.step(1./60.)
 	var walking=pose(t,spear,spear.slot_speeds[0]>.2,spear.slot_distances[0])
 	check(walking.pixel_action=='walk' and walking.pixel_frame>0,'Walk advances by actual distance')
-	check(walking.scale==pose(t,shield).scale,'Infantry share one display pixel scale')
+	check(walking.scale==pose(t,shield).scale and walking.scale==pose(t,horse).scale,
+		'All approved sprites preserve the source infantry-to-cavalry pixel ratio')
 
 	var target: Dictionary=r.spawn_person('shield','enemy',Vector2(1700,2300))
 	check(target.approved_art=='U08' and guard.approved_art=='U23','Enemy base tier and elite rider choose the right atlas')
@@ -112,7 +113,7 @@ func run():
 		var shot: Dictionary=r.volleys[0]
 		var release_pose=pose(t,archer,false,0.,true)
 		var clip=release_pose.pixel_clip
-		var expected_origin: Vector2=archer.pos+clip.release_offset*Art.INFANTRY_SCALE
+		var expected_origin: Vector2=archer.pos+clip.release_offset*Art.DISPLAY_SCALE
 		check(release_pose.pixel_frame==clip.frame_at(clip.release_ms)
 			and shot.sprite_origin.is_equal_approx(expected_origin)
 			and shot.origin.is_equal_approx(r.Projectiles.origin(r,archer,0)),
