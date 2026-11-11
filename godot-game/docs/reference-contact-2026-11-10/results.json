@@ -1,0 +1,177 @@
+{
+  "base": "9140099a326e8039cddfd466601bb5523747514a",
+  "fixture": "10 legion in settled F single rank, 8 cavalry using screenshot-estimated initial feet",
+  "runs": [
+    {
+      "fps": 30,
+      "contacts": 14,
+      "crossed": 0,
+      "first_contact_sample": 1.93333333333333,
+      "failed_checks": 1,
+      "ends": [
+        {
+          "position": "(1023.155, 939.5673)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1017.012, 912.3207)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1016.166, 937.0403)",
+          "reason": "resisted",
+          "time": 5.81666666666665
+        },
+        {
+          "position": "(1027.413, 891.0889)",
+          "reason": "resisted",
+          "time": 5.96666666666665
+        },
+        {
+          "position": "(1019.367, 859.96)",
+          "reason": "resisted",
+          "time": 5.83333333333332
+        },
+        {
+          "position": "(1015.965, 841.0685)",
+          "reason": "resisted",
+          "time": 5.59999999999999
+        },
+        {
+          "position": "(1019.307, 902.733)",
+          "reason": "resisted",
+          "time": 5.28333333333332
+        },
+        {
+          "position": "(1015.613, 897.2369)",
+          "reason": "resisted",
+          "time": 4.91666666666665
+        }
+      ]
+    },
+    {
+      "fps": 60,
+      "contacts": 14,
+      "crossed": 0,
+      "first_contact_sample": 1.91666666666666,
+      "failed_checks": 1,
+      "ends": [
+        {
+          "position": "(1023.155, 939.5673)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1017.012, 912.3207)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1016.166, 937.0403)",
+          "reason": "resisted",
+          "time": 5.81666666666665
+        },
+        {
+          "position": "(1027.413, 891.0889)",
+          "reason": "resisted",
+          "time": 5.96666666666665
+        },
+        {
+          "position": "(1019.367, 859.96)",
+          "reason": "resisted",
+          "time": 5.83333333333332
+        },
+        {
+          "position": "(1015.965, 841.0685)",
+          "reason": "resisted",
+          "time": 5.59999999999999
+        },
+        {
+          "position": "(1019.307, 902.733)",
+          "reason": "resisted",
+          "time": 5.28333333333332
+        },
+        {
+          "position": "(1015.613, 897.2369)",
+          "reason": "resisted",
+          "time": 4.91666666666665
+        }
+      ]
+    },
+    {
+      "fps": 120,
+      "contacts": 14,
+      "crossed": 0,
+      "first_contact_sample": 1.91666666666666,
+      "failed_checks": 1,
+      "ends": [
+        {
+          "position": "(1023.155, 939.5673)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1017.012, 912.3207)",
+          "reason": "duration",
+          "time": 6.18333333333332
+        },
+        {
+          "position": "(1016.166, 937.0403)",
+          "reason": "resisted",
+          "time": 5.81666666666665
+        },
+        {
+          "position": "(1027.413, 891.0889)",
+          "reason": "resisted",
+          "time": 5.96666666666665
+        },
+        {
+          "position": "(1019.367, 859.96)",
+          "reason": "resisted",
+          "time": 5.83333333333332
+        },
+        {
+          "position": "(1015.965, 841.0685)",
+          "reason": "resisted",
+          "time": 5.59999999999999
+        },
+        {
+          "position": "(1019.307, 902.733)",
+          "reason": "resisted",
+          "time": 5.28333333333332
+        },
+        {
+          "position": "(1015.613, 897.2369)",
+          "reason": "resisted",
+          "time": 4.91666666666665
+        }
+      ]
+    }
+  ],
+  "identical_charge_ends_across_fps": true,
+  "reference_result": "Original legacy recording shows at least some riders crossing. Exact count and original state not extracted.",
+  "completion": false,
+  "over_range_negative_control": {
+    "contacts": 2,
+    "crossed": 0,
+    "failed_checks": 0,
+    "end_reasons": [
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "duration",
+      "resisted"
+    ]
+  },
+  "rendered_60fps_fixture": {
+    "contacts": 14,
+    "crossed": 0,
+    "failed_checks": 1,
+    "note": "Windowed deterministic reconstruction with screenshots, not normal-speed original-matched footage or performance evidence"
+  }
+}
