@@ -275,7 +275,7 @@ func deal_blow(a: Dictionary,b: Dictionary,damage: float,contact: Dictionary={},
 		var actor: Dictionary=a.soldiers[slot]
 		var bearing=ApprovedArt.bearing_for(ground_basis.basis_xform(actor.get('heading',a.heading)))
 		var clip=ApprovedArt.clip(a.approved_art,'attack',bearing)
-		var offset=clip.release_offset*ApprovedArt.scale_for(a.kind)+Contact.body_shift(a,slot,elapsed)
+		var offset=clip.release_offset*ApprovedArt.DISPLAY_SCALE+Contact.body_shift(a,slot,elapsed)
 		hit.sprite_origin=Soldiers.ground_position(self,a,slot)+ground_inverse.basis_xform(offset)
 	return hit
 func arrow_rain(ids: Array,point: Vector2) -> bool:

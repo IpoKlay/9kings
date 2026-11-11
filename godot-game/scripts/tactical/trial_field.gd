@@ -600,7 +600,7 @@ func draw_casualties(rules):
 func draw_approved_casualty(fallen: Dictionary,fade: float,lift: float):
 	var clip=ApprovedArt.clip(fallen.approved_art,'death',fallen.bearing)
 	var frame: int=clip.frame_at(fallen.motion.age*1000.)
-	var scale=ApprovedArt.scale_for(fallen.kind)
+	var scale=ApprovedArt.DISPLAY_SCALE
 	var foot: Vector2=fallen.foot
 	var motion=fallen.motion
 	if fallen.has('charge_lift') and motion.x.size()>0:
@@ -651,7 +651,7 @@ func apply_approved_pose(figure: Dictionary,rules,u: Dictionary,actor: Dictionar
 	figure.pixel_frame=frame
 	figure.pixel_page=approved_art.page(id,action,u.side)
 	figure.bearing=bearing
-	figure.scale=ApprovedArt.scale_for(u.kind)
+	figure.scale=ApprovedArt.DISPLAY_SCALE
 	figure.side=u.side
 	figure.pose={}
 	return action
