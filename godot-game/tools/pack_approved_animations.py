@@ -7,13 +7,55 @@ import json
 from pathlib import Path
 from zipfile import ZipFile
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 
 MAX_PAGE = 1024
 BOW_TIPS = [[3, -28], [12, -28], [12, -33], [6, -35], [-3, -34], [-12, -34], [-11, -32], [-8, -33]]
 PROJECT = Path(__file__).resolve().parents[1]
 BASE_ROSTER = ('U01', 'U02', 'U03', 'U08', 'U13', 'U18', 'U23')
+
+# First and last gallop frame, then a planted pose. Entries follow battle bearing order.
+CAVALRY_CYCLES = {
+    'U18': [(1, 7, 0), (0, 5, 6), (1, 6, 5), (0, 5, 0), (1, 4, 0), (0, 4, 5), (0, 6, 5), (0, 7, 0)],
+    'U19': [(2, 9, 10), (0, 6, 5), (0, 5, 4), (0, 6, 5), (0, 3, 4), (2, 9, 10), (2, 9, 10), (0, 5, 5)],
+    'U20': [(0, 5, 5), (2, 9, 10), (2, 9, 0), (2, 9, 10), (2, 9, 10), (2, 9, 10), (2, 8, 9), (2, 9, 10)],
+    'U21': [(0, 5, 5), (2, 9, 10), (2, 9, 10), (2, 9, 10), (2, 9, 10), (2, 8, 9), (2, 9, 10), (2, 9, 10)],
+    'U22': [(0, 5, 0), (0, 5, 5), (2, 10, 0), (1, 5, 5), (0, 4, 0), (2, 9, 10), (2, 10, 0), (2, 9, 10)],
+    'U23': [(0, 5, 0), (2, 9, 10), (2, 10, 0), (2, 10, 0), (0, 5, 0), (2, 9, 10), (0, 5, 5), (0, 5, 5)],
+}
+
+
+def charge_motion(unit, clips, images):
+    result = []
+    for (frames, _), (first, last, plant) in zip(clips, CAVALRY_CYCLES[unit], strict=True):
+        assert 0 <= first < last < len(frames) and 0 <= plant < len(frames)
+        poses = []
+        for index, ax, ay in frames:
+            frame = images[index]
+            registered = Image.new('RGB', (128, 128), (36, 48, 42))
+            registered.paste(frame, (64 - ax, 92 - ay), frame)
+            poses.append(registered)
+
+        # Register the saddle/upper barrel; legs, hooves, tail and weapon remain free to move.
+        left, top, right, bottom = (54, 54, 74, 74)
+        reference = poses[0].crop((left, top, right, bottom))
+        offsets = []
+        for pose in poses:
+            def difference(dx, dy):
+                crop = pose.crop((left + dx, top + dy, right + dx, bottom + dy))
+                histogram = ImageChops.difference(reference, crop).histogram()
+                return sum((index % 256) * count for index, count in enumerate(histogram))
+
+            base = difference(0, 0)
+            score, dx, dy = min((difference(x, y) + 450 * (abs(x) + abs(y)), x, y)
+                                for x in range(-4, 5) for y in range(-4, 5))
+            if score > .93 * base:
+                dx, dy = 0, 0
+            # Keep up to two pixels of natural bob and never move a frame more than two.
+            offsets.append([max(0, abs(value) - 2) * (1 if value > 0 else -1) for value in (dx, dy)])
+        result.append({'cycle': [first, last], 'plant': plant, 'anchor_offsets': offsets})
+    return result
 
 
 def enemy_palette(image):
@@ -33,7 +75,7 @@ def enemy_palette(image):
     return result
 
 
-def pack_page(archive, unit, action, clips, directions, path):
+def pack_page(archive, unit, action, clips, directions, path, cavalry_motion):
     sheet = Image.open(BytesIO(archive.read(f'assets/{unit}/{action}.png'))).convert('RGBA')
     images, unique, packed_clips = [], {}, []
     for bearing, direction in enumerate(directions):
@@ -55,6 +97,9 @@ def pack_page(archive, unit, action, clips, directions, path):
         if action == 'attack' and 13 <= int(unit[1:]) <= 17:
             timing['release_offset'] = clip.get('release_offset', BOW_TIPS[bearing])
         packed_clips.append((frames, timing))
+
+    if action == 'charge':
+        cavalry_motion[unit] = charge_motion(unit, packed_clips, images)
 
     boxes = {}
     x = y = row = used_width = 0
@@ -88,7 +133,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('verified_zip', type=Path)
     args = parser.parse_args()
-    units, bytes_by_unit = {}, {}
+    units, bytes_by_unit, cavalry_motion = {}, {}, {}
     with ZipFile(args.verified_zip) as archive:
         verification = json.loads(archive.read('verification.json'))
         coverage = verification['coverage']
@@ -101,11 +146,13 @@ def main():
             units[unit], bytes_by_unit[unit] = {}, 0
             for action, clips in actions.items():
                 path = PROJECT / 'assets/strategy/unit-animations' / unit / (action + '.png')
-                units[unit][action], size = pack_page(archive, unit, action, clips, roster['directions'], path)
+                units[unit][action], size = pack_page(archive, unit, action, clips, roster['directions'], path, cavalry_motion)
                 bytes_by_unit[unit] += size
     assert len(units) == 23 and sum(len(actions) for actions in units.values()) * 8 == 968
     manifest = PROJECT / 'data/generated/approved_unit_animations.json'
     manifest.write_text(json.dumps(units, separators=(',', ':')) + '\n')
+    motion_path = manifest.with_name('approved_cavalry_motion.json')
+    motion_path.write_text(json.dumps(cavalry_motion, separators=(',', ':')) + '\n')
     print('All atlas pages (RGBA8): %.2f MiB' % (sum(bytes_by_unit.values()) / 1048576))
     base_size = sum(bytes_by_unit[u] for u in BASE_ROSTER)
     max_allies = base_size

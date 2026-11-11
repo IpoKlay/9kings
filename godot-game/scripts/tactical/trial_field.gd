@@ -623,11 +623,20 @@ func apply_approved_pose(figure: Dictionary,rules,u: Dictionary,actor: Dictionar
 		if not heading.is_zero_approx():bearing=ApprovedArt.bearing_for(heading)
 	var mounted: bool=u.kind=='cavalry'
 	var charging: bool=mounted and (actor.has('charge_run') or u.gait=='sprint')
+	var planting: bool=false
+	if mounted:
+		var contact: Dictionary=actor.get('rider_contact',{})
+		planting=contact.get('braced',false) and now-contact.start<.14
+		var finish: Dictionary=actor.get('charge_end',{})
+		if finish.has('heading') and now-finish.time<.16:
+			bearing=ApprovedArt.bearing_for(ground_transform().basis_xform(finish.heading))
+			var velocity: Vector2=actor.get('velocity',Vector2.ZERO)
+			planting=planting or velocity.length_squared()<45.*45.
 	var hurt_clip=ApprovedArt.clip(id,'hurt',bearing) if u.hit_age<.8 else null
 	var hurt: bool=hurt_clip!=null and u.hit_age*1000.<hurt_clip.duration_ms
 	var action='idle'
 	if hurt:action='hurt'
-	elif charging:action='charge'
+	elif charging or planting:action='charge'
 	elif attacking or work:action='attack'
 	elif walking:action='walk'
 	var clip=ApprovedArt.clip(id,action,bearing)
@@ -635,8 +644,10 @@ func apply_approved_pose(figure: Dictionary,rules,u: Dictionary,actor: Dictionar
 	match action:
 		'hurt':frame=clip.frame_at(u.hit_age*1000.)
 		'charge':
-			var age: float=actor.get('charge_run',{}).get('age',now)
-			frame=clip.frame_at(fposmod(age*1000.,clip.duration_ms))
+			var run: Dictionary=actor.get('charge_run',{})
+			var stride: float=rules.config.types.cavalry.stride*1.2
+			var travelled: float=distance-run.get('stride_origin',0.)
+			frame=clip.planted_frame if planting else clip.gallop_frame(travelled,stride,run.has('stride_origin'))
 		'attack':
 			if work and not attacking:
 				frame=clip.frame_at(fposmod((now-actor.work_start)*1000.,clip.duration_ms))

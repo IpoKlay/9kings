@@ -81,6 +81,10 @@ static func apply_figure(figure: Dictionary,actor: Dictionary,now: float):
 	var age=now-float(contact.start)
 	if age<0. or age>.28:return
 	var pulse=sin(PI*clampf(age/.28,0.,1.))
+	if figure.has('pixel_clip'):
+		# Preserve the hoof anchor of the whole sprite. A planted horse yields briefly along the hit axis.
+		if contact.braced:figure.body_offset=(-Vector2(contact.dir)*2.*pulse).round()
+		return
 	figure.pose={'angle':.12*signf(contact.dir.x)*pulse,'drop':roundf(5.*pulse),'frame':figure.cell,'flash':false}
 	figure.upper_cell=11
 	figure.rider_offset=Vector2(roundf(contact.dir.x*5.*pulse),roundf(2.*pulse))
