@@ -1,4 +1,8 @@
 extends Node2D
+const StaticArt=preload('res://scripts/strategy/static_art.gd')
+const Fortifications=preload('res://scripts/strategy/fortification_art.gd')
+var static_art=StaticArt.new()
+var fortifications=Fortifications.new()
 var trial
 var landscape_rect=Rect2(-300,-300,3800,3800)
 var textures={}
@@ -15,13 +19,16 @@ func _draw():
 	for x in 4:
 		for y in 4:draw_texture_rect_region(tex('environments/iberia-rts'),Rect2(x*800,y*800,800,800),Rect2(420,400,800,800))
 	for hill in r.hills:
-		draw_rect(hill,Color('#9e9c5966'))
-		for i in 4:draw_rect(hill.grow(-i*24),Color('#b9b37888'),false,3)
+		draw_texture_rect(static_art.texture('M01'),hill,false)
 		label(hill.position+Vector2(25,35),'丘陵')
-	draw_rect(r.river,Color('#496e83'))
-	for y in range(310,2600,32):draw_line(Vector2(2710,y),Vector2(2778,y),Color('#8cafa8'),3)
+	for y in range(int(r.river.position.y),int(r.river.end.y),100):
+		var height=minf(100.,r.river.end.y-y)
+		draw_texture_rect_region(static_art.texture('M02'),Rect2(r.river.position.x,y,r.river.size.x,height),Rect2(0,0,32,32*height/100.))
 	for cliff in r.cliffs:
-		draw_rect(cliff,Color('#575449'));draw_rect(cliff.grow(-12),Color('#8d8873'))
+		for x in range(int(cliff.position.x),int(cliff.end.x),64):
+			for y in range(int(cliff.position.y),int(cliff.end.y),64):
+				var dimensions=Vector2(minf(64.,cliff.end.x-x),minf(64.,cliff.end.y-y))
+				draw_texture_rect_region(static_art.texture('M03'),Rect2(Vector2(x,y),dimensions),Rect2(Vector2.ZERO,dimensions))
 		label(cliff.position+Vector2(10,30),'悬崖 · 不可通行')
 	var names={'tree':'树林','fruit':'果树 · 食物+木材','berries':'浆果','deer':'鹿','sheep':'羊','boar':'野猪','cattle':'牛','fish':'鱼','iron':'铁矿脉','farm':'农田','large_iron':'大型铁矿脉','wolf':'狼（可采集）'}
 	for resource in r.resources:
@@ -31,35 +38,35 @@ func _draw():
 			draw_texture_rect(tex('environments/oak'),Rect2(p-Vector2(48,90),Vector2(96,105)),false)
 			if resource.kind=='fruit':
 				for offset in [Vector2(-12,-45),Vector2(14,-60),Vector2(26,-32)]:draw_rect(Rect2(p+offset,Vector2(6,6)),Color('#b84c37'))
-		elif resource.kind in ['iron','large_iron']:
-			draw_colored_polygon(PackedVector2Array([p+Vector2(-25,0),p+Vector2(-14,-30),p+Vector2(18,-37),p+Vector2(30,0)]),Color('#858d91'))
-		elif resource.kind=='farm':
-			draw_rect(Rect2(p-Vector2(30,25),Vector2(60,50)),Color('#756044'))
-			for i in 5:draw_line(p+Vector2(-24+i*12,-20),p+Vector2(-24+i*12,20),Color('#b6af69'),4)
+		elif StaticArt.RESOURCES.has(resource.kind):
+			var id: String=StaticArt.RESOURCES[resource.kind]
+			var width: float={'iron':64.,'large_iron':96.,'farm':72.,'cattle':44.,'deer':40.,'boar':40.,'sheep':32.,'fish':28.}.get(resource.kind,32.)
+			draw_texture_rect(static_art.texture(id),static_art.sprite_rect(id,p,width),false)
 		else:
-			# Pixel resource tokens identify harvestable fauna until dedicated sprites are authored.
+			# Unsupplied bushes and fauna retain their existing fallback.
 			var tint=Color('#ddc69b') if resource.kind!='fish' else Color('#bbd5d3')
 			draw_rect(Rect2(p-Vector2(13,13),Vector2(26,17)),tint)
 			draw_rect(Rect2(p+Vector2(8,-20),Vector2(12,12)),tint)
 			if resource.kind!='fish':
 				for dx in [-9,7]:draw_rect(Rect2(p+Vector2(dx,4),Vector2(4,12)),tint)
 		label(p+Vector2(-65,35),names[resource.kind]+('' if resource.kind in ['tree','farm'] else ' '+str(int(resource.remaining))))
-	var art={'town':'medic_3','barracks':'legion_1','range':'archer_1','stable':'cavalry_1','factory':'siege_2','academy':'training_2','house':'medic_1','outpost':'guard_1','fortress':'guard_3','wall':'guard_2','gate':'guard_2','wall_tower':'guard_3'}
-	for b in r.world.displayed_buildings(r):
+	for b in fortifications.structures_with_joints(r):
+		if b.kind=='corner':fortifications.draw(self,b);continue
 		if b.hp<=0 or b.kind=='farm' and b.remaining<=0:continue
 		var p: Vector2=b.pos
 		if b.kind in ['wall','gate']:
-			draw_wall(b)
+			fortifications.draw(self,b)
+			if b.kind=='gate':label(p+Vector2(-30,38),'城门·开' if b.open else '城门·关')
 			if b.remaining>0:construction_meter(b,p+Vector2(-30,24))
 			continue
 		if b.kind=='farm':
-			draw_rect(Rect2(p-Vector2(30,25),Vector2(60,50)),Color('#75604480'))
-			for i in 5:draw_line(p+Vector2(-24+i*12,-20),p+Vector2(-24+i*12,20),Color('#b6af6980'),4)
+			draw_texture_rect(static_art.texture('B23'),static_art.sprite_rect('B23',p,72.),false,Color(1,1,1,.5))
 			construction_meter(b,p+Vector2(-30,34));continue
 		if b.kind=='barracks':draw_arc(p,360,0,TAU,64,Color('#c6be6666'),2)
 		var size: float=r.strategy.buildings[b.kind].size
-		draw_texture_rect(tex('building_'+art[b.kind]),Rect2(p-Vector2(size*.65,size),Vector2(size*1.3,size*1.3)),false,Color(1,1,1,.5 if b.remaining>0 or b.open else 1.))
-		label(p+Vector2(-75,40),('敌方 ' if b.side=='enemy' else '')+r.strategy.buildings[b.kind].name+(' · 建造中' if b.remaining>0 else ' 已打开' if b.open else ''))
+		var id=static_art.building_id(b.kind,r.town_level if b.side=='ally' else 1)
+		draw_texture_rect(static_art.texture(id),static_art.sprite_rect(id,p,size*1.6),false,Color(1,1,1,.5 if b.remaining>0 else 1.))
+		label(p+Vector2(-75,40),('敌方 ' if b.side=='enemy' else '')+r.strategy.buildings[b.kind].name+(' · 建造中' if b.remaining>0 else ''))
 		draw_rect(Rect2(p-Vector2(30,size+10),Vector2(60,5)),Color('#493c35'))
 		draw_rect(Rect2(p-Vector2(30,size+10),Vector2(60*b.hp/b.max_hp,5)),Color('#91b07a'))
 		if b.remaining>0:construction_meter(b,p-Vector2(30,size+22))
@@ -80,21 +87,6 @@ func _draw():
 		for i in 6:
 			var p: Vector2=shot.point+Vector2((i%3-1)*20,(i/3)*20)-Vector2(0,shot.remaining*70)
 			draw_line(p-Vector2(3,16),p,Color('#fff0c5'),2)
-
-func draw_wall(b: Dictionary):
-	var p: Vector2=b.pos
-	var dimensions=Vector2(b.get('wall_length',64.),34.)
-	if b.kind=='gate' and b.open:
-		label(p+Vector2(-30,-20),'城门·开');return
-	var opacity=.5 if b.remaining>0 else 1.
-	draw_set_transform(p,b.get('wall_angle',0.))
-	var rect=Rect2(-dimensions*.5,dimensions)
-	draw_rect(rect,Color(Color('#6b6b62'),opacity));draw_rect(Rect2(rect.position-Vector2(0,9),dimensions),Color(Color('#aaa78c'),opacity))
-	for i in int(ceil(dimensions.x/16.)):
-		var at=rect.position+Vector2(i*16,0)
-		draw_rect(Rect2(at-Vector2(0,12),Vector2(10,10)),Color(Color('#d0c6a1'),opacity))
-	draw_set_transform(Vector2.ZERO)
-	if b.kind=='gate':label(p+Vector2(-30,-22),'城门·关')
 
 func construction_meter(b: Dictionary,at: Vector2):
 	var progress=clampf(1.-b.remaining/trial.rules.strategy.buildings[b.kind].seconds,0.,1.)
