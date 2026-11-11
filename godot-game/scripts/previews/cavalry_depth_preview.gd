@@ -2,6 +2,7 @@ extends Control
 ## Runs the real trial loop, with a separate authored deployment and existing grass.
 const Rules=preload('res://scripts/previews/cavalry_depth_rules.gd')
 const Feedback=preload('res://scripts/previews/impact_feedback.gd')
+const ChargeVisuals=preload('res://scripts/tactical/charge_visuals.gd')
 @export var charge_speed=360.0
 @export var follow_through=200.0
 @export var unbraced_hit_drag=0.08
@@ -10,7 +11,7 @@ const Feedback=preload('res://scripts/previews/impact_feedback.gd')
 @export var feedback_enabled=true
 @export_range(0.,1.,.1) var flash_strength=1.0
 @export_range(0.,3.,.25) var local_shake=2.0
-@export_range(0.,12.,.5) var camera_shake=7.5
+@export_range(0.,12.,.5) var camera_shake=ChargeVisuals.DEFAULT_SHAKE_STRENGTH
 @export_range(0,6,1) var hit_hold_frames=5
 var feedback=Feedback.new()
 var trial
@@ -82,7 +83,7 @@ func _ready():
 		feedback_enabled=not feedback_enabled;feedback.enabled=feedback_enabled
 		update_feedback_controls())
 	$CameraShake.pressed.connect(func():
-		camera_shake=0. if camera_shake>0. else 7.5
+		camera_shake=0. if camera_shake>0. else ChargeVisuals.DEFAULT_SHAKE_STRENGTH
 		update_feedback_controls())
 	update_feedback_controls()
 	wall_start=Time.get_ticks_usec()

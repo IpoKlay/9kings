@@ -4,7 +4,7 @@ var exported_frame=0
 var cues: Array=[]
 func _ready():
 	charge_speed=240.;follow_through=140.;unbraced_hit_drag=.12;exit_orders=false
-	view_zoom=4./3.;camera_shake=7.5;hit_hold_frames=5
+	view_zoom=4./3.;camera_shake=ChargeVisuals.DEFAULT_SHAKE_STRENGTH;hit_hold_frames=5
 	super()
 	output=ProjectSettings.globalize_path('res://../output/charge-polish-v5/'+('solo' if solo else 'group'))
 	DirAccess.make_dir_recursive_absolute(output+'/frames')

@@ -722,6 +722,8 @@ func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Di
 		hit.merge(strike)
 		hit.pos=Soldiers.ground_position(self,target,struck_slot)
 		hit.from=Soldiers.ground_position(self,attacker,strike.attacker_slot)
+		if personal_charge and attacker.kind=='cavalry' and dealt>0.:
+			target.soldiers[struck_slot].charge_hit_start=elapsed
 	if not contact.is_empty():
 		hit.contact=contact
 		hit.pos=contact.pos
@@ -1130,6 +1132,8 @@ func record_casualty(u: Dictionary,slot: int):
 		'time':elapsed,'step':simulation_step,'dir':ground_basis.basis_xform(motion.direction).normalized(),'motion':motion})
 	if not u.get('approved_art','').is_empty():casualties.back().approved_art=u.approved_art
 	if launched:casualties.back().charge_lift=actor.charge_lift.duplicate()
+	if elapsed-float(actor.get('charge_hit_start',-1.))<.1:
+		casualties.back().charge_hit_start=actor.charge_hit_start
 	if u.has('slot_states'):u.slot_states.erase(slot)
 
 func advance_casualties(dt:float):
