@@ -59,6 +59,7 @@ func tex(id: String):
 	if not textures.has(id): textures[id]=load('res://assets/'+id+'.png')
 	return textures[id]
 func _ready():
+	build_horse_shadows()
 	texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
 	load_battlefield()
 	set_unit_atlas_enabled(unit_atlas_enabled)
@@ -530,6 +531,31 @@ func draw_foot_shadow(foot: Vector2,scale: float,mounted: bool=false,alpha: floa
 	draw_rect(Rect2((foot-Vector2(width,1)*scale).round(),Vector2(width*2,4)*scale),Color(0.10,0.16,0.10,.43*alpha))
 	draw_rect(Rect2((foot-Vector2(width-3,3)*scale).round(),Vector2(width*2-6,8)*scale),Color(0.10,0.16,0.10,.22*alpha))
 
+# The body casts a broad shadow along its bearing. The darker inner strip marks
+# the footprint; both shapes stay on the ground during recoil.
+const HORSE_SHADOW_OUTLINE=[Vector2(-28,-2),Vector2(-24,-5),Vector2(-16,-7),Vector2(16,-7),
+	Vector2(24,-5),Vector2(28,-2),Vector2(28,2),Vector2(24,5),Vector2(16,7),Vector2(-16,7),
+	Vector2(-24,5),Vector2(-28,2)]
+var horse_shadows: Array=[]
+
+func build_horse_shadows():
+	for bearing in 8:
+		var angle=bearing*PI/4.
+		var forward=Vector2(sin(angle),cos(angle)*.48)
+		var across=Vector2(cos(angle),-sin(angle)*.86)
+		var broad=PackedVector2Array()
+		var contact=PackedVector2Array()
+		for p in HORSE_SHADOW_OUTLINE:
+			broad.append(forward*p.x+across*p.y+Vector2(3,2))
+			contact.append(forward*p.x*.73+across*p.y*.49)
+		horse_shadows.append([broad,contact])
+
+func draw_horse_shadow(foot: Vector2,bearing: int):
+	draw_set_transform(foot.round())
+	draw_colored_polygon(horse_shadows[bearing][0],Color(.07,.12,.095,.30))
+	draw_colored_polygon(horse_shadows[bearing][1],Color(.07,.12,.095,.33))
+	draw_set_transform(Vector2.ZERO)
+
 func reaction_pose(state: Dictionary,now: float,slot: int) -> Dictionary:
 	if state.is_empty() or not state.has('reaction'):return {}
 	var age: float=now-state.get('reaction_start',state.start)
@@ -758,7 +784,10 @@ func draw_regiments(rules, pass_battle: bool):
 	for figure in figures:
 		var foot: Vector2=figure.foot
 		var scale: float=figure.scale
-		draw_foot_shadow(foot,scale,figure.kind=='cavalry',1.,figure.texture)
+		if figure.kind=='cavalry' and figure.has('pixel_clip'):
+			draw_horse_shadow(foot,figure.bearing)
+		else:
+			draw_foot_shadow(foot,scale,figure.kind=='cavalry',1.,figure.texture)
 		var pose: Dictionary=figure.pose
 		var offset=Vector2(0,pose.get('drop',0.)*scale-figure.lift)
 		draw_set_transform((foot+offset+figure.get('body_offset',Vector2.ZERO)).round(),pose.get('angle',0.))
