@@ -575,8 +575,8 @@ func draw_regiments(rules, pass_battle: bool):
 			if not rules.Contact.drawable(u,slot):continue
 			var foot: Vector2=center+slots[slot]+rules.Contact.body_shift(u,slot,rules.elapsed)
 			if pass_battle and u.get('routing',false):foot+=Vector2(sin(slot*7.3),cos(slot*4.7))*12
-			var distance: float=u.get('slot_distances',{}).get(slot,u.march_distance)
-			var speed: float=u.get('slot_speeds',{}).get(slot,1. if u.moving else 0.)
+			var distance: float=u.slot_distances[slot] if u.has('slot_distances') and slot<u.slot_distances.size() else u.march_distance
+			var speed: float=u.slot_speeds[slot] if u.has('slot_speeds') and slot<u.slot_speeds.size() else (1. if u.moving else 0.)
 			var walk=speed>.2
 			var actor: Dictionary=u.soldiers[slot] if u.has('soldiers') else {}
 			var attack_age: float=u.attack_age if u.kind=='medic' else actor.get('attack_age',u.attack_age)

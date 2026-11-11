@@ -80,12 +80,11 @@ static func repel(r,rows: Array,dt: float):
 	var flags=PackedByteArray();var sides=PackedInt32Array();var teams={}
 	for i in rows.size():
 		var row: Dictionary=rows[i];var u: Dictionary=row.unit;var actor: Dictionary=u.soldiers[row.slot]
-		row.physics_index=i;points.append(row.point);radii.append(row.radius)
+		row.physics_index=i;row.physics_from=row.point;points.append(row.point);radii.append(row.radius)
 		headings.append(actor.get('wall_heading',actor.heading))
 		flags.append(int(u.stun<=0 and u.petrified<=0 and actor.get('death_state',0)==0) | (int(shield(actor))<<1) | (int(formation(actor))<<2))
 		if not teams.has(u.side):teams[u.side]=teams.size()
 		sides.append(teams[u.side])
-	var before=points.duplicate()
 	for i in rows.size():
 		if (flags[i]&1)==0:continue
 		for other in rows[i].neighbours:
@@ -105,9 +104,9 @@ static func repel(r,rows: Array,dt: float):
 			if (flags[j]&2)==0:points[j]-=shift
 	for row in rows:
 		var actor: Dictionary=row.unit.soldiers[row.slot]
-		var from: Vector2=before[row.physics_index]
+		var from: Vector2=row.physics_from
 		var next=terrain_slide(r,row.unit.kind,from,points[row.physics_index],row.unit)
 		if next!=from and not actor.has('position'):r.Charges.detach(r,row.unit,row.slot)
 		if actor.has('position'):actor.position=next
-		row.point=next;row.erase('physics_index')
+		row.point=next;row.erase('physics_index');row.erase('physics_from')
 		row.erase('neighbours')
