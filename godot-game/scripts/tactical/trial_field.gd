@@ -612,7 +612,7 @@ func draw_approved_casualty(fallen: Dictionary,fade: float,lift: float):
 		Rect2((foot-Vector2(0,lift)-anchor*scale).round(),region.size*scale),region,Color(.88,.84,.78,fade))
 
 func apply_approved_pose(figure: Dictionary,rules,u: Dictionary,actor: Dictionary,walking: bool,distance: float,
-		attacking: bool,attack_age: float,attack_duration: float) -> String:
+		attacking: bool,attack_age: float,attack_duration: float,slot: int=0) -> String:
 	var id: String=u.get('approved_art','')
 	if id.is_empty() or u.petrified>0:return ''
 	var bearing: int=figure.bearing
@@ -639,32 +639,35 @@ func apply_approved_pose(figure: Dictionary,rules,u: Dictionary,actor: Dictionar
 	elif charging or planting:action='charge'
 	elif attacking or work:action='attack'
 	elif walking:action='walk'
-	var clip=ApprovedArt.clip(id,action,bearing)
+	# V5 shares the same distance-based hoof cycle between walk and charge.
+	var source_action='walk' if action=='charge' and not planting else action
+	var clip=ApprovedArt.clip(id,source_action,bearing)
 	var frame: int
 	match action:
 		'hurt':frame=clip.frame_at(u.hit_age*1000.)
-		'charge':
-			var run: Dictionary=actor.get('charge_run',{})
-			var stride: float=rules.config.types.cavalry.stride*1.2
-			var travelled: float=distance-run.get('stride_origin',0.)
-			frame=clip.planted_frame if planting else clip.gallop_frame(travelled,stride,run.has('stride_origin'))
 		'attack':
 			if work and not attacking:
 				frame=clip.frame_at(fposmod((now-actor.work_start)*1000.,clip.duration_ms))
 			else:
 				var fire_fraction: float=rules.Soldiers.individual(rules,u).get('fire_fraction',.45)
 				frame=clip.attack_frame(attack_age,attack_duration,attack_duration*(1.-fire_fraction))
-		'walk':
+		'walk','charge':
 			var stride: float=rules.config.types[u.kind].stride
-			frame=clip.frame_at(fposmod(distance/stride,1.)*clip.duration_ms)
+			if planting:
+				frame=clip.planted_frame
+			elif mounted:
+				var phase: int=rules.Contact.cell_index(false,true,floori(8.*distance/stride),slot%4)-1
+				frame=clip.stride_frame(phase)
+			else:
+				frame=clip.frame_at(fposmod(distance/stride,1.)*clip.duration_ms)
 		_:frame=clip.frame_at(fposmod(now*1000.+u.id*173.,clip.duration_ms))
 	figure.pixel_clip=clip
 	figure.pixel_frame=frame
-	figure.pixel_page=approved_art.page(id,action,u.side)
+	figure.pixel_page=approved_art.page(id,source_action,u.side)
 	figure.bearing=bearing
 	figure.scale=ApprovedArt.DISPLAY_SCALE
 	figure.side=u.side
-	figure.pose={}
+	figure.pose={'angle':sin(bearing*PI/4.)*.05} if action=='charge' and not planting else {}
 	return action
 
 func draw_regiments(rules, pass_battle: bool):
@@ -736,7 +739,7 @@ func draw_regiments(rules, pass_battle: bool):
 				elif u.kind in ['legion','guard','spear'] and slot==first.defender_slot:
 					cell=first.defender_cell;actor_bearing=first.defender_bearing;pose={};tint=Color(1.8,1.7,1.45)
 			var figure={'foot':foot,'scale':scale,'kind':u.kind,'texture':texture,'cell':cell,'upper_cell':upper_cell,'bearing':actor_bearing,'tint':tint,'pose':pose,'dragon_fire':dragon_flame_strength(attack_age) if u.get('archetype','')=='dragon' and u.petrified<=0 else 0.,'heading':actor.get('heading',u.heading)}
-			apply_approved_pose(figure,rules,u,actor,walk,distance,action,attack_age,attack_duration)
+			apply_approved_pose(figure,rules,u,actor,walk,distance,action,attack_age,attack_duration,slot)
 			if impact_feedback!=null and u.petrified<=0:impact_feedback.apply(figure,actor,rules.elapsed)
 			if u.petrified<=0:ChargeVisuals.apply_figure(figure,actor,rules.elapsed)
 			figure.lift=ChargeVisuals.height(actor.get('charge_lift',{}),rules.elapsed) if u.petrified<=0 else 0.

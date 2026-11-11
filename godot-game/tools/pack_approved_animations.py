@@ -15,21 +15,20 @@ BOW_TIPS = [[3, -28], [12, -28], [12, -33], [6, -35], [-3, -34], [-12, -34], [-1
 PROJECT = Path(__file__).resolve().parents[1]
 BASE_ROSTER = ('U01', 'U02', 'U03', 'U08', 'U13', 'U18', 'U23')
 
-# First and last gallop frame, then a planted pose. Entries follow battle bearing order.
-CAVALRY_CYCLES = {
-    'U18': [(1, 7, 0), (0, 5, 6), (1, 6, 5), (0, 5, 0), (1, 4, 0), (0, 4, 5), (0, 6, 5), (0, 7, 0)],
-    'U19': [(2, 9, 10), (0, 6, 5), (0, 5, 4), (0, 6, 5), (0, 3, 4), (2, 9, 10), (2, 9, 10), (0, 5, 5)],
-    'U20': [(0, 5, 5), (2, 9, 10), (2, 9, 0), (2, 9, 10), (2, 9, 10), (2, 9, 10), (2, 8, 9), (2, 9, 10)],
-    'U21': [(0, 5, 5), (2, 9, 10), (2, 9, 10), (2, 9, 10), (2, 9, 10), (2, 8, 9), (2, 9, 10), (2, 9, 10)],
-    'U22': [(0, 5, 0), (0, 5, 5), (2, 10, 0), (1, 5, 5), (0, 4, 0), (2, 9, 10), (2, 10, 0), (2, 9, 10)],
-    'U23': [(0, 5, 0), (2, 9, 10), (2, 10, 0), (2, 10, 0), (0, 5, 0), (2, 9, 10), (0, 5, 5), (0, 5, 5)],
+# Planted full-sprite poses in battle bearing order.
+CAVALRY_PLANTED = {
+    'U18': [0, 6, 5, 0, 0, 5, 5, 0],
+    'U19': [10, 5, 4, 5, 4, 10, 10, 5],
+    'U20': [5, 10, 0, 10, 10, 10, 9, 10],
+    'U21': [5, 10, 10, 10, 10, 9, 10, 10],
+    'U22': [0, 5, 0, 5, 0, 10, 0, 10],
+    'U23': [0, 10, 0, 0, 0, 10, 5, 5],
 }
-
 
 def charge_motion(unit, clips, images):
     result = []
-    for (frames, _), (first, last, plant) in zip(clips, CAVALRY_CYCLES[unit], strict=True):
-        assert 0 <= first < last < len(frames) and 0 <= plant < len(frames)
+    for (frames, _), plant in zip(clips, CAVALRY_PLANTED[unit], strict=True):
+        assert 0 <= plant < len(frames)
         poses = []
         for index, ax, ay in frames:
             frame = images[index]
@@ -54,7 +53,7 @@ def charge_motion(unit, clips, images):
                 dx, dy = 0, 0
             # Keep up to two pixels of natural bob and never move a frame more than two.
             offsets.append([max(0, abs(value) - 2) * (1 if value > 0 else -1) for value in (dx, dy)])
-        result.append({'cycle': [first, last], 'plant': plant, 'anchor_offsets': offsets})
+        result.append({'plant': plant, 'anchor_offsets': offsets})
     return result
 
 
