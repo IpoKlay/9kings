@@ -18,6 +18,10 @@ func check_library():
 				check(clip.regions.size()>1 and clip.end_ms.size()==clip.regions.size()
 					and clip.regions.all(func(region):return bounds.encloses(region)),
 					'Valid animated regions: '+unit+'/'+action+'/'+str(bearing))
+				if action=='charge':
+					check(clip.gallop_first_ms<clip.gallop_end_ms and clip.planted_frame<clip.regions.size()
+						and clip.gallop_frame(0.,128.,false)==clip.gallop_frame(128.,128.,false),
+						'Charge loop wraps inside the gallop and has a planted frame')
 				count+=1
 			pages.pages.clear()
 	check(count==968 and roster.size()==23,'All 23 units and 968 clips are present')
@@ -121,10 +125,18 @@ func run():
 	await snap('approved-animation-release',t)
 
 	check(r.Charges.issue(r,[Vector2i(horse.id,0)],horse.pos+Vector2(200,0)),'Real mounted charge order')
-	var first=pose(t,horse)
+	var stride_origin: float=horse.soldiers[0].charge_run.stride_origin
+	var first=pose(t,horse,false,stride_origin)
 	horse.soldiers[0].charge_run.age=.23
-	var next=pose(t,horse)
-	check(first.pixel_action=='charge' and next.pixel_action=='charge' and first.pixel_frame!=next.pixel_frame,'Mounted charge plays its own full-frame gallop')
+	var blocked=pose(t,horse,false,stride_origin)
+	var next=pose(t,horse,true,stride_origin+64.)
+	check(first.pixel_action=='charge' and blocked.pixel_frame==first.pixel_frame
+		and next.pixel_frame!=first.pixel_frame,'Gallop advances with travel rather than elapsed time')
+	horse.soldiers[0].rider_contact={'start':r.elapsed,'braced':true,'dir':Vector2.RIGHT}
+	var planted=pose(t,horse,false,stride_origin+64.)
+	check(planted.pixel_action=='charge' and planted.pixel_frame==planted.pixel_clip.planted_frame,
+		'Braced contact selects a planted whole-horse pose')
+	horse.soldiers[0].erase('rider_contact')
 	r.hurt(shield,10.,'sword',0.,0,target.id,0)
 	check(pose(t,shield).pixel_action=='hurt','Ordinary damage plays a hurt clip')
 	r.hurt(target,10000.,'sword',0.,0,shield.id,0)

@@ -74,6 +74,7 @@ func apply_flash(figure: Dictionary,frame: int,heavy: bool):
 	if frame>=0 and frame<flash_frames and flash_strength>0.:
 		figure.flash_alpha=flash_strength*(1. if frame<3 else .8 if frame<5 else .45)
 		if figure.has('pixel_clip'):
+			if figure.kind=='cavalry':figure.flash_alpha*=.32
 			flashed_sides[figure.side]=true
 			return
 		prepare_texture(figure.texture)
