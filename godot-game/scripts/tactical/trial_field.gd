@@ -80,6 +80,7 @@ func set_unit_atlas_enabled(enabled: bool):
 func load_battlefield():
 	charge_visuals.clear()
 	approved_art.pages.clear()
+	if impact_feedback!=null:impact_feedback.clear_masks()
 	approved_level=-1
 	position=Vector2.ZERO
 	environment=null
@@ -153,6 +154,7 @@ func _draw():
 	var rules=trial.rules
 	if rules.has_method('strategy_paths') and approved_level!=rules.level:
 		approved_art.pages.clear()
+		if impact_feedback!=null:impact_feedback.clear_masks()
 		approved_level=rules.level
 	if rules.terrain and not rules is SquareBattle:draw_pass_ground()
 	draw_set_transform_matrix(ground_transform())
@@ -608,8 +610,16 @@ func draw_approved_casualty(fallen: Dictionary,fade: float,lift: float):
 	if lift>0.:draw_foot_shadow(foot,scale,fallen.kind=='cavalry',fade*.7)
 	var region: Rect2=clip.regions[frame]
 	var anchor: Vector2=clip.anchors[frame]
-	draw_texture_rect_region(approved_art.page(fallen.approved_art,'death',fallen.side),
-		Rect2((foot-Vector2(0,lift)-anchor*scale).round(),region.size*scale),region,Color(.88,.84,.78,fade))
+	var page=approved_art.page(fallen.approved_art,'death',fallen.side)
+	var dest=Rect2((foot-Vector2(0,lift)-anchor*scale).round(),region.size*scale)
+	draw_texture_rect_region(page,dest,region,Color(.88,.84,.78,fade))
+	var flash_age: float=fallen.time+motion.age-float(fallen.get('charge_hit_start',-1.))
+	if impact_feedback!=null and flash_age<.1:
+		var flash_frame=floori(flash_age*60.+.00001)
+		var figure={'pixel_page':page,'side':fallen.side}
+		impact_feedback.apply_flash(figure,flash_frame,true)
+		if figure.has('flash_texture'):
+			draw_texture_rect_region(figure.flash_texture,dest,region,Color(1,1,1,figure.flash_alpha*fade))
 
 func apply_approved_pose(figure: Dictionary,rules,u: Dictionary,actor: Dictionary,walking: bool,distance: float,
 		attacking: bool,attack_age: float,attack_duration: float,slot: int=0) -> String:
@@ -757,9 +767,10 @@ func draw_regiments(rules, pass_battle: bool):
 			var frame: int=figure.pixel_frame
 			var region: Rect2=clip.regions[frame]
 			var anchor: Vector2=clip.anchors[frame]
-			var tint: Color=figure.tint
-			if figure.has('flash_alpha'):tint=tint.lerp(Color(3.,2.8,2.4),figure.flash_alpha)
-			draw_texture_rect_region(figure.pixel_page,Rect2(-anchor*scale,region.size*scale),region,tint)
+			var dest=Rect2(-anchor*scale,region.size*scale)
+			draw_texture_rect_region(figure.pixel_page,dest,region,figure.tint)
+			if figure.has('flash_texture'):
+				draw_texture_rect_region(figure.flash_texture,dest,region,Color(1,1,1,figure.flash_alpha))
 		else:
 			var dest=Rect2(-Vector2(32,54)*scale,Vector2(64,64)*scale)
 			draw_figure_sprite(figure,dest,figure.texture,figure.tint)

@@ -17,7 +17,7 @@ func run():
 	check(is_equal_approx(mask.get_pixel(1,0).a,source.get_pixel(1,0).a),'Preserve original alpha')
 	feedback.prepare({'legion':{'ally':texture}},[{'kind':'legion','side':'ally'}])
 	check(feedback.texture_bytes==8,'Whitening cache is built once per atlas')
-	var base={'cell':9,'upper_cell':-1,'bearing':2,'pose':{},'texture':texture,'foot':Vector2(100,100)}
+	var base={'cell':9,'upper_cell':-1,'bearing':2,'pose':{},'texture':texture,'foot':Vector2(100,100),'kind':'cavalry'}
 	var actor={'hp':80.,'position':Vector2(100,100),'preview_hit':{'start':1.,'heavy':true,'direction':Vector2.RIGHT}}
 	var figure=base.duplicate(true)
 	feedback.apply(figure,actor,1.)
@@ -51,6 +51,16 @@ func run():
 	var target={'preview_hit':{'start':3.,'heavy':true,'direction':Vector2.RIGHT}}
 	var victim_figure=base.duplicate(true);feedback.apply(victim_figure,target,3.)
 	check(victim_figure.flash_alpha==figure.get('flash_alpha',0.),'Both sides of the collision flash white')
+	var approved_rider=base.duplicate(true)
+	approved_rider.merge({'pixel_page':enemy_texture,'side':'ally'})
+	feedback.apply(approved_rider,{'rider_contact':{'start':3.,'dir':Vector2.RIGHT}},3.)
+	var approved_defender=base.duplicate(true)
+	approved_defender.merge({'pixel_page':enemy_texture,'side':'enemy','kind':'legion'},true)
+	feedback.apply(approved_defender,{'charge_hit_start':3.},3.)
+	check(approved_rider.flash_alpha==1. and approved_defender.flash_alpha==1.,'Approved rider and braced defender both flash at full strength')
+	check(approved_rider.flash_texture==feedback.masks[enemy_texture.get_instance_id()]
+		and approved_defender.flash_texture==approved_rider.flash_texture,
+		'Approved silhouettes use the displayed sheet instead of the legacy sheet')
 	figure=base.duplicate(true);feedback.apply(figure,charging,3.15)
 	check(not figure.has('flash_alpha'),'Attacker contact flash ends after six frames')
 	var live_horse={'rider_contact':{'start':5.,'dir':Vector2.RIGHT}}

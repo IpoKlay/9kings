@@ -25,6 +25,7 @@ func run():
 		if mode in ['shield','pike']:victim.heading=Vector2.DOWN;victim.shield_wall=mode=='shield'
 		if mode=='lethal':victim.hp=1.;r.Soldiers.total(b)
 		var origin: Vector2=victim.position;var hit_time=-1.;var distance=0.;var peak=0.;var hits=0;var corpse_carries=false;var corpse_distance=0.
+		var corpse_flashes=false
 		check(r.Charges.issue(r,[Vector2i(a.id,0)],Vector2(1000,650)),mode+': charge accepted')
 		check(is_equal_approx(a.soldiers[0].charge_run.speed,348.),mode+': cavalry gets the shared 45 percent speed increase')
 		for frame in 180:
@@ -39,8 +40,10 @@ func run():
 			for body in r.casualties:
 				if body.unit_id!=b.id or body.slot!=0:continue
 				corpse_carries=body.has('charge_lift') and body.velocity.length()>300.
+				corpse_flashes=body.has('charge_hit_start') and is_equal_approx(body.charge_hit_start,hit_time)
 				if body.motion.x.size()>0:corpse_distance=maxf(corpse_distance,(body.motion.point(0)-body.motion.rest[0]).length())
 		check(hits==1,mode+': one damage grant per rider/victim')
+		check(hit_time>=0. and is_equal_approx(victim.get('charge_hit_start',-1.),hit_time),mode+': damaged defender flashes at contact even without a launch')
 		check(r.bounds.has_point(victim.position),mode+': stays inside battlefield')
 		check(Visuals.height(victim.get('charge_lift',{}),r.elapsed)==0.,mode+': settles back on ground')
 		if mode=='open':
@@ -54,6 +57,7 @@ func run():
 			check(a.soldiers[0].charge_end.reason==('resisted' if mode=='shield' else 'pike'),mode+': stops the horse')
 		elif mode=='lethal':
 			check(corpse_carries and corpse_distance>25.,'Lethal collision carries both height and horizontal momentum into corpse rig')
+			check(corpse_flashes,'Lethal collision carries the flash into the death pose')
 		elif mode in ['mounted','ballista']:check(peak==0. and distance<40.,mode+': retains old displacement and is not lifted')
 		summaries.append({'mode':mode,'displacement':distance,'peak_height':peak,'corpse_distance':corpse_distance})
 	var r=fixture();var horse=r.units[0].soldiers[0];var dust=Visuals.new()
@@ -97,7 +101,7 @@ func run():
 	dust.watch_landing(landing_actor,999,0);dust.clear()
 	check(dust.landings.is_empty() and dust.audio_events.is_empty(),'Retry also clears queued landing and sound cues')
 	dust.impact();var kick=dust.camera_offset()
-	check(kick.length()>8.,'Collision produces a strong bounded camera kick')
+	check(is_equal_approx(dust.shake_strength,7.5*.6) and kick==Vector2(5,2),'Collision uses the reduced camera amplitude')
 	dust.advance(r,.05);dust.impact()
 	check(is_equal_approx(dust.shock_age,.05),'Simultaneous crowd hits cannot continuously reset the shake')
 	dust.advance(r,0.)

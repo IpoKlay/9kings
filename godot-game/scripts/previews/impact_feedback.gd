@@ -10,6 +10,10 @@ var flashed_sides: Dictionary={}
 var contact_flash_roles: Dictionary={}
 var texture_bytes=0
 
+func clear_masks():
+	masks.clear()
+	texture_bytes=0
+
 func prepare(regiments: Dictionary,units: Array):
 	for u in units:
 		var texture: Texture2D=regiments[u.get('art',u.kind)][u.side]
@@ -47,6 +51,10 @@ func apply(figure: Dictionary,actor: Dictionary,now: float):
 		var strike_frame=floori((now-float(strike.start))*60.+.00001)
 		apply_flash(figure,strike_frame,true)
 		if strike_frame>=0 and strike_frame<6:contact_flash_roles['attacker']=true
+	if actor.has('charge_hit_start'):
+		var charge_frame=floori((now-float(actor.charge_hit_start))*60.+.00001)
+		apply_flash(figure,charge_frame,true)
+		if charge_frame>=0 and charge_frame<6:contact_flash_roles['victim']=true
 	var hit: Dictionary=actor.get('preview_hit',{})
 	if hit.is_empty() and actor.has('charge_lift'):
 		var lift: Dictionary=actor.charge_lift
@@ -76,15 +84,14 @@ func apply(figure: Dictionary,actor: Dictionary,now: float):
 
 func apply_flash(figure: Dictionary,frame: int,heavy: bool):
 	var flash_frames=6 if heavy else 2
-	if frame>=0 and frame<flash_frames and flash_strength>0.:
-		figure.flash_alpha=flash_strength*(1. if frame<3 else .8 if frame<5 else .45)
-		if figure.has('pixel_clip'):
-			if figure.kind=='cavalry':figure.flash_alpha*=.32
-			flashed_sides[figure.side]=true
-			return
-		prepare_texture(figure.texture)
-		figure.flash_texture=masks.get(figure.texture.get_instance_id())
-		if figure.flash_texture!=null:flashed_sides[atlas_sides.get(figure.texture.get_instance_id(),'live')]=true
+	if not enabled or frame<0 or frame>=flash_frames or flash_strength<=0.:return
+	var texture: Texture2D=figure.get('pixel_page',figure.get('texture'))
+	prepare_texture(texture)
+	var key=texture.get_instance_id()
+	figure.flash_texture=masks[key]
+	var alpha=flash_strength*(1. if frame<3 else .8 if frame<5 else .45)
+	figure.flash_alpha=maxf(figure.get('flash_alpha',0.),alpha)
+	flashed_sides[figure.get('side',atlas_sides.get(key,'live'))]=true
 
 static func camera_offset(age: float,strength: float) -> Vector2:
 	if age<0. or age>=.24 or strength<=0.:return Vector2.ZERO
