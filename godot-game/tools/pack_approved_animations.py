@@ -1,4 +1,7 @@
-"""Pack the verified preview ZIP into nearest-neighbor battle pages, one unit/action per page."""
+"""Pack the verified preview ZIP into nearest-neighbor battle pages.
+
+After packing, run paint_cavalry_lighting.gd to apply the approved coat lighting.
+"""
 
 import argparse
 from colorsys import hsv_to_rgb, rgb_to_hsv
