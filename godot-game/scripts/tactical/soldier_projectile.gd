@@ -18,11 +18,11 @@ static func origin(r,u: Dictionary,slot: int) -> Vector2:
 	var cell=r.Contact.cell_index(true,false,frame,slot%4)-9
 	var xy: Array=anchors[art][bearing][cell]
 	var scale: float=r.contact_profiles[u.kind].scale*u.get('visual_scale',1.)
-	return foot+r.ground_basis.affine_inverse().basis_xform(Vector2(xy[0],xy[1])*scale)
+	return foot+r.ground_inverse.basis_xform(Vector2(xy[0],xy[1])*scale)
 
 static func source(r,shot: Dictionary) -> Dictionary:
-	for u in r.units:
-		if u.id!=shot.get('attacker',-1):continue
+	var u: Dictionary=r.unit_by_id(shot.get('attacker',-1))
+	if not u.is_empty():
 		if u.get('escaped',false):return {}
 		var slot: int=shot.get('attacker_slot',-1)
 		if slot>=0:
@@ -54,9 +54,7 @@ static func impact(r,shot: Dictionary,target: Dictionary,slot: int,kind: String)
 	return dealt
 
 static func advance(r,shot: Dictionary,previous: float,dt: float):
-	var target={};var slot: int=shot.get('target_slot',-1)
-	for u in r.units:
-		if u.id==shot.target:target=u;break
+	var target: Dictionary=r.unit_by_id(shot.target);var slot: int=shot.get('target_slot',-1)
 	if target.is_empty() or target.hp<=0 or target.get('escaped',false) or slot<0 or slot>=target.soldiers.size() or target.soldiers[slot].hp<=0:
 		shot.done=true;return
 	shot.pos=r.Soldiers.ground_position(r,target,slot)

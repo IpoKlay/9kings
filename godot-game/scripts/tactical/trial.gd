@@ -80,6 +80,19 @@ var journal_cursor=0
 var rout_alerts: Array[Dictionary]=[]
 var rout_notice_left=0.0
 var accumulator=0.0
+## Catch-up budget. One step stays authoritative (1/60 s); the ceiling only bounds how many
+## steps a single frame may buy, so a slow step cannot multiply into an unbounded frame.
+## Two steps still keeps real time on a 30 Hz display; below that the simulation runs in
+## deliberate slow motion instead of freezing the frame. Unaffordable whole steps are dropped
+## rather than carried, which stops the loop from locking at the maximum forever.
+const SIM_STEP=1.0/60
+const MAX_SIM_STEPS_PER_FRAME=2
+## Once a single step costs more than a frame, buying two of them only stretches the frame.
+## The measured step cost therefore drops the allowance back to one step.
+const EXPENSIVE_STEP_MS=22.0
+## Opt-in diagnostic: dropping backlog changes real-time simulation speed.
+var bounded_catchup=false
+var last_step_ms=0.0
 var notice=''
 var notice_seconds=0.0
 var myth_audio=preload('res://scripts/tactical/myth_audio.gd').new()
@@ -585,18 +598,33 @@ func _process(dt: float):
 	pointer=field.unproject(field_point(get_local_mouse_position()))
 	if paused:field.queue_redraw()
 	if not squad_ids.is_empty():
-		squad_ids=squad_ids.filter(func(id):return rules.units.any(func(u):return u.id==id and u.hp>0 and not u.get('escaped',false)))
+		# One liveness pass per frame replaces the nested closure scan over every unit per id.
+		var live={}
+		for unit in rules.units:
+			if unit.hp>0 and not unit.get('escaped',false):live[unit.id]=true
+		var kept=[]
+		for id in squad_ids:
+			if live.has(id):kept.append(id)
+		squad_ids=kept
 		if selected=='route' and squad_at_id().is_empty():selected=''
 	if not soldier_ids.is_empty():
-		soldier_ids=rules.Soldiers.members(rules,soldier_ids).map(func(row):return Vector2i(row.unit.id,row.slot))
+		var kept_people=[]
+		for row in rules.Soldiers.members(rules,soldier_ids):kept_people.append(Vector2i(row.unit.id,row.slot))
+		soldier_ids=kept_people
 		if soldier_ids.is_empty() and selected=='personal_route':selected=''
 	myth_audio.advance(minf(dt,.1),paused,bool(app.prefs.enabled) if app!=null else true,float(app.prefs.volume) if app!=null else .7)
 	if not paused:
 		var battle_dt=minf(dt,.1)*(.5 if slow else 1.0)
 		accumulator+=battle_dt
-		while accumulator>=1.0/60:
-			rules.step(1.0/60)
-			accumulator-=1.0/60
+		var budget=(1 if last_step_ms>EXPENSIVE_STEP_MS else MAX_SIM_STEPS_PER_FRAME) if bounded_catchup else 2147483647
+		var steps=0
+		var clock=Time.get_ticks_usec()
+		while accumulator>=SIM_STEP and steps<budget:
+			rules.step(SIM_STEP)
+			accumulator-=SIM_STEP
+			steps+=1
+		if steps>0:last_step_ms=(Time.get_ticks_usec()-clock)/float(steps)/1000.
+		if steps>=budget and accumulator>=SIM_STEP:accumulator=fmod(accumulator,SIM_STEP)
 		field.advance(battle_dt)
 		for event in rules.events:
 			if event.kind=='flank_signal':
