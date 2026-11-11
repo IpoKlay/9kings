@@ -19,9 +19,10 @@ func check_library():
 					and clip.regions.all(func(region):return bounds.encloses(region)),
 					'Valid animated regions: '+unit+'/'+action+'/'+str(bearing))
 				if action=='charge':
-					check(clip.gallop_first_ms<clip.gallop_end_ms and clip.planted_frame<clip.regions.size()
-						and clip.gallop_frame(0.,128.,false)==clip.gallop_frame(128.,128.,false),
-						'Charge loop wraps inside the gallop and has a planted frame')
+					var walk=Art.clip(unit,'walk',bearing)
+					check(clip.planted_frame<clip.regions.size()
+						and walk.stride_frame(0)==0 and walk.stride_frame(7)<walk.regions.size(),
+						'V5 eight-phase stride and planted pose exist for each approved bearing')
 				count+=1
 			pages.pages.clear()
 	check(count==968 and roster.size()==23,'All 23 units and 968 clips are present')
@@ -124,18 +125,27 @@ func run():
 			'Release frame matches the arrow while the physical projectile origin stays unchanged')
 	await snap('approved-animation-release',t)
 
+	var stride: float=r.config.types.cavalry.stride
+	var before_charge=pose(t,horse,true,stride*.4)
 	check(r.Charges.issue(r,[Vector2i(horse.id,0)],horse.pos+Vector2(200,0)),'Real mounted charge order')
-	var stride_origin: float=horse.soldiers[0].charge_run.stride_origin
-	var first=pose(t,horse,false,stride_origin)
-	horse.soldiers[0].charge_run.age=.23
-	var blocked=pose(t,horse,false,stride_origin)
-	var next=pose(t,horse,true,stride_origin+64.)
-	check(first.pixel_action=='charge' and blocked.pixel_frame==first.pixel_frame
-		and next.pixel_frame!=first.pixel_frame,'Gallop advances with travel rather than elapsed time')
-	horse.soldiers[0].rider_contact={'start':r.elapsed,'braced':true,'dir':Vector2.RIGHT}
-	var planted=pose(t,horse,false,stride_origin+64.)
-	check(planted.pixel_action=='charge' and planted.pixel_frame==planted.pixel_clip.planted_frame,
-		'Braced contact selects a planted whole-horse pose')
+	var first=pose(t,horse,true,stride*.4)
+	var next=pose(t,horse,true,stride*.65)
+	var wrapped=pose(t,horse,true,stride*1.4)
+	check(first.pixel_action=='charge' and first.pixel_clip==before_charge.pixel_clip
+		and first.pixel_frame==before_charge.pixel_frame and first.pixel_frame!=next.pixel_frame
+		and first.pixel_frame==wrapped.pixel_frame,
+		'Charge keeps the V5 stride phase and advances the approved whole sprite by distance')
+	check(horse.approved_art=='U22' and guard.approved_art=='U23','Both mounted types keep their approved battle art')
+	var rider: Dictionary=horse.soldiers[0]
+	rider.rider_contact={'start':r.elapsed,'braced':false,'dir':Vector2.RIGHT}
+	for figure in [first,next]:
+		figure.merge({'kind':'cavalry','cell':1,'upper_cell':11})
+		t.field.impact_feedback.apply(figure,rider,r.elapsed+.03)
+	check(next.pixel_frame==first.pixel_frame,'Contact holds the current approved hoof pose for the V5 hit beats')
+	rider.rider_contact={'start':r.elapsed,'braced':true,'dir':Vector2.RIGHT}
+	var planted=pose(t,horse,false,stride*.65)
+	check(planted.pixel_action=='charge' and planted.pixel_frame==planted.pixel_clip.planted_frame
+		and planted.pixel_clip!=first.pixel_clip,'Braced contact uses a planted whole-sprite pose')
 	horse.soldiers[0].erase('rider_contact')
 	r.hurt(shield,10.,'sword',0.,0,target.id,0)
 	check(pose(t,shield).pixel_action=='hurt','Ordinary damage plays a hurt clip')

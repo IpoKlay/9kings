@@ -40,9 +40,6 @@ static func issue(r,ids: Array,destination: Vector2,side: String='ally') -> bool
 		var velocity: Vector2=actor.get('velocity',u.heading*lane_speed if u.moving else Vector2.ZERO)
 		actor.charge_run={'goal':actor.position+delta,'age':0.,'duration':r.config.individual_charge.max_range/speed,
 			'velocity':velocity,'penalty':0.,'hits':[],'speed':speed}
-		if u.kind=='cavalry' and not u.get('approved_art','').is_empty():
-			var distances: PackedFloat32Array=u.get('slot_distances',PackedFloat32Array())
-			actor.charge_run.stride_origin=distances[row.slot] if row.slot<distances.size() else u.march_distance
 		# The legacy regiment sweep must not also award a charge to this rider.
 		u.charge=false;u.clear_run=0.;u.erase('penetration')
 	return true
@@ -54,7 +51,7 @@ static func cancel(r,u: Dictionary,actor: Dictionary):
 
 static func finish(r,u: Dictionary,actor: Dictionary,reason: String):
 	actor.charge_end={'time':r.elapsed,'reason':reason,'position':actor.position}
-	if actor.get('charge_run',{}).has('stride_origin'):actor.charge_end.heading=actor.heading
+	if u.kind=='cavalry' and not u.get('approved_art','').is_empty():actor.charge_end.heading=actor.heading
 	actor.erase('attack_engaged')
 	cancel(r,u,actor)
 	actor.personal_order='attack' if actor.get('target_id',-1)>=0 else 'auto'

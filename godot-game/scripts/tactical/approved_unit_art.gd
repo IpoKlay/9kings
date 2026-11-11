@@ -17,8 +17,6 @@ class Clip:
 	var duration_ms: int = 0
 	var release_ms: int = -1
 	var release_offset: Vector2
-	var gallop_first_ms: int
-	var gallop_end_ms: int
 	var planted_frame: int
 
 	func _init(data: Dictionary, motion: Dictionary = {}):
@@ -37,9 +35,6 @@ class Clip:
 		if data.has('release_offset'):
 			release_offset = Vector2(data.release_offset[0], data.release_offset[1])
 		if not motion.is_empty():
-			var first: int = motion.cycle[0]
-			gallop_first_ms = end_ms[first - 1] if first > 0 else 0
-			gallop_end_ms = end_ms[int(motion.cycle[1])]
 			planted_frame = int(motion.plant)
 
 	func frame_at(ms: float) -> int:
@@ -48,14 +43,9 @@ class Clip:
 				return i
 		return end_ms.size() - 1
 
-	func gallop_frame(distance: float, stride: float, starting: bool) -> int:
-		var cycle_ms = gallop_end_ms - gallop_first_ms
-		var ms = maxf(0., distance) / stride * cycle_ms
-		if starting and ms < gallop_first_ms:
-			return frame_at(ms)
-		if starting:
-			ms -= gallop_first_ms
-		return frame_at(gallop_first_ms + fposmod(ms, cycle_ms))
+	func stride_frame(phase: int) -> int:
+		# V5 advances eight phases per stride. Sample the same phase in a whole-frame clip.
+		return frame_at(float(phase) * duration_ms / 8.)
 
 	func attack_frame(age: float, duration: float, release_age: float) -> int:
 		if release_ms < 0 or release_age <= 0. or release_age >= duration:

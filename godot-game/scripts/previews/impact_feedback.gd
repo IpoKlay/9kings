@@ -38,6 +38,11 @@ func apply(figure: Dictionary,actor: Dictionary,now: float):
 		if not strike.has('cell'):
 			strike.cell=figure.cell;strike.upper_cell=figure.upper_cell
 		figure.cell=strike.cell;figure.upper_cell=strike.upper_cell
+		if figure.kind=='cavalry' and figure.has('pixel_clip'):
+			if not strike.has('pixel_clip'):
+				strike.pixel_clip=figure.pixel_clip
+				strike.pixel_frame=figure.pixel_frame
+			if strike.pixel_clip==figure.pixel_clip:figure.pixel_frame=strike.pixel_frame
 	if not strike.is_empty() and strike.get('heavy',true):
 		var strike_frame=floori((now-float(strike.start))*60.+.00001)
 		apply_flash(figure,strike_frame,true)
