@@ -1,8 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-ERROR: Lead reached exit
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/tactical/test_group_individual_pass.gd:5)
-       [1] run (res://tests/tactical/test_group_individual_pass.gd:38)
-Individual group terrain failures=1 lead=(1522.974, 899.9531) rear=(1198.393, 895.4153)

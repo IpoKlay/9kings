@@ -1,9 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-Wraith rules: 36 checks, 1 failures
-ERROR: Dead primary target prevents whole cleave
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/tactical/test_wraith.gd:7)
-       [1] cleave_checks (res://tests/tactical/test_wraith.gd:80)
-       [2] run (res://tests/tactical/test_wraith.gd:61)

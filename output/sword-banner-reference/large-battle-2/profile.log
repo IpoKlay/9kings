@@ -1,7 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-Large battle profile-2 500/side process={ "mean_ms": 81.9105, "p95_ms": 104.098, "samples": 120 } wall={ "mean_ms": 104.896458333333, "p95_ms": 128.492, "samples": 120 }
-WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2536)
-ERROR: 2 resources still in use at exit (run with --verbose for details).
-   at: clear (core/io/resource.cpp:822)

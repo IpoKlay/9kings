@@ -1,5 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
-
-2026-11-06 23:41:56.020 Godot[61383:33442804] error messaging the mach port for IMKCFRunLoopWakeUpReliable
-Large battle quiet-after-1 500/side process={ "mean_ms": 71.6271, "p95_ms": 94.444, "samples": 120 } wall={ "mean_ms": 114.231283333333, "p95_ms": 136.461, "samples": 120 }

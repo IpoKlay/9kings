@@ -1,5 +1,7 @@
 # 《鹰旗之下》战斗核心交接 · 2026-11-07
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 > 最新更新与接手顺序见 [白板战斗交接](../whiteboard-core-2026-11-07/README.md)。本目录原构建仍是历史节点。
 这是主要作者要求的暂停交接点，不是 Sword & Banner 完整复现完成声明。目标仍是：在现有 Godot 原生工程复现原作完整战斗系统，以原作可运行行为和录像对照验证，保留本项目美术与可编辑场景。
 
@@ -28,6 +30,6 @@
 - [tasks.json](tasks.json)：与任务文档同编号的进度清单。
 - [run_checks.py](run_checks.py)、[suites.json](suites.json)：50 套已维护回归入口。
 - [check_export.gd](check_export.gd)：由 Godot 编辑器程序载入导出 PCK 的菜单—会战—胜负—重试—破墙检查；不等同于独立程序实机验收。
-- [交接运行证据](../../output/combat-core-2026-11-07/checks/)；[性能证据](../../output/sword-banner-reference/large-battle-2/validation.json)。
+- [交接运行证据](https://github.com/IpoKlay/9kings/tree/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/combat-core-2026-11-07/checks)；[性能证据](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/sword-banner-reference/large-battle-2/validation.json)。
 
 不要把历史进度日志中的“下一步”直接当成当前待办；后续条目可能已经修正它。以本目录 STATE/BACKLOG、当前磁盘代码与新运行结果交叉核对。遇到尚无原作证据的规则，先记录未知，不能靠猜测调到测试变绿。

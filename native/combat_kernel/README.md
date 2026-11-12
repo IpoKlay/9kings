@@ -69,5 +69,5 @@ or every intermediate tick. V2 remains far below 30 FPS and simulation runs at
 roughly 0.29–0.31 simulated seconds per real second.
 
 Detailed metrics, hashes, logs and limitations:
-`../../output/api-performance-2026-11-07/native-validation.json`.
+[../../output/api-performance-2026-11-07/native-validation.json](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/api-performance-2026-11-07/native-validation.json).
 No exports, native rebuilds or production integration were performed in this iteration.

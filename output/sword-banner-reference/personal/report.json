@@ -1,9 +1,0 @@
-{
-	"failures": 0,
-	"seconds": 23.0,
-	"stages": {
-		"regroup": 13.3333,
-		"single_move": 0.5,
-		"two_person_wall": 5.5
-	}
-}

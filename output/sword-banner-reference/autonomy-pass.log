@@ -1,6 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-ERROR: Condition "ret != noErr" is true. Returning: ""
-   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
-Pass simulation CPU ms mean=7.93320977653631 p95=12.28
-Autonomous pass: 6 checks, 0 failures; phase=victory time=180.000000000035 rock_samples=0 gate_samples=143

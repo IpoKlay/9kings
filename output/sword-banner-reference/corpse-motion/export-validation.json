@@ -1,9 +1,0 @@
-{
-  "checks": 70,
-  "failures": 0,
-  "scope": "Actual exported macOS-resource PCK, headless engine, normal menu to battle,64 texture imports, terminal deaths and retry. Not standalone signed application or GPU performance test.",
-  "pack": "resources.pck",
-  "sha256": "dae5bfbc0b8e9860816f91e02ca4f3f4ace209a3926464ee229376520eaed0fd",
-  "bytes": 180771924,
-  "command": "Godot --headless --main-pack <this directory>/resources.pck --script <this directory>/export_probe.gd"
-}

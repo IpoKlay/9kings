@@ -3,6 +3,8 @@ func _initialize():call_deferred('run')
 func run():
 	var args=OS.get_cmdline_user_args();var label=args[0] if not args.is_empty() else 'live'
 	var out=args[1] if args.size()>1 else ProjectSettings.globalize_path('res://../output/sword-banner-reference/large-battle')
+	var output_directory_error=DirAccess.make_dir_recursive_absolute(out)
+	assert(output_directory_error==OK)
 	var app=load('res://scenes/main.tscn').instantiate();app.settings_path='/tmp/eagle-large-live.cfg';root.add_child(app)
 	app.menu_view.get_node('%TacticalTrial').pressed.emit();var t=app.active_trial;t.set_process(false);app.sound.enabled=false
 	AudioServer.set_bus_mute(0,true)

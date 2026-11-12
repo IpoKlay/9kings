@@ -1,7 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
-FULL BATTLE {"alive":{"ally":15.0,"enemy":0.0},"fps":30,"mean_process_ms":12.9483868378812,"p95_process_ms":23.233,"phase":"victory","seconds":42.5166666666655}
-FULL BATTLE {"alive":{"ally":15.0,"enemy":0.0},"fps":60,"mean_process_ms":9.55002087515054,"p95_process_ms":18.278,"phase":"victory","seconds":42.5166666666655}
-FULL BATTLE {"alive":{"ally":15.0,"enemy":0.0},"fps":120,"mean_process_ms":4.85816278602971,"p95_process_ms":16.425,"phase":"victory","seconds":42.5166666666655}
-Individual full battle: 26 checks, 0 failures

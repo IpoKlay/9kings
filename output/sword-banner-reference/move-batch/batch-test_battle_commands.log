@@ -1,8 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-ERROR: Attack-move reaches the real surviving foot, defeats it, and resumes instead of stalling at the enemy centre
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/tactical/test_battle_commands.gd:6)
-       [1] run (res://tests/tactical/test_battle_commands.gd:110)
-Battle commands: 25 checks, 1 failures

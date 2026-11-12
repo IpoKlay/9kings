@@ -33,7 +33,7 @@
 
 ## 证据索引与范围
 
-- `evidence/asset-inventory.json`／`.csv`：209张PNG逐项统计与校验。
+- `evidence/asset-inventory.json`／[CSV清单](../../../docs/art/roman_frontier_camp/asset-inventory.csv)：209张PNG逐项统计与校验。
 - `evidence/source-hashes.json`：审查开始时的现有工程文件校验，排除`.godot`、文档、`.uid`与`.import`。
 - `evidence/existing-assets-contact.png`：当前资源2倍最近邻对照。
 - `evidence/existing-legion-frames.png`：当前idle／walk／attack前8格裁帧；不是新制作的动画。

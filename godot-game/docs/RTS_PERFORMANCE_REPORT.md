@@ -1,5 +1,7 @@
 > 2026-11-10 合并说明：下文测量针对原性能分支版本，不能代表最新 main。冲突处理保留当前绘制、图集、白闪和迷雾；原30Hz决策与丢弃模拟积压均默认关闭。实际合入范围和复验边界见 [PERF_MERGE_2026_11_10.md](PERF_MERGE_2026_11_10.md)。
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 # RTS 战斗性能报告（千人同屏）
 
 > 适用范围：`scenes/tactical_trial.tscn` → `scripts/tactical/trial.gd` 的 RTS 战斗模式
@@ -140,7 +142,7 @@ n = floor(min(T, 0.1) / (1/60))     ← 夹住后的累积量决定步数
 | `Soldiers.advance()` | 0.86 | 1% |
 | `advance_recovery` / `resolve_battle` / `advance_casualties` | 0.16 | < 1% |
 
-仓库内已有的 Mac instrumented 采样（同样代码，60 样本，`output/sword-banner-reference/large-battle/instrumented-500.json`）进一步拆开 `advance_personal`：
+仓库内已有的 Mac instrumented 采样（同样代码，60 样本，[output/sword-banner-reference/large-battle/instrumented-500.json](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/sword-banner-reference/large-battle/instrumented-500.json)）进一步拆开 `advance_personal`：
 
 | 内部函数 | ms/步 | 说明 |
 |---|---|---|

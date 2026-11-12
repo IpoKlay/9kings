@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/tmp/capture-terminal.py", line 15, in <module>
-    count=int(re.findall(r'^frame=(\d+)',p.stdout,re.M)[-1]);assert count==424 and not p.stderr
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError

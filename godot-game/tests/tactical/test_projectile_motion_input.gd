@@ -36,6 +36,8 @@ func run():
 		else:check(state==baseline,'Moving-target projectile state and personal outcomes agree at '+str(fps)+'FPS')
 		results.append({'fps':fps,'elapsed':r.elapsed,'hp':r.units.map(func(u):return u.hp),'arrows':r.volleys.size(),'stones':r.stones.size()})
 		t.retry();check(t.rules.volleys.is_empty() and t.rules.stones.is_empty() and t.rules.config.types.archer.files==10,'Retry restores counts and clears projectiles')
+	var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/sword-banner-reference/projectile-motion')
+	assert(output_directory_error==OK)
 	FileAccess.open('res://../output/sword-banner-reference/projectile-motion/fps.json',FileAccess.WRITE).store_string(JSON.stringify(results,'\t'))
 	t.closed.emit();app.queue_free();await process_frame
 	print('Projectile input: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)

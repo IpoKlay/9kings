@@ -40,6 +40,8 @@ func run():
 		else:check(state==baseline,'Death foot and emission tick agree across render rates')
 		results.append({'fps':fps,'state':state});t.retry()
 		check(t.rules.casualties.is_empty() and t.rules.casualty_serial==0 and t.rules.units.all(func(u):return u.soldiers.all(func(a):return a.death_state==0)),'Retry clears corpse records and registration states')
+	var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/sword-banner-reference/death-motion')
+	assert(output_directory_error==OK)
 	FileAccess.open('res://../output/sword-banner-reference/death-motion/fps.json',FileAccess.WRITE).store_string(JSON.stringify(results,'\t'))
 	t.closed.emit();app.queue_free();await process_frame
 	print('Death motion input: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)

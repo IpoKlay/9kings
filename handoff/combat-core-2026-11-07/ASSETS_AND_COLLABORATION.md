@@ -1,9 +1,11 @@
 # 素材、导出与协作
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 ## 素材与工具
 
 - 运行资源在 `godot-game/assets/`，配置在 `godot-game/data/`。拉取后由Godot重建 `.godot/` 导入缓存，不需要任何生成API密钥。
-- 自有Blender原模型、八方向渲染、武器锚点与尸体部件脚本在 `output/rts-armies/source/`；原盾兵源文件在 `output/shield-march/`。查看各脚本顶部的命令行参数，不要照抄历史 `/Users/ip` 或 `/private/tmp` 路径。
+- 自有Blender原模型、八方向渲染、武器锚点与尸体部件脚本在 `art-source/rts-armies/source/`；原盾兵源文件在 `art-source/shield-march/`。查看各脚本顶部的命令行参数，不要照抄历史 `/Users/ip` 或 `/private/tmp` 路径。
 - `render_armies.py` 使用Blender后台Python，`pack_armies.py`等打包图集；Python图像依赖需单独安装。已有PNG和JSON足够运行游戏，重新渲染不是开箱运行前提。
 - 自有新种族源模型/对应记录保留在相关art目录；已发布资源的来源和授权文档随工程保留。菜单原画不得修改构图。
 - `output/formation-impact/六排Godot工程` 是独立历史试玩版，主工程仍单排。不要把六排目录覆盖到主工程。

@@ -1,5 +1,7 @@
 # 《鹰旗之下》数据与调参指南
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 ## 会战与菜单的编辑器布局（2026-11-05）
 
 固定布局现在由下面三个场景管理。保存后，停止游戏并从主菜单重新运行即可读取新布局。
@@ -39,7 +41,7 @@
 - `CursorAnchor/SelectionCursor` 的局部偏移控制箭头相对跟随点的位置，根节点的 `Cursor Gap` 当前为 16 像素。运行时 `CursorAnchor` 根据当前选项跟随，光标子节点的局部偏移保留。
 - 标题、提示与背景分别在 `Title`、`Subtitle`、`SelectionHint`、`RomanForum`。语言内容由 `main_menu.gd.render()` 更新现有节点，按钮回调按节点名称绑定。原画为 `assets/menu/forum-original.jpg`，采用完整等比显示。光标运动参数继续来自 `data/presentation/ui.tres`，其中旧菜单坐标字段已由场景布局接替。
 
-验证证据在 `../output/editable-scenes/`。`tests/test_editable_scenes.gd` 检查位置与间距保持、透明点击区、信号数量、阶段复用、墙体与出生点的坐标转换。菜单键盘、存档恢复、七兵种会战、神力、途经点与山口原有测试继续运行。
+验证证据在 [../output/editable-scenes/](https://github.com/IpoKlay/9kings/tree/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/editable-scenes)。`tests/test_editable_scenes.gd` 检查位置与间距保持、透明点击区、信号数量、阶段复用、墙体与出生点的坐标转换。菜单键盘、存档恢复、七兵种会战、神力、途经点与山口原有测试继续运行。
 
 本次是原生 Godot 工程的数据整理。保留整理前的数值、随机顺序、玩法流程、像素画面和素材。运行入口仍是 `project.godot`；没有网站、WebView 或额外网络依赖。
 

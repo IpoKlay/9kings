@@ -55,5 +55,7 @@ func run():
 	for kind in kinds:
 		check(parts.has(kind) and parts[kind].size()==8,kind+' has eight authored rigid-piece bearings')
 		for side in ['ally','enemy']:check(ResourceLoader.exists('res://assets/rts-corpses/'+kind+'_'+side+'.png'),kind+' '+side+' has imported corpse artwork')
+	var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/sword-banner-reference/corpse-motion')
+	assert(output_directory_error==OK)
 	FileAccess.open('res://../output/sword-banner-reference/corpse-motion/visual-fps.json',FileAccess.WRITE).store_string(JSON.stringify(fps_results,'\t'))
 	print('Corpse motion: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)
