@@ -174,6 +174,7 @@ func run():
 		wav.save_to_wav(OUT+'native-music-transitions.wav')
 		print('Captured ',recording.size()/float(wav.mix_rate),' seconds; peak ',peak)
 	else:check(false,'Native mixer returned audio samples')
+	await app.prepare_shutdown()
 	app.free();await process_frame
 	AudioServer.remove_bus(bus)
 	check(is_equal_approx(Store.read_settings(SETTINGS).music_volume,.45),'Saved music volume survives shutdown')
