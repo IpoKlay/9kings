@@ -346,6 +346,23 @@
       "armor": 12.0
     }
   },
+  "attack_modifiers": {
+    "promotion_damage_per_level": 0.1,
+    "armed_villager_damage_bonus": 5,
+    "military_research_damage_bonus": 0.2,
+    "military_direction_damage_bonus": 0.15,
+    "full_health_army_damage_bonus": 0.05,
+    "weakened_attack_penalty": 0.25,
+    "cavalry_charge_damage_bonus": 1.0,
+    "raised_shield_attack_penalty": 0.4,
+    "raised_shield_damage_reduction": 0.6,
+    "strong_camp_damage_multiplier": 1.2,
+    "directional_charge_multiplier": 1.0,
+    "individual_charge_damage_multiplier": 1.0,
+    "individual_charge_trample_decay": 1.0,
+    "base_shield_melee_reduction": 0.0,
+    "base_shield_ranged_reduction": 0.0
+  },
   "starting_resources": {
     "food": 10000,
     "wood": 10000,

@@ -91,7 +91,7 @@ func create_camp(r,point: Vector2,strong: bool):
 		var u=r.spawn_person(type,'enemy',at)
 		u.home=at;u.camp=camps.size();u.order='auto';u.soldiers[0].personal_order='auto'
 		if strong:
-			u.armor_bonus=2;u.combat_stats.damage*=1.2;u.individual_stats.damage=u.combat_stats.damage
+			u.armor_bonus=2;u.combat_stats.damage*=r.attack_modifiers.strong_camp_damage_multiplier;u.individual_stats.damage=u.combat_stats.damage
 			u.max_hp*=1.25;u.soldier_max_hp=u.max_hp;u.soldiers[0].max_hp=u.max_hp;u.soldiers[0].hp=u.max_hp;r.Soldiers.total(u)
 		camp.units.append(u.id)
 	if strong:
