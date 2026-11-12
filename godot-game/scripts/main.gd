@@ -4,6 +4,7 @@ const RunStore=preload('res://scripts/data/run_store.gd')
 var last_saved_run={}
 var run_path_override=''
 var save_error=false
+var quit_requested=false
 const SettingsStore=preload('res://scripts/data/settings_store.gd')
 var contracts: Dictionary=Catalog.data('schema/contracts')
 var feedback: Dictionary=Catalog.presentation('feedback')
@@ -59,6 +60,8 @@ var moving_building_id = -1
 var camp_preview: Label
 
 func _ready():
+	get_tree().auto_accept_quit=false
+	get_window().close_requested.connect(request_quit)
 	documents.app=self
 	start_rng.randomize()
 	load_prefs()
@@ -1039,7 +1042,7 @@ func run_smoke_test():
 	sound.stop()
 	print('NATIVE UI SMOKE PASSED: settings, language, destination, infantry-only battle, victory reward and next route.')
 	await get_tree().process_frame
-	get_tree().quit()
+	await request_quit()
 
 func capture_test_image(name: String):
 	await get_tree().process_frame
@@ -1121,7 +1124,7 @@ func run_render_test():
 	prefs=saved_prefs
 	sound.stop()
 	print('VISUAL TEST PASSED: 48 bilingual cards fit; build, battle, settings and report captured.')
-	get_tree().quit()
+	await request_quit()
 
 func loc(id: String) -> String:
 	return Catalog.text(id,language)
@@ -1214,3 +1217,29 @@ func record_pass_result(trial):
 
 func _exit_tree():
 	if is_instance_valid(active_trial):active_trial.queue_free()
+
+func prepare_shutdown():
+	# Godot releases stopped audio playbacks on later mixer/main-loop updates.
+	# Do this before quit/free; _exit_tree alone runs too late (Godot #76745).
+	process_mode=Node.PROCESS_MODE_DISABLED
+	if is_instance_valid(active_trial):active_trial.process_mode=Node.PROCESS_MODE_DISABLED
+	var playbacks: Array[WeakRef]=[]
+	var players=find_children('*','AudioStreamPlayer',true,false)
+	if is_instance_valid(active_trial):players.append_array(active_trial.find_children('*','AudioStreamPlayer',true,false))
+	for player in players:
+		if player.has_stream_playback():playbacks.append(weakref(player.get_stream_playback()))
+		player.stop()
+		player.stream=null
+	music.shutdown()
+	sound.enabled=false
+	var deadline=Time.get_ticks_msec()+1000
+	while playbacks.any(func(playback):return playback.get_ref()!=null) and Time.get_ticks_msec()<deadline:
+		await get_tree().create_timer(.01,true,false,true).timeout
+	if playbacks.any(func(playback):return playback.get_ref()!=null):
+		push_warning('Audio shutdown timed out; engine playback references remain.')
+
+func request_quit():
+	if quit_requested:return
+	quit_requested=true
+	await prepare_shutdown()
+	get_tree().quit()

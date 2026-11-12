@@ -88,4 +88,5 @@ func run():
 	check(t.rules.stock.food==10000 and t.rules.stock.wood==10000,'Retry resets economy')
 	await snap('cleared',t)
 	print('CONTEXTUAL UI CHECKS=',checks,' FAILURES=',failures)
+	await main.prepare_shutdown()
 	t.queue_free();main.queue_free();await process_frame;quit(1 if failures else 0)
