@@ -37,6 +37,8 @@ func run():
 		else:check(state==baseline,'Death and projectile outcomes identical across render rates')
 		results.append({'fps':fps,'state':state})
 		t.retry();check(t.rules.projectile_serial==0 and t.rules.volleys.is_empty() and t.rules.stones.is_empty() and t.rules.units.all(func(u):return u.soldiers.all(func(actor):return actor.death_state==0)),'Retry creates fresh registered actors without delayed destruction or shot serials')
+	var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/sword-banner-reference/death-lifecycle')
+	assert(output_directory_error==OK)
 	FileAccess.open('res://../output/sword-banner-reference/death-lifecycle/fps.json',FileAccess.WRITE).store_string(JSON.stringify(results,'\t'))
 	t.closed.emit();app.queue_free();await process_frame
 	print('Death lifecycle input: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)

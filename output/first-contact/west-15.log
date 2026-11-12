@@ -1,9 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
-
-CONTACT west display frame 59 { "rider": 16, "soldier": 39, "p": [697.0, 525.000122070312], "fraction": 0.260009765625, "speed": 252.977142333984, "charge_id": 1, "attacker": 7, "target": 6, "dir": [-0.82884061336517, 0.55948477983475], "rider_bearing": 6, "defender_bearing": 0, "rider_cell": 6, "defender_cell": 0, "damage": 71.4, "time": 3.93766682942707, "audio": 1 }
-First contact failures: 0
-WARNING: 17 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2536)
-ERROR: 7 resources still in use at exit (run with --verbose for details).
-   at: clear (core/io/resource.cpp:822)

@@ -65,5 +65,7 @@ func run():
 	check(t.rules.stones.is_empty() and not t.rules.units.any(func(a):return a.soldiers.any(func(s):return s.get('personal_order','')=='bombard')),'Retry clears shells and bombard orders')
 	print('Siege wall checks=',checks,' failures=',failures,' first_landing=',first_landing,' breach=',breach)
 	var out='res://../output/sword-banner-reference/siege-walls/rules.json'
+	var output_directory_error=DirAccess.make_dir_recursive_absolute(out.get_base_dir())
+	assert(output_directory_error==OK)
 	FileAccess.open(out,FileAccess.WRITE).store_string(JSON.stringify({'checks':checks,'failures':failures,'first_landing':first_landing,'breach':breach,'launches':launched.size()},'\t'))
 	t.closed.emit();app.queue_free();await process_frame;quit(1 if failures else 0)

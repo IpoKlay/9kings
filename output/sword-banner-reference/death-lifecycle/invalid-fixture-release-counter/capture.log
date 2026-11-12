@@ -1,9 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-OpenGL API 4.1 Metal - 89.4 - Compatibility - Using Device: Apple - Apple M4
-
-Movie Maker mode enabled, recording movie in 1280×720 @ 60 FPS...
-ERROR: Source-death airborne hit evidence missing
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] run (res://tests/tactical/capture_death_lifecycle.gd:43)
-Death capture: death=50 impact=97 failures=1

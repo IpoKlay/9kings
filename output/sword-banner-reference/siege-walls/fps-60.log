@@ -1,8 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-ERROR: All infantry traverse after the breach, using actual input
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/tactical/capture_siege_walls.gd:4)
-       [1] run (res://tests/tactical/capture_siege_walls.gd:46)
-Siege runtime fps=60 failures=1 breach=6.54999999999998 crossed=-1.0

@@ -1,6 +1,0 @@
-Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-
-ERROR: Condition "ret != noErr" is true. Returning: ""
-   at: get_system_ca_certificates (platform/macos/os_macos.mm:1035)
-Soft-body overlap during pass=true
-Individual group terrain failures=0 lead=(1524.887, 900.5717) rear=(1201.969, 895.4329)

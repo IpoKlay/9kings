@@ -1,56 +1,0 @@
-ffmpeg version 9.0 Copyright (c) 2000-2026 the FFmpeg developers
-  built with Apple clang version 13.1.6 (clang-1316.0.21.2.5)
-  configuration: --prefix=/Volumes/tempdisk/sw --extra-cflags=-fno-stack-check --arch=arm64 --cc=/usr/bin/clang --enable-gpl --enable-libvmaf --enable-libopenjpeg --enable-libopus --enable-libmp3lame --enable-libx264 --enable-libx265 --enable-libvvenc --enable-libvpx --enable-libwebp --enable-libass --enable-libfreetype --enable-fontconfig --enable-libtheora --enable-libvorbis --enable-libsnappy --enable-libaom --enable-libvidstab --enable-libzimg --enable-libsvtav1 --enable-libharfbuzz --enable-libkvazaar --pkg-config-flags=--static --enable-ffplay --enable-neon --enable-runtime-cpudetect --disable-indev=qtkit --disable-indev=x11grab_xcb
-  libavutil      61.  1.100 / 61.  1.100
-  libavcodec     63.  1.100 / 63.  1.100
-  libavformat    63.  1.100 / 63.  1.100
-  libavdevice    63.  1.100 / 63.  1.100
-  libavfilter    12.  1.100 / 12.  1.100
-  libswscale     10.  1.100 / 10.  1.100
-  libswresample   7.  1.100 /  7.  1.100
-[aist#0:1/pcm_s16le @ 0x127e08c10] Guessed Channel Layout: stereo
-Input #0, avi, from 'output/sword-banner-reference/siege-walls/runtime.avi':
-  Duration: 00:00:24.02, start: 0.000000, bitrate: 69468 kb/s
-  Stream #0:0: Video: mjpeg (Baseline) (MJPG / 0x47504A4D), yuvj420p(pc, bt470bg/unknown/unknown), 1280x720 [SAR 1:1 DAR 16:9], 67956 kb/s, 60 fps, 60 tbr, 60 tbn
-  Stream #0:1: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 48000 Hz, stereo, s16, 1536 kb/s
-Stream mapping:
-  Stream #0:0 -> #0:0 (mjpeg (native) -> h264 (libx264))
-  Stream #0:1 -> #0:1 (pcm_s16le (native) -> aac (native))
-Press [q] to stop, [?] for help
-[swscaler @ 0x130030000] deprecated pixel format used, make sure you did set range correctly
-[libx264 @ 0x128908090] using SAR=1/1
-[libx264 @ 0x128908090] using cpu capabilities: ARMv8 NEON
-[libx264 @ 0x128908090] profile High, level 3.2, 4:2:0, 8-bit
-[libx264 @ 0x128908090] 264 - core 164 r3190 7ed753b - H.264/MPEG-4 AVC codec - Copyleft 2003-2024 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=15 lookahead_threads=2 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=18.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00
-Output #0, mp4, to 'output/sword-banner-reference/siege-walls/runtime.mp4':
-  Metadata:
-    encoder         : Lavf63.1.100
-  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(pc, bt470bg/unknown/unknown, progressive), 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 60 fps, 15360 tbn
-    Metadata:
-      encoder         : Lavc63.1.100 libx264
-    Side data:
-      CPB properties: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: N/A
-  Stream #0:1: Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 128 kb/s
-    Metadata:
-      encoder         : Lavc63.1.100 aac
-frame=   64 fps=0.0 q=26.0 size=       0KiB time=00:00:01.21 bitrate=   0.3kbits/s speed=2.42x elapsed=0:00:00.50    frame=  186 fps=184 q=26.0 size=     256KiB time=00:00:03.20 bitrate= 655.5kbits/s speed=3.17x elapsed=0:00:01.00    frame=  313 fps=207 q=26.0 size=     512KiB time=00:00:05.29 bitrate= 792.8kbits/s speed=3.49x elapsed=0:00:01.51    frame=  445 fps=220 q=26.0 size=     512KiB time=00:00:07.50 bitrate= 558.6kbits/s speed=3.72x elapsed=0:00:02.01    frame=  592 fps=235 q=26.0 size=     768KiB time=00:00:09.98 bitrate= 630.2kbits/s speed=3.96x elapsed=0:00:02.52    frame=  684 fps=226 q=26.0 size=     768KiB time=00:00:11.47 bitrate= 548.2kbits/s speed=3.79x elapsed=0:00:03.02    frame=  818 fps=232 q=26.0 size=    1536KiB time=00:00:13.76 bitrate= 914.5kbits/s speed=3.89x elapsed=0:00:03.53    frame=  980 fps=243 q=26.0 size=    2048KiB time=00:00:16.42 bitrate=1021.4kbits/s speed=4.07x elapsed=0:00:04.03    frame= 1152 fps=254 q=26.0 size=    2560KiB time=00:00:19.34 bitrate=1083.9kbits/s speed=4.27x elapsed=0:00:04.53    frame= 1332 fps=264 q=26.0 size=    3072KiB time=00:00:22.35 bitrate=1125.6kbits/s speed=4.43x elapsed=0:00:05.04    [out#0/mp4 @ 0x128906eb0] video:3162KiB audio:379KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 1.097589%
-frame= 1441 fps=273 q=-1.0 Lsize=    3580KiB time=00:00:24.01 bitrate=1221.1kbits/s speed=4.55x elapsed=0:00:05.27    
-[libx264 @ 0x128908090] frame I:6     Avg QP:13.25  size:194158
-[libx264 @ 0x128908090] frame P:365   Avg QP:16.71  size:  2507
-[libx264 @ 0x128908090] frame B:1070  Avg QP:27.69  size:  1082
-[libx264 @ 0x128908090] consecutive B-frames:  0.6%  1.1%  0.6% 97.7%
-[libx264 @ 0x128908090] mb I  I16..4:  0.2% 97.0%  2.8%
-[libx264 @ 0x128908090] mb P  I16..4:  0.0%  0.2%  0.0%  P16..4:  1.3%  0.4%  0.6%  0.0%  0.0%    skip:97.4%
-[libx264 @ 0x128908090] mb B  I16..4:  0.0%  0.0%  0.0%  B16..8:  0.7%  0.3%  0.3%  direct: 0.2%  skip:98.5%  L0:41.4% L1:45.2% BI:13.3%
-[libx264 @ 0x128908090] 8x8 transform intra:94.2% inter:43.2%
-[libx264 @ 0x128908090] coded y,uvDC,uvAC intra: 98.1% 59.2% 42.9% inter: 0.6% 0.7% 0.2%
-[libx264 @ 0x128908090] i16 v,h,dc,p:  3% 72% 25%  0%
-[libx264 @ 0x128908090] i8 v,h,dc,ddl,ddr,vr,hd,vl,hu: 11% 28% 31%  4%  4%  3%  6%  5% 10%
-[libx264 @ 0x128908090] i4 v,h,dc,ddl,ddr,vr,hd,vl,hu: 15% 38% 15%  5%  5%  6%  5%  5%  6%
-[libx264 @ 0x128908090] i8c dc,h,v,p: 42% 39% 14%  5%
-[libx264 @ 0x128908090] Weighted P-Frames: Y:0.3% UV:0.3%
-[libx264 @ 0x128908090] ref P L0: 59.3%  5.3% 17.1% 18.3%
-[libx264 @ 0x128908090] ref B L0: 79.0% 11.7%  9.4%
-[libx264 @ 0x128908090] ref B L1: 93.5%  6.5%
-[libx264 @ 0x128908090] kb/s:1078.43
-[aac @ 0x12890b790] Qavg: 453.340

@@ -1,12 +1,14 @@
 # 原作参考与证据等级
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 ## 版本边界
 
 - 官方旧公开浏览器版：<https://bitrotgames.itch.io/sword-banner>。本地分析包为20260409旧包，作者明确标注旧版。源码结构/算子实验主要来自它，不代表当前Steam版。
 - 官方商店：<https://store.steampowered.com/app/4574370/Sword__Banner/>。
 - 攻城Demo0.4.0公告：<https://store.steampowered.com/news/app/4957080/view/692025200776053522>。
 - 作者导航说明：<https://www.reddit.com/r/godot/comments/1taw1qk/whats_the_hardest_part_about_developing_an_rts/>；描述16像素A*、LOS、地面/城墙层、楼梯梯子链接、string pulling和C++紧凑数据。属于作者说明，不是已获得的最新原生源码。
-- 2026-11-06最后访问：Steam Playtest4957080公开分支build26442483；官方SteamCMD匿名下载返回No subscription。日志在 `output/sword-banner-reference/latest-access/`。没有新版可运行包，不能拿公告替代实机对照。朋友应使用有资格的正常账号取得参考，不绕过授权。
+- 2026-11-06最后访问：Steam Playtest4957080公开分支build26442483；官方SteamCMD匿名下载返回No subscription。日志在 [output/sword-banner-reference/latest-access/](https://github.com/IpoKlay/9kings/tree/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/sword-banner-reference/latest-access)。没有新版可运行包，不能拿公告替代实机对照。朋友应使用有资格的正常账号取得参考，不绕过授权。
 
 ## 什么算证据
 

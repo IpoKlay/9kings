@@ -2,9 +2,9 @@
 
 ## 当前开发版：Godot 原生工程
 
-**最新交接：** [2026-11-07 战斗核心与完整剩余任务](handoff/combat-core-2026-11-07/README.md)。本节点暂停扩展，完整复现尚未完成，千人性能仍未达标。
+**历史交接（2026-11-07）：** [2026-11-07 战斗核心与完整剩余任务](handoff/combat-core-2026-11-07/README.md)。该记录描述当时的范围和遗留问题，不代表当前版本的验收结论。
 
-编译后的试玩包、录像和旧工程副本已从当前版本移出，模型源文件与游戏所需资源保留。旧历史仍含大文件，新协作者可使用浅克隆，只下载当前版本。
+编译后的试玩包、录像和旧工程副本已从当前版本移出，模型源文件与游戏所需资源保留。历史截图、日志和旧网页资料见[归档索引](docs/archive/README.md)。旧历史仍含大文件，新协作者可使用浅克隆，只下载当前版本。
 
 ```sh
 git clone --depth 1 git@github.com:IpoKlay/9kings.git
@@ -29,17 +29,17 @@ git clone --depth 1 git@github.com:IpoKlay/9kings.git
 
 主工程保持单排编队，包含山口进攻计划、预备队、战后复盘、萨贡图姆远征战斗，以及骑兵冲击和各兵种反馈。三个正式布局现在可直接在 Godot 2D 编辑器修改并保存。
 
-- [会战 HUD](godot-game/scenes/ui/battle_hud.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-hud.png)
-- [山口布局](godot-game/scenes/battlefields/roman_pass.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-pass.png)
-- [主菜单](godot-game/scenes/ui/main_menu.tscn) · [编辑器与实机对照](output/editable-scenes/comparison-menu.png)
-- [六排冲锋独立源码](https://github.com/IpoKlay/9kings/blob/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/output/formation-impact/%E5%85%AD%E6%8E%92Godot%E5%B7%A5%E7%A8%8B/project.godot) · [冲击验收与录像](output/formation-impact/试玩与验收.md)
+- [会战 HUD](godot-game/scenes/ui/battle_hud.tscn) · [编辑器与实机对照](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/editable-scenes/comparison-hud.png)
+- [山口布局](godot-game/scenes/battlefields/roman_pass.tscn) · [编辑器与实机对照](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/editable-scenes/comparison-pass.png)
+- [主菜单](godot-game/scenes/ui/main_menu.tscn) · [编辑器与实机对照](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/editable-scenes/comparison-menu.png)
+- [六排冲锋独立源码](https://github.com/IpoKlay/9kings/blob/1f82ba2ad4b3ec802d9ba066dca6617a44e5d75a/output/formation-impact/%E5%85%AD%E6%8E%92Godot%E5%B7%A5%E7%A8%8B/project.godot) · [冲击验收与录像](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/formation-impact/%E8%AF%95%E7%8E%A9%E4%B8%8E%E9%AA%8C%E6%94%B6.md)
 - [同步范围与复测说明](docs/SYNC-2026-11-05.md)
 
 按钮位置、纸签样式、树木、军旗、阻挡岩壁、出生标记与菜单行距的具体编辑入口见 [DATA_GUIDE](godot-game/DATA_GUIDE.md)。六排源码属于历史验收快照，链接指向清理前的提交；当前开发使用单排主工程。
 
-## 最新游戏画面
+## 历史功能截图
 
-以下为当前 Godot 开发原型的游戏截图。
+以下保留原生原型的历史功能截图，用于说明玩法；不代表最新美术或当前验收结果。
 
 ### 山口会战
 
@@ -65,31 +65,10 @@ git clone --depth 1 git@github.com:IpoKlay/9kings.git
 
 ![军营整备：军团阵容、相邻协同与临时军令三选一](docs/screenshots/camp-recovery.png)
 
-## 旧网页试玩版 v0.14
+## 历史资料与美术源文件
 
-下面的公开试玩链接与网页源码档案保留原版本；上传 Godot 源码不会自动部署网页版。
+- [历史产物归档与恢复索引](docs/archive/README.md)：旧截图、测试日志、旧网页源码及逐文件校验清单。
+- [可编辑美术源文件](art-source/README.md)：保留的 Blender 模型和生成脚本。
+- [初始设计](123.pdf)、[图像 Prompt 手册](鹰旗之下-完整图像Prompt手册.pdf)、[原始 roguelike 文档](roguelike.docx)：历史设计资料，保留备查。
 
-[直接试玩 / Play online](https://ipoklay.github.io/eagle-standard-demo/)
-
-A full-screen isometric legion strategy game with 24 cards, seven troop types and endless yearly battles. Use the gear button to choose **中文 / English**, adjust sound and war-cry volume, or toggle impact feedback. Settings pause the battle and are saved locally.
-
-## Growing threats
-
-Years 1–3 are gentle infantry patrols. Enemy archers arrive in year 4, shield guards in year 6, cavalry in year 8 and catapults in year 10. Health and attack increase gradually every year; enemy squad count grows every other year to a cap of 20. The year label includes a compact preview of the enemy composition before battle.
-
-## Build your legion
-
-Every year offers three random cards, avoiding consecutive repeats whenever possible and filtering capped upgrades. Buildings remain fixed; troops automatically form a shared battlefield. Combine Fire Arrows + Pitch Stones, Spearmen + Pin & Pierce, Shields + Medics, Cavalry + Blood & Glory, and melee engagement + Crossfire. BUILD lists your army and synergies.
-
-Choose a card → build or upgrade → MARCH. Start with three lives; one failed year costs one life. Pause, speed up battle, or press M to toggle sound. Download index.html to play offline. Campaign progress is not saved after reloading.
-
-49 automated checks cover combat, yearly progression, localization, random draws and synergies. The starting army can survive the first three years without supplies. A fixed seven-squad army loses in year 16 without doctrines, and wins with the tested combined build. This is an initial balance pass for further playtesting.
-
-## Source and private design documents
-
-- [Source archive](eagle-standard-demo-source.zip) — current HTML/CSS/JS, assets, 49 checks, balance probe and packaging scripts.
-- [Initial design](123.pdf)
-- [Image prompt handbook](鹰旗之下-完整图像Prompt手册.pdf)
-- Original roguelike.docx preserved. Audio credits are included in the archive.
-
-The public play link requires no repository invitation. Source collaboration requires access to this private repository; GitHub App authorization is a separate permission.
+当前开发与运行仅使用 Godot 原生工程；旧网页试玩档案不再作为开发入口。
