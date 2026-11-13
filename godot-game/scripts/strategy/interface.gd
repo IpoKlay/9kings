@@ -92,8 +92,9 @@ func _ready():
 	result_panel=surface(Vector2(680,350),Vector2(560,230))
 	var end=VBoxContainer.new();result_panel.add_child(end)
 	result_label=label('',34);end.add_child(result_label)
-	button(end,'重新开始',func():clear_selection();trial.retry())
-	button(end,'返回主菜单',trial.closed.emit)
+	if not trial.has_meta('cassius_journey'):
+		button(end,'重新开始',func():clear_selection();trial.retry())
+	button(end,'返回远征' if trial.has_meta('cassius_journey') else '返回主菜单',trial.closed.emit)
 	result_panel.hide();panel.hide()
 	trial.selected=''
 	trial.set_meta('strategy_interface',self)

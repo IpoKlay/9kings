@@ -28,6 +28,8 @@ var campaign = Campaign.new()
 var expedition = Expedition.new(campaign)
 var expedition_map
 var active_trial
+var cassius: Control
+var cassius_save_path = 'user://cassius.cfg'
 var battle_screen: TextureRect
 var world
 var sound
@@ -529,7 +531,7 @@ func toast(message: String):
 	toast_label.text=message
 	toast_time=2
 func _process(delta):
-	if world==null: return
+	if world==null or is_instance_valid(cassius): return
 	sync_music()
 	if is_instance_valid(departure): return # No simulation or damage behind the travel/cloud curtain.
 	if main_menu:
@@ -611,7 +613,7 @@ func play_events(events: Array):
 			'breach': sound.play('bad')
 
 func _input(event):
-	if input_locked: return
+	if input_locked or is_instance_valid(cassius): return
 	# The title menu owns navigation before GUI focus can consume the same key.
 	if main_menu and dialog_kind=='' and event is InputEventKey:
 		if menu_view.handle_key(event): get_viewport().set_input_as_handled()
@@ -623,7 +625,7 @@ func _input(event):
 			get_viewport().set_input_as_handled()
 
 func _unhandled_input(event):
-	if input_locked: return
+	if input_locked or is_instance_valid(cassius): return
 	if main_menu:
 		if event is InputEventKey:
 			if event.pressed and not event.echo and event.keycode==KEY_ESCAPE and dialog_kind!='':
@@ -1160,13 +1162,32 @@ func open_pass_pilot():
 	if main_menu or is_instance_valid(active_trial) or campaign.g.phase!='battle' or not expedition.is_pass(expedition.state.target):return
 	open_tactical_trial(false,true)
 
-func open_tactical_trial(test_powers: bool=false,pilot: bool=false):
+func open_cassius():
+	if not main_menu or input_locked or dialog_kind!='' or is_instance_valid(cassius):return
+	cassius=load('res://scripts/cassius/screen.gd').new()
+	cassius.app=self
+	cassius.save_path=cassius_save_path
+	menu_view.hide()
+	add_child(cassius)
+	music.play_track('camp')
+	music.set_quiet(false)
+	sound.set_ambience('',false)
+
+func close_cassius():
+	if not is_instance_valid(cassius):return
+	remove_child(cassius)
+	cassius.queue_free()
+	cassius=null
+	render_ui()
+
+func open_tactical_trial(test_powers: bool=false,pilot: bool=false,on_return: Callable=Callable()):
 	if is_instance_valid(active_trial):return
 	var trial=load('res://scenes/tactical_trial.tscn').instantiate()
 	active_trial=trial
 	if not pilot:trial.rules=trial.StrategyBattle.new(test_powers)
 	elif test_powers:trial.rules=trial.PassBattle.new(true)
 	trial.app=self
+	if on_return.is_valid():trial.set_meta('cassius_journey',true)
 	trial.pilot=pilot
 	if pilot:
 		trial.rules.deploy_defenders()
@@ -1193,7 +1214,8 @@ func open_tactical_trial(test_powers: bool=false,pilot: bool=false):
 		set_process_unhandled_input(true)
 		menu_view.set_process(true)
 		if not pilot:
-			music.play_track('menu')
+			music.play_track('camp' if on_return.is_valid() else 'menu')
+			if on_return.is_valid():on_return.call(trial.rules.phase)
 			return
 		if campaign.g.phase=='battle':
 			var checkpoint=RunStore.snapshot(campaign,expedition)

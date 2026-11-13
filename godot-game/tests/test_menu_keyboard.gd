@@ -61,8 +61,8 @@ func run():
 		app.main_menu=true
 		menu.selected=0
 		app.render_ui()
-		check(menu.options.size()==5,'Five menu options including tactical trial '+lang)
-		check(menu.options.map(func(b):return str(b.name))==['TacticalTrial','ResumeGame','StartGame','MenuSettings','QuitGame'],'Original game actions preserved')
+		check(menu.options.size()==6,'Six menu options including Cassius '+lang)
+		check(menu.options.map(func(b):return str(b.name))==['TacticalTrial','ResumeGame','StartGame','MenuSettings','QuitGame','Cassius'],'Original actions plus Cassius journey')
 		check(not menu.option_available(1),'Continue is unavailable without a run')
 		check(menu.cursor.texture.get_size()==Vector2(16,16),'Reference pixel cursor is loaded')
 		await key(0,KEY_DOWN)
@@ -102,7 +102,10 @@ func run():
 		await key(KEY_DOWN)
 		check(menu.selected==4,'Down selects Quit')
 		await key(KEY_DOWN)
-		check(menu.selected==4,'Lower boundary is clamped')
+		check(menu.selected==5,'Down selects Cassius')
+		await key(KEY_DOWN)
+		check(menu.selected==5,'Lower boundary is clamped')
+		await key(KEY_UP)
 		menu.actions[4]=func():quit_requests+=1
 		await key(KEY_ENTER)
 		check(quit_requests==1,'Enter dispatches the selected Quit action once')

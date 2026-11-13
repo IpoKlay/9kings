@@ -219,6 +219,21 @@ theme_override_styles/disabled = SubResource("text_only")
 theme_override_colors/font_color = Color(0.878,0.824,0.69,1)
 text = "退出"
 
+[node name="Cassius" type="Button" parent="MenuOptions"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0,74)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 34
+theme_override_styles/normal = SubResource("text_only")
+theme_override_styles/hover = SubResource("text_only")
+theme_override_styles/pressed = SubResource("text_only")
+theme_override_styles/focus = SubResource("text_only")
+theme_override_styles/disabled = SubResource("text_only")
+theme_override_colors/font_color = Color(0.878,0.824,0.69,1)
+text = "卡西修斯 · 行军"
+
 [node name="SelectionHint" type="Label" parent="."]
 offset_left = 1198.0
 offset_top = 978.0
