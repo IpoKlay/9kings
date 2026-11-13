@@ -90,13 +90,7 @@ func load_battlefield():
 	if is_instance_valid(pass_layout):
 		remove_child(pass_layout)
 		pass_layout.queue_free()
-	if trial.rules.has_method('strategy_paths'):
-		pass_layout=preload('res://scripts/strategy/field.gd').new()
-		pass_layout.trial=trial
-		pass_layout.z_index=-2
-		add_child(pass_layout)
-		LANDSCAPE=pass_layout.landscape_rect
-	elif trial.rules is SquareBattle:
+	if trial.rules is SquareBattle:
 		pass_layout=(preload('res://scenes/battlefields/whiteboard_battlefield.tscn') if trial.rules is WhiteboardBattle else preload('res://scenes/battlefields/square_battlefield.tscn')).instantiate()
 		pass_layout.trial=trial
 		pass_layout.z_index=-2

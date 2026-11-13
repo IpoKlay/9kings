@@ -1162,12 +1162,12 @@ func open_pass_pilot():
 
 func open_tactical_trial(test_powers: bool=false,pilot: bool=false):
 	if is_instance_valid(active_trial):return
-	var trial=load('res://scenes/tactical_trial.tscn').instantiate()
+	var trial=load('res://scenes/tactical_trial.tscn' if pilot else 'res://scenes/legion_battle.tscn').instantiate()
 	active_trial=trial
-	if not pilot:trial.rules=trial.StrategyBattle.new(test_powers)
-	elif test_powers:trial.rules=trial.PassBattle.new(true)
+	if pilot:
+		trial.pilot=true
+		if test_powers:trial.rules=trial.PassBattle.new(true)
 	trial.app=self
-	trial.pilot=pilot
 	if pilot:
 		trial.rules.deploy_defenders()
 		trial.rules.deploy_escort(campaign,expedition.escort_building())

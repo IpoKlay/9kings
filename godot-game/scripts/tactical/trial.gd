@@ -7,7 +7,6 @@ const Paper=preload('res://scripts/rpg_ui.gd')
 const INK=Color('#382f25')
 const PassBattle=preload('res://scripts/tactical/pass_battle.gd')
 const SquareBattle=preload('res://scripts/tactical/square_battle.gd')
-const StrategyBattle=preload('res://scripts/strategy/battle.gd')
 const WhiteboardBattle=preload('res://scripts/tactical/whiteboard_battle.gd')
 const SiegeBattle=preload('res://scripts/tactical/siege_battle.gd')
 @onready var siege_button: Button=$BattleHUD/DeploymentActions/SiegeButton
@@ -105,7 +104,6 @@ func skill_text(zh: String, en: String) -> String:
 	values.slow_percent=roundi((1-float(values.get('slow',1)))*100)
 	return words(zh,en).format(values)
 func _ready():
-	call_deferred('install_strategy_ui')
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
 	theme=preload('res://assets/fonts/game_pixel_theme.tres')
@@ -203,13 +201,6 @@ func _ready():
 	add_child(myth_audio)
 	reset_camera()
 	refresh()
-func install_strategy_ui():
-	if rules is StrategyBattle:
-		var panel=preload('res://scripts/strategy/interface.gd').new()
-		panel.trial=self
-		selected=''
-		add_child(panel)
-
 func start_or_hold():
 	match rules.phase:
 		'deploy':
@@ -251,7 +242,6 @@ func loadout_name(kind: String,base: String,compact: bool=false) -> String:
 	return words(variant.name_short,variant.name_short_en) if compact else words(variant.name,variant.name_en)
 
 func unit_name(u: Dictionary) -> String:
-	if u.has('unit_type'):return rules.strategy.units[u.unit_type].name
 	var variant: Dictionary=rules.config.unit_variants.get(u.get('archetype',''),{})
 	if not variant.is_empty():return words(variant.name,variant.name_en)
 	return words(rules.config.types[u.kind].get('name',u.kind),u.kind)
@@ -330,9 +320,6 @@ func event_text(e: Dictionary) -> String:
 	return ''
 
 func refresh():
-	if rules is StrategyBattle:
-		$BattleHUD.hide()
-		return
 	var character=rules.characters.filter(func(c):return c.id==rules.deity)[0]
 	if portrait_id!=rules.deity:
 		portrait_id=rules.deity
@@ -514,15 +501,6 @@ func refresh():
 	if rules.phase=='battle' and not rout_alerts.is_empty():
 		if rout_notice_left<=0:rout_notice_left=3
 		hint.text=event_text(rout_alerts[0])
-	if rules is StrategyBattle:
-		$BattleHUD/DeploymentActions.hide()
-		$BattleHUD/ReserveActions.hide()
-		$BattleHUD/RegimentRoster.hide()
-		character_picker.hide();portrait.hide();power_note.hide()
-		volley_button.hide();blink_button.hide()
-		$BattleHUD/BattleActions/PowerButton.hide()
-		if selected not in ['charge','attack_move'] and notice_seconds<=0:hint.text='守住城镇，击败三波增援并摧毁敌堡 · 右键移动会自动集结'
-		if paused:hint.text='已暂停 · '+hint.text
 	# A rejected command must remain readable above mode instructions, including pause.
 	if notice_seconds>0:hint.text=(words('已暂停 · ','Paused · ') if paused else '')+notice
 
@@ -532,7 +510,7 @@ func retry():
 	charge_audio.clear();audio_clock=0.
 	myth_audio.stop_all()
 	var deity=rules.deity
-	rules=StrategyBattle.new(false) if rules is StrategyBattle else WhiteboardBattle.new(rules.unlimited_powers) if rules is WhiteboardBattle else SiegeBattle.new(rules.unlimited_powers) if rules is SiegeBattle else SquareBattle.new(rules.unlimited_powers) if rules is SquareBattle else PassBattle.new(rules.unlimited_powers)
+	rules=WhiteboardBattle.new(rules.unlimited_powers) if rules is WhiteboardBattle else SiegeBattle.new(rules.unlimited_powers) if rules is SiegeBattle else SquareBattle.new(rules.unlimited_powers) if rules is SquareBattle else PassBattle.new(rules.unlimited_powers)
 	field.load_battlefield()
 	slow=false
 	oil_index=-1
@@ -545,7 +523,7 @@ func retry():
 	drawing_wall=false
 	drag_select=false
 	reset_camera()
-	selected='' if rules is StrategyBattle else 'legion'
+	selected='legion'
 	paused=false
 	accumulator=0
 	result.text=''
@@ -615,7 +593,7 @@ func _process(dt: float):
 		rout_notice_left=maxf(0,rout_notice_left-dt)
 		if rout_notice_left==0 and not rout_alerts.is_empty():rout_alerts.pop_front()
 	var pan=Vector2(Input.get_axis('ui_left','ui_right'),Input.get_axis('ui_up','ui_down'))
-	if not rules is StrategyBattle and pan!=Vector2.ZERO and not character_picker.get_popup().visible:
+	if pan!=Vector2.ZERO and not character_picker.get_popup().visible:
 		set_camera(camera_offset+pan.normalized()*920*dt/zoom)
 	pointer=field.unproject(field_point(get_local_mouse_position()))
 	if paused:field.queue_redraw()
@@ -740,7 +718,7 @@ func set_camera(offset: Vector2):
 	camera_offset=offset
 	for axis in 2:
 		camera_offset[axis]=clampf(offset[axis],surface_rect.position[axis],maximum[axis]) if maximum[axis]>=surface_rect.position[axis] else (surface_rect.position[axis]+maximum[axis])*.5
-	if not rules is StrategyBattle:camera_offset=camera_offset.snapped(Vector2(2,2))
+	camera_offset=camera_offset.snapped(Vector2(2,2))
 	field.get_viewport().canvas_transform=Transform2D(0,Vector2.ONE*zoom,0,-camera_offset*.5*zoom)
 	field.queue_redraw()
 	if is_instance_valid(field.pass_layout):field.pass_layout.queue_redraw()
@@ -768,7 +746,7 @@ func select_squads(screen: Vector2, additive: bool):
 					if u.soldiers[slot].hp>0 and Vector2i(u.id,slot) not in soldier_ids:soldier_ids.append(Vector2i(u.id,slot))
 			squad_ids.clear()
 		var hit=soldier_at(screen,'ally')
-		if regiment_gesture and not hit.is_empty() and not rules is StrategyBattle:
+		if regiment_gesture and not hit.is_empty():
 			soldier_ids.clear();squad_ids=[hit.unit.id];selected='route'
 		else:
 			var box=Rect2(drag_origin,screen-drag_origin).abs()
@@ -838,7 +816,6 @@ func _notification(what):
 		drag_select=false
 
 func _input(event):
-	if rules is StrategyBattle:return
 	if drawing_wall:
 		if event is InputEventKey and event.pressed and event.physical_keycode==KEY_ESCAPE:
 			drawing_wall=false;selected='';get_viewport().set_input_as_handled();return
@@ -950,7 +927,6 @@ func click_ground(screen: Vector2, additive: bool):
 		notice_seconds=2
 
 func _unhandled_input(event):
-	if rules is StrategyBattle:return
 	if event is InputEventKey and event.pressed and not event.echo:
 		var code=event.physical_keycode if event.physical_keycode!=0 else event.keycode
 		match code:

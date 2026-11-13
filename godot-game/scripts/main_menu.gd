@@ -115,7 +115,7 @@ func render():
 	$Title.text=app.loc('main_menu.under_the_eagle')
 	$Title.add_theme_font_size_override('font_size',title_size if app.language=='zh' else english_title_size)
 	$Subtitle.text=app.loc('main_menu.the_mediterranean_campaign')
-	%TacticalTrial.text=app.tx('军团会战 · RTS','Legion Battle · RTS')
+	%TacticalTrial.text=app.tx('军团会战 · 布阵与交战','Legion Battle · Deploy & Fight')
 	%ResumeGame.text=app.tx('继续远征','Continue Expedition')
 	%ResumeGame.tooltip_text='' if app.has_run else app.loc('main_menu.no_run')
 	%StartGame.text=app.tx('新远征','New Expedition')
