@@ -28,6 +28,8 @@ func run():
 	await process_frame
 	if DisplayServer.get_name()!='headless':
 		RenderingServer.force_draw()
+		var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/single-rank')
+		assert(output_directory_error==OK)
 		root.get_texture().get_image().save_png('res://../output/single-rank/七兵种单排.png')
 	t.closed.emit()
 	main.queue_free()

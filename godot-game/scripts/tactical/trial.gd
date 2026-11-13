@@ -80,6 +80,19 @@ var journal_cursor=0
 var rout_alerts: Array[Dictionary]=[]
 var rout_notice_left=0.0
 var accumulator=0.0
+## Catch-up budget. One step stays authoritative (1/60 s); the ceiling only bounds how many
+## steps a single frame may buy, so a slow step cannot multiply into an unbounded frame.
+## Two steps still keeps real time on a 30 Hz display; below that the simulation runs in
+## deliberate slow motion instead of freezing the frame. Unaffordable whole steps are dropped
+## rather than carried, which stops the loop from locking at the maximum forever.
+const SIM_STEP=1.0/60
+const MAX_SIM_STEPS_PER_FRAME=2
+## Once a single step costs more than a frame, buying two of them only stretches the frame.
+## The measured step cost therefore drops the allowance back to one step.
+const EXPENSIVE_STEP_MS=22.0
+## Opt-in diagnostic: dropping backlog changes real-time simulation speed.
+var bounded_catchup=false
+var last_step_ms=0.0
 var notice=''
 var notice_seconds=0.0
 var myth_audio=preload('res://scripts/tactical/myth_audio.gd').new()
@@ -516,6 +529,7 @@ func refresh():
 func retry():
 	for voice in impact_voices.values():voice.stop()
 	voice_times.clear()
+	charge_audio.clear();audio_clock=0.
 	myth_audio.stop_all()
 	var deity=rules.deity
 	rules=StrategyBattle.new(false) if rules is StrategyBattle else WhiteboardBattle.new(rules.unlimited_powers) if rules is WhiteboardBattle else SiegeBattle.new(rules.unlimited_powers) if rules is SiegeBattle else SquareBattle.new(rules.unlimited_powers) if rules is SquareBattle else PassBattle.new(rules.unlimited_powers)
@@ -543,28 +557,48 @@ func retry():
 	start_button.text=words('开战','Begin')
 	refresh()
 signal contact_audio_started(contact: Dictionary)
+signal sound_cue(cue: Dictionary)
 
 var impact_voices: Dictionary={}
 var voice_times: Dictionary={}
+var audio_clock=0.
+var charge_audio=preload('res://scripts/tactical/charge_audio.gd').new()
+const CHARGE_CLIPS={
+	'charge_hit0':preload('res://assets/combat_audio/charge/charge-hit-0.wav'),
+	'charge_hit1':preload('res://assets/combat_audio/charge/charge-hit-1.wav'),
+	'charge_hit2':preload('res://assets/combat_audio/charge/charge-hit-2.wav'),
+	'charge_land':preload('res://assets/combat_audio/charge/charge-land.wav')}
 
 func local_sound(layer: String, sample_name: String, ground: Vector2, gain: float, interval: float) -> bool:
 	if app==null or not app.sound.enabled or app.sound.volume<=0:return false
-	if rules.elapsed-float(voice_times.get(layer,-10.))<interval:return false
-	if not impact_voices.has(layer):
+	if layer in charge_audio.PRIORITY:return charge_audio.request(layer,sample_name,ground,gain)
+	return start_local_sound(layer,sample_name,ground,gain,interval)
+
+func flush_charge_audio():
+	for cue in charge_audio.drain(audio_clock):
+		start_local_sound(cue.layer,cue.sample,cue.pos,cue.gain,0.,cue.bus,CHARGE_CLIPS.get(cue.sample),1.)
+
+func start_local_sound(layer: String,sample_name: String,ground: Vector2,gain: float,interval: float,bus: String='',clip: AudioStream=null,pitch: float=-1.) -> bool:
+	if app==null or not app.sound.enabled or app.sound.volume<=0:return false
+	if bus.is_empty():bus=layer
+	if audio_clock-float(voice_times.get(bus,-10.))<interval:return false
+	if not impact_voices.has(bus):
 		var player:=AudioStreamPlayer2D.new()
 		player.attenuation=0.
 		player.max_distance=4000
 		add_child(player)
-		impact_voices[layer]=player
-	var voice: AudioStreamPlayer2D=impact_voices[layer]
-	voice_times[layer]=rules.elapsed
-	voice.stream=app.sound.cache[sample_name]
+		impact_voices[bus]=player
+	var voice: AudioStreamPlayer2D=impact_voices[bus]
+	voice_times[bus]=audio_clock
+	voice.stop()
+	voice.stream=clip if clip!=null else app.sound.cache[sample_name]
 	voice.position=(field.project(ground)-camera_offset)*zoom
 	voice.set_meta('gain',gain)
 	voice.volume_linear=app.sound.volume*gain
-	voice.pitch_scale=.78 if slow else 1.
+	voice.pitch_scale=(pitch if pitch>0. else 1.)*(.78 if slow else 1.)
 	voice.stream_paused=false
 	voice.play()
+	sound_cue.emit({'time':audio_clock,'file':voice.stream.resource_path,'gain':voice.volume_linear,'pitch':voice.pitch_scale,'layer':layer,'voice':bus})
 	return true
 
 func play_contact_audio(contact: Dictionary):
@@ -572,6 +606,7 @@ func play_contact_audio(contact: Dictionary):
 		contact_audio_started.emit(contact)
 
 func _process(dt: float):
+	if not paused:audio_clock+=minf(dt,.1)
 	for voice in impact_voices.values():
 		voice.stream_paused=paused
 		voice.volume_linear=app.sound.volume*voice.get_meta('gain',1.) if app!=null and app.sound.enabled else 0.
@@ -585,18 +620,33 @@ func _process(dt: float):
 	pointer=field.unproject(field_point(get_local_mouse_position()))
 	if paused:field.queue_redraw()
 	if not squad_ids.is_empty():
-		squad_ids=squad_ids.filter(func(id):return rules.units.any(func(u):return u.id==id and u.hp>0 and not u.get('escaped',false)))
+		# One liveness pass per frame replaces the nested closure scan over every unit per id.
+		var live={}
+		for unit in rules.units:
+			if unit.hp>0 and not unit.get('escaped',false):live[unit.id]=true
+		var kept=[]
+		for id in squad_ids:
+			if live.has(id):kept.append(id)
+		squad_ids=kept
 		if selected=='route' and squad_at_id().is_empty():selected=''
 	if not soldier_ids.is_empty():
-		soldier_ids=rules.Soldiers.members(rules,soldier_ids).map(func(row):return Vector2i(row.unit.id,row.slot))
+		var kept_people=[]
+		for row in rules.Soldiers.members(rules,soldier_ids):kept_people.append(Vector2i(row.unit.id,row.slot))
+		soldier_ids=kept_people
 		if soldier_ids.is_empty() and selected=='personal_route':selected=''
 	myth_audio.advance(minf(dt,.1),paused,bool(app.prefs.enabled) if app!=null else true,float(app.prefs.volume) if app!=null else .7)
 	if not paused:
 		var battle_dt=minf(dt,.1)*(.5 if slow else 1.0)
 		accumulator+=battle_dt
-		while accumulator>=1.0/60:
-			rules.step(1.0/60)
-			accumulator-=1.0/60
+		var budget=(1 if last_step_ms>EXPENSIVE_STEP_MS else MAX_SIM_STEPS_PER_FRAME) if bounded_catchup else 2147483647
+		var steps=0
+		var clock=Time.get_ticks_usec()
+		while accumulator>=SIM_STEP and steps<budget:
+			rules.step(SIM_STEP)
+			accumulator-=SIM_STEP
+			steps+=1
+		if steps>0:last_step_ms=(Time.get_ticks_usec()-clock)/float(steps)/1000.
+		if steps>=budget and accumulator>=SIM_STEP:accumulator=fmod(accumulator,SIM_STEP)
 		field.advance(battle_dt)
 		for event in rules.events:
 			if event.kind=='flank_signal':
@@ -606,11 +656,9 @@ func _process(dt: float):
 			if event.kind=='hoof_dust':
 				local_sound('hoof','foot'+str(int(rules.elapsed*8)%3),event.pos,.27,.105)
 				continue
-			if event.kind=='rider_contact':
-				local_sound('rider','shield'+str(int(event.get('slot',0))%2),event.pos,.30,.075)
-				continue
-			if event.kind=='charge_tail':
-				local_sound('tail','shield1',event.pos,.33,.19)
+			if event.kind in ['rider_contact','charge_tail']:
+				# The shield clips are wooden-haft knocks, not metal armor.
+				# Keep the primary collision sound without this extra clacking layer.
 				continue
 			if event.get('volley',false):
 				local_sound('volley' if event.get('ability','')=='volley' else 'arrows','arrow0',event.get('from',event.pos),.54,.06 if event.get('ability','')=='volley' else .075)
@@ -641,6 +689,7 @@ func _process(dt: float):
 				continue
 			if app!=null and event.kind!='heal':app.sound.play('arrow' if event.kind=='arrow' else 'impact',.5)
 		rules.events.clear()
+		flush_charge_audio()
 	refresh()
 func reset_camera():
 	detail_view.clear()

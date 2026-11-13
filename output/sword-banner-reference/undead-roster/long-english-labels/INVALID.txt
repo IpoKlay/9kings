@@ -1,1 +1,0 @@
-First complete combat capture had overlapping English reserve captions. Gameplay assertions passed; retain as superseded visual iteration. New short captions and width tests precede final recapture.

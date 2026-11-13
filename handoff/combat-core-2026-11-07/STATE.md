@@ -1,7 +1,9 @@
 # 当前状态与交接边界
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 > 最新更新与接手顺序见 [白板战斗交接](../whiteboard-core-2026-11-07/README.md)。本目录原构建仍是历史节点。
-> 后续开发说明（2026-11-07）：以下主体记录已推送的 `b0bcd7b` 交接节点，不能当作当前白板的全部最新数值。当前默认入口已是3200×3200白板；常规指挥修复和最新实机结果见 `output/whiteboard-command-loop-2026-11-07/README.md`，白板迁移见 `output/whiteboard-battle-2026-11-07/README.md`。主要作者要求先做好常规兵力核心体验，千人优化后移；交接包未重新导出。
+> 后续开发说明（2026-11-07）：以下主体记录已推送的 `b0bcd7b` 交接节点，不能当作当前白板的全部最新数值。当前默认入口已是3200×3200白板；常规指挥修复和最新实机结果见 [output/whiteboard-command-loop-2026-11-07/README.md](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/whiteboard-command-loop-2026-11-07/README.md)，白板迁移见 [output/whiteboard-battle-2026-11-07/README.md](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/whiteboard-battle-2026-11-07/README.md)。主要作者要求先做好常规兵力核心体验，千人优化后移；交接包未重新导出。
 
 ## 核心节点：普通野战可运行闭环
 
@@ -20,7 +22,7 @@
 
 ## 已通过的回归
 
-`output/sword-banner-reference/large-battle-2/regression/results.json`：49套2473项显式检查，0套失败。新碰撞对照包含8×120人×90步，原精度位置、士兵状态、时钟与随机调用顺序一致；千人四次固定步终态二进制相同。范围只有2模拟秒，不是长时千人终局或全引擎随机状态证明。
+[output/sword-banner-reference/large-battle-2/regression/results.json](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/sword-banner-reference/large-battle-2/regression/results.json)：49套2473项显式检查，0套失败。新碰撞对照包含8×120人×90步，原精度位置、士兵状态、时钟与随机调用顺序一致；千人四次固定步终态二进制相同。范围只有2模拟秒，不是长时千人终局或全引擎随机状态证明。
 
 三套旧测试 `pass_terrain`、`square_battle`、`square_input` 在修改前基线也失败，未算通过：分别涉及旧默认入口/无窗口截图、死亡延后结算、逐兵移动后队伍中心不精确落在路点。保留原始失败，修测试前先判断需求是否应当保留，不能直接删断言。部分 UI/完整会战结束有 ObjectDB/资源引用警告。
 
@@ -38,4 +40,4 @@
 
 ## 本次交接补充修复与验收
 
-空RegimentRoster挡住部署预设的真实鼠标问题已修复，中英文16项新检查通过。上传副本50套2489项通过；Mac/Windows最终PCK各78项通过。Mac独立.app实际鼠标点通菜单、七兵种部署、开战、全军进攻、暂停及返回菜单；自然胜利/失败/重试自动检查的载体是导出PCK加Godot编辑器二进制，不能混称手动打完了独立程序。Windows exe仍未Windows实机验证。见 `output/combat-core-2026-11-07/validation.json`。
+空RegimentRoster挡住部署预设的真实鼠标问题已修复，中英文16项新检查通过。上传副本50套2489项通过；Mac/Windows最终PCK各78项通过。Mac独立.app实际鼠标点通菜单、七兵种部署、开战、全军进攻、暂停及返回菜单；自然胜利/失败/重试自动检查的载体是导出PCK加Godot编辑器二进制，不能混称手动打完了独立程序。Windows exe仍未Windows实机验证。见 [output/combat-core-2026-11-07/validation.json](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/combat-core-2026-11-07/validation.json)。

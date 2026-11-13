@@ -32,7 +32,12 @@ static func issue(r,ids: Array,destination: Vector2,side: String='ally') -> bool
 		actor.erase('attack_engaged')
 		actor.erase('contact_recovery')
 		var speed: float=maxf(u.get('combat_stats',r.config.types[u.kind]).speed,r.config.individual_charge.speed)
-		var velocity: Vector2=actor.get('velocity',u.heading*u.get('slot_speeds',{}).get(row.slot,0.) if u.moving else Vector2.ZERO)
+		if u.kind=='cavalry':speed*=1.45
+		var lane_speed=0.
+		if u.moving and u.has('slot_speeds'):
+			var speeds: PackedFloat32Array=u.slot_speeds
+			if row.slot<speeds.size():lane_speed=speeds[row.slot]
+		var velocity: Vector2=actor.get('velocity',u.heading*lane_speed if u.moving else Vector2.ZERO)
 		actor.charge_run={'goal':actor.position+delta,'age':0.,'duration':r.config.individual_charge.max_range/speed,
 			'velocity':velocity,'penalty':0.,'hits':[],'speed':speed}
 		# The legacy regiment sweep must not also award a charge to this rider.
@@ -46,6 +51,7 @@ static func cancel(r,u: Dictionary,actor: Dictionary):
 
 static func finish(r,u: Dictionary,actor: Dictionary,reason: String):
 	actor.charge_end={'time':r.elapsed,'reason':reason,'position':actor.position}
+	if u.kind=='cavalry' and not u.get('approved_art','').is_empty():actor.charge_end.heading=actor.heading
 	actor.erase('attack_engaged')
 	cancel(r,u,actor)
 	actor.personal_order='attack' if actor.get('target_id',-1)>=0 else 'auto'
@@ -72,6 +78,9 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 	if run.age>=run.duration:finish(r,u,actor,'duration');return
 	if u.rooted>0:finish(r,u,actor,'rooted');return
 	var here: Vector2=actor.position
+	if run.has('brace_origin') and here.distance_to(run.brace_origin)>=cfg.shield_yield:
+		actor.velocity=Vector2.ZERO;actor.contact_recovery=r.elapsed+.2
+		finish(r,u,actor,'resisted');return
 	var reach: float=r.Soldiers.individual(r,u).range
 	var dragon: bool=r.Soldiers.individual(r,u).get('dragon',false)
 	var dragon_hit=false
@@ -81,6 +90,7 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 		if other.unit.side==u.side or other.unit.soldiers[other.slot].hp<=0:continue
 		var id=Vector2i(other.unit.id,other.slot)
 		if id in run.hits or here.distance_squared_to(other.point)>reach*reach:continue
+		if u.kind=='cavalry' and (other.point-here).dot(incoming)<-1.:continue
 		var victim: Dictionary=other.unit.soldiers[other.slot]
 		var braced=brace(r,other.unit,victim,incoming) if u.kind=='cavalry' else ''
 		var fraction=clampf(run.velocity.length()/run.speed,.1,1.)
@@ -96,23 +106,45 @@ static func step(r,row: Dictionary,occupied: Array,dt: float):
 			# Stable scatter for reproducible recordings. Original uses a random 0.1–0.45 radian angle.
 			var scatter=lerpf(.1,cfg.scatter_angle,float(posmod(u.id*73+row.slot*31+id.x*17+id.y,101))/100.)
 			var impulse: Vector2=direction.rotated(side*scatter)*cfg.knockback*fraction*(cfg.cavalry_knockback if u.kind=='cavalry' else 1.)
+			var launchable: bool=other.unit.kind in ['legion','guard','spear','archer','medic'] and other.unit.get('art',other.unit.kind)!='siege'
+			if u.kind=='cavalry':
+				if braced=='pike':impulse=incoming*24.*fraction
+				elif braced=='shield':impulse=incoming*90.*fraction
+				else:
+					if side==0.:side=1. if (id.x+id.y)%2 else -1.
+					if launchable:impulse=(incoming*.9+Vector2(-incoming.y,incoming.x)*side*.436)*360.*fraction
+					else:impulse=(incoming*.35+Vector2(-incoming.y,incoming.x)*side*.94)*320.*fraction
 			knock(r,other.unit,other.slot,impulse)
-			if braced!='':victim.impact_pose.reaction='brace'
+			if u.kind=='cavalry' and braced=='' and launchable:
+				victim.charge_lift={'start':r.elapsed,'height':30.*fraction,'dir':r.ground_basis.basis_xform(incoming).normalized()}
+				victim.contact_recovery=r.elapsed+.72
+				victim.erase('attack_pending');victim.erase('attack_engaged')
+			if braced!='':victim.impact_pose.reaction='brace';victim.erase('gap_until')
 		if u.kind=='cavalry':
 			actor.rider_contact={'start':r.elapsed,'dir':r.ground_basis.basis_xform(incoming),'braced':braced!=''}
-			# Public 20260409 rules accumulate bounded slowdown, not a shield/pike stop.
-			run.penalty=minf(cfg.slow_cap,run.penalty+cfg.slow_per_hit)
+			if not run.has('contact_origin'):run.contact_origin=here
+			var resistance: float=cfg.pike_resistance if braced=='pike' else cfg.shield_resistance if braced=='shield' else cfg.slow_per_hit
+			run.penalty+=resistance
+			run.velocity*=.15 if braced=='pike' else .35 if braced=='shield' else .88
+			if run.penalty>=cfg.resistance_limit:
+				if braced=='shield' and not run.has('brace_origin'):
+					run.brace_origin=here;run.penalty=cfg.slow_cap
+				else:
+					actor.velocity=Vector2.ZERO;actor.contact_recovery=r.elapsed+(.3 if braced=='pike' else .2)
+					finish(r,u,actor,'pike' if braced=='pike' else 'resisted');return
 		if u.kind!='cavalry':
 			if not dragon:finish(r,u,actor,'hit');return
 			dragon_hit=true
 
 	# The legacy dragon loop finishes all nearby hits before leaving its charging step.
 	if dragon_hit:finish(r,u,actor,'hit')
+	if run.has('contact_origin') and here.distance_to(run.contact_origin)>=cfg.follow_through:
+		finish(r,u,actor,'through');return
 	var to_goal: Vector2=run.goal-here
 	if to_goal.length()<25.:finish(r,u,actor,'goal');return
-	if run.age>.15 and run.velocity.length()<10.:finish(r,u,actor,'stalled');return
 	var desired=to_goal.normalized()*run.speed*(1.-run.penalty)
-	run.velocity=Vector2(move_toward(run.velocity.x,desired.x,cfg.acceleration*dt),move_toward(run.velocity.y,desired.y,cfg.acceleration*dt))
+	var acceleration: float=cfg.acceleration*(1.4 if u.kind=='cavalry' else 1.)
+	run.velocity=Vector2(move_toward(run.velocity.x,desired.x,acceleration*dt),move_toward(run.velocity.y,desired.y,acceleration*dt))
 	actor.heading=run.velocity.normalized();actor.velocity=run.velocity
 
 static func knock(r,u: Dictionary,slot: int,impulse: Vector2):

@@ -21,13 +21,11 @@ func run_case(kind: String,front: bool):
 	var r=fixture(kind,front);var horse=r.units[1].soldiers[0]
 	r.Charges.issue(r,[Vector2i(r.units[1].id,0)],Vector2(2000,1800),'enemy')
 	var damage_events=0;var contact_position=Vector2.ZERO;var max_x=horse.position.x
-	for i in 480:
+	for i in 240:
 		r.step(1./60.)
 		max_x=maxf(max_x,horse.position.x)
 		for event in r.events:
-			if event.get('personal_charge',false):
-				damage_events+=1;contact_position=horse.position
-				check(horse.has('charge_run') and is_equal_approx(horse.charge_run.penalty,.12),'First contact keeps the run active with 0.12 slowdown: '+kind+str(front))
+			if event.get('personal_charge',false):damage_events+=1;contact_position=horse.position
 		r.events.clear()
 	check(damage_events==1,'Single victim receives one charge grant: '+kind+str(front))
 	check(not horse.has('charge_run') and horse.charge_cooldown>0.,'Charge finishes into cooldown')
@@ -37,23 +35,12 @@ func run():
 	var side=run_case('shield',false)
 	var shield=run_case('shield',true)
 	var spear=run_case('spear',true)
-	for case in [side,shield,spear]:
-		check(case.horse.charge_end.reason in ['goal','duration','stalled','blocked'],'Charge ends from movement conditions, not a defender type')
-		check(case.max_x>1720.,'A single stationary shield or spear does not impose a scripted barrier')
-	var packed=fixture('shield',true);var mount=packed.units[1];var charging=mount.soldiers[0]
-	var point=charging.position+Vector2.RIGHT*5.
-	for i in 8:packed.spawn_person('shield','ally',point)
-	var occupied=[]
-	for u in packed.units:
-		if u.side=='enemy':continue
-		u.hp=100000.;u.soldiers[0].hp=100000.;u.soldiers[0].position=point
-		occupied.append({'unit':u,'slot':0,'point':point})
-	charging.velocity=Vector2.RIGHT*120.
-	packed.Charges.issue(packed,[Vector2i(mount.id,0)],Vector2(2000,1800),'enemy')
-	packed.Charges.step(packed,{'unit':mount,'slot':0},occupied,1./60.)
-	check(charging.has('charge_run') and charging.charge_run.hits.size()==9 and is_equal_approx(charging.charge_run.penalty,.65),'Nine distinct contacts cap slowdown at 0.65 without type-based termination')
-	packed.Charges.step(packed,{'unit':mount,'slot':0},occupied,1./60.)
-	check(charging.charge_run.hits.size()==9 and is_equal_approx(charging.charge_run.penalty,.65),'Repeated overlap cannot award another charge hit or additional slowdown')
+	check(side.horse.charge_end.reason=='through' and side.max_x>1720.,'Exposed flank retains enough momentum to cross')
+	check(shield.horse.charge_end.reason=='resisted' and shield.horse.charge_end.position.x<1700.,'Raised frontal shield arrests charge before crossing')
+	check(spear.horse.charge_end.reason=='pike' and spear.horse.charge_end.position.x<1700.,'Settled frontal spear arrests charge')
+	check(shield.horse.charge_end.position.x>spear.horse.charge_end.position.x+5.,'Shield yields a small visible distance while spears stop at first contact')
+	check(shield.rules.units[0].soldiers[0].position.x>spear.rules.units[0].soldiers[0].position.x+3.,'Shield gives more ground than spear')
+	check(side.horse.personal_order in ['auto','attack','idle'] and side.horse.get('target_id',-1)>=0,'Crossing rider reacquires melee target')
 	var r=fixture('spear',true);var defender=r.units[0].soldiers[0];var rider=r.units[1].soldiers[0]
 	defender.velocity=Vector2(50,0)
 	check(r.Charges.brace(r,r.units[0],defender,Vector2.RIGHT)=='','Moving spears cannot brace')

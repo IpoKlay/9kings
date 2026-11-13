@@ -1,1 +1,0 @@
-Superseded capture: manual capture disabled automatic _process, then snapped combined deployment before refresh; preview HUD still said Allies 0 despite 7 deployed. Explicit fixture refresh fixes preview; gameplay and final result unaffected.

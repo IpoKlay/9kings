@@ -14,6 +14,8 @@ var elapsed = 0.0
 var simulation_step=0
 var personal_unit_lookup={}
 var personal_target_bounds={}
+## Per-step soldier feet per unit, gathered by begin_target_lookup for the target scans.
+var personal_feet: Dictionary={}
 var projectile_serial=0
 var next_soldier_slot=0
 var target_reservations: Dictionary={}
@@ -62,8 +64,35 @@ var casualties: Array[Dictionary]=[]
 var casualty_serial=0
 const CorpseMotion=preload('res://scripts/tactical/corpse_motion.gd')
 var terrain: PassTerrain
-var ground_basis: Transform2D
+## Soldier-facing maths asks for the ground/projection inverse on nearly every lookup while
+## the ground basis is fixed once per battle, so the inverse is derived at assignment instead.
+var ground_basis: Transform2D:
+	set(value):
+		ground_basis=value
+		ground_inverse=value.affine_inverse()
+var ground_inverse: Transform2D
 var projection: Transform2D
+## Per-kind config lookups (individual stats, individual support) repeated for every soldier.
+var individual_kinds: Dictionary={}
+## Per-step membership snapshots: the scan lists are rebuilt once per step instead of once per
+## soldier. Liveness inside a snapshot is still read per soldier, so a death mid-step is not
+## counted twice and never revives.
+var step_alive: Dictionary={}
+var step_alive_stamp=-1
+var step_alive_count=-1
+var unit_index: Dictionary={}
+var unit_index_stamp=-1
+var unit_index_count=-1
+## Simulation step budget switch. With the cadence table on, a person that is not mid-attack
+## or charging runs its target/path decision every other step while physics, cooldowns and
+## attack release stay at 60 Hz. Clear it to compare against the exact per-step cadence.
+var simulation_lod: bool=false
+## Reused per-step row list (see Soldiers.advance_personal); keeps capacity between steps.
+var personal_occupied: Array=[]
+## Broad-phase scratch for Soldiers.prepare_neighbours, reused every step.
+var neighbour_cells: Dictionary={}
+var neighbour_keys: Array=[]
+static var no_units: Array=[]
 
 func _init(use_testing_rules: bool=true):
 	targeting_random.seed=20260409
@@ -204,7 +233,40 @@ func start() -> bool:
 	return true
 
 func alive(side: String) -> Array:
-	return units.filter(func(u): return u.hp>0 and u.side==side)
+	var result: Array=[]
+	for unit in units:
+		if unit.hp>0 and unit.side==side:result.append(unit)
+	return result
+
+## Snapshot for the per-soldier target scans. Same membership rule as `alive()`; a unit that
+## dies mid-step is merely skipped by its zero-HP soldiers, which the scans already test.
+func step_units(side: String) -> Array:
+	if step_alive_stamp!=simulation_step or step_alive_count!=units.size():
+		rebuild_step_alive()
+	var bucket: Variant=step_alive.get(side)
+	return bucket if bucket!=null else no_units
+
+func rebuild_step_alive() -> void:
+	step_alive_stamp=simulation_step
+	step_alive_count=units.size()
+	step_alive.clear()
+	for unit in units:
+		if unit.hp<=0:continue
+		var bucket: Variant=step_alive.get(unit.side)
+		if bucket==null:
+			bucket=[]
+			step_alive[unit.side]=bucket
+		bucket.append(unit)
+
+## Id lookup shared by projectiles, retaliation and casualty reporting (was a linear scan).
+func unit_by_id(id: int) -> Dictionary:
+	if unit_index_stamp!=simulation_step or unit_index_count!=units.size():
+		unit_index_stamp=simulation_step
+		unit_index_count=units.size()
+		unit_index.clear()
+		for unit in units:unit_index[unit.id]=unit
+	var found: Variant=unit_index.get(id)
+	return found if found!=null else {}
 
 func select_deity(id: String) -> bool:
 	if phase not in ['deploy','battle'] or (phase=='battle' and not unlimited_powers): return false
@@ -553,7 +615,7 @@ func ride(u: Dictionary, goal: Vector2, speed: float, dt: float, focus: Dictiona
 		if hoof!=u.get('hoof_index',-1):
 			u.hoof_index=hoof
 			var rear: Vector2=Contact.feet(self,u)[(hoof*7)%contact_profiles.cavalry.feet.size()]
-			var foot: Vector2=u.pos+ground_basis.affine_inverse().basis_xform(rear)
+			var foot: Vector2=u.pos+ground_inverse.basis_xform(rear)
 			events.append({'kind':'hoof_dust','pos':foot,'axis':ground_basis.basis_xform(u.heading).normalized(),'pace':pace})
 	var was_ready: bool=u.charge
 	u.charge=not u.get('personalized',false) and u.charge_target>=0 and u.clear_run>=minimum and distance/dt>=float(config.types.cavalry.speed)*cfg.minimum_impact_speed
@@ -635,7 +697,7 @@ func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Di
 			while not Contact.present(target,slot,visible):slot=(slot+1)%feet.size()
 		var local: Vector2=feet[slot]+Contact.body_shift(target,slot,elapsed)
 		var volley={'kind':'arrow','attacker':attacker.id,'target':target.id,'damage':damage,
-			'from':attacker.pos,'aim_center':target.pos,'pos':target.pos+ground_basis.affine_inverse().basis_xform(local),'offset':local,'age':0.}
+			'from':attacker.pos,'aim_center':target.pos,'pos':target.pos+ground_inverse.basis_xform(local),'offset':local,'age':0.}
 		if not strike.is_empty():
 			volley.target_slot=slot
 			volley.attacker_slot=strike.attacker_slot
@@ -660,6 +722,8 @@ func deal_blow(attacker: Dictionary,target: Dictionary,damage: float,contact: Di
 		hit.merge(strike)
 		hit.pos=Soldiers.ground_position(self,target,struck_slot)
 		hit.from=Soldiers.ground_position(self,attacker,strike.attacker_slot)
+		if personal_charge and attacker.kind=='cavalry' and dealt>0.:
+			target.soldiers[struck_slot].charge_hit_start=elapsed
 	if not contact.is_empty():
 		hit.contact=contact
 		hit.pos=contact.pos
@@ -721,7 +785,7 @@ func separate_lines(dt: float):
 				var movable_b: bool=not Soldiers.independent(b) and b.order in ['auto','attack','attack_move'] and b.rooted<=0 and b.stun<=0 and b.petrified<=0
 				if not movable_a and not movable_b:continue
 				var axis:=normalized.normalized() if not normalized.is_zero_approx() else Vector2.DOWN
-				var offset:=ground_basis.affine_inverse().basis_xform(axis*clearance-separation)*minf(dt*3,1)/(int(movable_a)+int(movable_b))
+				var offset:=ground_inverse.basis_xform(axis*clearance-separation)*minf(dt*3,1)/(int(movable_a)+int(movable_b))
 				if movable_a and may_advance(a,a.pos-offset,false):a.pos=(a.pos-offset).clamp(bounds.position,bounds.end)
 				if movable_b and may_advance(b,b.pos+offset,false):b.pos=(b.pos+offset).clamp(bounds.position,bounds.end)
 
@@ -1040,13 +1104,21 @@ func step(dt: float):
 func record_casualty(u: Dictionary,slot: int):
 	var actor: Dictionary=u.soldiers[slot]
 	var point: Vector2=Soldiers.ground_position(self,u,slot)
+	# Captured at the moment of death instead of every step for everyone; only in-flight
+	# projectiles fired by this person read it during the dying window.
+	actor.source_point=point
 	var axis: Vector2=ground_basis.basis_xform(actor.get('heading',u.heading))
 	var velocity: Vector2=actor.get('velocity',Vector2.ZERO)
+	# Carry a cavalry launch into the existing corpse rig instead of dropping it
+	# back onto its original foot. Ordinary death motion remains unchanged.
+	var launched: bool=actor.has('charge_lift') and elapsed-actor.charge_lift.start<.46
+	if launched:velocity+=actor.get('impulse',Vector2.ZERO)
 	var attacker_point=null
 	var attacker: Vector2i=actor.get('last_attacker',Vector2i(-1,-1))
-	for other in units:
-		if other.id==attacker.x and attacker.y>=0 and attacker.y<other.soldiers.size() and other.soldiers[attacker.y].get('death_state',0)==0:
-			attacker_point=Soldiers.ground_position(self,other,attacker.y);break
+	if attacker.y>=0 and attacker.x>=0:
+		var source: Dictionary=unit_by_id(attacker.x)
+		if not source.is_empty() and attacker.y<source.soldiers.size() and source.soldiers[attacker.y].get('death_state',0)==0:
+			attacker_point=Soldiers.ground_position(self,source,attacker.y)
 	# Legacy row reactions have no physical actor position; retain their displayed displacement.
 	var foot: Vector2=projection*point+(Contact.body_shift(u,slot,elapsed) if not actor.has('position') else Vector2.ZERO)
 	casualty_serial+=1
@@ -1058,6 +1130,10 @@ func record_casualty(u: Dictionary,slot: int):
 		'slot':slot,'foot':foot,'ground_point':point,'velocity':velocity,'attacker_point':attacker_point,
 		'bearing':posmod(roundi(atan2(axis.x,axis.y)/(PI/4)),8),'scale':contact_profiles[u.kind].scale*u.get('visual_scale',1.),
 		'time':elapsed,'step':simulation_step,'dir':ground_basis.basis_xform(motion.direction).normalized(),'motion':motion})
+	if not u.get('approved_art','').is_empty():casualties.back().approved_art=u.approved_art
+	if launched:casualties.back().charge_lift=actor.charge_lift.duplicate()
+	if elapsed-float(actor.get('charge_hit_start',-1.))<.1:
+		casualties.back().charge_hit_start=actor.charge_hit_start
 	if u.has('slot_states'):u.slot_states.erase(slot)
 
 func advance_casualties(dt:float):

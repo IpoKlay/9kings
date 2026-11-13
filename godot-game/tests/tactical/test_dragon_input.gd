@@ -43,6 +43,8 @@ func run():
 		if baseline.is_empty():baseline=state
 		else:check(state==baseline,'Dragon mirror health/positions/outcome same at '+str(fps)+'fps')
 		results.append({'fps':fps,'time':r.elapsed,'phase':r.phase,'allies':r.strength('ally'),'enemies':r.strength('enemy')})
+	var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/sword-banner-reference/dragon')
+	assert(output_directory_error==OK)
 	FileAccess.open('res://../output/sword-banner-reference/dragon/full-battle.json',FileAccess.WRITE).store_string(JSON.stringify(results,'\t'))
 	t.closed.emit();app.queue_free();await process_frame
 	print('Dragon input: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)

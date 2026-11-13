@@ -9,6 +9,8 @@ func run():
 	var samples=int(args[2]) if args.size()>2 else 120
 	var output='res://../output/sword-banner-reference/large-battle/'+label+'-'+str(count)
 	if args.size()>3:output=args[3]+'/'+label+'-'+str(count)
+	var output_directory_error=DirAccess.make_dir_recursive_absolute(output.get_base_dir())
+	assert(output_directory_error==OK)
 	var app=load('res://scenes/main.tscn').instantiate();app.settings_path='/tmp/eagle-large-battle.cfg';root.add_child(app)
 	app.menu_view.get_node('%TacticalTrial').pressed.emit();var t=app.active_trial;t.set_process(false);app.sound.enabled=false
 	AudioServer.set_bus_mute(0,true)

@@ -1,5 +1,7 @@
 # 白板战斗更新交接 · 2026-11-07
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 拉取最新 `main`，先阅读本目录。用 Godot 4.7.2 stable 打开 `godot-game/project.godot`，等待导入，F5 → 军团会战 · RTS。默认入口为 3200×3200 纯白地图，保留现有像素人物、单排人数与单位尺寸；旧美术地图、山口和攻城场景仍在。
 
 ## 本次同步
@@ -13,7 +15,7 @@
 
 ## 当前证据
 
-[白板验证](../../output/whiteboard-battle-2026-11-07/README.md) · [指挥修复与完整实机](../../output/whiteboard-command-loop-2026-11-07/README.md) · [最新冲锋与盾阵记录](../../output/charge-priority-2026-11-07/README.md)
+[白板验证](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/whiteboard-battle-2026-11-07/README.md) · [指挥修复与完整实机](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/whiteboard-command-loop-2026-11-07/README.md) · [最新冲锋与盾阵记录](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/charge-priority-2026-11-07/README.md)
 
 [最新 Mac 试玩包](../../builds/whiteboard-core-2026-11-07/README.md)。此前 `builds/combat-core-2026-11-07` 的 Mac/Windows 包是旧节点，不包含本轮白板更新。最新包未公证；本轮没有新 Windows 包。
 

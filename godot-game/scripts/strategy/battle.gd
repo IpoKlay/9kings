@@ -1,6 +1,9 @@
 extends 'res://scripts/tactical/whiteboard_battle.gd'
 const Layout=preload('res://scripts/strategy/formation.gd')
+const StaticArt=preload('res://scripts/strategy/static_art.gd')
+const ApprovedArt=preload('res://scripts/tactical/approved_unit_art.gd')
 var strategy: Dictionary=JSON.parse_string(FileAccess.get_file_as_string('res://data/balance/strategy.json'))
+var attack_modifiers: Dictionary=strategy.attack_modifiers
 var stock: Dictionary=strategy.starting_resources.duplicate()
 var town_level=1
 var world=preload('res://scripts/strategy/world.gd').new()
@@ -29,12 +32,12 @@ func _init(test_powers: bool=false):
 		config.types[kind].files=1
 		contact_profiles[kind]=Contact.profile(kind,config.types[kind],true)
 		reserve[kind]=0
-	config.battle_commands.shield_melee_reduction=0.
-	config.battle_commands.shield_ranged_reduction=0.
-	config.directional_combat.charge=1.
+	config.battle_commands.shield_melee_reduction=attack_modifiers.base_shield_melee_reduction
+	config.battle_commands.shield_ranged_reduction=attack_modifiers.base_shield_ranged_reduction
+	config.directional_combat.charge=attack_modifiers.directional_charge_multiplier
 	config.individual_charge.speed*=.5
-	config.individual_charge.damage_multiplier=1.
-	config.individual_charge.trample_decay=1.
+	config.individual_charge.damage_multiplier=attack_modifiers.individual_charge_damage_multiplier
+	config.individual_charge.trample_decay=attack_modifiers.individual_charge_trample_decay
 	terrain=PassTerrain.new(projection,bounds,config.types,{'rocks':cliffs,'SidePass':Rect2(-10000,-10000,1,1),'MainPass':Rect2(-10000,-10000,1,1)},true)
 	world.setup(self)
 	charges=0
@@ -45,6 +48,7 @@ func spawn_person(type: String,side: String,point: Vector2) -> Dictionary:
 	super.spawn(data.kind,side,point)
 	var u: Dictionary=units.back()
 	u.unit_type=type;u.art=data.art;u.archetype='';u.order='auto' if side=='enemy' else 'hold'
+	u.approved_art=StaticArt.unit_id(type,level if side=='ally' else 1)
 	var stats: Dictionary=config.types[data.kind].duplicate(true)
 	stats.merge({'hp':data.hp,'damage':data.damage,'range':data.range,'speed':data.speed,'interval':data.interval,'files':1},true)
 	stats.individual=config.types.legion.individual.duplicate(true)
@@ -156,6 +160,7 @@ func research(id: String,building_id: int=-1) -> bool:
 	report='研究中，20秒完成'
 	return true
 func apply_level(u: Dictionary):
+	u.approved_art=StaticArt.unit_id(u.unit_type,level)
 	var data: Dictionary=strategy.units[u.unit_type]
 	var factor=1.+.1*(level-1)
 	if u.unit_type=='villager':factor*=1.+.3*mini(town_level-1,3)
@@ -164,7 +169,7 @@ func apply_level(u: Dictionary):
 	var ratio: float=actor.hp/maxf(1.,actor.max_hp)
 	actor.max_hp=data.hp*factor;actor.hp=actor.max_hp*ratio
 	u.max_hp=actor.max_hp;u.soldier_max_hp=actor.max_hp
-	u.combat_stats.damage=data.damage*(1.+.1*(level-1))+(5. if u.unit_type=='villager' and town_level>=3 else 0.)
+	u.combat_stats.damage=data.damage*(1.+attack_modifiers.promotion_damage_per_level*(level-1))+(attack_modifiers.armed_villager_damage_bonus if u.unit_type=='villager' and town_level>=3 else 0.)
 	if u.unit_type=='villager' and town_level>=3:
 		u.combat_stats.range=32.;u.individual_stats.range=32.;u.individual_stats.aggro_range=300.
 	u.individual_stats.damage=u.combat_stats.damage
@@ -232,19 +237,19 @@ func hurt(u: Dictionary,damage: float,source_kind: String='',shock: float=0.,slo
 	if not source.is_empty() and source.has('unit_type'):
 		var f=formation_data(source)
 		bonuses.append(f.get('volley',0.) if source_kind=='volley' else f.attack)
-		if source.side=='ally' and researches.has('military'):bonuses.append(.2)
-		if source.side=='ally' and direction=='military':bonuses.append(.15)
+		if source.side=='ally' and researches.has('military'):bonuses.append(attack_modifiers.military_research_damage_bonus)
+		if source.side=='ally' and direction=='military':bonuses.append(attack_modifiers.military_direction_damage_bonus)
 		if source.kind=='cavalry' and on_hill(source.pos):bonuses.append(-strategy.hill_cavalry_attack_penalty)
 		if source.unit_type=='spear' and u.unit_type in ['light_cavalry','elite_cavalry']:damage+=strategy.units.spear.bonus_damage
 		if source.unit_type in ['light_cavalry','elite_cavalry'] and u.unit_type=='archer':damage+=strategy.units[source.unit_type].bonus_damage
-		if source.side=='ally' and town_level>=5 and source.unit_type!='villager' and source.hp>=source.max_hp:bonuses.append(.05)
-		if source.soldiers[0].get('weakened',0.)>elapsed:bonuses.append(-.25)
+		if source.side=='ally' and town_level>=5 and source.unit_type!='villager' and source.hp>=source.max_hp:bonuses.append(attack_modifiers.full_health_army_damage_bonus)
+		if source.soldiers[0].get('weakened',0.)>elapsed:bonuses.append(-attack_modifiers.weakened_attack_penalty)
 		if source.soldiers[0].has('charge_run'):
 			bonuses.append(f.get('charge',0.))
-			if source.kind=='cavalry':bonuses.append(1.)
+			if source.kind=='cavalry':bonuses.append(attack_modifiers.cavalry_charge_damage_bonus)
 			if source.soldiers[0].get('formation','default')=='wedge':u.soldiers[0].weakened=elapsed+4.
 			if source.kind=='cavalry' and u.soldiers[0].get('formation','')=='testudo':u.soldiers[0].formation_ready=false
-		if source.soldiers[0].get('shield_raised',false):bonuses.append(-.4)
+		if source.soldiers[0].get('shield_raised',false):bonuses.append(-attack_modifiers.raised_shield_attack_penalty)
 		source.soldiers[0].last_combat=elapsed
 	var target_form=formation_data(u)
 	var ranged=source_kind in ['archer','volley','siege']
@@ -254,7 +259,7 @@ func hurt(u: Dictionary,damage: float,source_kind: String='',shock: float=0.,slo
 	if u.side=='ally' and u.unit_type=='villager' and town_level>=3:armor+=2
 	armor+=target_form.armor+u.get('armor_bonus',0)
 	if u.unit_type=='spear' and u.soldiers[0].get('formation_ready',false) and u.soldiers[0].get('formation','')=='default':armor+=2
-	if u.soldiers[0].get('shield_raised',false):reductions.append(.6)
+	if u.soldiers[0].get('shield_raised',false):reductions.append(attack_modifiers.raised_shield_damage_reduction)
 	if source_kind in ['volley','siege']:reductions.append(target_form.get('area_reduction',0.))
 	var dealt=damage_amount(damage,bonuses,reductions,armor)
 	u.soldiers[0].last_combat=elapsed
@@ -265,7 +270,15 @@ func deal_blow(a: Dictionary,b: Dictionary,damage: float,contact: Dictionary={},
 		var dealt=hurt(b,damage,'sword',0.,strike.get('target_slot',0),a.id,strike.get('attacker_slot',0))
 		var event={'kind':'hit','pos':b.pos,'from':a.pos,'attacker':a.id,'target':b.id,'damage':dealt}
 		events.append(event);return event
-	return super.deal_blow(a,b,damage,contact,strike)
+	var hit=super.deal_blow(a,b,damage,contact,strike)
+	if hit.has('origin') and a.get('unit_type','')=='archer' and strike.has('attacker_slot'):
+		var slot: int=strike.attacker_slot
+		var actor: Dictionary=a.soldiers[slot]
+		var bearing=ApprovedArt.bearing_for(ground_basis.basis_xform(actor.get('heading',a.heading)))
+		var clip=ApprovedArt.clip(a.approved_art,'attack',bearing)
+		var offset=clip.release_offset*ApprovedArt.DISPLAY_SCALE+Contact.body_shift(a,slot,elapsed)
+		hit.sprite_origin=Soldiers.ground_position(self,a,slot)+ground_inverse.basis_xform(offset)
+	return hit
 func arrow_rain(ids: Array,point: Vector2) -> bool:
 	if phase!='battle' or not bounds.has_point(point):return false
 	var fired=false
@@ -343,6 +356,11 @@ func step(dt: float):
 	rain=rain.filter(func(s):return s.remaining>0)
 	advance_ai(dt)
 	world.step(self,dt)
+func mark_work(actor: Dictionary,point: Vector2):
+	if elapsed-actor.get('work_at',-1.)>.1:actor.work_start=elapsed
+	actor.work_point=point
+	actor.work_at=elapsed
+
 func advance_economy(dt: float):
 	for b in buildings:
 		if b.hp<=0:
@@ -378,6 +396,7 @@ func advance_economy(dt: float):
 			if u.pos.distance_to(resource.pos)>85.:continue
 			var amount=minf(resource.remaining,dt*gather_rate(resource.kind)*(1.5 if researches.has('economy') else 1.)*(1.25 if direction=='economy' else 1.))
 			resource.remaining-=amount
+			mark_work(a,resource.pos)
 			if resource.kind in ['tree','fruit']:stock.wood+=amount
 			if resource.kind in ['iron','large_iron']:stock.iron+=amount
 			elif resource.kind!='tree':stock.food+=amount
@@ -389,10 +408,13 @@ func advance_economy(dt: float):
 				# Only the worker finishing the shared progress creates the farm resource.
 				if b.remaining<=0:a.erase('job');continue
 				b.remaining=maxf(0,b.remaining-dt)
+				mark_work(a,b.pos)
 				if b.remaining<=0:
 					if b.kind=='farm':resources.append({'kind':'farm','pos':b.pos,'remaining':2500.,'building':b.id})
 					a.erase('job')
-			elif affordable({'wood':dt}):spend({'wood':dt});b.hp=minf(b.max_hp,b.hp+dt*20)
+			elif affordable({'wood':dt}):
+				if b.hp<b.max_hp:mark_work(a,b.pos)
+				spend({'wood':dt});b.hp=minf(b.max_hp,b.hp+dt*20)
 	if not research_queue.is_empty() and buildings[research_queue.building_id].hp>0:
 		research_queue.remaining-=dt*(1.3 if town_level>=4 else 1.)
 		if research_queue.remaining<=0:
@@ -486,7 +508,9 @@ func advance_siege(dt: float):
 			if u.pos.distance_to(target.pos)>90.:continue
 			if job.kind=='repair_siege':
 				if target.hp>=target.max_hp:a.erase('job');continue
-				if affordable({'wood':dt}):spend({'wood':dt});heal(target,dt*25.)
+				if affordable({'wood':dt}):
+					spend({'wood':dt});heal(target,dt*25.)
+					mark_work(a,target.pos)
 			elif units.filter(func(other):return other.soldiers[0].get('aboard',-1)==target.id).size()<21:
 				a.aboard=target.id;u.escaped=true;a.erase('job');a.personal_order='hold';a.path=[]
 		elif job.kind=='siege':
@@ -611,4 +635,9 @@ func unit_numbers(u: Dictionary) -> Dictionary:
 	return {'hp':u.hp,'max_hp':u.max_hp,'damage':u.combat_stats.damage,'melee':d.armor_melee+armor,'ranged':d.armor_ranged+armor,'interval':u.combat_stats.interval}
 
 func town_upgrade_description() -> String:
-	return {1:'二级：村民生产速度与生命 +30%；所有建筑生命 +20%。',2:'三级：村民生产速度与生命再 +30%；村民攻击 +5、近远程护甲 +2；建筑生命再 +20%。',3:'四级：村民生产速度与生命再 +30%；建筑生命再 +20%；建筑木材成本 -10%；研发速度 +30%；军队移速 +10%。',4:'五级：解锁精锐骑兵；军队生命 +10%；脱战回复 2生命/秒；满血军队伤害 +5%。'}.get(town_level,'城镇已达最高等级')
+	return {
+		1:'二级：村民生产速度与生命 +30%；所有建筑生命 +20%。',
+		2:'三级：村民生产速度与生命再 +30%%；村民攻击 +%s、近远程护甲 +2；建筑生命再 +20%%。'%String.num(attack_modifiers.armed_villager_damage_bonus).trim_suffix('.0'),
+		3:'四级：村民生产速度与生命再 +30%；建筑生命再 +20%；建筑木材成本 -10%；研发速度 +30%；军队移速 +10%。',
+		4:'五级：解锁精锐骑兵；军队生命 +10%%；脱战回复 2生命/秒；满血军队伤害 +%s%%。'%String.num(attack_modifiers.full_health_army_damage_bonus*100.).trim_suffix('.0'),
+	}.get(town_level,'城镇已达最高等级')

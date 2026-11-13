@@ -11,14 +11,12 @@ func run():
 	var fps=int(args[0]) if not args.is_empty() else 60
 	var far='far' in args
 	var mode='far' if far else 'near'
-	var label='after' if 'after' in args else 'current'
-	var out='res://../output/reference-contact-2026-11-10/%s/local-%s-%d/'%[label,mode,fps]
+	var out='res://../output/sword-banner-reference/original-braced/local-%s-%d/'%[mode,fps]
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(out))
 	var app=load('res://scenes/main.tscn').instantiate()
 	app.settings_path='/tmp/eagle-reference-brace.cfg';root.add_child(app)
-	# Reference fixture uses legacy unit stats independently of the economy menu.
-	var t=load('res://scenes/tactical_trial.tscn').instantiate()
-	t.rules=t.WhiteboardBattle.new(false);t.app=app;root.add_child(t);app.hide();t.set_process(false);app.sound.enabled=false;t.field.clean_capture=true
+	app.menu_view.get_node('%TacticalTrial').pressed.emit()
+	var t=app.active_trial;t.set_process(false);app.sound.enabled=false;t.field.clean_capture=true
 	var r=t.rules;r.units.clear();r.next_id=0
 	var origin=Vector2(1050,900)
 	# Team roles are reversed so defenders use the real player F formation API.
@@ -64,7 +62,7 @@ func run():
 		t.field.effects.clear()
 		for slot in horses.soldiers.size():
 			if horses.soldiers[slot].position.x>origin.x+10. and not slot in crossing:crossing.append(slot)
-		for slot in wall.soldiers.size():peak_open=maxf(peak_open,wall.soldiers[slot].position.distance_to(plan[Vector2i(wall.id,slot)].goal))
+		for s in wall.soldiers:peak_open=maxf(peak_open,s.position.distance_to(s.wall_slot))
 		trace.store_line(JSON.stringify({'frame':frame,'time':r.elapsed-run_start,'horses':horses.soldiers,'defenders':wall.soldiers}))
 		if not DisplayServer.get_name()=='headless' and frame in [fps-1,fps*3,fps*4,fps*5]:
 			RenderingServer.force_draw();root.get_texture().get_image().save_png(out+'frame-%04d.png'%frame)
@@ -79,4 +77,4 @@ func run():
 	var report={'fps':fps,'mode':mode,'failures':failures,'start_feet':starts,'line':origin,'max_approach':max_approach,'charge_range':r.config.individual_charge.max_range,'first_contact':first,'contact_time_resolution':1./fps,'contacts':contacts,'riders_crossed':crossing,'peak_slot_displacement':peak_open,'ends':ends,'limits':['Screen-picked approximate feet, not original state extraction','Team colors reversed; own art/projection and open local terrain','Original variable-rate screenshot timing is not a simulation trace','Contact times sampled at render-step end;30fps may round a hit up by one60Hz simulation step']}
 	FileAccess.open(out+'report.json',FileAccess.WRITE).store_string(JSON.stringify(report,'\t'))
 	print('Reference brace ',mode,' fps=',fps,' contacts=',contacts.size(),' crossed=',crossing.size(),' failures=',failures)
-	t.queue_free();app.queue_free();await process_frame;await create_timer(.15).timeout;quit(1 if failures else 0)
+	t.closed.emit();app.queue_free();await process_frame;quit(1 if failures else 0)

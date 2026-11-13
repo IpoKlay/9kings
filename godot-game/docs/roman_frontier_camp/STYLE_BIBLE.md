@@ -1,5 +1,7 @@
 # 《鹰旗之下》罗马边境军营 · Style Bible
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 版本：1.0 · 首件试制规范  
 日期：2026-10-27  
 状态：第一阶段完成；六项咨询结果已记录。允许按P01制作首件样本，样本通过后才能批量生产。本文不是已完成关卡的交付声明。
@@ -80,7 +82,7 @@
 
 ## 5. 实际资源清单与复用边界
 
-本轮扫描 `assets/` 下209张PNG；完整尺寸、颜色、alpha和SHA256见 [asset-inventory.csv](evidence/asset-inventory.csv)。数量不包含字体、声音、图集切片和导入缓存。
+本轮扫描 `assets/` 下209张PNG；完整尺寸、颜色、alpha和SHA256见 [asset-inventory.csv](../../../docs/art/roman_frontier_camp/asset-inventory.csv)。数量不包含字体、声音、图集切片和导入缓存。
 
 | 类别 | 当前资源 | 新军营的用途与限制 |
 |---|---|---|

@@ -1,5 +1,7 @@
 # 复测与最终验收
 
+> 历史产物已于 2026-11-11 归档，见[归档与恢复索引](../../docs/archive/README.md)。文中的输出命令仍写入本地 `output/`；旧截图、日志和验证数据请从固定版本读取。
+
 ## 先运行维护中的回归
 
 需要Python3和Godot4.7.2。下面在仓库根目录执行，Godot参数替换为自己机器的可执行文件。首次导入不要跳过。
@@ -11,7 +13,7 @@ python3 handoff/combat-core-2026-11-07/run_checks.py --godot /绝对路径/Godot
 
 全部套件名单在suites.json。新部署鼠标套件从主菜单发送真实InputEvent，覆盖中英文七兵种/攻城/山口、部队按钮、开战/胜利重试和透明区域，不直接emit部署按钮信号。它先在旧代码得到6个失败，修复空RegimentRoster遮挡后16项通过。旧测试直接emit按钮不能证明鼠标可点，这次已补。
 
-维护中的基线原为49套2473项；交接新增16项，共50套2489项，最终上传副本结果看 `output/combat-core-2026-11-07/checks/source/results.json`。返回码、SCRIPT ERROR、断言失败都必须检查。脚本单独保留既有ObjectDB/资源退出警告，不把它们称作已修复；三套旧失败按STATE.md/R18处理。
+维护中的基线原为49套2473项；交接新增16项，共50套2489项，最终上传副本结果看 [output/combat-core-2026-11-07/checks/source/results.json](https://github.com/IpoKlay/9kings/blob/81b5e7492ac5bdbec6b7b89fff64eab383624554/output/combat-core-2026-11-07/checks/source/results.json)。返回码、SCRIPT ERROR、断言失败都必须检查。脚本单独保留既有ObjectDB/资源退出警告，不把它们称作已修复；三套旧失败按STATE.md/R18处理。
 
 很多历史测试使用/tmp或工程相邻output目录，Windows运行这些测试还需路径适配。本轮不冒称Windows测试全通过。自己的文件不能写进用户真实存档；使用独立settings_path和测试存档。
 

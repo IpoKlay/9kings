@@ -1,1 +1,0 @@
-Source root animation reset rotation during Blender render. Runtime detail was pixel-identical to rejected standing pose. Source exporter now clears only root animation and checks the rendered prone rotation.

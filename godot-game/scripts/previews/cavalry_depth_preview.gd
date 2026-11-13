@@ -2,14 +2,16 @@ extends Control
 ## Runs the real trial loop, with a separate authored deployment and existing grass.
 const Rules=preload('res://scripts/previews/cavalry_depth_rules.gd')
 const Feedback=preload('res://scripts/previews/impact_feedback.gd')
+const ChargeVisuals=preload('res://scripts/tactical/charge_visuals.gd')
 @export var charge_speed=360.0
+@export var follow_through=200.0
 @export var unbraced_hit_drag=0.08
 @export var exit_orders=true
 @export var view_zoom=1.0
 @export var feedback_enabled=true
 @export_range(0.,1.,.1) var flash_strength=1.0
 @export_range(0.,3.,.25) var local_shake=2.0
-@export_range(0.,3.,1.) var camera_shake=2.0
+@export_range(0.,12.,.5) var camera_shake=ChargeVisuals.DEFAULT_SHAKE_STRENGTH
 @export_range(0,6,1) var hit_hold_frames=5
 var feedback=Feedback.new()
 var trial
@@ -39,7 +41,7 @@ func _ready():
 	if 'no-feedback' in args:feedback_enabled=false
 	if 'no-camera' in args:camera_shake=0.
 	if 'baseline' in args:
-		charge_speed=240.;unbraced_hit_drag=.12;exit_orders=false
+		charge_speed=240.;follow_through=140.;unbraced_hit_drag=.12;exit_orders=false
 	if 'close' in args:view_zoom=4./3.
 	if not output.is_empty():DirAccess.make_dir_recursive_absolute(output)
 	app=load('res://scenes/main.tscn').instantiate()
@@ -52,6 +54,7 @@ func _ready():
 	trial=load('res://scenes/tactical_trial.tscn').instantiate()
 	trial.rules=Rules.new(false)
 	trial.rules.config.individual_charge.speed=charge_speed
+	trial.rules.config.individual_charge.follow_through=follow_through
 	trial.rules.config.individual_charge.slow_per_hit=unbraced_hit_drag
 	trial.rules.exit_orders=exit_orders
 	trial.rules.setup(mode);trial.app=app
@@ -80,7 +83,7 @@ func _ready():
 		feedback_enabled=not feedback_enabled;feedback.enabled=feedback_enabled
 		update_feedback_controls())
 	$CameraShake.pressed.connect(func():
-		camera_shake=0. if camera_shake>0. else 2.
+		camera_shake=0. if camera_shake>0. else ChargeVisuals.DEFAULT_SHAKE_STRENGTH
 		update_feedback_controls())
 	update_feedback_controls()
 	wall_start=Time.get_ticks_usec()
@@ -105,7 +108,7 @@ func _process(delta: float):
 		var accepted=trial.rules.launch()
 		assert(accepted)
 	if recording:trial._process(delta)
-	trial.field.position=Feedback.camera_offset(trial.rules.elapsed-trial.rules.feedback_shock_time,camera_shake if feedback_enabled else 0.)
+	trial.field.position=trial.field.charge_visuals.camera_offset()/maxf(trial.zoom,.01)
 	if not output.is_empty() and capture_stills and DisplayServer.get_name()!='headless':
 		for time in [1,3,4,5,6,8,11]:
 			if clock>=time and not snapshots.has(time):
@@ -116,6 +119,7 @@ func _process(delta: float):
 		finish_capture.call_deferred()
 
 func update_feedback_controls():
+	trial.field.charge_visuals.shake_strength=camera_shake if feedback_enabled else 0.
 	$Feedback.text='打击反馈：开' if feedback_enabled else '打击反馈：关'
 	$CameraShake.text='镜头震动：开' if camera_shake>0. else '镜头震动：关'
 	if not feedback_enabled or camera_shake<=0.:trial.field.position=Vector2.ZERO
@@ -157,6 +161,6 @@ func save_report():
 		'still_readbacks':capture_stills,'vsync':DisplayServer.window_get_vsync_mode(),
 		'static_memory_bytes':Performance.get_monitor(Performance.MEMORY_STATIC),
 		'texture_memory_bytes':Performance.get_monitor(Performance.RENDER_TEXTURE_MEM_USED),
-		'charge_speed':charge_speed,'unbraced_hit_drag':unbraced_hit_drag,
+		'charge_speed':charge_speed,'follow_through':follow_through,'unbraced_hit_drag':unbraced_hit_drag,
 		'output_size':get_viewport().get_texture().get_image().get_size()}
 	FileAccess.open(output+'/report.json',FileAccess.WRITE).store_string(JSON.stringify(report,'\t'))

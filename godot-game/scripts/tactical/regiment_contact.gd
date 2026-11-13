@@ -53,8 +53,14 @@ static func turn(r,u: Dictionary,dt: float):
 
 static func count(u: Dictionary, stats: Dictionary) -> int:
 	if u.has('soldiers'):
-		Soldiers.sync(u)
-		return u.soldiers.filter(func(actor):return actor.hp>0).size()
+		# `sync` only matters when the aggregate was reassigned from outside; the previous
+		# unconditional call re-walked every person for each count, and this runs per blow and
+		# per drawn regiment.
+		if not is_equal_approx(u.max_hp,u.soldier_max_hp) or not is_equal_approx(u.hp,u.soldier_hp):Soldiers.sync(u)
+		var alive=0
+		for actor in u.soldiers:
+			if actor.hp>0:alive+=1
+		return alive
 	return maxi(1,ceili(stats.files*u.hp/u.max_hp))
 
 static func present(u: Dictionary, slot: int, visible_count: int) -> bool:
@@ -288,18 +294,39 @@ static func advance_recovery(r,u: Dictionary,_dt: float):
 # this, so both stride accumulation and local feedback stay on simulation time.
 static func track_slots(r,u: Dictionary,dt: float):
 	var row=feet(r,u)
+	# Packed arrays instead of three Dictionaries: this writes once per person per step.
 	if not u.has('slot_distances'):
-		u.slot_distances={}
-		u.slot_speeds={}
-		u.slot_last_feet={}
+		var distances:=PackedFloat32Array();distances.resize(row.size())
+		var speeds:=PackedFloat32Array();speeds.resize(row.size())
+		var last:=PackedVector2Array();last.resize(row.size())
+		for i in row.size():last[i]=Vector2.INF
+		u.slot_distances=distances
+		u.slot_speeds=speeds
+		u.slot_last_feet=last
+	var distances: PackedFloat32Array=u.slot_distances
+	var speeds: PackedFloat32Array=u.slot_speeds
+	var last: PackedVector2Array=u.slot_last_feet
+	if distances.size()!=row.size():
+		distances.resize(row.size())
+		speeds.resize(row.size())
+		var grown:=PackedVector2Array();grown.resize(row.size())
+		for i in row.size():grown[i]=last[i] if i<last.size() else Vector2.INF
+		last=grown
+		u.slot_distances=distances
+		u.slot_speeds=speeds
+		u.slot_last_feet=last
 	var inverse: Transform2D=r.projection.affine_inverse()
+	var base: float=u.march_distance
+	var origin: Vector2=r.projection*u.pos
 	for slot in row.size():
-		var point: Vector2=r.projection*u.pos+row[slot]+body_shift(u,slot,r.elapsed)
-		var old: Vector2=u.slot_last_feet.get(slot,point)
-		var distance=inverse.basis_xform(point-old).length()
-		u.slot_distances[slot]=u.slot_distances.get(slot,u.march_distance)+distance
-		u.slot_speeds[slot]=distance/maxf(dt,.000001)
-		u.slot_last_feet[slot]=point
+		var point: Vector2=origin+row[slot]+body_shift(u,slot,r.elapsed)
+		var old: Vector2=last[slot]
+		var distance=0.
+		if old!=Vector2.INF:distance=inverse.basis_xform(point-old).length()
+		last[slot]=point
+		if distances[slot]==0.:distances[slot]=base
+		distances[slot]+=distance
+		speeds[slot]=distance/maxf(dt,.000001)
 
 static func light_hit(r,u: Dictionary,entry: Vector2,dir: Vector2,struck_slot: int=-1):
 	var row=feet(r,u)

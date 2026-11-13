@@ -28,3 +28,7 @@ __pycache__/
 *.pck
 *.exe
 *.dmg
+
+# Blender automatic backup copies; editable .blend sources remain tracked
+*.blend1
+*.blend2

@@ -102,8 +102,12 @@ func _process(delta: float):
 		start_slot(other,requested_track,float(track.start))
 		fade_to(other,float(preset.loop_crossfade_seconds))
 
-func _exit_tree():
+func shutdown():
+	set_process(false)
 	for player in players:
 		player.stop()
 		player.stream=null
 	streams.clear()
+
+func _exit_tree():
+	shutdown()

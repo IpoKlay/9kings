@@ -1,1 +1,0 @@
-Second combat capture superseded: English labels fit, but stronger width checks exposed four Chinese reserve captions exceeding the authored width. Final uses three-character reserve captions; full names retained in selectors/roster.

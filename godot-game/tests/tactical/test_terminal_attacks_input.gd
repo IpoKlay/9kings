@@ -33,6 +33,8 @@ func run():
 		else:check(state==baseline,'Terminal attack outcomes agree across render rates')
 		results.append({'fps':fps,'state':state})
 		t.retry();check(t.rules.projectile_serial==0 and t.rules.volleys.is_empty() and t.rules.units.all(func(u):return u.soldiers.all(func(a):return a.death_state==0 and not a.get('attack_pending',false))),'Retry clears terminal attack and death state')
+	var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/sword-banner-reference/terminal-attacks')
+	assert(output_directory_error==OK)
 	FileAccess.open('res://../output/sword-banner-reference/terminal-attacks/fps.json',FileAccess.WRITE).store_string(JSON.stringify(results,'\t'))
 	t.closed.emit();app.queue_free();await process_frame
 	print('Terminal input: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)

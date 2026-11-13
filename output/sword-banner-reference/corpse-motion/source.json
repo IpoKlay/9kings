@@ -1,8 +1,0 @@
-{
-  "source": "/private/tmp/sword-banner-reference/analysis/scripts/ragdoll_effect.gd",
-  "sha256": "38daf354c604fca127e1ac8f4c638f71f44bf72e0e4328abf5dc3eb91b82b42b",
-  "reference": "official public20260409 legacy build",
-  "data": "Numeric link lengths, minimum joint angles and type IDs; own renderer/art retained. No original shader imported.",
-  "motion_clock": "Per rendered unpaused callback, as original _process; lifetime delta respects half speed. Visual displacement intentionally has source frame-rate dependence; gameplay remains fixed-step.",
-  "remaining": "Original full-game controlled corpse comparison; art retargeting equivalence; original global random sequence."
-}

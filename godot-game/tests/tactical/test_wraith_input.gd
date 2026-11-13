@@ -62,6 +62,8 @@ func run():
 		else:check(state==baseline,'Blink endpoints, melee wounds, cooldown and final positions match at '+str(fps)+' FPS')
 		check(r.units[1].hp<r.units[1].max_hp,'Wraiths actually cleave opponents at '+str(fps)+' FPS')
 		records.append({'fps':fps,'time':r.elapsed,'phase':r.phase,'wraith_hp':w.hp,'enemy_hp':r.units[1].hp,'first':first,'second':second})
+	var output_directory_error=DirAccess.make_dir_recursive_absolute('res://../output/sword-banner-reference/wraith')
+	assert(output_directory_error==OK)
 	FileAccess.open('res://../output/sword-banner-reference/wraith/fps.json',FileAccess.WRITE).store_string(JSON.stringify(records,'\t'))
 	t.closed.emit();app.queue_free();await process_frame
 	print('Wraith input: ',checks,' checks, ',failures,' failures');quit(1 if failures else 0)

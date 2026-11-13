@@ -2,7 +2,8 @@ extends Control
 ## Selection owns the command surface; no global build/train menu or deployment phase.
 const Paper=preload('res://scripts/rpg_ui.gd')
 const INK=Color('#382f25')
-const BUILD_ART={'town':'medic_3','barracks':'legion_1','range':'archer_1','stable':'cavalry_1','factory':'siege_2','academy':'training_2','house':'medic_1','outpost':'guard_1','fortress':'guard_3','wall':'guard_2','gate':'guard_2','wall_tower':'guard_3','farm':'training_1'}
+const StaticArt=preload('res://scripts/strategy/static_art.gd')
+var static_art=StaticArt.new()
 var trial
 var mode=''
 var build_kind=''
@@ -132,7 +133,7 @@ func show_commands():
 		for type in r.strategy.units:
 			var data: Dictionary=r.strategy.units[type]
 			if data.producer!=b.kind:continue
-			icon_button(grid,'train:'+type,data.name+'\n%d/%d/%d'%[data.food,data.get('wood',0),data.get('iron',0)],unit_icon(data.art),func():r.train(type,selected_building))
+			icon_button(grid,'train:'+type,data.name+'\n%d/%d/%d'%[data.food,data.get('wood',0),data.get('iron',0)],unit_icon(type,data.art),func():r.train(type,selected_building))
 		if not b.queue.is_empty():
 			queue_note=label('',20);box.add_child(queue_note)
 			for i in b.queue.size():
@@ -151,7 +152,7 @@ func show_commands():
 			var grid=GridContainer.new();grid.columns=3;grid.add_theme_constant_override('h_separation',7);grid.add_theme_constant_override('v_separation',7);box.add_child(grid)
 			for kind in r.strategy.buildings:
 				var data: Dictionary=r.strategy.buildings[kind]
-				icon_button(grid,'build:'+kind,data.name+'\n%.1f 木材'%r.building_cost(kind),load('res://assets/building_'+BUILD_ART[kind]+'.png'),func():mode='build';build_kind=kind;r.report='放置'+data.name+'：左键确认，右键取消，Esc清空选择')
+				icon_button(grid,'build:'+kind,data.name+'\n%.1f 木材'%r.building_cost(kind),static_art.icon(static_art.building_id(kind,r.town_level)),func():mode='build';build_kind=kind;r.report='放置'+data.name+'：左键确认，右键取消，Esc清空选择')
 		else:
 			button(box,'坚守 H',func():trial.command_selection('hold',Vector2.ZERO))
 			button(box,'攻击移动 X',func():mode='attack_move')
@@ -166,7 +167,9 @@ func show_commands():
 			button(box,'切换阵型',func():request_formation(forms.get_item_metadata(forms.selected)))
 			button(box,'调整朝向',func():mode='face')
 	var help=label('右键下令 · Esc 清空选择',18);box.add_child(help)
-func unit_icon(art: String) -> Texture2D:
+func unit_icon(type: String,art: String) -> Texture2D:
+	var id=StaticArt.unit_id(type,trial.rules.level)
+	if id!='':return static_art.icon(id)
 	var icon=AtlasTexture.new();icon.atlas=load('res://assets/rts-armies/'+art+'_ally.png');icon.region=Rect2(0,0,64,64);return icon
 func icon_button(parent: Node,id: String,text: String,texture: Texture2D,callback: Callable):
 	var b=Button.new();b.focus_mode=Control.FOCUS_NONE;b.custom_minimum_size=Vector2(112,118);b.tooltip_text=text.replace('\n',' · ');b.pressed.connect(callback);parent.add_child(b)
@@ -313,6 +316,15 @@ func _draw():
 	if mode=='build':
 		var size: float=trial.rules.strategy.buildings[build_kind].size
 		var p=(trial.field.project(mouse_world)-trial.camera_offset)*trial.zoom
+		if build_kind in ['wall','gate']:
+			var fort=trial.field.pass_layout.fortifications
+			var key=fort.frame_key({'kind':build_kind,'open':false})
+			var frame: Dictionary=fort.manifest.frames[key]
+			var anchor=Vector2(frame.anchor[0],frame.anchor[1])
+			draw_texture_rect(fort.texture(key),Rect2(p-anchor*trial.zoom,fort.texture(key).get_size()*trial.zoom),false,Color(1,1,1,.5))
+		else:
+			var id=static_art.building_id(build_kind,trial.rules.town_level)
+			draw_texture_rect(static_art.texture(id),static_art.sprite_rect(id,p,size*1.6*trial.zoom),false,Color(1,1,1,.5))
 		draw_rect(Rect2(p-Vector2.ONE*size*trial.zoom*.5,Vector2.ONE*size*trial.zoom),Color('#e9e1a866'))
 		draw_string(get_theme_default_font(),p+Vector2(15,-15),trial.rules.strategy.buildings[build_kind].name,HORIZONTAL_ALIGNMENT_LEFT,-1,22,Color('#fff1c7'))
 

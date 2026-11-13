@@ -8,7 +8,10 @@ var start_seconds=0.
 var timings=[]
 var captured=[]
 var initial={}
-func _ready():process_priority=1
+func _ready():
+	var output_directory_error=DirAccess.make_dir_recursive_absolute(OUT)
+	assert(output_directory_error==OK)
+	process_priority=1
 func capture(label: String):
 	await get_tree().process_frame
 	await RenderingServer.frame_post_draw

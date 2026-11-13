@@ -1,1 +1,0 @@
-All nine bodies rendered and expired, but fixture IDs inherited next_id7 and the validator incorrectly filtered IDs below9. Reset fixture next_id before spawning, then rerun. No product code change.
