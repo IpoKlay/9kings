@@ -1,5 +1,13 @@
 extends SceneTree
 const Feedback=preload('res://scripts/previews/impact_feedback.gd')
+class HitRules:
+	const Soldiers=preload('res://scripts/tactical/regiment_soldiers.gd')
+	var elapsed=5.01
+	var units=[]
+	func unit_by_id(id: int) -> Dictionary:
+		for unit in units:
+			if unit.id==id:return unit
+		return {}
 var failures=0
 var checks=0
 func check(ok: bool,message: String):
@@ -83,5 +91,19 @@ func run():
 	var cached=weakref(packed)
 	packed=null
 	check(cached.get_ref()==null,'Atlas owner is scene scoped, with no permanent static cache')
+	var rules=HitRules.new()
+	var left={'id':1,'kind':'legion','side':'ally','soldiers':[{'hp':80.,'position':Vector2.ZERO}]}
+	var right={'id':2,'kind':'legion','side':'enemy','soldiers':[{'hp':80.,'position':Vector2.RIGHT*20.}]}
+	rules.units=[left,right]
+	var contacts=Feedback.new();var art={'legion':{'ally':texture,'enemy':enemy_texture}}
+	var event={'attacker':1,'target':2,'attacker_slot':0,'target_slot':0,'damage':0.,'personal_charge':true}
+	contacts.observe(event,rules,art)
+	check(not right.soldiers[0].has('preview_hit') and contacts.texture_bytes==0,'Zero-damage events cannot manufacture contact feedback')
+	right.soldiers[0].preview_hit={'start':5.,'heavy':false,'direction':Vector2.RIGHT}
+	event.damage=20.;contacts.observe(event,rules,art)
+	check(right.soldiers[0].preview_hit.heavy and left.soldiers[0].preview_strike.heavy,'A real charge overrides a recent light hit and marks both participants')
+	check(left.soldiers[0].hp==80. and right.soldiers[0].hp==80.,'Observation never applies a second damage grant')
+	contacts.enabled=false;rules.elapsed=6.;contacts.observe(event,rules,art)
+	check(left.soldiers[0].preview_strike.start==5.01,'Disabled feedback does not record new flashes')
 	print('Impact feedback: ',checks,' checks, ',failures,' failures')
 	quit(1 if failures else 0)

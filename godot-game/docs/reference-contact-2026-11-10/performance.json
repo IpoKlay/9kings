@@ -1,0 +1,59 @@
+{
+  "device": "Apple M4 / 16GB",
+  "engine": "Godot 4.7.2 Compatibility",
+  "resolution": [
+    1280,
+    720
+  ],
+  "starting_people": 114,
+  "fps_limit": 60,
+  "vsync": false,
+  "seed": 20261109,
+  "before": [
+    {
+      "atlas": true,
+      "draws_median": 144.0,
+      "frames": 1800,
+      "mean_ms": 16.6681116666667,
+      "over_50ms": 0,
+      "p95_ms": 21.099,
+      "paused": false,
+      "people": 114,
+      "phase": "battle",
+      "process_p95_ms": 30.329,
+      "seconds": 30.002601,
+      "sim_seconds": 31.9333333333328,
+      "size": "(1280, 720)",
+      "static_bytes": 188363501.0,
+      "texture_bytes": 820007519.0,
+      "texture_bytes_after_exit": 121826747.0
+    }
+  ],
+  "after": [
+    {
+      "atlas": true,
+      "draws_median": 146.0,
+      "frames": 1677,
+      "mean_ms": 17.8968878950507,
+      "over_50ms": 15,
+      "p95_ms": 18.85,
+      "paused": false,
+      "people": 114,
+      "phase": "battle",
+      "process_p95_ms": 142.79,
+      "seconds": 30.013081,
+      "sim_seconds": 31.0166666666662,
+      "size": "(1280, 720)",
+      "static_bytes": 188361005.0,
+      "texture_bytes": 820007519.0,
+      "texture_bytes_after_exit": 121826747.0
+    }
+  ],
+  "passed": false,
+  "limits": [
+    "One run for each algorithm; after ran before baseline, not enough to quantify variance",
+    "p95 alone does not establish smoothness; after had 15 frames above50ms",
+    "Input disabled; real engine loop, no forced simulation or MovieMaker",
+    "Input latency, separate GPU time and long duration stability not measured"
+  ]
+}

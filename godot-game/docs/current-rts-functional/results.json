@@ -1,0 +1,80 @@
+{
+  "checks": [
+    {
+      "note": "Normal entry uses current StrategyBattle",
+      "pass": true
+    },
+    {
+      "note": "Legacy HUD stays hidden",
+      "pass": true
+    },
+    {
+      "note": "Current nine-person walled opening is retained",
+      "pass": true
+    },
+    {
+      "note": "Authored encounter remains within 114 actual soldiers",
+      "pass": true
+    },
+    {
+      "note": "Ctrl-click selects the four current cavalry",
+      "pass": true
+    },
+    {
+      "note": "C and ground click issue four independent charges",
+      "pass": true
+    },
+    {
+      "note": "Space pauses the live game",
+      "pass": true
+    },
+    {
+      "note": "Live cavalry reach actual enemy contact",
+      "pass": true
+    },
+    {
+      "note": "Formal render flashes both participants on actual charge contact",
+      "pass": true
+    },
+    {
+      "note": "All charges end into ordinary combat",
+      "pass": true
+    },
+    {
+      "note": "Paused right-click replaces cavalry orders",
+      "pass": true
+    },
+    {
+      "note": "H holds the selected cavalry at their current positions",
+      "pass": true
+    },
+    {
+      "note": "Current victory UI follows the existing town objective",
+      "pass": true
+    },
+    {
+      "note": "Current result panel has a restart button",
+      "pass": true
+    },
+    {
+      "note": "Restart restores the current nine-person opening",
+      "pass": true
+    },
+    {
+      "note": "Restart clears selection and pause",
+      "pass": true
+    },
+    {
+      "note": "Retry replaces contact feedback with clean state",
+      "pass": true
+    }
+  ],
+  "failures": [],
+  "input": "Engine mouse/key events; live engine loop, not system mouse",
+  "limits": [
+    "Encounter positions and eight soldiers authored after normal entry",
+    "Victory is controlled town-death branch, not natural full-match acceptance",
+    "No performance acceptance"
+  ],
+  "peak_people": 79
+}
