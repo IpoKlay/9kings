@@ -1,6 +1,6 @@
 extends RefCounted
 ## Coordinates are relative to the front rank, then centered on the regiment.
-const NAMES = {'default':'方阵', 'wedge':'楔形阵', 'ring':'组合外环', 'scatter':'散阵', 'testudo':'龟甲阵', 'dense':'密集阵', 'ring_inner':'组合内环'}
+const NAMES = {'default':'方阵', 'wedge':'楔形阵', 'ring':'组合外环', 'scatter':'散阵', 'testudo':'龟甲阵', 'dense':'密集阵', 'ring_inner':'组合内环', 'free':'自由攻击'}
 const SELECTABLE = ['default','wedge','ring','scatter','testudo','dense']
 const OPTIONS = {
 	'spear':['default','ring','scatter'],
@@ -30,10 +30,10 @@ static func world_offset(offset: Vector2, heading: Vector2) -> Vector2:
 
 static func modifiers(form: String) -> Dictionary:
 	match form:
-		'wedge': return {'attack':0.0, 'armor':0.0, 'speed':1.0, 'rate':1.0, 'charge':0.0, 'area':1.0, 'rain':0.0}
-		'ring': return {'attack':-0.25, 'armor':0.6, 'speed':1.0, 'rate':1.0, 'charge':0.0, 'area':1.0, 'rain':0.0}
-		'ring_inner': return {'attack':0.0, 'armor':0.6, 'speed':1.0, 'rate':1.3, 'charge':0.0, 'area':1.0, 'rain':0.0}
-		'testudo': return {'attack':0.0, 'armor':1.8, 'speed':0.38, 'rate':1.0, 'charge':0.0, 'area':1.0, 'rain':0.0}
-		'scatter': return {'attack':0.0, 'armor':0.0, 'speed':1.18, 'rate':1.0, 'charge':0.0, 'area':0.5, 'rain':0.0}
-		'dense': return {'attack':-0.25, 'armor':0.0, 'speed':0.9, 'rate':1.0, 'charge':0.0, 'area':1.0, 'rain':0.6}
-	return {'attack':0.0, 'armor':0.0, 'speed':1.0, 'rate':1.0, 'charge':0.0, 'area':1.0, 'rain':0.0}
+		'wedge': return {'attack':0.0, 'armor':0.0, 'speed':1.0, 'rate':1.0, 'area':1.0, 'rain':0.0}
+		'ring': return {'attack':-0.25, 'armor':0.6, 'speed':1.0, 'rate':1.0, 'area':1.0, 'rain':0.0}
+		'ring_inner': return {'attack':0.0, 'armor':0.6, 'speed':1.0, 'rate':1.3, 'area':1.0, 'rain':0.0}
+		'testudo': return {'attack':0.0, 'armor':1.8, 'speed':0.38, 'rate':1.0, 'area':1.0, 'rain':0.0}
+		'scatter': return {'attack':0.0, 'armor':0.0, 'speed':1.18, 'rate':1.0, 'area':0.5, 'rain':0.0}
+		'dense': return {'attack':-0.25, 'armor':0.0, 'speed':0.9, 'rate':1.0, 'area':1.0, 'rain':0.6}
+	return {'attack':0.0, 'armor':0.0, 'speed':1.0, 'rate':1.0, 'area':1.0, 'rain':0.0}

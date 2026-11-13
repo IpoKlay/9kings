@@ -28,6 +28,11 @@ func _draw():
 		if r.members(group).is_empty(): continue
 		var selected: bool = group.id in screen.selected
 		var tint = BLUE if group.side == 'ally' else RED
+		if group.charge_queued or group.charge_state != '':
+			var from = project(group.pos); var to = project(group.charge_point)
+			draw_line(from,to,Color('#efb775'),3)
+			draw_arc(to,20,0,TAU,24,Color('#efb775'),3)
+			text_at(to+Vector2(23,5),'冲锋终点',Color('#ffe1a0'),20)
 		if selected or group.id in candidates:
 			for id in r.members(group):
 				var p = project(r.soldiers[id].pos)
@@ -50,8 +55,9 @@ func _draw():
 		var group: Dictionary = r.regiments[s.regiment]
 		var action = 'idle'
 		if s.hp <= 0: action = 'death'
+		elif s.charging: action = 'charge'
 		elif s.attack_age < 0.65: action = 'attack'
-		elif s.moving: action = 'charge' if s.charging else 'walk'
+		elif s.moving: action = 'walk'
 		var id: String = r.stats[group.kind].art
 		var bearing = Art.bearing_for(s.heading)
 		var clip = Art.clip(id,action,bearing)
@@ -98,6 +104,8 @@ func _draw():
 			text_at(p+Vector2(0,-34),'换阵 %.1f 秒'%group.form_time,Color('#ffe4a3'),21)
 		elif group.broken > 0: text_at(p+Vector2(0,-34),'破阵 %.1f秒'%group.broken,RED,21)
 		elif group.id in candidates: text_at(p+Vector2(0,-34),'可组合',Color('#ffe099'),21)
+		elif group.form == 'free': text_at(p+Vector2(0,-34),'自由攻击',Color('#ffe099'),21)
+		elif group.charge_state != '': text_at(p+Vector2(0,-34),'整队中' if group.charge_state == 'forming' else '冲锋中',Color('#ffe099'),21)
 	for shot in r.projectiles:
 		var t: float = clampf(shot.age/shot.duration,0,1)
 		var point: Vector2 = project(shot.from.lerp(shot.to,t))-Vector2(0,sin(t*PI)*110)
@@ -122,7 +130,7 @@ func _draw():
 		draw_arc(project(screen.mouse_world),92,0,TAU,36,Color('#ffe1a0'),3)
 	if screen.aim_order != '':
 		var p = project(screen.mouse_world)
-		var color = Color('#efa56e') if screen.aim_order == 'attack_move' else BLUE
+		var color = Color('#efa56e') if screen.aim_order in ['attack_move','charge'] else BLUE
 		draw_arc(p,24,0,TAU,20,color,3)
 		draw_line(p-Vector2(32,0),p+Vector2(32,0),color,2)
 		draw_line(p-Vector2(0,22),p+Vector2(0,22),color,2)

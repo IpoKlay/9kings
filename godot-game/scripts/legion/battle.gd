@@ -46,15 +46,15 @@ func add_regiment(kind: String, side: String, position: Vector2, count: int):
 	var r = {'id':regiments.size(), 'kind':kind, 'side':side, 'pos':position, 'goal':position,
 		'heading':Vector2.UP if side == 'ally' else Vector2.DOWN, 'form':'default', 'pending':'',
 		'form_time':0.0, 'form_cd':0.0, 'rain_cd':0.0, 'broken':0.0,
-		'pair':-1, 'pair_home':{}, 'radius':175.0, 'attack_bonuses':[], 'charge_bonuses':[],
+		'pair':-1, 'pair_home':{}, 'radius':175.0, 'attack_bonuses':[], 'regrouping':false,
+		'charge_state':'', 'charge_cd':0.0, 'charge_queued':false, 'charge_point':Vector2.ZERO, 'charge_anchor':-1,
 		'order':'hold', 'target':-1, 'path':[], 'members':[], 'offsets':[], 'initial':count, 'engaged':false}
 	regiments.append(r)
 	for i in count:
 		var s = {'id':soldiers.size(), 'regiment':r.id, 'slot':i, 'pos':position, 'heading':r.heading,
 			'hp':float(stats[kind].hp), 'max_hp':float(stats[kind].hp), 'cooldown':float(i%7)*0.07,
 			'target':-1, 'attack_age':10.0, 'hit_time':-100.0, 'death_time':0.0,
-			'walk':0.0, 'moving':false, 'charge_cd':0.0, 'charging':false, 'charge_left':0.0,
-			'charge_hits':[], 'charge_heading':Vector2.ZERO, 'charge_wedge':false,
+			'walk':0.0, 'moving':false, 'charging':false, 'charge_hits':[],
 			'charge_control':false, 'first_charge_used':false, 'wedge_debuff':0.0}
 		r.members.append(s.id)
 		soldiers.append(s)
@@ -72,6 +72,25 @@ func hp(r: Dictionary) -> float:
 	var total = 0.0
 	for id in r.members: total += maxf(0,soldiers[id].hp)
 	return total
+
+func centroid(r: Dictionary) -> Vector2:
+	var center = Vector2.ZERO; var living = members(r)
+	for id in living: center += soldiers[id].pos
+	return center/maxi(1,living.size())
+
+func enter_free(ids: Array) -> bool:
+	if phase != 'battle': return false
+	ids = Combination.expand(self,ids).filter(func(id): return regiments[id].side == 'ally')
+	if ids.is_empty(): return false
+	for id in ids:
+		var r: Dictionary = regiments[id]
+		Charge.stop(self,r)
+		r.pair = -1; r.pair_home = {}; r.form = 'free'; r.pending = ''
+		r.form_time = 0; r.form_cd = 0; r.broken = 0; r.regrouping = false
+		r.order = 'auto'; r.path = []; r.pos = centroid(r); r.target = -1
+		for sid in r.members: soldiers[sid].target = -1
+	report = '自由攻击：逐兵寻找最近敌人，无阵型增减益。移动或移动攻击可重新集结为方阵。'
+	return true
 
 func reform(r: Dictionary, instant: bool = false):
 	var living = members(r)
@@ -144,7 +163,9 @@ func set_formation(ids: Array, form: String) -> bool:
 	for id in ids:
 		var r: Dictionary = regiments[id]
 		if r.side != 'ally' or members(r).is_empty() or form not in Formation.OPTIONS[r.kind]: return false
-		if r.pair >= 0: report = '组合环阵只能在战前解除。'; return false
+		if r.form == 'free' or r.regrouping: report = '先使用移动或移动攻击，集结为默认方阵后再换阵。'; return false
+		if r.charge_state != '': report = '冲锋期间不能换阵。'; return false
+		if r.pair >= 0: report = '先解除组合。'; return false
 		if phase == 'battle' and (form == 'wedge' or r.form == 'wedge'):
 			report = '楔形阵只能在战前布置；骑兵完成移动后会自动恢复方阵。'; return false
 		if phase == 'battle' and (r.form_time > 0 or r.form_cd > 0): report = '换阵尚未完成或仍在冷却。'; return false
@@ -160,7 +181,12 @@ func set_formation(ids: Array, form: String) -> bool:
 func start() -> bool:
 	if phase != 'deploy': return false
 	phase = 'battle'
-	for r in regiments: r.order = 'auto'
+	for r in regiments:
+		r.order = 'auto'
+		if r.charge_queued:
+			var p = Charge.plan(self,r,r.charge_point)
+			if not p.is_empty(): Charge.prepare(self,r,p)
+			else: r.charge_queued = false
 	report = '战斗开始。右键地面强制移动，A＋左键移动攻击；右键敌军集火，H 坚守，R 撤退。'
 	return true
 
@@ -177,6 +203,11 @@ func route(start_point: Vector2, end_point: Vector2, clearance: float = 16.0) ->
 	return points
 
 func command(ids: Array, order: String, point: Vector2 = Vector2.ZERO, target: int = -1) -> bool:
+	if order == 'charge': return Charge.order(self,ids,point)
+	if order == 'free': return enter_free(ids)
+	if phase == 'deploy' and order == 'hold':
+		for id in ids: Charge.stop(self,regiments[id])
+		report = '已取消冲锋预令。'; return true
 	ids = Combination.expand(self,ids).filter(func(id): return regiments[id].side == 'ally')
 	if phase != 'battle' or ids.is_empty(): return false
 	var plans = []
@@ -187,18 +218,28 @@ func command(ids: Array, order: String, point: Vector2 = Vector2.ZERO, target: i
 		var r: Dictionary = regiments[id]
 		if r.side != 'ally' or members(r).is_empty(): continue
 		var radius = 20.0
-		for offset in r.offsets: radius = maxf(radius,offset.length()+15)
+		var offsets: Array = Formation.offsets(members(r).size(),'default') if r.form == 'free' else r.offsets
+		for offset in offsets: radius = maxf(radius,offset.length()+15)
 		var goal: Vector2 = point+r.pos-center if order in ['move','attack_move'] else Vector2(clampf(r.pos.x,450,2200),1380) if order == 'retreat' else r.pos
+		if r.form == 'free' and order in ['move','attack_move'] and ids.any(func(other): return other != id and regiments[other].pos.distance_to(r.pos) < 220):
+			goal.x += (ids.find(id)-(ids.size()-1)*0.5)*250
 		goal = goal.clamp(BOUNDS.position+Vector2.ONE*(radius+20),BOUNDS.end-Vector2.ONE*(radius+20))
-		var path = route(r.pos,goal,radius) if order in ['move','retreat','attack_move'] else []
+		var origin: Vector2 = r.pos
+		if r.form == 'free' and order in ['move','attack_move','retreat']:
+			origin = centroid(r).clamp(BOUNDS.position+Vector2.ONE*(radius+20),BOUNDS.end-Vector2.ONE*(radius+20))
+			if not legal_point(origin,radius): origin = goal
+		var path = route(origin,goal,radius) if order in ['move','retreat','attack_move'] else []
 		if order in ['move','retreat','attack_move'] and path.is_empty(): report = '目标无法到达。'; return false
-		plans.append([r,goal,path])
+		plans.append([r,goal,path,origin])
 	for row in plans:
 		var r: Dictionary = row[0]
+		Charge.stop(self,r)
+		if r.form == 'free' and order in ['move','attack_move','retreat']:
+			r.form = 'default'; r.regrouping = true; reform(r)
+			r.pos = row[3]
 		r.order = order; r.goal = row[1]; r.path = row[2]; r.target = target
 		for id in r.members:
 			soldiers[id].target = -1
-			if order in ['move','retreat']: Charge.stop(soldiers[id])
 	report = {'move':'强制移动：途中不能攻击。','attack_move':'移动攻击：遇敌交战，清除威胁后继续前进。','hold':'原地坚守。','auto':'自由接敌。','attack':'集中攻击目标军团。','retreat':'撤往后方；安全脱战 6 秒后恢复存活士兵的生命。'}.get(order,'已下令')
 	return not plans.is_empty()
 
@@ -210,7 +251,7 @@ func mods(r: Dictionary) -> Dictionary:
 		# Suppress benefits only. Testudo's slow and outer-ring attack penalty remain.
 		m.attack = minf(0,m.attack); m.armor = minf(0,m.armor)
 		m.rate = minf(1,m.rate); m.speed = minf(1,m.speed)
-		m.charge = minf(0,m.charge); m.rain = minf(0,m.rain); m.area = maxf(1,m.area)
+		m.rain = minf(0,m.rain); m.area = maxf(1,m.area)
 	return m
 
 func soldier_mods(s: Dictionary) -> Dictionary:
@@ -220,7 +261,7 @@ func soldier_mods(s: Dictionary) -> Dictionary:
 
 func can_attack(s: Dictionary) -> bool:
 	var r: Dictionary = regiments[s.regiment]
-	if s.hp <= 0 or s.target < 0 or r.form_time > 0 or r.order in ['move','retreat'] or s.charging: return false
+	if s.hp <= 0 or s.target < 0 or r.form_time > 0 or r.order in ['move','retreat','charge'] or r.regrouping or s.charging: return false
 	var target: Dictionary = soldiers[s.target]
 	return target.hp > 0 and s.pos.distance_to(target.pos) <= stats[r.kind].range
 
@@ -239,7 +280,7 @@ func target_for(s: Dictionary, enemies: Array) -> int:
 		var value: float = s.pos.distance_squared_to(other.pos)
 		# Always take a reachable attack before chasing a preferred army.
 		if value > pow(stats[r.kind].range,2): value += 10000000.0
-		if r.order == 'attack' and other.regiment != r.target: value += 1000000.0
+		if r.form != 'free' and r.order == 'attack' and other.regiment != r.target: value += 1000000.0
 		if value < score: score = value; best = other.id
 	return best
 
@@ -271,10 +312,17 @@ func formation_speed(r: Dictionary) -> float:
 
 func advance_regiment(r: Dictionary, dt: float):
 	if members(r).is_empty() or Combination.leader(self,r).id != r.id: return
+	if r.form == 'free': r.pos = centroid(r); return
+	if r.regrouping:
+		if not Cohesion.settled(self,r): return
+		r.regrouping = false
 	var linked = Combination.expand(self,[r.id])
+	var ring: bool = r.form in ['ring','ring_inner']
+	var previous: Vector2 = r.pos
 	var velocity = formation_speed(r)
 	for id in linked: velocity = minf(velocity,formation_speed(regiments[id]))
 	var contact = linked.any(func(id): return members(regiments[id]).any(func(sid): return can_attack(soldiers[sid])))
+	if ring: contact = Combination.contact(self,linked)
 	var distance = Cohesion.nearest_enemy_distance(self,r)
 	var encounter: bool = distance <= tuning.attack_move_acquire_range
 	r.engaged = contact or (r.kind == 'cavalry' and encounter)
@@ -294,7 +342,17 @@ func advance_regiment(r: Dictionary, dt: float):
 		var point: Vector2 = r.path[0]
 		if r.pos.distance_to(point) <= velocity*dt+0.01: r.pos = point; r.path.pop_front()
 		else:
-			r.heading = r.pos.direction_to(point); r.pos = r.pos.move_toward(point,velocity*dt)
+			if not ring: r.heading = r.pos.direction_to(point)
+			r.pos = r.pos.move_toward(point,velocity*dt)
+	if ring:
+		# Translate both circles without rotating their slot assignments through enemies.
+		var delta: Vector2 = r.pos-previous
+		if linked.any(func(id): return members(regiments[id]).any(func(sid): return not legal_point(soldiers[sid].pos+delta))):
+			r.pos = previous; delta = Vector2.ZERO
+		for id in linked:
+			for sid in members(regiments[id]):
+				var s: Dictionary = soldiers[sid]
+				s.pos += delta; s.moving = delta.length() > 0.01; s.walk += delta.length()/60.0
 	for id in linked:
 		if id == r.id: continue
 		var follower: Dictionary = regiments[id]
@@ -306,7 +364,7 @@ func update(dt: float):
 	elapsed += dt; tick += 1
 	var sides = {'ally':alive('ally'),'enemy':alive('enemy')}
 	for r in regiments:
-		for key in ['form_cd','rain_cd','broken']: r[key] = maxf(0,r[key]-dt)
+		for key in ['form_cd','rain_cd','broken','charge_cd']: r[key] = maxf(0,r[key]-dt)
 		if r.form_time > 0:
 			r.form_time = maxf(0,r.form_time-dt)
 			if r.form_time <= 0:
@@ -314,27 +372,26 @@ func update(dt: float):
 				if r.side == 'ally': report = stats[r.kind].name+'已完成换阵：'+Formation.NAMES[r.form]
 	for s in soldiers:
 		if s.hp <= 0: continue
-		s.charge_cd = maxf(0,s.charge_cd-dt); s.wedge_debuff = maxf(0,s.wedge_debuff-dt)
+		s.moving = false; s.wedge_debuff = maxf(0,s.wedge_debuff-dt)
 		var enemies: Array = sides['enemy' if regiments[s.regiment].side == 'ally' else 'ally']
 		if s.target < 0 or soldiers[s.target].hp <= 0 or (tick+s.id)%3 == 0: s.target = target_for(s,enemies)
 	for r in regiments:
+		if r.charge_state != '':
+			Charge.advance(self,r,sides['enemy' if r.side == 'ally' else 'ally'],dt)
+			continue
 		Cohesion.refill(self,r)
 		advance_regiment(r,dt)
 	for s in soldiers:
 		if s.hp <= 0: continue
 		var r: Dictionary = regiments[s.regiment]; var data: Dictionary = stats[r.kind]
 		var m = soldier_mods(s)
-		s.cooldown -= dt*m.rate; s.attack_age += dt; s.moving = false
-		var enemies: Array = sides['enemy' if r.side == 'ally' else 'ally']
+		s.cooldown -= dt*m.rate; s.attack_age += dt
 		var target: Dictionary = soldiers[s.target] if s.target >= 0 else {}
 		var slot = slot_position(r,s)
 		var distance: float = s.pos.distance_to(target.pos) if not target.is_empty() else INF
-		var forced: bool = r.order in ['move','retreat']
-		var chase: bool = r.kind == 'cavalry' and not forced and r.form_time <= 0 and (r.order in ['auto','attack'] or distance <= tuning.attack_move_acquire_range)
-		if chase and s.wedge_debuff <= 0: Charge.begin(self,s,target)
-		if s.charging:
-			Charge.advance(self,s,enemies,dt)
-			continue
+		var forced: bool = r.order in ['move','retreat','charge'] or r.regrouping
+		var chase: bool = (r.kind == 'cavalry' or r.form == 'free') and not forced and r.form_time <= 0 and (r.form == 'free' or r.order in ['auto','attack'] or distance <= tuning.attack_move_acquire_range)
+		if s.charging or (r.order == 'hold' and s.moving): continue
 		var contact = can_attack(s)
 		if contact:
 			s.heading = s.pos.direction_to(target.pos)
@@ -344,8 +401,8 @@ func update(dt: float):
 				var amount = attack_damage(s,target,ranged)
 				if ranged:
 					projectiles.append({'from':s.pos,'to':target.pos,'age':0.0,'duration':maxf(0.15,distance/620.0),'target':target.id,'damage':amount,'rain':false})
-				else: hit(target,amount,false)
-		else:
+				else: hit(target,amount,false,r.kind)
+		elif r.form not in ['ring','ring_inner'] or not s.moving:
 			var destination: Vector2 = target.pos if chase and not target.is_empty() else slot
 			var speed: float = data.speed*m.speed*1.12
 			if r.form_time > 0 and m.speed > 0: speed = maxf(speed,s.pos.distance_to(destination)/maxf(dt,r.form_time))
@@ -380,7 +437,7 @@ func update(dt: float):
 	if strength('enemy') == 0: finish('victory')
 	elif strength('ally') == 0: finish('defeat')
 
-func attack_damage(attacker: Dictionary, defender: Dictionary, ranged: bool, _charge: bool = false) -> float:
+func attack_damage(attacker: Dictionary, defender: Dictionary, ranged: bool) -> float:
 	var a: Dictionary = regiments[attacker.regiment]; var b: Dictionary = regiments[defender.regiment]
 	var am = soldier_mods(attacker); var bm = soldier_mods(defender)
 	var bonus: float = am.attack
@@ -390,8 +447,10 @@ func attack_damage(attacker: Dictionary, defender: Dictionary, ranged: bool, _ch
 	var armor: float = stats[b.kind].ranged_armor if ranged else stats[b.kind].melee_armor
 	return damage_value(stats[a.kind].attack,[bonus],[],armor,[bm.armor])
 
-func hit(s: Dictionary, damage: float, charge: bool):
+func hit(s: Dictionary, damage: float, charge: bool, source_kind: String = ''):
 	if s.hp <= 0: return
+	var victim: Dictionary = regiments[s.regiment]
+	if source_kind == 'spear' and victim.charge_state == 'running': Charge.stop(self,victim)
 	s.hp = maxf(0,s.hp-damage); s.hit_time = elapsed
 	if effects.size() < 120: effects.append({'pos':s.pos,'age':0.0,'kind':'charge' if charge else 'hit'})
 	if s.hp <= 0:
@@ -402,7 +461,7 @@ func hit(s: Dictionary, damage: float, charge: bool):
 func separate():
 	# Foot regiments retain their slots. Cavalry yield around them except while trampling.
 	for s in soldiers:
-		if s.hp <= 0 or regiments[s.regiment].kind != 'cavalry' or s.charging or s.wedge_debuff > 0: continue
+		if s.hp <= 0 or (regiments[s.regiment].kind != 'cavalry' and regiments[s.regiment].form != 'free') or regiments[s.regiment].regrouping or regiments[s.regiment].charge_state != '' or s.charging or s.wedge_debuff > 0: continue
 		for other in soldiers:
 			if other.hp <= 0 or other.id == s.id or other.charging: continue
 			var delta: Vector2 = s.pos-other.pos
@@ -416,7 +475,7 @@ func arrow_rain(ids: Array, point: Vector2) -> bool:
 	var fired = false
 	for id in ids:
 		var r: Dictionary = regiments[id]
-		if r.side != 'ally' or r.kind != 'archer' or r.rain_cd > 0 or r.form_time > 0 or r.order in ['move','retreat'] or members(r).is_empty(): continue
+		if r.side != 'ally' or r.kind != 'archer' or r.rain_cd > 0 or r.form_time > 0 or r.order in ['move','retreat','charge'] or r.regrouping or members(r).is_empty(): continue
 		if r.pos.distance_to(point) > 650: report = '箭雨射程为 650，目标太远。'; continue
 		r.rain_cd = 18.0
 		projectiles.append({'from':r.pos,'to':point,'age':0.0,'duration':1.25,'target':-1,'rain':true,'side':r.side,

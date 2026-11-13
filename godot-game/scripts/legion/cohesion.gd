@@ -1,7 +1,7 @@
 extends RefCounted
 ## Empty slots propagate rearwards. Engaged soldiers retain their current slot.
 static func refill(b, r: Dictionary):
-	if r.kind == 'cavalry' or r.form_time > 0: return
+	if r.kind == 'cavalry' or r.form == 'free' or r.regrouping or r.form_time > 0: return
 	var living = b.members(r)
 	var occupied = {}
 	for id in living: occupied[b.soldiers[id].slot] = id

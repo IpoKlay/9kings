@@ -25,6 +25,7 @@ static func create(b, outer_id: int, inner_id: int) -> bool:
 	return true
 
 static func dissolve(b, id: int) -> bool:
+	if b.phase == 'battle' and b.regiments[id].pair >= 0: return b.enter_free([id])
 	if b.phase != 'deploy' or b.regiments[id].pair < 0: return false
 	var a: Dictionary = b.regiments[id]; var c: Dictionary = b.regiments[a.pair]
 	var plans = []
@@ -50,3 +51,16 @@ static func expand(b, ids: Array) -> Array:
 static func leader(b, r: Dictionary) -> Dictionary:
 	if r.form == 'ring_inner' and r.pair >= 0 and not b.members(b.regiments[r.pair]).is_empty(): return b.regiments[r.pair]
 	return r
+
+static func contact(b, ids: Array) -> bool:
+	for id in ids:
+		var r: Dictionary = b.regiments[id]
+		# Inner archers may fire while marching. Only contact, not their long range,
+		# arrests the two circles. This check does not depend on attack cooldowns.
+		var reach: float = b.stats[r.kind].range if r.form == 'ring' else minf(32,b.stats[r.kind].range)
+		var enemies: Array = b.alive('enemy' if r.side == 'ally' else 'ally')
+		for sid in b.members(r):
+			var s: Dictionary = b.soldiers[sid]
+			for enemy in enemies:
+				if s.pos.distance_squared_to(enemy.pos) <= reach*reach: return true
+	return false

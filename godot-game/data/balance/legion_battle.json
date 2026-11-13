@@ -46,12 +46,11 @@
   },
   "combat": {
     "charge_cooldown": 20.0,
-    "charge_acquire_range": 220.0,
-    "charge_duration": 2.4,
     "charge_speed_multiplier": 2.4,
     "charge_radius": 20.0,
     "wedge_duration": 4.0,
     "break_duration": 4.0,
-    "attack_move_acquire_range": 230.0
+    "attack_move_acquire_range": 230.0,
+    "charge_damage_factor": 0.3333333333333333
   }
 }

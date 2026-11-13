@@ -31,6 +31,8 @@ var clock: Label
 var start_button: Button
 var pause_button: Button
 var rain_button: Button
+var free_button: Button
+var charge_button: Button
 var result_panel: PanelContainer
 var result_text: Label
 var label_box: StyleBoxFlat
@@ -98,14 +100,19 @@ func _ready():
 	var column = 0
 	for form in Formation.SELECTABLE:
 		var key: String = form
-		var b = button(Formation.NAMES[form],Vector2(938+column*146,928),Vector2(137,44),func(): request_formation(key))
+		var b = button(Formation.NAMES[form],Vector2(938+column*137,928),Vector2(128,44),func(): request_formation(key))
 		form_buttons[form] = b; column += 1
-	button('M 移动',Vector2(938,985),Vector2(137,47),func(): arm_order('move'))
-	button('A 移动攻击',Vector2(1086,985),Vector2(165,47),func(): arm_order('attack_move'))
-	button('H 坚守',Vector2(1262,985),Vector2(127,47),func(): issue_order('hold'))
-	button('R 撤退',Vector2(1400,985),Vector2(127,47),func(): issue_order('retreat'))
-	rain_button = button('V 箭雨',Vector2(1538,985),Vector2(147,47),arm_rain)
-	start_button = button('开  战',Vector2(1696,985),Vector2(192,47),start_battle)
+	free_button = button('G 自由攻击',Vector2(1760,928),Vector2(128,44),func(): issue_order('free'))
+	free_button.add_theme_font_size_override('font_size',19)
+	free_button.tooltip_text = '战斗中解除阵型，逐兵攻击最近敌人，无阵型增减益。移动或移动攻击后重新集结为默认方阵，成阵后才能换阵。'
+	button('M 移动',Vector2(938,985),Vector2(112,47),func(): arm_order('move'))
+	button('A 移动攻击',Vector2(1060,985),Vector2(154,47),func(): arm_order('attack_move'))
+	button('H 坚守',Vector2(1224,985),Vector2(101,47),func(): issue_order('hold'))
+	button('R 撤退',Vector2(1335,985),Vector2(101,47),func(): issue_order('retreat'))
+	rain_button = button('V 箭雨',Vector2(1446,985),Vector2(112,47),arm_rain)
+	charge_button = button('Q 冲锋',Vector2(1568,985),Vector2(128,47),func(): arm_order('charge'))
+	charge_button.tooltip_text = 'Q 后左键指定中心士兵终点。战前可预设，H 取消预令；战中先整队再一起冲锋。沿途每人受基础攻击1/3伤害；遭枪兵命中整团停止，冷却20秒。'
+	start_button = button('开  战',Vector2(1706,985),Vector2(182,47),start_battle)
 	start_button.add_theme_stylebox_override('normal',style('#7d5032','#ebcc87'))
 	message = label('',Vector2(28,822),Vector2(1860,42),22)
 	message.add_theme_color_override('font_outline_color',Color('#17251b')); message.add_theme_constant_override('outline_size',5)
@@ -141,8 +148,12 @@ func cancel_aim():
 	left_drag = false; right_drag = false
 
 func arm_order(order: String):
-	if rules.phase != 'battle' or selected.is_empty(): return
+	if selected.is_empty(): return
+	if order == 'charge':
+		if rules.phase not in ['deploy','battle'] or not selected.all(func(id): return rules.regiments[id].kind == 'cavalry'): return
+	elif rules.phase != 'battle': return
 	cancel_aim(); aim_order = order
+	if order == 'charge': rules.report = '左键指定冲锋终点（中心士兵到达此处），右键取消瞄准。'; return
 	rules.report = '左键指定移动攻击目标，途中遇敌交战；右键取消。' if order == 'attack_move' else '左键指定强制移动目标，途中不能攻击；右键取消。'
 
 func issue_order(order: String):
@@ -169,11 +180,14 @@ func combination_candidates() -> Array:
 func request_formation(form: String):
 	cancel_aim()
 	if form != 'ring': rules.set_formation(selected,form); return
-	if rules.phase != 'deploy' or selected.is_empty(): return
-	if rules.regiments[selected[0]].pair >= 0:
-		var id: int = selected[0]
-		if rules.Combination.dissolve(rules,id): selected = [id]
+	if selected.is_empty(): return
+	var paired = selected.filter(func(id): return rules.regiments[id].pair >= 0)
+	if not paired.is_empty():
+		var id: int = paired[0]
+		var linked = selected.duplicate()
+		if rules.Combination.dissolve(rules,id): selected = linked if rules.phase == 'battle' else [id]
 		return
+	if rules.phase != 'deploy': return
 	if selected.size() != 1 or rules.regiments[selected[0]].kind not in ['spear','shield']:
 		rules.report = '先选择一支枪兵或持盾步兵军团作为外环。'; return
 	combine_outer = selected[0]
@@ -240,8 +254,11 @@ func update_ui():
 		group_buttons[i].tooltip_text = '按 %d 选择，Ctrl+%d 绑定当前选择'%[i+1,i+1]
 	for i in 4:
 		var r: Dictionary = rules.regiments[i]; var count = rules.members(r).size()
-		var order: String = {'auto':'自动接敌','hold':'坚守','move':'强制移动','attack_move':'移动攻击','retreat':'撤退休整','attack':'集火'}.get(r.order,'')
+		var order: String = {'auto':'自动接敌','hold':'坚守','move':'强制移动','attack_move':'移动攻击','retreat':'撤退休整','attack':'集火','charge':'整队冲锋'}.get(r.order,'')
 		var state = '阵亡' if count == 0 else '换阵 %.1fs'%r.form_time if r.form_time > 0 else Formation.NAMES[r.form] if rules.phase == 'deploy' else order
+		if r.form == 'free': state = '自由攻击'
+		elif r.regrouping: state = '集结方阵'
+		elif r.charge_queued: state = '冲锋已预设'
 		card_buttons[i].text = '%d  %s\n%d/35 · %s' % [i+1,rules.stats[r.kind].name,count,state]
 		card_buttons[i].modulate = Color('#ffe099') if i in candidates else Color.WHITE
 		if not card_buttons[i].has_meta('selected') or card_buttons[i].get_meta('selected') != (i in selected):
@@ -252,9 +269,10 @@ func update_ui():
 	for form in form_buttons:
 		var paired = living.any(func(id): return rules.regiments[id].pair >= 0)
 		var allowed = not living.is_empty() and living.all(func(id): return form in Formation.OPTIONS[rules.regiments[id].kind]) and rules.phase in ['deploy','battle']
-		if paired: allowed = form == 'ring' and rules.phase == 'deploy'
+		if paired: allowed = form == 'ring' and rules.phase in ['deploy','battle']
 		elif form == 'ring': allowed = rules.phase == 'deploy' and living.size() == 1 and rules.regiments[living[0]].kind in ['spear','shield']
 		elif rules.phase == 'battle' and (form == 'wedge' or living.any(func(id): return rules.regiments[id].form == 'wedge' or rules.regiments[id].form_cd > 0)): allowed = false
+		if living.any(func(id): return rules.regiments[id].form == 'free' or rules.regiments[id].regrouping or rules.regiments[id].charge_state != ''): allowed = false
 		form_buttons[form].disabled = not allowed
 		if form == 'ring': form_buttons[form].text = '解除组合' if paired else '组合环阵'
 		form_buttons[form].tooltip_text = formation_help(form)
@@ -262,10 +280,13 @@ func update_ui():
 		var r: Dictionary = rules.regiments[living[0]]; var d: Dictionary = rules.stats[r.kind]
 		detail.text = '%s · 射程 %d  攻击 %d  护甲 %d/%d%s' % [d.name,d.range,d.attack,d.melee_armor,d.ranged_armor,'  换阵冷却 %.0fs'%maxf(0,r.form_cd-r.form_time) if r.form_cd > 0 else '']
 		if r.kind == 'cavalry':
-			var ready = rules.members(r).filter(func(id): return rules.soldiers[id].charge_cd <= 0).size()
-			detail.text += '  冲锋就绪 %d/%d · CD 20秒'%[ready,rules.members(r).size()]
+			detail.text += '  冲锋冷却 %.1f秒'%r.charge_cd if r.charge_cd > 0 else '  Q 主动冲锋 · 伤害 1/3'
 	elif living.size() == 2 and rules.regiments[living[0]].pair == living[1]: detail.text = '组合环阵 · 内外环护甲 +60% · 内环攻速 +30% · 外环攻击 −25%'
 	else: detail.text = '已选 %d 个军团 · 只显示共同支持的阵型' % living.size()
+	free_button.disabled = rules.phase != 'battle' or living.is_empty()
+	charge_button.disabled = rules.phase not in ['deploy','battle'] or living.is_empty() or not living.all(func(id):
+		var r: Dictionary = rules.regiments[id]
+		return r.kind == 'cavalry' and r.form != 'free' and not r.regrouping and r.charge_cd <= 0 and r.charge_state == '' and r.form_time <= 0)
 	var archers = living.filter(func(id): return rules.regiments[id].kind == 'archer')
 	rain_button.disabled = rules.phase != 'battle' or archers.is_empty()
 	rain_button.text = 'V 箭雨 %.0fs'%rules.regiments[archers[0]].rain_cd if not archers.is_empty() and rules.regiments[archers[0]].rain_cd > 0 else 'V  箭雨'
@@ -274,7 +295,7 @@ func update_ui():
 		result_text.text = '%s\n\n我方存活 %d / 140　阵亡 %d\n敌方阵亡 %d / 120\n\n幸存士兵已恢复生命' % ['战斗胜利' if rules.phase == 'victory' else '战斗失败',rules.strength('ally'),rules.losses.ally,rules.losses.enemy]
 
 func formation_help(form: String) -> String:
-	return {'default':'七人横列、五排纵深；步兵保持阵位，空闲后排逐级补位，射程内有敌时优先攻击。','wedge':'仅骑兵、仅战前。冲锋 1/1/0.5/0.25 倍真实伤害；首次冲锋命中的敌人攻速降低50%、定身4秒。冲锋冷却20秒，遇枪兵立即停止且仅1倍伤害。','ring':'仅战前。选择枪兵/持盾步兵作为外环，再选择枪兵/弓箭手作为内环。两军团共同移动；内外环护甲+60%，外环攻击−25%，内环攻速+30%。再次点击可解除组合。','scatter':'间距加大，移动加快；范围伤害减半。','testudo':'护甲大幅提高，移动大幅降低；骑兵冲锋暂时移除增益4秒，保留减速和阵位。','dense':'普通攻击降低，箭雨伤害提高。'}.get(form,'')
+	return {'default':'七人横列、五排纵深；步兵保持阵位，空闲后排逐级补位，射程内有敌时优先攻击。','wedge':'仅骑兵、仅战前。Q 主动冲锋，首次命中的敌人攻速降低50%、定身4秒。与方阵一样造成基础攻击1/3的路径范围伤害。','ring':'战前组合，接触敌军后停下，在接触面按射程攻击。内外环护甲+60%，外环攻击−25%，内环攻速+30%。战中解除后两团进入自由攻击。','scatter':'间距加大，移动加快；范围伤害减半。','testudo':'护甲大幅提高，移动大幅降低；骑兵冲锋暂时移除增益4秒，保留减速和阵位。','dense':'普通攻击降低，箭雨伤害提高。'}.get(form,'')
 
 func _input(event: InputEvent):
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -288,6 +309,8 @@ func _input(event: InputEvent):
 			KEY_H: issue_order('hold')
 			KEY_A: arm_order('attack_move')
 			KEY_M: arm_order('move')
+			KEY_Q: arm_order('charge')
+			KEY_G: issue_order('free')
 			KEY_R: issue_order('retreat')
 			KEY_V: arm_rain()
 			KEY_F: camera = Vector2(1300,850); zoom = 0.74

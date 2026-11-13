@@ -1,56 +1,85 @@
 extends RefCounted
-## One swept contact area per rider; at most four distinct victims per charge.
-static func begin(b, s: Dictionary, target: Dictionary) -> bool:
-	var r: Dictionary = b.regiments[s.regiment]
-	if r.kind != 'cavalry' or s.charge_cd > 0 or s.charging or r.form_time > 0 or r.order in ['move','retreat']: return false
-	if target.is_empty() or target.hp <= 0 or s.pos.distance_to(target.pos) > b.tuning.charge_acquire_range: return false
-	s.charging = true; s.charge_cd = b.tuning.charge_cooldown
-	s.charge_left = b.tuning.charge_duration; s.charge_hits = []
-	s.charge_heading = s.pos.direction_to(target.pos)
-	if s.charge_heading.is_zero_approx(): s.charge_heading = r.heading
-	s.charge_wedge = r.form == 'wedge'
-	s.charge_control = s.charge_wedge and not s.first_charge_used
-	s.first_charge_used = true
+## An explicitly ordered, rigid regiment sweep. The center soldier lands on the marker.
+static func center_soldier(b, r: Dictionary) -> int:
+	var best = -1; var distance = INF
+	for id in b.members(r):
+		var s: Dictionary = b.soldiers[id]
+		var d: float = r.offsets[s.slot].length_squared()
+		if d < distance: distance = d; best = id
+	return best
+
+static func plan(b, r: Dictionary, point: Vector2) -> Dictionary:
+	if r.kind != 'cavalry' or r.form == 'free' or r.regrouping or r.form_time > 0 or r.charge_cd > 0 or r.charge_state != '' or b.members(r).is_empty(): return {}
+	var anchor = center_soldier(b,r)
+	var center: Vector2 = b.centroid(r) if b.phase == 'battle' else r.pos
+	var heading: Vector2 = center.direction_to(point)
+	if heading.is_zero_approx(): return {}
+	var goal: Vector2 = point-b.Formation.world_offset(r.offsets[b.soldiers[anchor].slot],heading)
+	# Validate every lane, not only the center, before accepting the order.
+	for id in b.members(r):
+		var offset: Vector2 = b.Formation.world_offset(r.offsets[b.soldiers[id].slot],heading)
+		var start: Vector2 = center+offset
+		var finish: Vector2 = goal+offset
+		for i in range(ceili(start.distance_to(finish)/10.0)+1):
+			if not b.legal_point(start.move_toward(finish,i*10.0)): return {}
+		if not b.legal_point(finish): return {}
+	return {'center':center,'heading':heading,'goal':goal,'point':point,'anchor':anchor}
+
+static func order(b, ids: Array, point: Vector2) -> bool:
+	if b.phase not in ['deploy','battle'] or ids.is_empty(): return false
+	var plans = []
+	for id in ids:
+		var r: Dictionary = b.regiments[id]
+		if r.side != 'ally': return false
+		var p = plan(b,r,point)
+		if p.is_empty(): b.report = '冲锋需要已成阵且冷却完成的骑兵，整队路径不能穿过地形。'; return false
+		plans.append({'r':r,'plan':p})
+	for row in plans:
+		var r: Dictionary = row.r
+		r.charge_point = point; r.charge_queued = b.phase == 'deploy'
+		if b.phase == 'battle': prepare(b,r,row.plan)
+	b.report = '已预设冲锋：开战后整队朝标记前进，H 取消预令。' if b.phase == 'deploy' else '正在整队；完成后一起朝冲锋目标前进。'
 	return true
 
-static func amount(b, rider: Dictionary, victim: Dictionary, index: int) -> float:
-	var r: Dictionary = b.regiments[rider.regiment]
-	var spear: bool = b.regiments[victim.regiment].kind == 'spear'
-	var factors: Array = [1.0,1.0,0.5,0.25] if rider.charge_wedge else [2.0,1.0,0.5,0.25]
-	if index >= 4: return 0.0
-	var bonus = 0.0
-	for value in r.charge_bonuses: bonus += float(value)
-	return b.stats.cavalry.attack*(1.0 if spear else factors[index])*maxf(0,1+bonus)
+static func prepare(b, r: Dictionary, p: Dictionary):
+	r.pos = p.center; r.heading = p.heading; r.goal = p.goal
+	r.charge_point = p.point; r.charge_anchor = p.anchor; r.charge_queued = false
+	r.charge_state = 'forming'; r.order = 'charge'; r.path = []
+	for id in b.members(r):
+		var s: Dictionary = b.soldiers[id]
+		s.charging = false; s.charge_hits = []; s.target = -1
 
-static func stop(s: Dictionary):
-	s.charging = false; s.charge_left = 0.0
+static func stop(b, r: Dictionary):
+	r.charge_state = ''; r.charge_queued = false
+	if r.order == 'charge': r.order = 'hold'
+	for id in r.members: b.soldiers[id].charging = false
 
-static func advance(b, s: Dictionary, enemies: Array, dt: float):
-	var start: Vector2 = s.pos
-	var r: Dictionary = b.regiments[s.regiment]
-	var speed: float = b.stats.cavalry.speed*b.tuning.charge_speed_multiplier*b.soldier_mods(s).speed
-	var finish: Vector2 = start+s.charge_heading*speed*dt
-	if not b.legal_point(finish): stop(s); return
-	var hits = []
-	var segment = finish-start
-	for enemy in enemies:
-		if enemy.hp <= 0 or enemy.id in s.charge_hits: continue
-		var t = clampf((enemy.pos-start).dot(segment)/maxf(0.001,segment.length_squared()),0,1)
-		if enemy.pos.distance_to(start+segment*t) <= b.tuning.charge_radius:
-			hits.append({'soldier':enemy,'t':t})
-	hits.sort_custom(func(a,c): return a.t < c.t if not is_equal_approx(a.t,c.t) else a.soldier.id < c.soldier.id)
-	for row in hits:
-		var enemy: Dictionary = row.soldier
-		if s.charge_hits.size() >= 4: break
-		var damage = amount(b,s,enemy,s.charge_hits.size())
-		s.charge_hits.append(enemy.id)
-		b.hit(enemy,damage,true)
-		if s.charge_control: enemy.wedge_debuff = b.tuning.wedge_duration
-		var enemy_reg: Dictionary = b.regiments[enemy.regiment]
-		if enemy_reg.kind == 'shield': enemy_reg.broken = b.tuning.break_duration
-		if enemy_reg.kind == 'spear' or s.charge_hits.size() == 4:
-			finish = start+segment*row.t; stop(s); break
-	s.pos = finish; s.moving = start.distance_to(finish) > 0.01
-	s.walk += start.distance_to(finish)/60.0; s.heading = s.charge_heading
-	s.charge_left -= dt
-	if s.charge_left <= 0: stop(s)
+static func advance(b, r: Dictionary, enemies: Array, dt: float):
+	if r.charge_state == 'forming':
+		if not b.members(r).all(func(id): return b.soldiers[id].pos.distance_to(b.slot_position(r,b.soldiers[id])) < 0.1): return
+		r.charge_state = 'running'; r.charge_cd = b.tuning.charge_cooldown
+		for id in b.members(r):
+			var s: Dictionary = b.soldiers[id]
+			s.charging = true; s.charge_control = r.form == 'wedge' and not s.first_charge_used
+			s.first_charge_used = true
+	if r.charge_state != 'running': return
+	var delta: Vector2 = r.pos.move_toward(r.goal,b.formation_speed(r)*b.tuning.charge_speed_multiplier*dt)-r.pos
+	if delta.is_zero_approx():
+		if r.pos.distance_to(r.goal) < 0.1: stop(b,r)
+		return
+	for id in b.members(r):
+		if not b.legal_point(b.soldiers[id].pos+delta): stop(b,r); return
+	for id in b.members(r):
+		var s: Dictionary = b.soldiers[id]; var start: Vector2 = s.pos
+		for enemy in enemies:
+			if enemy.hp <= 0 or enemy.id in s.charge_hits: continue
+			var t = clampf((enemy.pos-start).dot(delta)/delta.length_squared(),0,1)
+			if enemy.pos.distance_to(start+delta*t) > b.tuning.charge_radius: continue
+			s.charge_hits.append(enemy.id)
+			b.hit(enemy,b.stats[r.kind].attack*b.tuning.charge_damage_factor,true)
+			if s.charge_control: enemy.wedge_debuff = b.tuning.wedge_duration
+			var victim: Dictionary = b.regiments[enemy.regiment]
+			if victim.kind == 'shield': victim.broken = b.tuning.break_duration
+		s.pos += delta; s.moving = true; s.walk += delta.length()/60.0; s.heading = r.heading
+	r.pos += delta
+	if r.pos.distance_to(r.goal) < 0.1: stop(b,r)
