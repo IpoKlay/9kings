@@ -35,6 +35,23 @@ func prepare_texture(texture: Texture2D):
 	masks[key]=ImageTexture.create_from_image(mask)
 	texture_bytes+=pixels.size()
 
+func observe(event: Dictionary,rules,regiments: Dictionary):
+	if not enabled or event.get('damage',0.)<=0. or not event.has('attacker_slot') or not event.has('target_slot'):return
+	var attacker: Dictionary=rules.unit_by_id(event.get('attacker',-1))
+	var target: Dictionary=rules.unit_by_id(event.get('target',-1))
+	if attacker.is_empty() or target.is_empty():return
+	var a: int=event.attacker_slot;var b: int=event.target_slot
+	if a<0 or b<0 or a>=attacker.soldiers.size() or b>=target.soldiers.size():return
+	var heavy: bool=event.get('personal_charge',false)
+	var victim: Dictionary=target.soldiers[b];var rider: Dictionary=attacker.soldiers[a]
+	var now: float=rules.elapsed
+	var previous: Dictionary=victim.get('preview_hit',{})
+	if now-previous.get('start',-100.)>=.2 or heavy and not previous.get('heavy',false):
+		var direction=rules.Soldiers.ground_position(rules,attacker,a).direction_to(rules.Soldiers.ground_position(rules,target,b))
+		victim.preview_hit={'start':now,'heavy':heavy,'direction':direction}
+	if heavy:rider.preview_strike={'start':now,'heavy':true}
+	prepare(regiments,[target,attacker] if heavy else [target])
+
 func apply(figure: Dictionary,actor: Dictionary,now: float):
 	if not enabled:return
 	var strike: Dictionary=actor.get('rider_contact',actor.get('preview_strike',{}))

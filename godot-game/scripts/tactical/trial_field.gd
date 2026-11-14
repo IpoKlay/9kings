@@ -26,6 +26,7 @@ var clean_capture=false
 var impact_feedback: RefCounted=preload('res://scripts/previews/impact_feedback.gd').new()
 const ChargeVisuals=preload('res://scripts/tactical/charge_visuals.gd')
 var charge_visuals=ChargeVisuals.new()
+var strategy_feedback=false
 const Terrain=preload('res://scripts/tactical/pass_terrain.gd')
 var characters: Dictionary={}
 var animations: Dictionary={}
@@ -81,7 +82,9 @@ func set_unit_atlas_enabled(enabled: bool):
 func load_battlefield():
 	charge_visuals.clear()
 	approved_art.pages.clear()
-	if impact_feedback!=null:impact_feedback.clear_masks()
+	strategy_feedback=trial.rules.has_method('strategy_paths')
+	if strategy_feedback:impact_feedback=preload('res://scripts/previews/impact_feedback.gd').new()
+	elif impact_feedback!=null:impact_feedback.clear_masks()
 	approved_level=-1
 	position=Vector2.ZERO
 	environment=null
@@ -124,6 +127,9 @@ func advance(dt: float):
 	effects=effects.filter(func(e):return e.age<e.duration)
 	queue_redraw()
 func effect(event: Dictionary):
+	if strategy_feedback:
+		impact_feedback.enabled=bool(trial.app.prefs.impact) if trial.app!=null else true
+		impact_feedback.observe(event,trial.rules,regiments)
 	if event.get('personal_charge',false) or event.get('mounted_contact',false):
 		var attacker: Dictionary=trial.rules.unit_by_id(event.get('attacker',-1))
 		if attacker.get('kind','')=='cavalry' and event.get('damage',0.)>0.:
