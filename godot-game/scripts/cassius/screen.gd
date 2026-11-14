@@ -3,10 +3,10 @@ extends Control
 const Journey = preload('res://scripts/cassius/journey.gd')
 const Landscape = preload('res://scripts/cassius/landscape.gd')
 const ItemIcon = preload('res://scripts/cassius/item_icon.gd')
-const MAP = preload('res://assets/expedition/mediterranean.png')
+const FactionMap = preload('res://scripts/cassius/faction_map.gd')
 const COIN = preload('res://assets/expedition/gold.png')
 const INTRO_ART = [
-	MAP, preload('res://assets/menu/forum-original.jpg'),
+	null, preload('res://assets/menu/forum-original.jpg'),
 	preload('res://assets/strategy/pixellab-v2/B01.png'),
 	preload('res://assets/art_preview/shield_march.png'),
 	preload('res://assets/strategy/pixellab-v2/B07.png'),
@@ -245,7 +245,8 @@ func picture(tex: Texture2D, height: int):
 func render_intro():
 	var index=int(journey.state.intro)
 	var card=journey.spec.intro[index]
-	picture(INTRO_ART[index],380)
+	if index == 0: add_faction_map(380)
+	else: picture(INTRO_ART[index],380)
 	paragraph(card.title,31,Color('#f3d396'))
 	paragraph(card.text,26)
 	button(content,'继续  %d / %d'%[index+1,journey.spec.intro.size()] if index<journey.spec.intro.size()-1 else '带队出发',func():
@@ -386,40 +387,35 @@ func render_routes():
 		button(content,'交付大祭 · 当前可交 %d / 3'%journey.tribute_available(),func():end_run('rite'),journey.tribute_available()<3)
 		button(content,'带现有粮食回援要塞',func():end_run('home'))
 		return
+	add_faction_map(320)
 	paragraph('已走过 %d / %d 段。缺少的口粮会增加疲惫。'%[journey.state.visits.size(),journey.spec.chapters])
 	for land in routes:
-		paragraph('%s方 · %s  /  %s'%[land.direction,land.name,land.place],28,Color(land.color).lightened(.3))
-		paragraph(land.need)
-		button(content,'出发 · %d 口粮'%journey.travel_cost(land),func():
+		var row=HBoxContainer.new()
+		row.add_theme_constant_override('separation',16)
+		content.add_child(row)
+		var details=VBoxContainer.new()
+		details.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		row.add_child(details)
+		label(details,'%s方 · %s  /  %s'%[land.direction,land.name,land.place],25,Color(land.color).lightened(.3))
+		label(details,land.need,21)
+		button(row,'出发 · %d 口粮'%journey.travel_cost(land),func():
 			if journey.travel(land.id):
 				landscape.actor=Vector2(180,405)
 				landscape.camera_x=0.
 				persist()
 				close_panel())
 
+func add_faction_map(height: int):
+	var map = FactionMap.new()
+	map.journey = journey
+	map.custom_minimum_size.y = height
+	content.add_child(map)
+
 func render_map():
-	var map=picture(MAP,360)
-	map.modulate=Color('#c7b4e2')
-	var grid=GridContainer.new()
-	grid.columns=2
-	grid.add_theme_constant_override('h_separation',16)
-	grid.add_theme_constant_override('v_separation',10)
-	content.add_child(grid)
-	for land in journey.spec.regions:
-		var status='当前' if land.id==journey.state.region else '已走过' if land.id in journey.state.visits else '可选下一程' if land in journey.routes() else '未到访'
-		var panel=PanelContainer.new()
-		var border=StyleBoxFlat.new()
-		border.bg_color=Color(land.color).darkened(.78)
-		border.border_color=Color(land.color)
-		border.set_border_width_all(2)
-		border.content_margin_left=14
-		border.content_margin_right=14
-		border.content_margin_top=9
-		border.content_margin_bottom=9
-		panel.add_theme_stylebox_override('panel',border)
-		panel.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-		grid.add_child(panel)
-		label(panel,'%s方 · %s  /  %s'%[land.direction,land.name,status],24,Color(land.color).lightened(.5))
+	add_faction_map(510)
+	paragraph('金色虚线：可前往    ·    浅色实线：已走过    ·    中心方点：当前驻地',22)
+	if not journey.state.choices.has(journey.state.region):
+		paragraph('和当地代表谈妥物资后，地图会标出可前往的路线。',22)
 
 func render_inventory():
 	var items=[]
