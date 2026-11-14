@@ -1,0 +1,32 @@
+{
+  "intro": [
+    {"title":"内海的四方", "text":"赤旌帝国扼守南方大道。北方守着誓约石，西方守着种粮，东方守着历法。连续歉收让四方开始争夺同一条粮道。"},
+    {"title":"一道征收令", "text":"君王要求内海举行大祭。边境要塞递上求粮书，却只等来一纸征收文书。送齐粮赋和祭品，帝国才肯拨下过冬军粮。"},
+    {"title":"各有不能交出的东西", "text":"北方要归还祖先祭器，西方不愿再焚林，东方拒绝公开凶兆。矿工在祭坛下听见了空洞的回声。"},
+    {"title":"卡西修斯", "text":"你打开过边境要塞的城门，答应难民，只要军旗还在，他们就能留下。如今只剩一辆辎重车和还能行走的队伍。"},
+    {"title":"出发前的最后一餐", "text":"士兵把自己的口粮分给了城门外的孩子。你带走账册、军旗和征收令。往后每条路，都得有人付出代价。"}
+  ],
+  "items": {"gold":"王印币", "food":"口粮", "ox":"白牛", "ivory":"象牙", "gem":"宝石", "weapon":"旧短剑", "hide":"皮革", "relic":"祖先祭器", "record":"灾变密录", "ring":"金蛇戒指"},
+  "starting_goods": {"gold":26,"food":9,"ox":1,"ivory":0,"gem":0,"weapon":0,"hide":1,"relic":1,"record":1,"ring":1},
+  "goods": [
+    {"id":"food","name":"干粮三份","price":6,"count":3},
+    {"id":"ox","name":"白牛","price":12,"count":1},
+    {"id":"gem","name":"冷银宝石","price":8,"count":1},
+    {"id":"weapon","name":"旧短剑","price":10,"count":1}
+  ],
+  "sale_prices": {"ivory":7,"gem":5,"weapon":6,"hide":4,"ring":9},
+  "growth": [
+    {"id":"supply","name":"辎重整备","cost":4,"parent":"","description":"往后每段行军少消耗 1 份口粮。"},
+    {"id":"trade","name":"商路信用","cost":8,"parent":"","description":"商队商品每件便宜 2 王印币。"},
+    {"id":"relief","name":"冬粮转运","cost":6,"parent":"supply","description":"回援要塞时，旧驿站另拨 6 份冬粮。"},
+    {"id":"scout","name":"沿途耳目","cost":3,"parent":"trade","description":"避战绕行少花 1 份口粮。"}
+  ],
+  "regions": [
+    {"id":"south","name":"赤旌帝国","direction":"南","color":"#b65d42","ground":"#9b8060","place":"边境村镇","need":"皇命征收与村民的过冬粮相冲突。","offer":"把军旗留在村口，换取本地向导。","promise":"给本村留两份过冬粮。","settle":"food","cost":2,"grant":{"food":4,"gold":3},"levy":{"food":7},"travel":2,"offering":"food","offering_cost":2,"omen":"祭司看见渡口有人等待粮车。交出的口粮无法收回，祭兆也不能保证粮车平安抵达。"},
+    {"id":"west","name":"荆冠诸部","direction":"西","color":"#77965a","ground":"#638263","place":"古树渡口","need":"账上的粮赋是最后一批种粮。","offer":"归还种粮，换取林间护送。","promise":"留出两份种粮给荆冠诸部。","settle":"food","cost":2,"grant":{"food":4,"hide":1},"levy":{"food":8},"travel":3,"offering":"hide","offering_cost":1,"omen":"祭司看见灰烬下尚有种子。留下种粮能让他们保有明年播种的机会。"},
+    {"id":"north","name":"霜湾氏族","direction":"北","color":"#7eacc3","ground":"#8599a1","place":"誓约石海岸","need":"氏族等着帝国归还祖先祭器。","offer":"许诺归还祭器，换取氏族通行和粮食。","promise":"归还祖先祭器。","settle":"relic","cost":1,"grant":{"food":5,"ivory":1},"levy":{"gold":9,"food":3},"travel":3,"offering":"relic","offering_cost":1,"omen":"誓约石确认祖先遗物已归氏族。帝国的贡赋少了一份，北方的账已经结清。"},
+    {"id":"east","name":"暮紫巫庭","direction":"东","color":"#a788c0","ground":"#81708f","place":"冷银观星塔","need":"巫庭握有安全路线，索要灾变密录。","offer":"许诺公开密录，换取水路图和补给。","promise":"把灾变密录交给巫庭。","settle":"record","cost":1,"grant":{"gold":9,"food":2},"levy":{"gem":2,"food":3},"travel":2,"offering":"record","offering_cost":1,"omen":"巫庭封存灾变密录。凶兆与大祭同在，预言无法保证帝国的粮车平安抵达。"}
+  ],
+  "battle_reward":{"gold":12,"ivory":1,"weapon":1,"food":2},
+  "chapters":3
+}

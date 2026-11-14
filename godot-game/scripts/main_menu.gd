@@ -33,7 +33,7 @@ func _ready():
 
 	if app==null:return
 	var handlers={'TacticalTrial':app.open_tactical_trial,'ResumeGame':app.resume_game,'StartGame':app.request_new_game,
-		'MenuSettings':func():app.open_dialog('settings'),'QuitGame':func():get_tree().quit()}
+		'MenuSettings':func():app.open_dialog('settings'),'QuitGame':app.request_quit,'Cassius':app.open_cassius}
 	for button: Button in $MenuOptions.get_children():
 		var index=options.size()
 		options.append(button)
@@ -121,6 +121,7 @@ func render():
 	%StartGame.text=app.tx('新远征','New Expedition')
 	%MenuSettings.text=app.loc('main_menu.settings')
 	%QuitGame.text=app.loc('main_menu.quit')
+	%Cassius.text=app.tx('卡西修斯 · 行军','Cassius · Journey')
 	set_selected(selected,false)
 	cursor_clock=0
 	snap_cursor()
